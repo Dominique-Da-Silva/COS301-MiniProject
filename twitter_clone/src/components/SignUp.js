@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createClient } from '@supabase/supabase-js'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
 import SignUpForm from './signup/SignUpForm'; // Component for entering basic information
 import VerificationCodeForm from './signup/VerificationCodeForm'; // Component for entering verification code
 import PasswordForm from './signup/PasswordForm'; // Component for entering password
@@ -15,7 +18,7 @@ const SignUp = () => {
   const [step, setStep] = useState(1); // State to track the current step of the signup process
   const [signUpComplete, setSignUpComplete] = useState(false); // State to track if sign-up process is complete
   const [formData, setFormData] = useState({}); // State to store form data across steps
-  
+
   const handleSignUpSubmit = (formData) => {
     // Handle sign-up submission logic
     console.log('Sign up form data:', formData);

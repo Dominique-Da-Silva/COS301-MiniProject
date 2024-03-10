@@ -21,7 +21,7 @@ const SubInterestForm = ({ onSubmit }) => {
     <form onSubmit={handleSubmit}>
       <h2>What do you want to see on Twitter?</h2>
       <p>
-        Interests are used to personalize your experience and will be 
+        Interests are used to personalize your experience and will be
         visible on your profile.
       </p>
       <label>

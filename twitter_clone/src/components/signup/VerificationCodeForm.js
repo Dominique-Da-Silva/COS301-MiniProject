@@ -26,9 +26,9 @@ const VerificationCodeForm = ({ formData, onSubmit, setStep }) => {
 
     return (
         <div>
-            <h2>We sent you a code</h2>
-            <p>Enter it below to verify { formData.emailOrPhone }.</p>
             <form onSubmit={handleSubmit}>
+                <h2>We sent you a code</h2>
+                <p>Enter it below to verify {formData.emailOrPhone}.</p>
                 <label>
                     Verification Code:
                     <input type="text" value={verificationCode} onChange={e => setVerificationCode(e.target.value)} required />

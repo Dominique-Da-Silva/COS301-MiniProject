@@ -2,23 +2,15 @@ import React, { useState } from 'react';
 
 const PasswordForm = ({ onSubmit }) => {
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [showOverlay, setShowOverlay] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (password.length < 8) {
-            setErrorMessage('Password must be 8 characters or more');
-        } else {
-            setErrorMessage('');
-            onSubmit(password);
-        }
+        onSubmit(password);
     };
 
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-        if (event.target.value.length >= 8) {
-            setErrorMessage('');
-        }
+    const toggleOverlay = () => {
+        setShowOverlay(!showOverlay);
     };
 
     return (
@@ -28,18 +20,41 @@ const PasswordForm = ({ onSubmit }) => {
             <form onSubmit={handleSubmit}>
                 <label>
                     Password:
-                    <input type="password" value={password} onChange={handlePasswordChange} required />
+                    <input type="password" min={8} value={password} onChange={e => setPassword(e.target.value)} required />
                 </label>
-                {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <input type="submit" value="Submit" />
                 <p>
                     By signing up, you agree to the <a href='https://twitter.com/en/tos'>Terms of Service</a> and <a href='https://twitter.com/en/privacy'>Privacy Policy</a>,
                     including <a href='https://twitter.com/en/privacy'>Cookie Use</a>. Twitter may use your contact information, including your email address
                     and phone number for purposes outlined in our Privacy Policy, like keeping your account secure and
                     personalizing our services, including ads. <a href='https://twitter.com/en/privacy'>Learn more</a>.
-                    Others will be able to find you by email or phone number, when provided, unless you choose otherwise <a href="#">here</a>.
+                    Others will be able to find you by email or phone number, when provided, unless you choose otherwise <a href="#" onClick={toggleOverlay}>here</a>.
                 </p>
             </form>
+
+            {showOverlay && (
+                <div className="overlay">
+                    <div className="overlay-content">
+                        <label>
+                            <input type="checkbox" />
+                            Let others find me by email address <br />
+                            <small>People who have your email will be able to connect
+                                with you on Twitter using it. You can change this at any time.
+                            </small>
+                        </label>
+                        <br />
+                        <label>
+                            <input type="checkbox" />
+                            Let others find me by phone number <br />
+                            <small>People who have your phone number will be able to connect
+                                with you on Twitter using it. You can change this at any time.
+                            </small>
+                        </label>
+                        <br />
+                        <button onClick={toggleOverlay}>Done</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
