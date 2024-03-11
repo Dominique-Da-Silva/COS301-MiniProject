@@ -3,7 +3,7 @@ name: Deploy Function
 on:
   push:
     branches:
-      - master
+      - this-is-still-a-prototype
   workflow_dispatch:
 
 jobs:

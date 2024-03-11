@@ -1,4 +1,4 @@
-name: Main Workflow from which other workflows run
+name: lint_test_codecov_build_deploy_release_merge
 
 on:
   pull_request:
