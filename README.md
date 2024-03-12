@@ -33,6 +33,7 @@
 - [Features (a short summary of the user's functionality)](#features-a-short-summary-of-the-users-functionality)
 - [Demo Video](#demo-video)
 - [Here are the links to our Documentation](#here-are-the-links-to-our-documentation)
+- [Here are the links to our Documentation](#here-are-the-links-to-our-documentation-1)
 - [Our Tech stack](#our-tech-stack)
 - [The Version control and CI/CD Utilized](#the-version-control-and-cicd-utilized)
 - [Users](#users)
@@ -51,7 +52,8 @@ As a testament to its dedication to innovation and user-centric design, MP-13 co
 
 To learn more about this project see our documentation [Here are the links to our Documentation](#here-are-the-links-to-our-documentation)
 
-# Features (a short summary of the user's functionality) 
+# Features (a short summary of the user's functionality)
+
 MP-13 offers a comprehensive set of features designed to enhance the user experience and foster meaningful interactions within its community. Users can seamlessly engage with the platform through various functionalities, including:
 
 1. Posting Tweets: Users can share their thoughts, updates, and multimedia content with their followers through the posting of tweets.
@@ -70,17 +72,19 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 
 # Demo Video
 
-# Here are the links to our Documentation 
+# Here are the links to our Documentation
+
+# Here are the links to our Documentation
 
 <p align="center">
- <a href="">MP-13-Demo1.</a>
- <a href="https://docs.google.com/document/d/13-FlGpf09eMM-dNkEyX95V4DfcYBMRBgIdHgMGPqi2o/edit?usp=sharing">System Requirements (SRS)</a> 
- <a href ="https://docs.google.com/document/d/1F4WdKmrvO_eCkr2DajvDOus36bxUpxkydDistqnIFjY/edit?usp=sharing">System Architecture Design</a> 
- <a href ="https://docs.google.com/document/d/11aLnvSpC1LST7BpA-j2aYu5DllywdCPte29lN52R7SM/edit?usp=sharing">Github Strategy</a> 
- <a href ="https://docs.google.com/document/d/1NaAGZrMSGhZlp4n6qhYUH5sP8S-cm-749Gra2NR-TLQ/edit?usp=sharing">Coding Development Guidelines</a> 
- <a href ="https://docs.google.com/document/d/10wjOA4YQwbv8rrY7VAZbGI7kNGU068dD_kCcFyz7TNM/edit?usp=sharing">Database Requirements</a> 
- <a href="">Figma designs</a> <a href="">GitHub Project Board</a> 
- </p>
+ <a href="https://docs.google.com/document/d/13-FlGpf09eMM-dNkEyX95V4DfcYBMRBgIdHgMGPqi2o/edit?usp=sharing">System Requirements (SRS)</a><br>
+ <a href ="https://docs.google.com/document/d/1F4WdKmrvO_eCkr2DajvDOus36bxUpxkydDistqnIFjY/edit?usp=sharing">System Architecture Design</a><br>
+ <a href ="https://docs.google.com/document/d/11aLnvSpC1LST7BpA-j2aYu5DllywdCPte29lN52R7SM/edit?usp=sharing">Github Strategy</a><br>
+ <a href ="https://docs.google.com/document/d/1NaAGZrMSGhZlp4n6qhYUH5sP8S-cm-749Gra2NR-TLQ/edit?usp=sharing">Coding Development Guidelines</a><br>
+ <a href ="https://docs.google.com/document/d/10wjOA4YQwbv8rrY7VAZbGI7kNGU068dD_kCcFyz7TNM/edit?usp=sharing">Database Requirements</a><br>
+ <a href="https://www.figma.com/file/w0aRTpe5SPT38VwPLuGaFK/COS301-MP-13?type=design&node-id=333%3A2&mode=design&t=Zq1dr1WePO4TwN30-1">Figma designs</a><br>
+ <a href="https://github.com/orgs/COS301-SE-2024/projects/37">GitHub Project Board</a><br>
+</p>
 
 # Our Tech stack
 
@@ -90,7 +94,7 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
   </a>
 </p>
 
-# The Version control and CI/CD Utilized 
+# The Version control and CI/CD Utilized
 
 <p align="center">
   <a href="https://skillicons.dev">
@@ -133,8 +137,8 @@ npm test
 
 # Meet The Team
 
-| Name and Surname             | Github Profiles                                                    | Roles                                   | Bio                                 | Profile Image                                 |
-| ---------------------------- | ------------------------------------------------------------------ | --------------------------------------- | ----------------------------------- | --------------------------------------------- |
+| Name and Surname             | Github Profiles                                                    | Roles                                   | Bio                                 | Profile Image                                |
+| ---------------------------- | ------------------------------------------------------------------ | --------------------------------------- | ----------------------------------- | -------------------------------------------- |
 | Tessa Engelbrecht            | <a href=""> <img src="https://skillicons.dev/icons?i=github"/></a> | Project Manager                         | I enjoy Computer Science            | ![Tessa](images/IMG-20240312-WA0082.jpg)     |
 | Kumbirai Shonhiwa            | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Business Analyst                        | Passionate about web design         | ![Kumbirai](images/IMG-20240312-WA0079.jpg)  |
 | Kyle Marshall                | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Designer                                | Love coding and databases           | ![Kyle](images/IMG-20240312-WA0073.jpg)      |
@@ -142,7 +146,7 @@ npm test
 | Quintin D'hotman de Villiers | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Integration Engineer, Backend Developer | Enthusiastic about automation       | ![Quintin](images/IMG-20240312-WA0077.jpg)   |
 | Kamogelo Moeketse            | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Data Engineer                           | Analyzing data is my passion        | ![Kamogelo](images/IMG-20240312-WA0074.jpg)  |
 | Dhinaz Rangasamy             | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Architect, Backend Developer            | Bridging technology and business    | ![Dhinaz](images/IMG-20240312-WA0078.jpg)    |
-| Given Chauke                 | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Services Engineer                       | Simplifying complex concepts        | ![Given](images/IMG-20240312-WA0083.jpg)      |
-| Michael Chinyama             | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | DevOps, CI/CD Engineer                  | Securing digital assets             | ![Michael](images/IMG-20240312-WA0075.jpg)    |
-| Dominique Da Silva           | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | QA engineer, automation tester          | Ensuring software quality           | ![Dominique](images/IMG-20240312-WA0081.jpg)  |
-| Alex Pretorius               | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Testing Engineer                        | Crafting elegant software solutions | ![Alex](images/IMG-20240312-WA0075.jpg)       |
+| Given Chauke                 | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Services Engineer                       | Simplifying complex concepts        | ![Given](images/IMG-20240312-WA0083.jpg)     |
+| Michael Chinyama             | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | DevOps, CI/CD Engineer                  | Securing digital assets             | ![Michael](images/IMG-20240312-WA0075.jpg)   |
+| Dominique Da Silva           | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | QA engineer, automation tester          | Ensuring software quality           | ![Dominique](images/IMG-20240312-WA0081.jpg) |
+| Alex Pretorius               | <a href=""><img src="https://skillicons.dev/icons?i=github"/></a>  | Testing Engineer                        | Crafting elegant software solutions | ![Alex](images/IMG-20240312-WA0080.jpg)      |
