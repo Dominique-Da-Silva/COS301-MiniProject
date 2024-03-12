@@ -41,10 +41,15 @@
 MP-13 - Twitter clone - A description of what this application is about will go here
 
 # Demo
-<a href="">MP-13-Demo1.</a>
-<a href="">Requirement Specification (SRS)</a>
+<p align="center">
+<a href="">Demo 1</a>
+<a href="https://docs.google.com/document/d/13-FlGpf09eMM-dNkEyX95V4DfcYBMRBgIdHgMGPqi2o/edit">System Requirements</a>
+<a href="https://docs.google.com/document/d/1F4WdKmrvO_eCkr2DajvDOus36bxUpxkydDistqnIFjY/edit">System Architecture Design</a>
+<a href="https://docs.google.com/document/d/11aLnvSpC1LST7BpA-j2aYu5DllywdCPte29lN52R7SM/edit">GitHub Strategy</a>
+<a href="https://docs.google.com/document/d/1NaAGZrMSGhZlp4n6qhYUH5sP8S-cm-749Gra2NR-TLQ/edit">Coding Development Guidelines</a>
 <a href="">Figma designs</a>
 <a href="">GitHub Project Board</a>
+</p>
 
 # Tech stack
 <p align="center">
