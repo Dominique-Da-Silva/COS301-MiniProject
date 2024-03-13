@@ -12,8 +12,10 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.2.10",
     "@supabase/supabase-js": "^2.39.7",
     "@vitest/runner": "^1.3.1",
+    "framer-motion": "^11.0.12",
     "p-limit": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -29,26 +31,28 @@
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-v8": "^1.3.1",
+    "autoprefixer": "^10.4.18",
     "cypress": "^13.6.6",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "jsdom": "^24.0.0",
+    "postcss": "^8.4.35",
     "supabase": "^1.148.6",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.6",
     "vitest": "^1.3.1"
   },
-  "description": "<p align=\"center\">\r   <a href=\"https://skillicons.dev\">\r     <img src=\"/public/twitter.svg\" />\r   </a>\r </p>\r <p align=\"center\">\r   <a href=\"https://github.com/users/u22633601/projects/1\">project board</a>\r   |\r   <a href=\"https://github.com/u22633601/MP-13/wiki\">documentation</a>\r   |\r   <a href=\"/images/GitFlow_trunk.png\">github branching strategy</a>\r </p>",
-  "main": "tailwind.config.js",
+  "description": "MP-13 is a Twitter clone project aimed at replicating the functionality and user experience of the popular social media platform, Twitter",
+  "main": "src/main.tsx",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/COS301-SE-2024/MiniProject13.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "https://github.com/waveyboym",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/COS301-SE-2024/MiniProject13/issues"
   },
