@@ -10,9 +10,10 @@ interface TweetProps {
   username: string;
   text: string;
   imageUrl?: string;
+  timeDisplay:string;
 }
 
-const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl }) => {
+const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl,timeDisplay }) => {
   return (
     <div className="tweet">
       <div className="user-info">
@@ -23,7 +24,7 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl }) => {
         />
         <div>
           <h4>{name}</h4>
-          <p>{username}</p>
+          <p>{username} · {timeDisplay}</p>
         </div>
       </div>
       <p>{text}</p>

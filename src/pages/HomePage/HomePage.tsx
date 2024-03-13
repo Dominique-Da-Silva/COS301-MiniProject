@@ -45,6 +45,22 @@ const HomePage: React.FC<HomePageProps> = () => {
     fetchUsers();
   }, []);
   
+  const getTimeDisplay = (timestamp) => {
+    const timeDiff = new Date() - new Date(timestamp);
+    const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
+  
+    let timeDisplay;
+    if (minutesDiff < 60) {
+      timeDisplay = `${minutesDiff} minutes ago`;
+    } else {
+      const hoursDiff = Math.floor(minutesDiff / 60);//convert into hours
+      timeDisplay = `${hoursDiff} hours ago`;
+    }
+  
+    return timeDisplay;
+  };
+  
+
   return (
     <div className="container">
       <div className="sidebar">
@@ -88,6 +104,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               username={user ? `@${user.Username}` : ''}
               text={tweet.Content}
               imageUrl={tweet.Img_Url}
+              timeDisplay={getTimeDisplay(tweet.Created_at)}
             />
           );
         })}
