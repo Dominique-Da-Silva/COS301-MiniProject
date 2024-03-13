@@ -36,11 +36,10 @@ const HomePage: React.FC<HomePageProps> = () => {
         </div>
       </div>
       <div className="main-content">
-        <div className="tweet-composer"> <div className="tweet-input">
+          <div className="tweet-input">
         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="User Avatar"></img>
         <input type="text" placeholder="What's happening?"></input>
         <button>Tweet</button>
-      </div>
       </div>
         <Tweet
           name="Devon Lane"
@@ -55,7 +54,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
         />
       </div>
-      <div className="right-sidebar">
+      <div className="sidebar-right">
         <TrendingTopics />
         <WhoToFollow />
       </div>
