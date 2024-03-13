@@ -5,13 +5,11 @@ import './App.css';
 const App = () => {
   return (
     <Router>
-      <div>
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
-      </div>
     </Router>
   );
 };
