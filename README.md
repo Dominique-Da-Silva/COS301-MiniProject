@@ -33,7 +33,6 @@
 - [Features (a short summary of the user's functionality)](#features-a-short-summary-of-the-users-functionality)
 - [Demo Video](#demo-video)
 - [Here are the links to our Documentation](#here-are-the-links-to-our-documentation)
-- [Here are the links to our Documentation](#here-are-the-links-to-our-documentation-1)
 - [Our Tech stack](#our-tech-stack)
 - [The Version control and CI/CD Utilized](#the-version-control-and-cicd-utilized)
 - [Users](#users)
@@ -71,8 +70,6 @@ MP-13 offers a comprehensive set of features designed to enhance the user experi
 With these features and more, MP-13 offers a dynamic and immersive social networking experience, empowering users to express themselves, connect with others, and stay informed within a vibrant online community.
 
 # Demo Video
-
-# Here are the links to our Documentation
 
 # Here are the links to our Documentation
 
