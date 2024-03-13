@@ -1,4 +1,5 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
+import {supabase} from '@config/supabase';
 import Tweet from "../../components/Tweet/Tweet";
 import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
 import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
@@ -7,6 +8,43 @@ import "./HomePage.css";
 interface HomePageProps {}
 
 const HomePage: React.FC<HomePageProps> = () => {
+  const [tweets, setTweets] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // Fetch tweets
+    const fetchTweets = async () => {
+      try {
+        const { data: tweetsData, error } = await supabase.from('Tweets').select('*');
+        if (error) {
+          throw error;
+        }
+        console.log(tweetsData);
+        setTweets(tweetsData);
+      } catch (error) {
+        console.error('Error fetching tweets:', error.message);
+      }
+    };
+
+    // Fetch users
+    const fetchUsers = async () => {
+      try {
+        const { data: usersData, error } = await supabase.from('User').select('*');
+        if (error) {
+          throw error;
+        }
+        console.log(usersData);
+        setUsers(usersData);
+      } catch (error) {
+        console.error('Error fetching users:', error.message);
+      }
+    };
+
+    // Call both fetch functions when the component mounts
+    fetchTweets();
+    fetchUsers();
+  }, []);
+  
   return (
     <div className="container">
       <div className="sidebar">
@@ -37,22 +75,22 @@ const HomePage: React.FC<HomePageProps> = () => {
       </div>
       <div className="main-content">
           <div className="tweet-input">
-        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="User Avatar"></img>
-        <input type="text" placeholder="What's happening?"></input>
-        <button>Tweet</button>
-      </div>
-        <Tweet
-          name="Devon Lane"
-          username="@johndoe"
-          text="Tom is in a big hurry."
-          imageUrl="https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg"
-        />
-        <Tweet
-          name="Darlene Robertson"
-          username="@johndoe"
-          text="Tom is in a big hurry."
-          imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
-        />
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="User Avatar"></img>
+            <input type="text" placeholder="What's happening?"></input>
+            <button>Tweet</button>
+          </div>
+          {tweets.map(tweet => {
+          const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+          return (
+            <Tweet
+              key={tweet.Tweet_Id}
+              name={user ? user.Name : 'Unknown User'}
+              username={user ? `@${user.Username}` : ''}
+              text={tweet.Content}
+              imageUrl={tweet.Img_Url}
+            />
+          );
+        })}
       </div>
       <div className="sidebar-right">
         <TrendingTopics />
