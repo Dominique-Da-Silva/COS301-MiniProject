@@ -40,7 +40,7 @@ const ProfilePage: React.FC<ProfileProps> = ({
   name = "Davide Biscuso",
   tweetCount = 9,
   profilePicture = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-  coverPicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZdM4Naw6g6mBZtWbsk8r4u0DEauhmvKrpFg&usqp=CAU",
+  coverPicture = "https://media.istockphoto.com/id/160306021/photo/jeans-background-xxxl.webp?b=1&s=170667a&w=0&k=20&c=KfnwuxchS7dMXOADP4K_XafVq92RDNP4lCXdHe-JlaY=",
   username = "@biscuttu",
   location = "London",
   joinDate = "September 2011",
