@@ -11,9 +11,18 @@ interface TweetProps {
   text: string;
   imageUrl?: string;
   timeDisplay:string;
+  likes?: number; // Number of likes
+  retweets?: number; // Number of retweets
+  comments?: number; // Number of comments
+  saves?: number; // Number of saves
 }
 
-const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl,timeDisplay }) => {
+const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDisplay,
+  likes = 0, // Default value of likes is 0
+  retweets = 0, // Default value of retweets is 0
+  comments = 0, // Default value of comments is 0
+  saves = 0, // Default value of saves is 0
+}) => {
   return (
     <div className="tweet">
       <div className="user-info">
@@ -32,10 +41,10 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl,timeDispla
         <img src={imageUrl} alt="Tweet Image" className="tweet-image" />
       )}
       <div className="tweet-actions">
-        <span className="action"><FaRegComment /> xyz </span> {/* Reply icon */}
-        <span className="action"><AiOutlineRetweet /> xyz </span> {/* Retweet icon */}
-        <span className="action"><IoMdHeartEmpty /> xyz </span> {/* Like icon */}
-        <span className="action"><MdSaveAlt /> xyz </span> {/* Share icon */}
+        <span className="action"><FaRegComment /> {comments} </span> {/* Reply icon */}
+        <span className="action"><AiOutlineRetweet /> {retweets} </span> {/* Retweet icon */}
+        <span className="action"><IoMdHeartEmpty /> {likes} </span> {/* Like icon */}
+        <span className="action"><MdSaveAlt /> {saves} </span> {/* Share icon */}
       </div>
     </div>
   );
