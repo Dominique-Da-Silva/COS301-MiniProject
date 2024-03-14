@@ -5,17 +5,20 @@ import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
 import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
 import "./HomePage.css";
 
+
 interface HomePageProps {}
+
 
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState([]);
   const [users, setUsers] = useState([]);
+  const [savesCount, setSavesCount] = useState({});  
+  const [commentsCount, setCommentsCount] = useState({}); 
+  const [retweetsCount, setRetweetsCount] = useState({});
+  const [likesCount, setLikesCount] = useState({}); 
 
-  const [savesCount, setSavesCount] = useState({});
-  const [commentsCount, setCommentsCount] = useState({});
-
+  // FETCHING THE TWEETS FROM TWEETS TABLE
   useEffect(() => {
-    // Fetch tweets
     const fetchTweets = async () => {
       try {
         const { data: tweetsData, error } = await supabase.from('Tweets').select('*');
@@ -29,7 +32,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    // Fetch users
+    // FETCHING THE USERS FROM THE USER TABLE
     const fetchUsers = async () => {
       try {
         const { data: usersData, error } = await supabase.from('User').select('*');
@@ -43,7 +46,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    // Fetch saves count
+    // FETCHING & COUNTING THE NUMBER OF SAVES FOR INDIVIDUAL TWEET
     const fetchSavesCount = async () => {
       try {
         const { data: savesCountData, error } = await supabase.from('Saves').select('*');
@@ -68,7 +71,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    // Fetch comments count
+    // FETCHING & COUNTING THE NUMBER OF COMMENTS FOR INDIVIDUAL TWEET
     const fetchCommentsCount = async () => {
       try {
         const { data: commentsCountData, error } = await supabase.from('Comments').select('*');
@@ -92,13 +95,67 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
+    // FETCHING & COUNTING THE NUMBER OF RETWEETS FOR INDIVIDUAL TWEET
+    const fetchRetweetsCount = async () => {
+      try {
+        const { data: retweetsCountData, error } = await supabase.from('Retweets').select('*');
+        if (error) {
+          throw error;
+        }
+        console.log('Retweets count data:', retweetsCountData);
+
+        const countMap = {};
+        retweetsCountData.forEach(row => {
+          const tweetId = row.Tweet_Id;
+          if (tweetId in countMap) {
+            countMap[tweetId]++;  
+          } else {
+            countMap[tweetId] = 1;
+          }
+        });
+        setRetweetsCount(countMap);
+
+      } catch (error) {
+        console.error('Error fetching retweets count:', error.message);
+      }
+    };
+
+
+    // FETCHING & COUNTING THE NUMBER OF LIKES FOR INDIVIDUAL TWEET
+    const fetchLikesCount = async () => {
+      try {
+        const { data: likesCountData, error } = await supabase.from('Likes').select('*');
+        if (error) {
+          throw error;
+        }
+        console.log('Likes count data:', likesCountData);
+
+        const countMap = {};
+        likesCountData.forEach(row => {
+          const tweetId = row.Tweet_Id;
+          if (tweetId in countMap) {
+            countMap[tweetId]++;  
+          } else {
+            countMap[tweetId] = 1;
+          }
+        });
+        setLikesCount(countMap);
+
+      } catch (error) {
+        console.error('Error fetching likes count:', error.message);
+      }
+    };
+
     // Call both fetch functions when the component mounts
     fetchTweets();
     fetchUsers();
     fetchSavesCount();
     fetchCommentsCount();
+    fetchRetweetsCount();
+    fetchLikesCount();
   }, []);
   
+  // CONVERTS TIMESTAMP FOR DISPLAY OF TIME-ELAPSED PURPOSES
   const getTimeDisplay = (timestamp) => {
     const timeDiff = new Date() - new Date(timestamp);
     const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
@@ -115,6 +172,7 @@ const HomePage: React.FC<HomePageProps> = () => {
   };
   
 
+  // TWEET DISPLAY
   return (
     <div className="container">
       <div className="sidebar">
@@ -153,6 +211,8 @@ const HomePage: React.FC<HomePageProps> = () => {
           const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
           const saves = savesCount[tweet.Tweet_Id] || 0 ;
           const comments = commentsCount[tweet.Tweet_Id] || 0;
+          const likes = likesCount[tweet.Tweet_Id] || 0;
+          const retweets = retweetsCount[tweet.Tweet_Id] || 0;
           return (
             <Tweet
               key={tweet.Tweet_Id}
@@ -161,8 +221,8 @@ const HomePage: React.FC<HomePageProps> = () => {
               text={tweet.Content}
               imageUrl={tweet.Img_Url}
               timeDisplay={getTimeDisplay(tweet.Created_at)}
-              likes={tweet.Like_Count || 0}
-              retweets={tweet.Retweet_Count || 0}
+              likes={likes}
+              retweets={retweets}
               saves={saves}
               comments={comments}
             />
