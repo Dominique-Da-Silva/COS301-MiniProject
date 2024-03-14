@@ -1,10 +1,10 @@
 name: feature_lint_test
 
-# on push and pull request to dev branch
+# on push and pull request to develop branch
 on:
   push:
     branches:
-      - dev
+      - develop
     paths:
       - "src/**"
   pull_request:
