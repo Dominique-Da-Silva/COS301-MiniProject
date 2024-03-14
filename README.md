@@ -6,29 +6,29 @@
   </a>
 </p>
 <p align="center">
-  <a href="https://github.com/users/u22633601/projects/1">project board</a>
+  <a href="https://github.com/users/COS301-SE-2024/projects/1">project board</a>
   |
-  <a href="https://github.com/u22633601/MP-13/wiki">documentation</a>
+  <a href="https://github.com/COS301-SE-2024/MiniProject13/wiki">documentation</a>
   |
   <a href="/images/GitFlow_trunk.png">github branching strategy</a>
 </p>
 
 <p align="center">
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/u22633601/MP-13?style=flat-square)
-![Codecov](https://img.shields.io/codecov/c/github/u22633601/MP-13?style=flat-square)
-![GitHub License](https://img.shields.io/github/license/u22633601/MP-13?style=flat-square)
-![GitHub repo size](https://img.shields.io/github/repo-size/u22633601/MP-13?style=flat-square)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/u22633601/MP-13/.github%2Fworkflows%2Ftest.yml?style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/COS301-SE-2024/MiniProject13?style=flat-square)
+![Codecov](https://img.shields.io/codecov/c/github/COS301-SE-2024/MiniProject13?style=flat-square)
+![GitHub License](https://img.shields.io/github/license/COS301-SE-2024/MiniProject13?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/COS301-SE-2024/MiniProject13?style=flat-square)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/COS301-SE-2024/MiniProject13/.github%2Fworkflows%2Ftest.yml?style=flat-square)
 
 </p>
 
 ///Kyles figma design can go here or a screenshot of the actual web app.
 
-# Table of content
+# Table of contents
 
 - [Twitter clone - By MP-13](#twitter-clone---by-mp-13)
-- [Table of content](#table-of-content)
+- [Table of contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Features (a short summary of the user's functionality)](#features-a-short-summary-of-the-users-functionality)
 - [Demo Video](#demo-video)
