@@ -25,7 +25,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         if (error) {
           throw error;
         }
-        console.log(tweetsData);
+        //console.log(tweetsData);
         setTweets(tweetsData);
       } catch (error) {
         console.error('Error fetching tweets:', error.message);
@@ -39,7 +39,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         if (error) {
           throw error;
         }
-        console.log(usersData);
+        //console.log(usersData);
         setUsers(usersData);
       } catch (error) {
         console.error('Error fetching users:', error.message);
@@ -155,9 +155,8 @@ const HomePage: React.FC<HomePageProps> = () => {
     fetchLikesCount();
   }, []);
   
-  // CONVERTS TIMESTAMP FOR DISPLAY OF TIME-ELAPSED PURPOSES
   const getTimeDisplay = (timestamp) => {
-    const timeDiff = new Date() - new Date(timestamp);
+      const timeDiff = new Date() - new Date(timestamp);
     const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
   
     let timeDisplay;
