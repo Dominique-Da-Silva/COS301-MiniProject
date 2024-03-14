@@ -18,7 +18,7 @@
 
 </p>
 
-///Kyle's figma design can go here or a screenshot of the actual web app.
+<img scr="images\Splash_Page_Screenshot.png">
 
 # Table of contents
 
