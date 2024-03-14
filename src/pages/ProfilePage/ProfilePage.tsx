@@ -39,6 +39,32 @@ const ProfileDetails = () => {
               throw profileError;
             }
             setProfileDetails(profileData);
+    
+            // Count followers
+            const { data: followersData, error: followersError } = await supabase
+              .from("Followers")
+              .select("Followed_Id")
+              .eq("Following_Id", userData.User_Id);
+            if (followersError) {
+              throw followersError;
+            }
+            const followersCount = followersData.length;
+    
+            // Count following
+            const { data: followingData, error: followingError } = await supabase
+              .from("Followers")
+              .select("Following_Id")
+              .eq("Followed_Id", userData.User_Id);
+            if (followingError) {
+              throw followingError;
+            }
+            const followingCount = followingData.length;
+    
+            setUserProfile((prevState: any) => ({
+              ...prevState,
+              followers: followersCount,
+              following: followingCount
+            }));
           } else {
             console.error("User data ID is undefined");
           }
@@ -47,6 +73,7 @@ const ProfileDetails = () => {
         console.error("Error fetching user profile:", (error as any).message);
       }
     };
+    
     
     fetchUserProfile();
   }, []);
