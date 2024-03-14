@@ -11,6 +11,9 @@ const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState([]);
   const [users, setUsers] = useState([]);
 
+  const [savesCount, setSavesCount] = useState({});
+  const [commentsCount, setCommentsCount] = useState({});
+
   useEffect(() => {
     // Fetch tweets
     const fetchTweets = async () => {
@@ -40,9 +43,51 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
+    // Fetch saves count
+    const fetchSavesCount = async () => {
+      try {
+        const { data: savesCountData, error } = await supabase
+          .from('Saves')
+          .select('Tweet_id, count(*)')
+          .group('Tweet_id');
+        if (error) {
+          throw error;
+        }
+        const countMap = {};
+        savesCountData.forEach(row => {
+          countMap[row.Tweet_id] = row.count;
+        });
+        setSavesCount(countMap);
+      } catch (error) {
+        console.error('Error fetching saves count:', error.message);
+      }
+    };
+
+    // Fetch comments count
+    const fetchCommentsCount = async () => {
+      try {
+        const { data: commentsCountData, error } = await supabase
+          .from('Comments')
+          .select('Tweet_id, count(*)')
+          .group('Tweet_id');
+        if (error) {
+          throw error;
+        }
+        const countMap = {};
+        commentsCountData.forEach(row => {
+          countMap[row.Tweet_id] = row.count;
+        });
+        setCommentsCount(countMap);
+      } catch (error) {
+        console.error('Error fetching comments count:', error.message);
+      }
+    };
+
     // Call both fetch functions when the component mounts
     fetchTweets();
     fetchUsers();
+    fetchSavesCount();
+    fetchCommentsCount();
   }, []);
   
   const getTimeDisplay = (timestamp) => {
@@ -97,6 +142,8 @@ const HomePage: React.FC<HomePageProps> = () => {
           </div>
           {tweets.map(tweet => {
           const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+          const saves = savesCount[tweet.Tweet_Id];
+          const comments = commentsCount[tweet.Tweet_Id];
           return (
             <Tweet
               key={tweet.Tweet_Id}
@@ -105,6 +152,10 @@ const HomePage: React.FC<HomePageProps> = () => {
               text={tweet.Content}
               imageUrl={tweet.Img_Url}
               timeDisplay={getTimeDisplay(tweet.Created_at)}
+              likes={tweet.Like_Count}
+              retweets={tweet.Retweet_Count}
+              saves={saves}
+              comments={comments}
             />
           );
         })}
