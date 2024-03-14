@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import { describe, test } from 'vitest';
-import SignIn from './Login'; // Assuming the component is in a file named SignIn.js
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 
