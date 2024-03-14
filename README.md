@@ -18,7 +18,8 @@
 
 </p>
 
-<img scr="images/Splash_Page_Screenshot.png">
+
+![image](images/Splash_Page_Screenshot.png)
 
 # Table of contents
 
