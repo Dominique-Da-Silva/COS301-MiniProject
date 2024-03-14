@@ -10,6 +10,9 @@ const ProfileDetails = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [profileDetails, setProfileDetails] = useState<any>(null);
   const [Created_at, setCreated_at] = useState<any>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState("");
+  const [editedBio, setEditedBio] = useState("");
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -28,7 +31,7 @@ const ProfileDetails = () => {
           const createdDate = new Date(userData.Created_at);
           const formattedDate = createdDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
           setCreated_at(formattedDate);
-          
+
           if (userData?.User_Id) {
             const { data: profileData, error: profileError } = await supabase
               .from("Profile")
@@ -39,7 +42,7 @@ const ProfileDetails = () => {
               throw profileError;
             }
             setProfileDetails(profileData);
-    
+
             // Count followers
             const { data: followersData, error: followersError } = await supabase
               .from("Followers")
@@ -49,7 +52,7 @@ const ProfileDetails = () => {
               throw followersError;
             }
             const followersCount = followersData.length;
-    
+
             // Count following
             const { data: followingData, error: followingError } = await supabase
               .from("Followers")
@@ -59,7 +62,7 @@ const ProfileDetails = () => {
               throw followingError;
             }
             const followingCount = followingData.length;
-    
+
             setUserProfile((prevState: any) => ({
               ...prevState,
               followers: followersCount,
@@ -73,10 +76,66 @@ const ProfileDetails = () => {
         console.error("Error fetching user profile:", (error as any).message);
       }
     };
-    
-    
+
     fetchUserProfile();
   }, []);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setEditedName(userProfile.Name);
+    setEditedBio(profileDetails.Bio);
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      // Update name in User table
+      await supabase
+        .from("User")
+        .update({ Name: editedName })
+        .eq("auth_id", userProfile.auth_id)
+        .single();
+
+      // Update bio in Profile table
+      await supabase
+        .from("Profile")
+        .update({ Bio: editedBio })
+        .eq("User_Id", userProfile.User_Id)
+        .single();
+
+      // Refresh profile details after updating
+      const { data: updatedProfileData, error: profileError } = await supabase
+        .from("Profile")
+        .select()
+        .eq("User_Id", userProfile.User_Id)
+        .single();
+      if (profileError) {
+        throw profileError;
+      }
+      setProfileDetails(updatedProfileData);
+
+      const { data: updatedUserData, error: updatedUserError } = await supabase
+        .from("User")
+        .select()
+        .eq("auth_id", userProfile?.auth_id)
+        .single();
+      if (updatedUserError) {
+        throw updatedUserError;
+      }
+      setUserProfile(updatedUserData);
+      // Close the edit window and reset states
+      setIsEditing(false);
+      setEditedName("");
+      setEditedBio("");
+    } catch (error) {
+      console.error("Error updating profile:", (error as any).message);
+    }
+  };
+
+
+  const handleCancelClick = () => {
+    // Reset states and close the edit window
+    setIsEditing(false);
+  };
 
   if (!profileDetails || !userProfile) {
     return <div>Loading...</div>; // Render loading indicator until data is fetched
@@ -94,20 +153,43 @@ const ProfileDetails = () => {
               alt="Profile"
               className="profile-picture"
             />
-            <h2>{userProfile.Name}</h2>
-            <h3>{userProfile.Username}</h3>
+            <div>
+              <div>
+                <h2>{userProfile.Name}</h2>
+                <h3>@{userProfile.Username}</h3>
+              </div>
+              <button onClick={handleEditClick}>Edit Profile</button>
+            </div>
           </div>
         </div>
         <div className="profile-details">
-          <h3>{profileDetails.Profile_Type}</h3>
-          <p>{profileDetails.Bio}</p>
-          <p>
-            . {userProfile.location} . Joined {Created_at}
-          </p>
-          <p>
-            <span>{userProfile.following} Following</span>{" "}
-            <span>{userProfile.followers} Followers</span>
-          </p>
+          {isEditing ? (
+            <div>
+              <input
+                type="text"
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+              />
+              <textarea
+                value={editedBio}
+                onChange={(e) => setEditedBio(e.target.value)}
+              ></textarea>
+              <button onClick={handleSaveClick}>Save</button>
+              <button onClick={handleCancelClick}>Cancel</button>
+            </div>
+          ) : (
+            <div>
+              <h3>{profileDetails.Profile_Type}</h3>
+              <p>{profileDetails.Bio}</p>
+              <p>
+                . Location . Joined {Created_at}
+              </p>
+              <p>
+                <span>{userProfile.following} Following</span>{" "}
+                <span>{userProfile.followers} Followers</span>
+              </p>
+            </div>
+          )}
         </div>
         <div className="profile-tabs">
           <button className="active">Tweets</button>
