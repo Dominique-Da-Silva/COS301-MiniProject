@@ -11,18 +11,13 @@ interface TweetProps {
   text: string;
   imageUrl?: string;
   timeDisplay:string;
-  likes?: number; // Number of likes
-  retweets?: number; // Number of retweets
-  comments?: number; // Number of comments
-  saves?: number; // Number of saves
+  likes?: number;
+  retweets?: number;
+  comments?: number;
+  saves?: number;
 }
 
-const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDisplay,
-  likes = 0, // Default value of likes is 0
-  retweets = 0, // Default value of retweets is 0
-  comments = 0, // Default value of comments is 0
-  saves = 0, // Default value of saves is 0
-}) => {
+const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDisplay, likes, retweets, comments, saves,}) => {
   return (
     <div className="tweet">
       <div className="user-info">
