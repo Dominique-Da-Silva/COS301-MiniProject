@@ -46,18 +46,23 @@ const HomePage: React.FC<HomePageProps> = () => {
     // Fetch saves count
     const fetchSavesCount = async () => {
       try {
-        const { data: savesCountData, error } = await supabase
-          .from('Saves')
-          .select('Tweet_id, count(*)')
-          .group('Tweet_id');
+        const { data: savesCountData, error } = await supabase.from('Saves').select('*');
         if (error) {
           throw error;
         }
+        console.log('Saves count data:', savesCountData);
+
         const countMap = {};
         savesCountData.forEach(row => {
-          countMap[row.Tweet_id] = row.count;
+          const tweetId = row.Tweet_Id;
+          if (tweetId in countMap) {
+            countMap[tweetId]++;  
+          } else {
+            countMap[tweetId] = 1;
+          }
         });
         setSavesCount(countMap);
+
       } catch (error) {
         console.error('Error fetching saves count:', error.message);
       }
@@ -66,16 +71,20 @@ const HomePage: React.FC<HomePageProps> = () => {
     // Fetch comments count
     const fetchCommentsCount = async () => {
       try {
-        const { data: commentsCountData, error } = await supabase
-          .from('Comments')
-          .select('Tweet_id, count(*)')
-          .group('Tweet_id');
+        const { data: commentsCountData, error } = await supabase.from('Comments').select('*');
         if (error) {
           throw error;
         }
+        console.log('Comments count data:', commentsCountData);
+
         const countMap = {};
         commentsCountData.forEach(row => {
-          countMap[row.Tweet_id] = row.count;
+          const tweetId = row.Tweet_Id;
+          if (tweetId in countMap) {
+            countMap[tweetId]++;
+          } else {
+            countMap[tweetId] = 1;
+          }
         });
         setCommentsCount(countMap);
       } catch (error) {
@@ -142,8 +151,8 @@ const HomePage: React.FC<HomePageProps> = () => {
           </div>
           {tweets.map(tweet => {
           const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-          const saves = savesCount[tweet.Tweet_Id];
-          const comments = commentsCount[tweet.Tweet_Id];
+          const saves = savesCount[tweet.Tweet_Id] || 0 ;
+          const comments = commentsCount[tweet.Tweet_Id] || 0;
           return (
             <Tweet
               key={tweet.Tweet_Id}
@@ -152,8 +161,8 @@ const HomePage: React.FC<HomePageProps> = () => {
               text={tweet.Content}
               imageUrl={tweet.Img_Url}
               timeDisplay={getTimeDisplay(tweet.Created_at)}
-              likes={tweet.Like_Count}
-              retweets={tweet.Retweet_Count}
+              likes={tweet.Like_Count || 0}
+              retweets={tweet.Retweet_Count || 0}
               saves={saves}
               comments={comments}
             />
