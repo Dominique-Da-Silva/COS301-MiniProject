@@ -4,6 +4,7 @@ import { loggedInUserStore } from '@store/index';
 import {Card} from "@nextui-org/react";
 import { Button, Input} from '@nextui-org/react';
 import { Link } from 'react-router-dom';
+import { twitterLogo } from "@assets/index"
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +32,7 @@ const Login = () => {
     <div className="flex items-center justify-center h-screen"> 
       <Card shadow="sm" className="w-[400px] p-10">
         <div className="text-center">
-          <img src="./images/twitter_logo.png" alt="logo" className="w-14 mx-auto mb-2" />
+          <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
           <h2 className="text-xl font-bold mb-6">Log In to Twitter</h2>
         </div>
         <form onSubmit={handleSubmit} space-y-4>
