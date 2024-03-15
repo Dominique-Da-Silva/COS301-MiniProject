@@ -11,10 +11,10 @@ interface TweetProps {
   text: string;
   imageUrl?: string;
   timeDisplay:string;
-  likes?: number;
-  retweets?: number;
-  comments?: number;
-  saves?: number;
+  likes?: number | string;
+  retweets?: number| string ;
+  comments?: number|string ;
+  saves?: number|string;
 }
 
 const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDisplay, likes, retweets, comments, saves,}) => {

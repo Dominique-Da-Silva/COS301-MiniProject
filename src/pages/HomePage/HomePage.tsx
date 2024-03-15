@@ -10,12 +10,13 @@ interface HomePageProps {}
 
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const [tweets, setTweets] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [savesCount, setSavesCount] = useState({});  
-  const [commentsCount, setCommentsCount] = useState({}); 
-  const [retweetsCount, setRetweetsCount] = useState({});
-  const [likesCount, setLikesCount] = useState({}); 
+  const [tweets, setTweets] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [savesCount, setSavesCount] = useState<any>({});
+  const [commentsCount, setCommentsCount] = useState<any>({});
+  const [retweetsCount, setRetweetsCount] = useState<any>({});
+  const [likesCount, setLikesCount] = useState<any>({});
+  
 
   // FETCHING THE TWEETS FROM TWEETS TABLE
   useEffect(() => {
@@ -28,7 +29,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         //console.log(tweetsData);
         setTweets(tweetsData);
       } catch (error) {
-        console.error('Error fetching tweets:', error.message);
+        console.error('Error fetching tweets:', error);
       }
     };
 
@@ -42,7 +43,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         //console.log(usersData);
         setUsers(usersData);
       } catch (error) {
-        console.error('Error fetching users:', error.message);
+        console.error('Error fetching users:', error);
       }
     };
 
@@ -55,7 +56,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         }
         console.log('Saves count data:', savesCountData);
 
-        const countMap = {};
+        const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
         savesCountData.forEach(row => {
           const tweetId = row.Tweet_Id;
           if (tweetId in countMap) {
@@ -67,7 +68,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         setSavesCount(countMap);
 
       } catch (error) {
-        console.error('Error fetching saves count:', error.message);
+        console.error('Error fetching saves count:', error);
       }
     };
 
@@ -80,7 +81,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         }
         console.log('Comments count data:', commentsCountData);
 
-        const countMap = {};
+        const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
         commentsCountData.forEach(row => {
           const tweetId = row.Tweet_Id;
           if (tweetId in countMap) {
@@ -91,7 +92,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         });
         setCommentsCount(countMap);
       } catch (error) {
-        console.error('Error fetching comments count:', error.message);
+        console.error('Error fetching comments count:', error);
       }
     };
 
@@ -104,7 +105,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         }
         console.log('Retweets count data:', retweetsCountData);
 
-        const countMap = {};
+        const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
         retweetsCountData.forEach(row => {
           const tweetId = row.Tweet_Id;
           if (tweetId in countMap) {
@@ -116,7 +117,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         setRetweetsCount(countMap);
 
       } catch (error) {
-        console.error('Error fetching retweets count:', error.message);
+        console.error('Error fetching retweets count:', error);
       }
     };
 
@@ -130,7 +131,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         }
         console.log('Likes count data:', likesCountData);
 
-        const countMap = {};
+        const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
         likesCountData.forEach(row => {
           const tweetId = row.Tweet_Id;
           if (tweetId in countMap) {
@@ -142,7 +143,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         setLikesCount(countMap);
 
       } catch (error) {
-        console.error('Error fetching likes count:', error.message);
+        console.error('Error fetching likes count:', error);
       }
     };
 
@@ -155,20 +156,31 @@ const HomePage: React.FC<HomePageProps> = () => {
     fetchLikesCount();
   }, []);
   
-  const getTimeDisplay = (timestamp: Date) => {
-    const timeDiff = new Date() - new Date(timestamp);
+  const getTimeDisplay = (timestamp: string) => {
+    const currentTime = new Date();
+    const parsedTimestamp = new Date(timestamp);
+
+    const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
     const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
-  
+
     let timeDisplay;
     if (minutesDiff < 60) {
-      timeDisplay = `${minutesDiff} minutes ago`;
+        timeDisplay = `${minutesDiff}m`;
     } else {
-      const hoursDiff = Math.floor(minutesDiff / 60);//convert into hours
-      timeDisplay = `${hoursDiff} hours ago`;
+          
+      const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
+      if(hoursDiff<24)
+      timeDisplay = `${hoursDiff}h`;
+      else{
+        const month = parsedTimestamp.toLocaleString('en-us', { month: 'short' });
+        const day = parsedTimestamp.getDate();
+        timeDisplay = `${month} ${day}`;
+      }
     }
-  
+
     return timeDisplay;
-  };
+};
+
 
   const formatCount = (count: number): string | number => {
     if (count < 1000) {
