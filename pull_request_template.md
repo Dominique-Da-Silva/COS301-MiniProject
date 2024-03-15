@@ -9,4 +9,4 @@ Link to the related issue by typing ```#``` or you can use can just paste the li
 3. proposed change 3
 
 ### Mentions of people responsible for reviewing the pull request
-Please look <a href="">here</a> to choose the appropriate team-member to review the pull request and mention them by typing ```@user1, @user2```
+Please look <a href="https://github.com/COS301-SE-2024/MiniProject13#the-team">here</a> to choose the appropriate team-member to review the pull request and mention them by typing ```@user1, @user2```

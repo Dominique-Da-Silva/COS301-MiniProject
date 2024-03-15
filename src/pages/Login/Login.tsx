@@ -8,7 +8,7 @@ const Login = () => {
   const {userData, loginUser} = loggedInUserStore((state) => { return { userData: state.user, loginUser: state.loginUser}; });
 
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const res = await supabase.auth.signInWithPassword({
