@@ -1,40 +1,23 @@
 import { useState, useEffect, Suspense } from "react";
 import "./ProfilePage.css";
+import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
+import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
+import SideNavbar from "../../components/SideNavbar/SideNavbar";
+import Tweet from "../../components/Tweet/Tweet";
 import { supabase } from "@config/supabase"; // Import supabase client
-import { Tweet, TrendingTopics , WhoToFollow , SideNavbar } from "@components/index";
 
-interface ProfileProps {
-  name?: string;
-  tweetCount?: number;
-  profilePicture?: string;
-  coverPicture?: string;
-  username?: string;
-  location?: string;
-  joinDate?: string;
-  following?: number;
-  followers?: number;
-  tweets?: {
-    username: string;
-    tweetTime: string;
-    text: string;
-    image: string;
-    retweets: number;
-    quoteTweets: number;
-    likes: number;
-  }[];
-  suggestedUsers?: {
-    name: string;
-    username: string;
-    profilePicture: string;
-  }[];
-  trends?: {
-    title: string;
-    description: string;
-  }[];
-}
 
-const ProfilePage: React.FC<ProfileProps> = () => {
-  const [userProfile, setUserProfile] = useState<any>(null); // State to store user profile
+const ProfileDetails = () => {
+  const [userProfile, setUserProfile] = useState<any>(null);
+  const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [Created_at, setCreated_at] = useState<any>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState("");
+  const [editedBio, setEditedBio] = useState("");
+  const [editedLocation, setEditedLocation] = useState("");
+  const [editedWebsite, setEditedWebsite] = useState("");
+  const [editedImage, setEditedImage] = useState<File | null>(null);
+  const [editedBanner, setEditedBanner] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {

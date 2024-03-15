@@ -1,5 +1,9 @@
 import React from "react";
-import { Tweet, TrendingTopics , WhoToFollow , SideNavbar , CreateTweet } from "@components/index";
+import Tweet from "../../components/Tweet/Tweet";
+import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
+import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
+import SideNavbar from "../../components/SideNavbar/SideNavbar";
+import CreateTweet from "../../components/CreateTweet/CreateTweet";
 import "./HomePage.css";
 
 interface HomePageProps {}
