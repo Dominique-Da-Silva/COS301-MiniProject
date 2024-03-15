@@ -135,16 +135,16 @@ const ProfileDetails = () => {
         if (imageData) {
           console.log("Image data:", imageData);
 
-          const { data: publicURL} = await supabase
+          const { data: publicURL } = await supabase
             .storage
             .from('media')
             .getPublicUrl(imageData.path);
           // Insert image reference into database table
           console.log("Public URL:", publicURL);
-          
+
           const { data: imageInsertData, error: insertError } = await supabase
             .from("Profile")
-            .update({ Img_Url: publicURL.publicUrl})
+            .update({ Img_Url: publicURL.publicUrl })
             .eq("User_Id", userProfile.User_Id)
             .single();
 
@@ -172,7 +172,7 @@ const ProfileDetails = () => {
         if (bannerData) {
           console.log("Banner data:", bannerData);
 
-          const { data: bannerURL} = await supabase
+          const { data: bannerURL } = await supabase
             .storage
             .from('media')
             .getPublicUrl(bannerData.path);
@@ -271,6 +271,9 @@ const ProfileDetails = () => {
           {isEditing ? (
             <div>
               <label htmlFor="banner">Banner</label>
+              {profileDetails.Banner_Url && (
+                <img src={profileDetails.Banner_Url} alt="Banner" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+              )}
               <input type="file" name="banner" onChange={(e) => {
                 const files = e.target.files;
                 if (files && files.length > 0) {
@@ -278,6 +281,9 @@ const ProfileDetails = () => {
                 }
               }} />
               <label htmlFor="image">Profile Image</label>
+              {profileDetails.Img_Url && (
+                <img src={profileDetails.Img_Url} alt="Image" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+              )}
               <input type="file" name="image" onChange={(e) => {
                 const files = e.target.files;
                 if (files && files.length > 0) {
