@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ProfilePage.css";
-import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
-import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
-import SideNavbar from "../../components/SideNavbar/SideNavbar";
-import CreateTweet from "../../components/CreateTweet/CreateTweet";
-import Tweet from "../../components/Tweet/Tweet";
 import { supabase } from "@config/supabase"; // Import supabase client
-
+import { Tweet, TrendingTopics , WhoToFollow , SideNavbar } from "@components/index";
 
 interface ProfileProps {
   name?: string;
