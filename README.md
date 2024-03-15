@@ -24,7 +24,6 @@
 # Table of contents
 
 - [Twitter clone - By MP-13](#twitter-clone---by-mp-13)
-- [](#)
 - [Table of contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Features (a short summary of the user's functionality)](#features-a-short-summary-of-the-users-functionality)
@@ -32,10 +31,6 @@
 - [Here are the links to our Documentation](#here-are-the-links-to-our-documentation)
 - [Our Tech stack](#our-tech-stack)
 - [The Version control and CI/CD Utilized](#the-version-control-and-cicd-utilized)
-- [Users](#users)
-  - [I am just checking out the application](#i-am-just-checking-out-the-application)
-  - [I am part of the team](#i-am-part-of-the-team)
-  - [Get Started with our Twitter Clone](#get-started-with-our-twitter-clone)
 - [Meet The Team](#meet-the-team)
 
 # Introduction
@@ -71,11 +66,13 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 # Here are the links to our Documentation
 
 <p align="center">
+  <a href="https://drive.google.com/drive/u/2/folders/12w9AqPrPh--GmyGXWzAQYP414YTrQfHA">Google Drive( For Dev purposes</a><br>
  <a href="https://docs.google.com/document/d/13-FlGpf09eMM-dNkEyX95V4DfcYBMRBgIdHgMGPqi2o/edit?usp=sharing">System Requirements (SRS)</a><br>
  <a href ="https://docs.google.com/document/d/1F4WdKmrvO_eCkr2DajvDOus36bxUpxkydDistqnIFjY/edit?usp=sharing">System Architecture Design</a><br>
  <a href ="https://docs.google.com/document/d/11aLnvSpC1LST7BpA-j2aYu5DllywdCPte29lN52R7SM/edit?usp=sharing">Github Strategy</a><br>
  <a href ="https://docs.google.com/document/d/1NaAGZrMSGhZlp4n6qhYUH5sP8S-cm-749Gra2NR-TLQ/edit?usp=sharing">Coding Development Guidelines</a><br>
  <a href ="https://docs.google.com/document/d/10wjOA4YQwbv8rrY7VAZbGI7kNGU068dD_kCcFyz7TNM/edit?usp=sharing">Database Requirements</a><br>
+  <a href ="https://docs.google.com/document/d/1R5fICIDYA8TkIrFAnCYR8_PVsOKKgwAQrLYV2wUhZnc/edit?usp=sharing">Design Specification</a>
  <a href="https://www.figma.com/file/w0aRTpe5SPT38VwPLuGaFK/COS301-MP-13?type=design&node-id=333%3A2&mode=design&t=Zq1dr1WePO4TwN30-1">Figma designs</a><br>
   <a href="https://github.com/u22633601/MP-13/wiki/Project-Plan">Project Plan</a><br>
  <a href="https://github.com/orgs/COS301-SE-2024/projects/37">GitHub Project Board</a><br>
