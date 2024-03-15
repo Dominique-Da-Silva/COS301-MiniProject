@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import "./ProfilePage.css";
 import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
 import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
 import SideNavbar from "../../components/SideNavbar/SideNavbar";
 import Tweet from "../../components/Tweet/Tweet";
 import { supabase } from "@config/supabase"; // Import supabase client
+
 
 const ProfileDetails = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -13,6 +14,10 @@ const ProfileDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState("");
   const [editedBio, setEditedBio] = useState("");
+  const [editedLocation, setEditedLocation] = useState("");
+  const [editedWebsite, setEditedWebsite] = useState("");
+  const [editedImage, setEditedImage] = useState<File | null>(null);
+  const [editedBanner, setEditedBanner] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -81,12 +86,20 @@ const ProfileDetails = () => {
   }, []);
 
   const handleEditClick = () => {
+    console.log("Edit button clicked");
+    console.log(profileDetails);
+    console.log(userProfile);
     setIsEditing(true);
     setEditedName(userProfile.Name);
     setEditedBio(profileDetails.Bio);
+    setEditedLocation(profileDetails.Location);
+    setEditedWebsite(profileDetails.Website);
   };
 
+
   const handleSaveClick = async () => {
+    console.log(editedImage);
+    console.log(editedBanner);
     try {
       // Update name in User table
       await supabase
@@ -98,9 +111,88 @@ const ProfileDetails = () => {
       // Update bio in Profile table
       await supabase
         .from("Profile")
-        .update({ Bio: editedBio })
+        .update({
+          Bio: editedBio,
+          Location: editedLocation,
+          Website: editedWebsite
+        })
         .eq("User_Id", userProfile.User_Id)
         .single();
+
+      if (editedImage) {
+        const { data: imageData, error: imageError } = await supabase.storage
+          .from(`media`)
+          .upload(`profile_images/${editedImage.name}`, editedImage, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+        if (imageError) {
+          console.log(imageData);
+          throw new Error(`Error uploading image: ${imageError.message}`);
+        }
+
+        console.log("Image uploaded successfully:", imageData.path);
+        if (imageData) {
+          console.log("Image data:", imageData);
+
+          const { data: publicURL} = await supabase
+            .storage
+            .from('media')
+            .getPublicUrl(imageData.path);
+          // Insert image reference into database table
+          console.log("Public URL:", publicURL);
+          
+          const { data: imageInsertData, error: insertError } = await supabase
+            .from("Profile")
+            .update({ Img_Url: publicURL.publicUrl})
+            .eq("User_Id", userProfile.User_Id)
+            .single();
+
+          if (insertError) {
+            throw insertError;
+          }
+
+          console.log("Image reference inserted into database:", imageInsertData);
+        }
+      }
+
+      if (editedBanner) {
+        const { data: bannerData, error: bannerError } = await supabase.storage
+          .from("media")
+          .upload(`banner_images/${editedBanner.name}`, editedBanner, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+        if (bannerError) {
+          throw new Error(`Error uploading banner: ${bannerError.message}`);
+        }
+
+        console.log("Banner uploaded successfully:", bannerData.path);
+
+        if (bannerData) {
+          console.log("Banner data:", bannerData);
+
+          const { data: bannerURL} = await supabase
+            .storage
+            .from('media')
+            .getPublicUrl(bannerData.path);
+          // Insert image reference into database table
+          console.log("Banner URL:", bannerURL);
+
+          // Insert image reference into database table
+          const { data: bannerInsertData, error: bannerInsertError } = await supabase
+            .from("Profile")
+            .update({ Banner_Url: bannerURL.publicUrl })
+            .eq("User_Id", userProfile.User_Id)
+            .single();
+
+          if (bannerInsertError) {
+            throw bannerInsertError;
+          }
+
+          console.log("Banner reference inserted into database:", bannerInsertData);
+        }
+      }
 
       // Refresh profile details after updating
       const { data: updatedProfileData, error: profileError } = await supabase
@@ -122,12 +214,25 @@ const ProfileDetails = () => {
         throw updatedUserError;
       }
       setUserProfile(updatedUserData);
+
       // Close the edit window and reset states
       setIsEditing(false);
       setEditedName("");
       setEditedBio("");
     } catch (error) {
-      console.error("Error updating profile:", (error as any).message);
+      if (error instanceof Error) {
+        if (error.message.includes("media")) {
+          console.error("Error uploading image:", error.message);
+        } else if (error.message.includes("images")) {
+          console.error("Error uploading banner:", error.message);
+        } else if (error.message.includes("Profile")) {
+          console.error("Error updating profile:", error.message);
+        } else if (error.message.includes("User")) {
+          console.error("Error updating user:", error.message);
+        } else {
+          console.error("Unknown error:", error.message);
+        }
+      }
     }
   };
 
@@ -165,15 +270,43 @@ const ProfileDetails = () => {
         <div className="profile-details">
           {isEditing ? (
             <div>
+              <label htmlFor="banner">Banner</label>
+              <input type="file" name="banner" onChange={(e) => {
+                const files = e.target.files;
+                if (files && files.length > 0) {
+                  setEditedBanner(files[0]);
+                }
+              }} />
+              <label htmlFor="image">Profile Image</label>
+              <input type="file" name="image" onChange={(e) => {
+                const files = e.target.files;
+                if (files && files.length > 0) {
+                  setEditedImage(files[0]);
+                }
+              }} />
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
                 value={editedName}
                 onChange={(e) => setEditedName(e.target.value)}
               />
+              <label htmlFor="bio">Bio</label>
               <textarea
                 value={editedBio}
                 onChange={(e) => setEditedBio(e.target.value)}
               ></textarea>
+              <label htmlFor="location">Location</label>
+              <input
+                type="text"
+                value={editedLocation}
+                onChange={(e) => setEditedLocation(e.target.value)}
+              />
+              <label htmlFor="website">Website</label>
+              <input
+                type="text"
+                value={editedWebsite}
+                onChange={(e) => setEditedWebsite(e.target.value)}
+              />
               <button onClick={handleSaveClick}>Save</button>
               <button onClick={handleCancelClick}>Cancel</button>
             </div>
@@ -182,8 +315,9 @@ const ProfileDetails = () => {
               <h3>{profileDetails.Profile_Type}</h3>
               <p>{profileDetails.Bio}</p>
               <p>
-                . Location . Joined {Created_at}
+                . Location: {profileDetails.Location} . Joined {Created_at}
               </p>
+              <p>{profileDetails.Website}</p>
               <p>
                 <span>{userProfile.following} Following</span>{" "}
                 <span>{userProfile.followers} Followers</span>
