@@ -22,7 +22,7 @@ module.exports = {
     }],
     'no-unused-vars': 'error', // Enforce no unused vars
     '@typescript-eslint/no-unused-vars': 'error', // Enforce no unused vars for TypeScript
-    'no-unused-expressions': 'error',// Enforce no unused expressions
+    'no-unused-expressions': 'error', // Enforce no unused expressions
     '@typescript-eslint/no-explicit-any': 'off', // Allow the use of any type
   },
 }
