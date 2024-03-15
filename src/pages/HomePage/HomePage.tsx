@@ -155,8 +155,8 @@ const HomePage: React.FC<HomePageProps> = () => {
     fetchLikesCount();
   }, []);
   
-  const getTimeDisplay = (timestamp) => {
-      const timeDiff = new Date() - new Date(timestamp);
+  const getTimeDisplay = (timestamp: Date) => {
+    const timeDiff = new Date() - new Date(timestamp);
     const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
   
     let timeDisplay;
@@ -169,6 +169,19 @@ const HomePage: React.FC<HomePageProps> = () => {
   
     return timeDisplay;
   };
+
+  const formatCount = (count: number): string | number => {
+    if (count < 1000) {
+      return count; // Return as it is if less than 1000
+    } else if (count < 1000000) {
+      // Convert to K format
+      return (count / 1000).toFixed(1) + 'K';
+    } else {
+      // Convert to M format
+      return (count / 1000000).toFixed(1) + 'M';
+    }
+  };
+
   
 
   // TWEET DISPLAY
@@ -220,10 +233,10 @@ const HomePage: React.FC<HomePageProps> = () => {
               text={tweet.Content}
               imageUrl={tweet.Img_Url}
               timeDisplay={getTimeDisplay(tweet.Created_at)}
-              likes={likes}
-              retweets={retweets}
-              saves={saves}
-              comments={comments}
+              likes={formatCount(likes)}
+              retweets={formatCount(retweets)}
+              saves={formatCount(saves)}
+              comments={formatCount(comments)}
             />
           );
         })}
