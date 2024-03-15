@@ -1,9 +1,6 @@
 import { useState, useEffect, Suspense } from "react";
 import "./ProfilePage.css";
-import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
-import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
-import SideNavbar from "../../components/SideNavbar/SideNavbar";
-import Tweet from "../../components/Tweet/Tweet";
+import { Tweet, TrendingTopics , WhoToFollow , SideNavbar } from "@components/index";
 import { supabase } from "@config/supabase"; // Import supabase client
 
 
