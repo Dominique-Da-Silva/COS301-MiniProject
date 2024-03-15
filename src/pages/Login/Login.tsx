@@ -23,7 +23,7 @@ const Login = () => {
     checkUser();
   }, [navigate]);
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { data, error } = await supabase.auth.signInWithPassword({
