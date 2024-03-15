@@ -238,7 +238,7 @@ const ProfileDetails = () => {
 
 
   const handleCancelClick = () => {
-    // Reset states and close the edit window
+    // Reset Editing state to close the edit window
     setIsEditing(false);
   };
 
@@ -271,25 +271,59 @@ const ProfileDetails = () => {
           {isEditing ? (
             <div>
               <label htmlFor="banner">Banner</label>
-              {profileDetails.Banner_Url && (
-                <img src={profileDetails.Banner_Url} alt="Banner" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+              {editedBanner ? (
+                <img
+                  src={URL.createObjectURL(editedBanner)}
+                  alt="Banner"
+                  style={{ maxWidth: '100%', maxHeight: '200px' }}
+                />
+              ) : profileDetails.Banner_Url ? (
+                <img
+                  src={profileDetails.Banner_Url}
+                  alt="Banner"
+                  style={{ maxWidth: '100%', maxHeight: '200px' }}
+                />
+              ) : (
+                <span>No banner image selected</span>
               )}
-              <input type="file" name="banner" onChange={(e) => {
-                const files = e.target.files;
-                if (files && files.length > 0) {
-                  setEditedBanner(files[0]);
-                }
-              }} />
+              <input
+                type="file"
+                name="banner"
+                onChange={(e) => {
+                  const files = e.target.files;
+                  if (files && files.length > 0) {
+                    setEditedBanner(files[0]);
+                  }
+                }}
+              />
+
               <label htmlFor="image">Profile Image</label>
-              {profileDetails.Img_Url && (
-                <img src={profileDetails.Img_Url} alt="Image" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+              {editedImage ? (
+                <img
+                  src={URL.createObjectURL(editedImage)}
+                  alt="Profile Image"
+                  style={{ maxWidth: '100%', maxHeight: '200px' }}
+                />
+              ) : profileDetails.Img_Url ? (
+                <img
+                  src={profileDetails.Img_Url}
+                  alt="Profile Image"
+                  style={{ maxWidth: '100%', maxHeight: '200px' }}
+                />
+              ) : (
+                <span>No profile image selected</span>
               )}
-              <input type="file" name="image" onChange={(e) => {
-                const files = e.target.files;
-                if (files && files.length > 0) {
-                  setEditedImage(files[0]);
-                }
-              }} />
+              <input
+                type="file"
+                name="image"
+                onChange={(e) => {
+                  const files = e.target.files;
+                  if (files && files.length > 0) {
+                    setEditedImage(files[0]);
+                  }
+                }}
+              />
+
               <label htmlFor="name">Name</label>
               <input
                 type="text"
@@ -323,7 +357,7 @@ const ProfileDetails = () => {
               <p>
                 . Location: {profileDetails.Location} . Joined {Created_at}
               </p>
-              <p>{profileDetails.Website}</p>
+              <p><a href={profileDetails.Website}>{profileDetails.Website}</a></p>
               <p>
                 <span>{userProfile.following} Following</span>{" "}
                 <span>{userProfile.followers} Followers</span>
