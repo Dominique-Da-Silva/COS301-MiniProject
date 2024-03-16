@@ -5,7 +5,7 @@
   - [Feature requests](#feature-requests)
   - [Our branching strategy](#our-branching-strategy)
   - [Submitting a pull request for frontend code](#submitting-a-pull-request-for-frontend-code)
-  - [Submitting a pull request for supabase edge functions(this section still needs updating, please don't use)](#submitting-a-pull-request-for-supabase-edge-functionsthis-section-still-needs-updating-please-dont-use)
+  - [Submitting a pull request for supabase edge functions](#submitting-a-pull-request-for-supabase-edge-functions)
   - [Testing model](#testing-model)
   - [Resources](#resources)
 
@@ -66,27 +66,32 @@ Here are a few things you can do that will increase the likelihood of your pull 
 
 Work in Progress pull requests are also welcome to get feedback early on, or if there is something blocked you. This simply means, you can draft a pull request just to met other developers to make sure you are on the right track before eventually converting it to a full pull request.
 
-## Submitting a pull request for supabase edge functions(this section still needs updating, please don't use)
+## Submitting a pull request for supabase edge functions
 
 1. Make sure you have <a href="https://docs.deno.com/runtime/manual/getting_started/installation">deno</a> installed.
-2. Clone the repository. You will be working from the <a href="/supabase/">supabase folder</a>
-3. Configure and install the dependencies:
+2. If you are using vs code, get the <a href="https://marketplace.visualstudio.com/items?itemName=denoland.vscode-deno">deno extension</a> to help you with development.
+3. Clone the repository. You will be working from the <a href="/supabase/">supabase folder</a>
+4. Configure and install the dependencies:
 ```
 npm install
 ```
-4. Make sure the tests pass on your machine: 
+5. Login to supabase
 ```
-npm test
+npx supabase login
 ```
-5. Switch to develop and create a new branch from develop: 
+6. Link to our project and follow the on screen instructions. Note database password is blank.
+```
+npx supabase link
+```
+7. Switch to develop and create a new branch from develop: 
 ```git checkout -b feature-name``` 
 Please note that your branch name should not be a 'named' branch but rather a feature based branch so that other developers are able to tell what it does without having to constantly ask you. Please make the name as descriptive as possible for what it is doing. You can also create the branch using the web-gui on github.
-6. Please note that since supabase cli only exists within the context of this application, you will have to use ```npx``` before every ```supabase``` command you use from the docs.
-7. If you want to create a new function, type:
+8. Please note that since supabase cli only exists within the context of this application, you will have to use ```npx``` before every ```supabase``` command you use from the docs.
+9. If you want to create a new function, type:
 ```
 npx supabase functions new <function-name-goes-here>
 ```
-8. For more functionality, follow <a href="https://supabase.com/docs/guides/functions/quickstart">quickstart</a> and <a href="https://supabase.com/docs/guides/functions/unit-test#testing-in-deno">writing unit tests for edge functions</a>
+10. For more functionality, follow <a href="https://supabase.com/docs/guides/functions/quickstart">quickstart</a> and <a href="https://supabase.com/docs/guides/functions/unit-test#testing-in-deno">writing unit tests for edge functions</a>
 
 ## Testing model
 
