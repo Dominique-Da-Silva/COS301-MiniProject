@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="/public/twitter.svg" />
+    <img src="https://skillicons.dev/icons?i=twitter&theme=light" />
   </a>
 </p>
 
