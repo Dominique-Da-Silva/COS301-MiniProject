@@ -3,7 +3,7 @@ import { FaRegComment } from "react-icons/fa"; // comment icon
 import { MdSaveAlt } from "react-icons/md"; //save icon import
 import { IoMdHeartEmpty } from "react-icons/io"; // heart icon import
 import { AiOutlineRetweet } from "react-icons/ai"; // retweet icon
-import "./Tweet.css";
+
 
 interface TweetProps {
   name: string;
@@ -35,12 +35,15 @@ const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDispla
       {imageUrl && (
         <img src={imageUrl} alt="Tweet Image" className="tweet-image" />
       )}
+      
+{/* ICOONS */}
       <div className="tweet-actions">
         <span className="action"><FaRegComment /> {comments} </span> {/* Reply icon */}
         <span className="action"><AiOutlineRetweet /> {retweets} </span> {/* Retweet icon */}
         <span className="action"><IoMdHeartEmpty /> {likes} </span> {/* Like icon */}
         <span className="action"><MdSaveAlt /> {saves} </span> {/* Share icon */}
       </div>
+
     </div>
   );
 };
