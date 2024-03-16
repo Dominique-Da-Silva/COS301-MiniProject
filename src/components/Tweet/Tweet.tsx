@@ -1,4 +1,8 @@
 import React from "react";
+import { FaRegComment } from "react-icons/fa"; // comment icon
+import { MdSaveAlt } from "react-icons/md"; //save icon import
+import { IoMdHeartEmpty } from "react-icons/io"; // heart icon import
+import { AiOutlineRetweet } from "react-icons/ai"; // retweet icon
 import "./Tweet.css";
 
 interface TweetProps {
@@ -6,9 +10,14 @@ interface TweetProps {
   username: string;
   text: string;
   imageUrl?: string;
+  timeDisplay:string;
+  likes?: number | string;
+  retweets?: number| string ;
+  comments?: number|string ;
+  saves?: number|string;
 }
 
-const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl }) => {
+const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDisplay, likes, retweets, comments, saves,}) => {
   return (
     <div className="tweet">
       <div className="user-info">
@@ -19,7 +28,7 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl }) => {
         />
         <div>
           <h4>{name}</h4>
-          <p>{username}</p>
+          <p>{username} · {timeDisplay}</p>
         </div>
       </div>
       <p>{text}</p>
@@ -27,7 +36,10 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl }) => {
         <img src={imageUrl} alt="Tweet Image" className="tweet-image" />
       )}
       <div className="tweet-actions">
-        {/* Render tweet actions (reply, retweet, like, share) */}
+        <span className="action"><FaRegComment /> {comments} </span> {/* Reply icon */}
+        <span className="action"><AiOutlineRetweet /> {retweets} </span> {/* Retweet icon */}
+        <span className="action"><IoMdHeartEmpty /> {likes} </span> {/* Like icon */}
+        <span className="action"><MdSaveAlt /> {saves} </span> {/* Share icon */}
       </div>
     </div>
   );

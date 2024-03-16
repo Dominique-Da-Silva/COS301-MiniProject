@@ -1,1 +1,0 @@
-Figma files should live here
