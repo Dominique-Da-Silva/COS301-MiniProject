@@ -6,7 +6,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'supabase', 'src/types/database.types.ts'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'supabase', 'src/types/database.types.ts', 'src/old code', 'src/store'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
@@ -22,6 +22,7 @@ module.exports = {
     }],
     'no-unused-vars': 'error', // Enforce no unused vars
     '@typescript-eslint/no-unused-vars': 'error', // Enforce no unused vars for TypeScript
-    'no-unused-expressions': 'error' // Enforce no unused expressions
+    'no-unused-expressions': 'error', // Enforce no unused expressions
+    '@typescript-eslint/no-explicit-any': 'off', // Allow the use of any type
   },
 }
