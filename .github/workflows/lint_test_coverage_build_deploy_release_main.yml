@@ -78,7 +78,7 @@ jobs:
       run: npm install
   
     - name: Build project
-      run: npm build
+      run: npm run build
 
   deploy-production:
     runs-on: ubuntu-latest
@@ -101,20 +101,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Auto Release on Version Bump
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-      
-  merge:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-
-    - name: Auto Merge
-      uses: emiliopedrollo/auto-merge@v1.2.0
-      with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          target_branch: 'master'
-          commit_message: 'Branch {target_branch} auto-merged {source_ref}'
+        files: |
+          License
