@@ -3,22 +3,22 @@ import "./ProfilePage.css";
 import { Tweet, TrendingTopics , WhoToFollow , SideNavbar } from "@components/index";
 import { supabase } from "@config/supabase"; // Import supabase client
 
-// interface Profile {
-//   Bio?: string | null | undefined;
-//   Img_Url?: string | null | undefined;
-//   Profile_Id?: number | undefined;
-//   Profile_Type?: string | null | undefined;
-//   Theme?: boolean | null | undefined;
-//   User_Id?: number | undefined;
-//   Website?: string | null | undefined;
-//   Location?: string | null | undefined;
-//   Banner_Url?: string | null | undefined;
-//   [key: string]: string | number | boolean | null | undefined; // index signature
-// }
+interface ProfileDetails {
+  Bio?: string | null ;
+  Img_Url?: string | null;
+  Profile_Id?: number;
+  Profile_Type?: string | null;
+  Theme?: boolean | null;
+  User_Id?: number | null;
+  Website?: string | null;
+  Location?: string | null;
+  Banner_Url?: string | null; // Add this property
+}
+
 
 const ProfileDetails = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
-  const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [profileDetails, setProfileDetails] = useState<ProfileDetails | null>(null);
   const [createdAt, setCreatedAt] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState("");
@@ -100,9 +100,9 @@ const ProfileDetails = () => {
     console.log(userProfile);
     setIsEditing(true);
     setEditedName(userProfile.Name);
-    setEditedBio(profileDetails.Bio);
-    setEditedLocation(profileDetails.Location);
-    setEditedWebsite(profileDetails.Website);
+    setEditedBio(profileDetails?.Bio || "");
+    setEditedLocation(profileDetails?.Location!);
+    setEditedWebsite(profileDetails?.Website || ""); // Provide a default value of an empty string
   };
 
 
@@ -269,10 +269,10 @@ const ProfileDetails = () => {
       <SideNavbar />
       <div className="main-content">
         <div className="profile-header">
-          <img src={profileDetails.Banner_Url} alt="Cover" className="cover-picture" />
+            <img src={profileDetails.Banner_Url ?? ''} alt="Cover" className="cover-picture" />
           <div className="profile-info">
             <img
-              src={profileDetails.Img_Url}
+              src={profileDetails.Img_Url ?? ''}
               alt="Profile"
               className="profile-picture"
             />
@@ -375,7 +375,7 @@ const ProfileDetails = () => {
               <p>
                 . Location: {profileDetails.Location} . Joined {createdAt}
               </p>
-              <p><a href={profileDetails.Website}>{profileDetails.Website}</a></p>
+              <p><a href={profileDetails.Website ?? undefined}>{profileDetails.Website}</a></p>
               <p>
                 <span>{userProfile.following} Following</span>{" "}
                 <span>{userProfile.followers} Followers</span>
@@ -393,12 +393,12 @@ const ProfileDetails = () => {
           name="Devon Lane"
           username="@johndoe"
           text="Tom is in a big hurry."
-          imageUrl="https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg" timeDisplay={""}        />
+          imageUrl="https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg" timeDisplay=""        />
         <Tweet
           name="Darlene Robertson"
           username="@johndoe"
           text="Tom is in a big hurry."
-          imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg" timeDisplay={""}        />
+          imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg" timeDisplay=""   />
       </div>
       <div className="side-content">
         <TrendingTopics />
