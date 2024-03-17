@@ -3,6 +3,18 @@ import "./ProfilePage.css";
 import { Tweet, TrendingTopics , WhoToFollow , SideNavbar } from "@components/index";
 import { supabase } from "@config/supabase"; // Import supabase client
 
+// interface Profile {
+//   Bio?: string | null | undefined;
+//   Img_Url?: string | null | undefined;
+//   Profile_Id?: number | undefined;
+//   Profile_Type?: string | null | undefined;
+//   Theme?: boolean | null | undefined;
+//   User_Id?: number | undefined;
+//   Website?: string | null | undefined;
+//   Location?: string | null | undefined;
+//   Banner_Url?: string | null | undefined;
+//   [key: string]: string | number | boolean | null | undefined; // index signature
+// }
 
 const ProfileDetails = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -179,7 +191,16 @@ const ProfileDetails = () => {
           // Insert image reference into database table
           const { data: bannerInsertData, error: bannerInsertError } = await supabase
             .from("Profile")
-            .update({ Banner_Url: bannerURL.publicUrl })
+            .update({ 
+              Banner_Url: bannerURL.publicUrl,
+              // Add the 'Banner_Url' property to the object literal
+              Bio: editedBio,
+              Img_Url: editedImage ? editedImage.toString() : null,
+              Profile_Id: userProfile.Profile_Id,
+              Profile_Type: userProfile.Profile_Type,
+              Theme: userProfile.Theme,
+              User_Id: userProfile.User_Id
+            })
             .eq("User_Id", userProfile.User_Id)
             .single();
 
@@ -372,14 +393,12 @@ const ProfileDetails = () => {
           name="Devon Lane"
           username="@johndoe"
           text="Tom is in a big hurry."
-          imageUrl="https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg"
-        />
+          imageUrl="https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg" timeDisplay={""}        />
         <Tweet
           name="Darlene Robertson"
           username="@johndoe"
           text="Tom is in a big hurry."
-          imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
-        />
+          imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg" timeDisplay={""}        />
       </div>
       <div className="side-content">
         <TrendingTopics />
