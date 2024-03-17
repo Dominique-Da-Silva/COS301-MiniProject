@@ -110,12 +110,14 @@ jobs:
       packages: write
       
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+  
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "License"
         allowUpdates: true
-        commit: "main"
+        artifacts: "License"
+        commit: "dev"
         generateReleaseNotes: true
         name: "Release"
         tag: "v0.0.1"
