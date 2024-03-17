@@ -7,7 +7,7 @@ import { supabase } from "@config/supabase"; // Import supabase client
 const ProfileDetails = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [profileDetails, setProfileDetails] = useState<any>(null);
-  const [Created_at, setCreatedAt] = useState<any>(null);
+  const [createdAt, setCreatedAt] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState("");
   const [editedBio, setEditedBio] = useState("");
@@ -352,7 +352,7 @@ const ProfileDetails = () => {
               <h3>{profileDetails.Profile_Type}</h3>
               <p>{profileDetails.Bio}</p>
               <p>
-                . Location: {profileDetails.Location} . Joined {Created_at}
+                . Location: {profileDetails.Location} . Joined {createdAt}
               </p>
               <p><a href={profileDetails.Website}>{profileDetails.Website}</a></p>
               <p>
