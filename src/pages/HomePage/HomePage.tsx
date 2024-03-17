@@ -264,7 +264,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       </div>
       <div className="sidebar-right">
         <TrendingTopics />
-        <WhoToFollow />
+        {/* <WhoToFollow /> */}
       </div>
     </div>
   );
