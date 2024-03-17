@@ -35,7 +35,7 @@ const Login = () => {
           <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
           <h2 className="text-xl font-bold mb-6">Log In to Twitter</h2>
         </div>
-        <form onSubmit={handleSubmit} space-y-4>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="email"
             placeholder="Phone, email, or username"
@@ -55,10 +55,8 @@ const Login = () => {
           <Button type="submit" className='w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg'>Login</Button>
         </form>
         <div className="text-center mt-6">
-          <p>
-            <a className="text-blue-500 mr-12 hover:underline">Forgot Password?</a>
-            <a className="text-blue-500 hover:underline"><Link to="/signup">Sign Up</Link></a>
-          </p>
+            <div className="text-blue-500 mr-12 hover:underline">Forgot Password?</div>
+            <div className="text-blue-500 hover:underline"><Link to="/signup">Sign Up</Link></div>
         </div>
         {userData && ( 
           <div>
