@@ -3,8 +3,14 @@ name: Deploy Function
 on:
   push:
     branches:
-      - this-is-still-a-prototype
-  workflow_dispatch:
+      - wait-lol
+    paths:
+      - "supabase/**"
+  pull_request:
+    branches:
+      - dev
+    paths:
+      - "supabase/**"
 
 jobs:
   deploy:
