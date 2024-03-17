@@ -7,7 +7,7 @@ import { supabase } from "@config/supabase"; // Import supabase client
 const ProfileDetails = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [profileDetails, setProfileDetails] = useState<any>(null);
-  const [Created_at, setCreated_at] = useState<any>(null);
+  const [Created_at, setCreatedAt] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState("");
   const [editedBio, setEditedBio] = useState("");
@@ -32,7 +32,7 @@ const ProfileDetails = () => {
           setUserProfile(userData);
           const createdDate = new Date(userData.Created_at);
           const formattedDate = createdDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
-          setCreated_at(formattedDate);
+          setCreatedAt(formattedDate);
 
           if (userData?.User_Id) {
             const { data: profileData, error: profileError } = await supabase

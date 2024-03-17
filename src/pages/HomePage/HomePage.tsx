@@ -197,11 +197,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     <div className="container">
       <SideNavbar />
       <div className="main-content">
-          <div className="tweet-input">
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="User Avatar"></img>
-            <input type="text" placeholder="What's happening?"></input>
-            <button>Tweet</button>
-          </div>
+          <CreateTweet></CreateTweet>
           {tweets.map(tweet => {
           const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
           const saves = savesCount[tweet.Tweet_Id] || 0 ;
