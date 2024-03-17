@@ -1,4 +1,3 @@
-import React from "react";
 import { Tweet, TrendingTopics , WhoToFollow , SideNavbar , CreateTweet } from "@components/index";
 import React,{useState,useEffect} from "react";
 import {supabase} from '@config/supabase';
