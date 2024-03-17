@@ -99,10 +99,10 @@ const ProfileDetails = () => {
     console.log(profileDetails);
     console.log(userProfile);
     setIsEditing(true);
-    setEditedName(userProfile.Name);
-    setEditedBio(profileDetails.Bio);
-    setEditedLocation(profileDetails.Location);
-    setEditedWebsite(profileDetails.Website);
+    setEditedName(userProfile?.Name);
+    setEditedBio(profileDetails?.Bio);
+    setEditedLocation(profileDetails?.Location);
+    setEditedWebsite(profileDetails?.Website);
   };
 
 
@@ -114,7 +114,7 @@ const ProfileDetails = () => {
       await supabase
         .from("User")
         .update({ Name: editedName })
-        .eq("auth_id", userProfile.auth_id)
+        .eq("auth_id", userProfile?.auth_id)
         .single();
 
       // Update bio in Profile table
@@ -125,7 +125,7 @@ const ProfileDetails = () => {
           Location: editedLocation,
           Website: editedWebsite
         })
-        .eq("User_Id", userProfile.User_Id)
+        .eq("User_Id", userProfile?.User_Id)
         .single();
 
       if (editedImage) {
@@ -147,7 +147,7 @@ const ProfileDetails = () => {
           const { data: publicURL } = await supabase
             .storage
             .from('media')
-            .getPublicUrl(imageData.path);
+            .getPublicUrl(imageData?.path);
           // Insert image reference into database table
           console.log("Public URL:", publicURL);
 
@@ -192,15 +192,15 @@ const ProfileDetails = () => {
           const { data: bannerInsertData, error: bannerInsertError } = await supabase
             .from("Profile")
             .update({ 
-              Banner_Url: bannerURL.publicUrl,
+              Banner_Url: bannerURL?.publicUrl,
               Bio: editedBio,
-              Img_Url: editedImage ? editedImage.toString() : null,
-              Profile_Id: userProfile.Profile_Id,
-              Profile_Type: userProfile.Profile_Type,
-              Theme: userProfile.Theme,
-              User_Id: userProfile.User_Id
+              Img_Url: editedImage ? editedImage.toString() : "",
+              Profile_Id: userProfile?.Profile_Id,
+              Profile_Type: userProfile?.Profile_Type,
+              Theme: userProfile?.Theme,
+              User_Id: userProfile?.User_Id
             })
-            .eq("User_Id", userProfile.User_Id)
+            .eq("User_Id", userProfile?.User_Id)
             .single();
 
           if (bannerInsertError) {
