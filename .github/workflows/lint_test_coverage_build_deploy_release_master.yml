@@ -1,4 +1,4 @@
-name: lint_test_codecov_build_deploy_release_merge
+name: lint_test_coverage_build_deploy_release
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -105,13 +105,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-production
 
+    permissions:
+      contents: write
+      packages: write
+      
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-
-    - name: Auto Release on Version Bump
-      uses: softprops/action-gh-release@v2
+    - uses: actions/checkout@v3
+    - uses: ncipollo/release-action@v1
       with:
-        files: |
-          License
-        tag_name: v0.0.1 # Specify your desired tag name here
+        artifacts: "License"
+        allowUpdates: true
+        commit: "main"
+        generateReleaseNotes: true
+        name: "Release"
+        tag: "v0.0.1"
