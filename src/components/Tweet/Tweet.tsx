@@ -20,29 +20,30 @@ interface TweetProps {
 
 const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDisplay, likes, retweets, comments, saves,}) => {
   return (
-    <div className="tweet">
-      <div className="user-info flex gap-3">
+    <div className="tweet border">
+      <div className="user-info flex gap-3 p-3">
         <Avatar
           src={imageUrl} // profile image url to be replaced
           alt="User Avatar"
-          className="user-avatar"
+          className="user-avatar min-w-12 min-h-12"
+          // style={{ minWidth: '48px', minHeight: '48px' }}
         />
-          <div className="divider flex-col">
+          <div className="info-block flex-col">
             <div className="flex">
-              <h4>{name}&nbsp;</h4>
-              <p>{username} · {timeDisplay}</p>
+              <h4 className="font-semibold">{name}&nbsp;</h4>
+              <p className="text-slate-700">{username} · {timeDisplay}</p>
             </div>
-            <p>{text}</p>
+            <p>{text}</p><br />
               {imageUrl && (
-                <img src={imageUrl} alt="Tweet Image" className="tweet-image" />
+                <img src={imageUrl} alt="Tweet Image" className="tweet-image" style={{ borderRadius: '10px' }} />
               )}
         
               {/* ICOONS */}
             <div className="tweet-actions flex gap-10">
-              <span className="action"><FaRegComment /> {comments} </span> {/* Reply icon */}
-              <span className="action"><AiOutlineRetweet /> {retweets} </span> {/* Retweet icon */}
-              <span className="action"><IoMdHeartEmpty /> {likes} </span> {/* Like icon */}
-              <span className="action"><MdSaveAlt /> {saves} </span> {/* Share icon */}
+              <span className="action flex"><FaRegComment /> {comments} </span> {/* Reply icon */}
+              <span className="action flex"><AiOutlineRetweet /> {retweets} </span> {/* Retweet icon */}
+              <span className="action flex"><IoMdHeartEmpty /> {likes} </span> {/* Like icon */}
+              <span className="action flex"><MdSaveAlt /> {saves} </span> {/* Share icon */}
             </div>
           </div>
       </div>
