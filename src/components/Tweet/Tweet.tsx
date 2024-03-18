@@ -1,8 +1,9 @@
 import React from "react";
 import { FaRegComment } from "react-icons/fa"; // comment icon
 import { MdSaveAlt } from "react-icons/md"; //save icon import
-import { IoMdHeartEmpty } from "react-icons/io"; // heart icon import
-import { AiOutlineRetweet } from "react-icons/ai"; // retweet icon
+import { PiHeartBold } from "react-icons/pi";
+import { LuRepeat2 } from "react-icons/lu";
+import { FaRegBookmark } from "react-icons/fa6";
 import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/react";
 
 
@@ -40,14 +41,13 @@ const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDispla
               <img src={imageUrl} alt="Tweet Image" className="tweet-image" style={{ borderRadius: '10px' }} />
             )}
         </div>
-        <div className="tweet-actions flex flex-row justify-around">
+        <div className="tweet-actions flex flex-row justify-around col text-slate-700">
           <span className="action flex items-center"><FaRegComment /> &nbsp;{comments} </span> {/* Reply icon */}
-          <span className="action flex items-center"><AiOutlineRetweet /> &nbsp;{retweets} </span> {/* Retweet icon */}
-          <span className="action flex items-center"><IoMdHeartEmpty /> &nbsp;{likes} </span> {/* Like icon */}
-          <span className="action flex items-center"><MdSaveAlt /> &nbsp;{saves} </span> {/* Share icon */}
+          <span className="action flex items-center"><LuRepeat2 /> &nbsp;{retweets} </span> {/* Retweet icon */}
+          <span className="action flex items-center"><PiHeartBold />&nbsp;{likes} </span> {/* Like icon */}
+          <span className="action flex items-center"><FaRegBookmark /> &nbsp;{saves} </span> {/* Share icon */}
         </div>
       </div>
-      
     </div>
   );
 };

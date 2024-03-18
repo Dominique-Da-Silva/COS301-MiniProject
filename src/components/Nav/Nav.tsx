@@ -39,6 +39,9 @@ const Nav = () => {
         <FiSettings size={30} />
         Settings
       </div>
+      <div className="post-button bg-sky-500 w-56 p-3 rounded-full text-center font-bold text-white text-lg">
+        Post
+      </div>
     </div>
   )
 }

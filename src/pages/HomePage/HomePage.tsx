@@ -206,11 +206,11 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
   return (
     <div className="container">
-      <div className="nav w-1/5 ml-24">
+      <div className="nav w-1/5 ml-24 mr-1">
         <Nav />
       </div>
        
-      <div className="main-content w-2/5 p-0">
+      <div className="main-content w-2/5 p-0 border">
         <div className="tweet-input">
           <img
             src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
