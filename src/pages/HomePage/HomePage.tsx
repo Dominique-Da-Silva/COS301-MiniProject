@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@config/supabase";
 import Tweet from "../../components/Tweet/Tweet";
 import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
+import Nav from "../../components/Nav/Nav";
 import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
 import "./HomePage.css";
 
@@ -205,33 +206,11 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
   return (
     <div className="container">
-      <div className="sidebar">
-        <div className="sidebar-item">
-          <svg viewBox="0 0 24 24"></svg>
-          Home
-        </div>
-        <div className="sidebar-item">
-          <svg viewBox="0 0 24 24"></svg>
-          Explore
-        </div>
-        <div className="sidebar-item">
-          <svg viewBox="0 0 24 24"></svg>
-          Notifications
-        </div>
-        <div className="sidebar-item">
-          <svg viewBox="0 0 24 24"></svg>
-          Bookmarks
-        </div>
-        <div className="sidebar-item">
-          <svg viewBox="0 0 24 24"></svg>
-          Profile
-        </div>
-        <div className="sidebar-item">
-          <svg viewBox="0 0 24 24"></svg>
-          More
-        </div>
+      <div className="nav w-1/5 ml-24">
+        <Nav />
       </div>
-      <div className="main-content p-0">
+       
+      <div className="main-content w-2/5 p-0">
         <div className="tweet-input">
           <img
             src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
@@ -262,7 +241,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           );
         })}
       </div>
-      <div className="sidebar-right">
+      <div className="sidebar-right w-1/4">
         <TrendingTopics />
         {/* <WhoToFollow /> */}
       </div>
