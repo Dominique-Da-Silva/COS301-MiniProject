@@ -1,7 +1,16 @@
-import { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import "./ProfilePage.css";
-import { Tweet, TrendingTopics , WhoToFollow , SideNavbar } from "@components/index";
+import {
+  Tweet,
+  TrendingTopics,
+  WhoToFollow,
+  SideNavbar,
+} from "@components/index";
 import { supabase } from "@config/supabase"; // Import supabase client
+import { IoMdPerson, IoMdSettings } from "react-icons/io";
+import { Avatar, Button } from "@nextui-org/react";
+import { RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
+import { BiCalendar } from "react-icons/bi";
 
 // interface Profile {
 //   Bio?: string | null | undefined;
@@ -31,7 +40,9 @@ const ProfileDetails = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         if (user) {
           const { data: userData, error: userError } = await supabase
             .from("User")
@@ -43,7 +54,10 @@ const ProfileDetails = () => {
           }
           setUserProfile(userData);
           const createdDate = new Date(userData.Created_at);
-          const formattedDate = createdDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+          const formattedDate = createdDate.toLocaleString("en-US", {
+            month: "long",
+            year: "numeric",
+          });
           setCreatedAt(formattedDate);
 
           if (userData?.User_Id) {
@@ -58,20 +72,22 @@ const ProfileDetails = () => {
             setProfileDetails(profileData);
 
             // Count followers
-            const { data: followersData, error: followersError } = await supabase
-              .from("Followers")
-              .select("Followed_Id")
-              .eq("Following_Id", userData.User_Id);
+            const { data: followersData, error: followersError } =
+              await supabase
+                .from("Followers")
+                .select("Followed_Id")
+                .eq("Following_Id", userData.User_Id);
             if (followersError) {
               throw followersError;
             }
             const followersCount = followersData.length;
 
             // Count following
-            const { data: followingData, error: followingError } = await supabase
-              .from("Followers")
-              .select("Following_Id")
-              .eq("Followed_Id", userData.User_Id);
+            const { data: followingData, error: followingError } =
+              await supabase
+                .from("Followers")
+                .select("Following_Id")
+                .eq("Followed_Id", userData.User_Id);
             if (followingError) {
               throw followingError;
             }
@@ -80,7 +96,7 @@ const ProfileDetails = () => {
             setUserProfile((prevState: any) => ({
               ...prevState,
               followers: followersCount,
-              following: followingCount
+              following: followingCount,
             }));
           } else {
             console.error("User data ID is undefined");
@@ -105,7 +121,6 @@ const ProfileDetails = () => {
     setEditedWebsite(profileDetails?.Website);
   };
 
-
   const handleSaveClick = async () => {
     console.log(editedImage);
     console.log(editedBanner);
@@ -123,7 +138,7 @@ const ProfileDetails = () => {
         .update({
           Bio: editedBio,
           Location: editedLocation,
-          Website: editedWebsite
+          Website: editedWebsite,
         })
         .eq("User_Id", userProfile?.User_Id)
         .single();
@@ -144,9 +159,8 @@ const ProfileDetails = () => {
         if (imageData) {
           console.log("Image data:", imageData);
 
-          const { data: publicURL } = await supabase
-            .storage
-            .from('media')
+          const { data: publicURL } = await supabase.storage
+            .from("media")
             .getPublicUrl(imageData?.path);
           // Insert image reference into database table
           console.log("Public URL:", publicURL);
@@ -161,7 +175,10 @@ const ProfileDetails = () => {
             throw insertError;
           }
 
-          console.log("Image reference inserted into database:", imageInsertData);
+          console.log(
+            "Image reference inserted into database:",
+            imageInsertData
+          );
         }
       }
 
@@ -181,33 +198,36 @@ const ProfileDetails = () => {
         if (bannerData) {
           console.log("Banner data:", bannerData);
 
-          const { data: bannerURL } = await supabase
-            .storage
-            .from('media')
+          const { data: bannerURL } = await supabase.storage
+            .from("media")
             .getPublicUrl(bannerData.path);
           // Insert image reference into database table
           console.log("Banner URL:", bannerURL);
 
           // Insert image reference into database table
-          const { data: bannerInsertData, error: bannerInsertError } = await supabase
-            .from("Profile")
-            .update({ 
-              Banner_Url: bannerURL?.publicUrl,
-              Bio: editedBio,
-              Img_Url: editedImage ? editedImage.toString() : "",
-              Profile_Id: userProfile?.Profile_Id,
-              Profile_Type: userProfile?.Profile_Type,
-              Theme: userProfile?.Theme,
-              User_Id: userProfile?.User_Id
-            })
-            .eq("User_Id", userProfile?.User_Id)
-            .single();
+          const { data: bannerInsertData, error: bannerInsertError } =
+            await supabase
+              .from("Profile")
+              .update({
+                Banner_Url: bannerURL?.publicUrl,
+                Bio: editedBio,
+                Img_Url: editedImage ? editedImage.toString() : "",
+                Profile_Id: userProfile?.Profile_Id,
+                Profile_Type: userProfile?.Profile_Type,
+                Theme: userProfile?.Theme,
+                User_Id: userProfile?.User_Id,
+              })
+              .eq("User_Id", userProfile?.User_Id)
+              .single();
 
           if (bannerInsertError) {
             throw bannerInsertError;
           }
 
-          console.log("Banner reference inserted into database:", bannerInsertData);
+          console.log(
+            "Banner reference inserted into database:",
+            bannerInsertData
+          );
         }
       }
 
@@ -253,7 +273,6 @@ const ProfileDetails = () => {
     }
   };
 
-
   const handleCancelClick = () => {
     // Reset Editing state to close the edit window
     setIsEditing(false);
@@ -264,144 +283,75 @@ const ProfileDetails = () => {
   }
 
   return (
-    <div className="profile-page">
-      <SideNavbar />
-      <div className="main-content">
-        <div className="profile-header">
-          <img src={profileDetails.Banner_Url} alt="Cover" className="cover-picture" />
-          <div className="profile-info">
-            <img
-              src={profileDetails.Img_Url}
-              alt="Profile"
-              className="profile-picture"
-            />
+    <div className="profile-page flex">
+      <div className="sidebar-left w-1/4">
+        {/* Side Navbar */}
+        <SideNavbar />
+      </div>
+      <div className="main-content flex-1">
+        {/* Profile  Header} */}
+        <div className="profile-header bg gray-200 p-4 flex items-center">
+          <div className="profile-info flex items-center">
             <div>
               <div>
-                <h2>{userProfile.Name}</h2>
-                <h3>@{userProfile.Username}</h3>
+                <h2 className="font-bold text-xl">
+                  <Avatar
+                    src={profileDetails.Img_Url}
+                    alt={userProfile.Name}
+                    size="lg"
+                  />
+                  {userProfile.Name}
+                </h2>
+                <p className="text-gray-500">@{userProfile.Username}</p>
+                <p className="text-gray-500">
+                  <BiCalendar className="mr-1" />
+                  Joined {createdAt}
+                </p>
               </div>
-              <button onClick={handleEditClick}>Edit Profile</button>
+              <Button className="ml-auto">
+                <IoMdSettings className="mr-1" ></IoMdSettings>Edit Profile
+              </Button>
+              {/* Profile Details */}
+              <div className="profile-details ">
+                <div className="flex items-center">
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg">Tweets</h3>
+                    <p className="text-gray-500">0</p>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg">Following</h3>
+                    <p className="text-gray-500">{userProfile.following}</p>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg">Followers</h3>
+                    <p className="text-gray-500">{userProfile.followers}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="profile-tabs">
+                <Button className="active">Tweets</Button>
+                <Button>Replies</Button>
+                <Button>Media</Button>
+                <Button>Likes</Button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="profile-details">
-          {isEditing ? (
-            <div>
-              <label htmlFor="banner">Banner</label>
-              {editedBanner ? (
-                <img
-                  src={URL.createObjectURL(editedBanner)}
-                  alt="Banner"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : profileDetails.Banner_Url ? (
-                <img
-                  src={profileDetails.Banner_Url}
-                  alt="Banner"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : (
-                <span>No banner image selected</span>
-              )}
-              <input
-                type="file"
-                name="banner"
-                onChange={(e) => {
-                  const files = e.target.files;
-                  if (files && files.length > 0) {
-                    setEditedBanner(files[0]);
-                  }
-                }}
-              />
 
-              <label htmlFor="image">Profile Image</label>
-              {editedImage ? (
-                <img
-                  src={URL.createObjectURL(editedImage)}
-                  alt="Profile Image"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : profileDetails.Img_Url ? (
-                <img
-                  src={profileDetails.Img_Url}
-                  alt="Profile Image"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : (
-                <span>No profile image selected</span>
-              )}
-              <input
-                type="file"
-                name="image"
-                onChange={(e) => {
-                  const files = e.target.files;
-                  if (files && files.length > 0) {
-                    setEditedImage(files[0]);
-                  }
-                }}
-              />
-
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                value={editedName}
-                onChange={(e) => setEditedName(e.target.value)}
-              />
-              <label htmlFor="bio">Bio</label>
-              <textarea
-                value={editedBio}
-                onChange={(e) => setEditedBio(e.target.value)}
-              ></textarea>
-              <label htmlFor="location">Location</label>
-              <input
-                type="text"
-                value={editedLocation}
-                onChange={(e) => setEditedLocation(e.target.value)}
-              />
-              <label htmlFor="website">Website</label>
-              <input
-                type="text"
-                value={editedWebsite}
-                onChange={(e) => setEditedWebsite(e.target.value)}
-              />
-              <button onClick={handleSaveClick}>Save</button>
-              <button onClick={handleCancelClick}>Cancel</button>
-            </div>
-          ) : (
-            <div>
-              <h3>{profileDetails.Profile_Type}</h3>
-              <p>{profileDetails.Bio}</p>
-              <p>
-                . Location: {profileDetails.Location} . Joined {createdAt}
-              </p>
-              <p><a href={profileDetails.Website}>{profileDetails.Website}</a></p>
-              <p>
-                <span>{userProfile.following} Following</span>{" "}
-                <span>{userProfile.followers} Followers</span>
-              </p>
-            </div>
-          )}
+          {/* Tweets */}
         </div>
-        <div className="profile-tabs">
-          <button className="active">Tweets</button>
-          <button>Tweets & replies</button>
-          <button>Media</button>
-          <button>Likes</button>
-        </div>
+        {/* Tweets */}
         <Tweet
-          name="Devon Lane"
-          username="@johndoe"
-          text="Tom is in a big hurry."
-          imageUrl="https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg" 
-          timeDisplay=""        />
-        <Tweet
-          name="Darlene Robertson"
-          username="@johndoe"
-          text="Tom is in a big hurry."
-          imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg" 
-          timeDisplay=""   />
+          name={userProfile.Name}
+          username={userProfile.Username}
+          text="This is a tweet"
+          timeDisplay={createdAt}
+          likes={profileDetails.likes}
+          retweets={profileDetails.retweets}
+          comments={profileDetails.comments}
+          saves={profileDetails.saves}
+        />
       </div>
-      <div className="side-content">
+      <div className="sidebar-right w-1/4">
         <TrendingTopics />
         <WhoToFollow />
       </div>
