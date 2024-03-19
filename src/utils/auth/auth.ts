@@ -65,3 +65,8 @@ export async function signInUser(email: string, password: string): Promise<"succ
     return "success";
   }
 }
+
+export async function isUserLoggedIn(): Promise<boolean>{
+  const { data: { user } } = await supabase.auth.getUser()
+  return user ? true : false;
+}

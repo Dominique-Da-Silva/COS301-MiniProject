@@ -1,23 +1,33 @@
 import { useState, useEffect } from 'react';
 import { supabase } from "@config/supabase";
-import { loggedInUserStore } from '@store/index';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import { Button, Input, Card} from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 import { twitterLogo } from "@assets/index"
+import { isUserLoggedIn, signInUser } from '@utils/index';
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useState({ email: '', password: '' });
   const navigate = useNavigate(); // Initialize useNavigate hook
-  const { userData, loginUser } = loggedInUserStore((state) => { return { userData: state.user, loginUser: state.loginUser}; });
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const status = await signInUser(form.email, form.password);
+
+    if (status === "error") {
+      console.error('Error signing up');
+    } else {
+      navigate('/home'); // Redirect to home page if user is logged in
+    }
+  };
 
   useEffect(() => {
     // Create a new async function
     const checkUser = async () => {
       // Check if user is already logged in
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
+      const result = await isUserLoggedIn();
+      if (result) {
         navigate('/profile'); // Redirect to profile page if user is logged in
       }
     };
@@ -25,23 +35,6 @@ const SignIn = () => {
     // Call the async function
     checkUser();
   }, [navigate]);
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      console.error('Error logging in:', error.message);
-    } else {
-      console.log('User logged in:', data);
-      loginUser(data.user); // Update user data state
-      navigate('/profile'); // Redirect user to /profile page
-    }
-  };
 
   return (
     <div className="flex items-center justify-center h-screen"> 
@@ -54,16 +47,16 @@ const SignIn = () => {
           <Input
             type="email"
             placeholder="Phone, email, or username"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            value={form.email}
+            onChange={e => setForm({ ...form, email: e.target.value })}
             required
             className="mb-4"
           />
           <Input
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
+            value={form.password}
+            onChange={e => setForm({ ...form, password: e.target.value })}
             required
             className="mb-4"
           />
@@ -73,14 +66,6 @@ const SignIn = () => {
             <div className="text-blue-500 mr-12 hover:underline">Forgot Password?</div>
             <div className="text-blue-500 hover:underline"><Link to="/signup">Sign Up</Link></div>
         </div>
-        {userData && ( 
-          <div>
-            <h2>User Data:</h2>
-            <p>Email: {userData.email}</p>
-            <p>UID: {userData.id}</p>
-            {/* Add more fields as needed */}
-          </div>
-        )}
       </Card>
     </div>
   );
