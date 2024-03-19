@@ -42,10 +42,10 @@ const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDispla
             )}
         </div>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
-          <span className="action flex items-center"><FaRegComment /> &nbsp;{comments} </span> {/* Reply icon */}
-          <span className="action flex items-center"><LuRepeat2 /> &nbsp;{retweets} </span> {/* Retweet icon */}
-          <span className="action flex items-center"><PiHeartBold />&nbsp;{likes} </span> {/* Like icon */}
-          <span className="action flex items-center"><FaRegBookmark /> &nbsp;{saves} </span> {/* Share icon */}
+          <span className="action flex items-center cursor-pointer hover:text-blue-500 "><FaRegComment className="w-4 h-4" /> &nbsp;{comments} </span> {/* Reply icon */}
+          <span className="action flex items-center cursor-pointer hover:text-green-500"><LuRepeat2 className="w-4 h-4"/> &nbsp;{retweets} </span> {/* Retweet icon */}
+          <span className="action flex items-center cursor-pointer hover:text-red-500"><PiHeartBold className="w-4 h-4"/>&nbsp;{likes} </span> {/* Like icon */}
+          <span className="action flex items-center cursor-pointer hover:text-blue-500"><FaRegBookmark className="w-4 h-4"/> &nbsp;{saves} </span> {/* Share icon */}
         </div>
       </div>
     </div>
