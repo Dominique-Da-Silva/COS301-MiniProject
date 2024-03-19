@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{GitHub Strategy}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Stable Branch}
+The stable branch is a long-lived branch in the Git repository that contains the latest stable and production-ready version of the software. Once development is completed and all tests from unit test to end-to-end tests have been completed and passed, all the code from the working branch will be pushed to the stable branch to indicate that the project has been completed successfully.
+
+\section{Working Branch}
+The working branch is a temporary branch created by developers to work on specific features, bug fixes, or enhancements. Code and features will only be pushed to this branch when deemed completed and bug-free. This branch should only have features that have passed all their unit tests as this branch is going to be pulled from consistently by other developers who need to be up-to-date with the working branch before pushing the features they were working on.
+
+\section{Workflows}
+Workflows are automated processes or pipelines set up using GitHub Actions or similar CI/CD tools to streamline software development and deployment. Workflows automate tasks such as building, testing, deploying, and releasing software.
+\subsection{Auto Deploy}
+Auto deploy workflow automatically deploys the application to a staging or production environment whenever changes are pushed to specific branches, such as the stable branch or feature branches that have passed tests.
+\subsection{Auto Merge}
+Auto merge workflow automatically merges approved pull requests into designated branches, such as the stable branch, once all required checks and tests have passed.
+\subsection{Auto Release}
+Auto release workflow automatically creates and publishes new releases of the software based on specific triggers, such as the completion of a successful deployment or the merging of changes into the stable branch.
+\subsection{Build}
+Build workflow compiles the source code, runs unit tests, and generates artifacts or binaries required for deployment. It ensures that the software builds successfully and passes basic tests before further deployment or release.
+\subsection{Codecov}
+Codecov workflow integrates with a code coverage tool to measure the percentage of code covered by automated tests. It provides insights into the effectiveness of test suites and helps identify areas of code that need additional testing.
+\subsection{Deploy}
+Deploy workflow automates the deployment of the application to staging, testing, or production environments. It may involve tasks such as copying files to servers, configuring infrastructure, and starting or restarting services.
+\subsection{Merge}
+Merge workflow automates the process of merging changes from feature branches into the stable branch or other designated branches. It ensures that merges are performed consistently and in accordance with defined rules or policies.
+\subsection{Release}
+Release workflow automates the process of creating and publishing new releases of the software. It may involve tagging the codebase, generating release notes, updating version numbers, and publishing artifacts to distribution channels.
+\subsection{Test}
+Test workflow runs automated tests, including unit tests, integration tests, and end-to-end tests, to verify the correctness and functionality of the software. It provides feedback to developers on the quality of their changes and helps prevent regressions.
+
+\section{Branching Strategy}
+\subsection{Use of Main/Branch Protection}
+Enable branch protection rules for the main branch to prevent direct pushes and enforce code reviews via pull requests.
+\subsection{Feature Branches}
+Create feature branches for each new feature or task, branching off from the main branch or development branch.
+\subsection{Branch Naming Convention}
+Adopt a consistent naming convention for branches, such as using prefixes (e.g., feature/, bugfix/, hotfix/) followed by a descriptive name.
+\subsection{Merge Strategy}
+Use merge strategies such as merge commits or rebase and merge based on team preferences and project requirements.
+\subsection{Delete Stale Branches}
+Regularly delete feature branches after they have been merged into the main branch to keep the repository clean and organized.
+
+\section{Commits}
+\subsection{Descriptive Commit Messages}
+Each commit message should be clear, concise, and descriptive, summarizing the changes made in the commit.
+\subsection{Atomic Commits}
+Each commit should represent a single logical change or feature, making it easier to understand and revert changes if necessary.
+\subsection{Use of Branch Prefixes}
+Prefix commit messages with the relevant feature or issue number, if applicable, to associate commits with specific tasks or user stories.
+
+\section{Pull Requests}
+\subsection{Code Reviews}
+All code changes must undergo code reviews by at least one other team member before merging into the main branch.
+\subsection{Clear Title and Description}
+PR titles and descriptions should provide context about the changes, including why the changes were made and any relevant background information.
+\subsection{Link to Issues}
+PRs should be linked to the corresponding issue or user story in the issue tracker to provide context and facilitate traceability.
+
+\section{Issues}
+\subsection{Clear and Specific Titles}
+Issue titles should be clear, specific, and descriptive, summarizing the problem or task being addressed.
+\subsection{Detailed Description}
+Issues should include a detailed description of the problem, task, or user story, including acceptance criteria and any relevant context or constraints.
+\subsection{Assignment and Labels}
+Assign issues to the appropriate team member and apply relevant labels (e.g., bug, enhancement, documentation) to categorize and prioritize tasks.
+
+\section{CI/CD Strategy}
+\subsection{Deployment}
+\end{document}
