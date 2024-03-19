@@ -41,6 +41,25 @@ jest.mock('@config/supabase', () => ({
     }
 }));
 
+console.error = jest.fn();
+
 test('renders without crashing', () => {
   render(<ProfilePage />);
+});
+
+describe('fetchUserProfile', () => {
+    test('fetches user profile data successfully', async () => {
+        // Render ProfilePage component
+        render(<ProfilePage />);
+        
+        // Wait for Profile page to be mounted
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        // Ensure that getUser and related methods are called, the ones we mocked earlier 
+        expect(require('@config/supabase').supabase.from().select().eq().single).toHaveBeenCalled();
+        expect(require('@config/supabase').supabase.auth.getUser).toHaveBeenCalled();
+
+        // make sure no error is called
+        expect(console.error).not.toHaveBeenCalled();
+    });
 });
