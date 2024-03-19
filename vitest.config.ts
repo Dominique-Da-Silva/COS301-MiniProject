@@ -12,9 +12,13 @@ export default defineConfig({
             provider: 'v8', // or 'v8'
             reporter: ['text', 'html', 'clover', 'json'],
         },
+        include: ['./src/**/*.{test,spec}.{ts,tsx}'],
         exclude:[
             ...configDefaults.exclude, 
-            "./src/old code/**"
-          ]
+            "./src/old code/**",
+            "./src/main.tsx",
+            "./src/config/index.ts",
+            "./src/types/**"
+        ]
     },
 })
