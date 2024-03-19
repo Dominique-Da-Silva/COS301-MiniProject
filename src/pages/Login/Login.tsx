@@ -1,10 +1,28 @@
 // SignIn.js
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import { HomeImage } from '@components/index';
 import { github, google } from '@assets/index';
+import { useEffect } from 'react';
+import { isUserLoggedIn } from '@utils/index';
 
 const SignIn = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  useEffect(() => {
+    // Create a new async function
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (result) {
+        navigate('/profile'); // Redirect to profile page if user is logged in
+      }
+    };
+  
+    // Call the async function
+    checkUser();
+  }, [navigate]);
+  
   return (
     <div className='pageContainer'>
       <div className='imageContainer'>
