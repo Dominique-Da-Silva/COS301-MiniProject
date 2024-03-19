@@ -3,7 +3,7 @@ import { supabase } from "@config/supabase";
 import Tweet from "../../components/Tweet/Tweet";
 import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
 import Nav from "../../components/Nav/Nav";
-import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
+// import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
 import "./HomePage.css";
 
 interface HomePageProps {}

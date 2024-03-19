@@ -1,10 +1,10 @@
 import React from "react";
 import { FaRegComment } from "react-icons/fa"; // comment icon
-import { MdSaveAlt } from "react-icons/md"; //save icon import
 import { PiHeartBold } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
 import { FaRegBookmark } from "react-icons/fa6";
-import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/react";
+import {Image} from "@nextui-org/react";
+import {Avatar} from "@nextui-org/react";
 
 
 interface TweetProps {
@@ -38,7 +38,7 @@ const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDispla
           </div>
           <p>{text}</p>
             {imageUrl && (
-              <img src={imageUrl} alt="Tweet Image" className="tweet-image" style={{ borderRadius: '10px' }} />
+              <Image isZoomed src={imageUrl} alt="Tweet Image" className="tweet-image" style={{ borderRadius: '10px' }} />
             )}
         </div>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
