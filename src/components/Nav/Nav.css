@@ -1,4 +1,4 @@
-.sidebar {
+/* .sidebar {
     background-color: #fff;
     padding: 16px;
   }
@@ -10,15 +10,13 @@
     margin-bottom: 16px;
     padding-left: 10px;
     font-size: 20px;
-    border-radius: 5px; /* Set button corner roundness */
     transition: background-color 0.2s ease-in-out; 
     cursor: pointer;
     border-radius: 50%;
   }
   .sidebar-item-logo:hover {
     background-color: #cfcfcfb4;
-    /* border-radius: 50%; */
-  }
+  } */
   
   .sidebar-item {
     height: 55px;
@@ -39,7 +37,6 @@
   }
   .sidebar-item:hover {
     background-color: #cfcfcfb4;
-    /* border-radius: 50%; */
   }
   
   .sidebar-item svg {

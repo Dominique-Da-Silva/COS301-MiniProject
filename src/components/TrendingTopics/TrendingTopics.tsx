@@ -33,7 +33,7 @@ const TrendingTopics: React.FC<TrendingTopicsProps> = () => {
   fetchTopics();
   return (
     <div>
-      <div className="bg-white p-4 shadow rounded-md">
+      <div className="bg-white p-4 border">
         <h2 className="text-lg font-bold mb-4">Trending Topics</h2>
         <div className="space-y-4">
           {" "}

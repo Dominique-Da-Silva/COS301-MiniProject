@@ -10,32 +10,32 @@ import './Nav.css'
 
 const Nav = () => {
   return (
-    <div className="sidebar ml-8">
-      <div className="sidebar-item-logo">
+    <div className="sidebar mr-0 pl-12 border-r-0 font-semibold">
+      <div className="sidebar-item-logo h-13 flex items-center pl-2">
         <FaTwitter size={30} />
       </div>
       
-      <div className="sidebar-item">
-        <GoHomeFill size={30} />
+      <div className="sidebar-item font-semibold">
+        <GoHomeFill size={50} />
         Home
       </div>
-      <div className="sidebar-item">
+      <div className="sidebar-item font-semibold">
         <IoSearch size={30} />
         Explore
       </div>
-      <div className="sidebar-item">
+      <div className="sidebar-item font-semibold">
         <PiBellBold size={30} />
         Notifications
       </div>
-      <div className="sidebar-item">
+      <div className="sidebar-item font-semibold">
         <FaRegBookmark size={30} />
         Bookmarks
       </div>
-      <div className="sidebar-item">
+      <div className="sidebar-item font-semibold">
         <FaRegUserCircle size={30} />
         Profile
       </div>
-      <div className="sidebar-item">
+      <div className="sidebar-item font-semibold">
         <FiSettings size={30} />
         Settings
       </div>

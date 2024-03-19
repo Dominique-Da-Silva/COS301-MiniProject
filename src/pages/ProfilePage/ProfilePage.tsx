@@ -1,6 +1,6 @@
 import { useState, useEffect, Suspense } from "react";
 import "./ProfilePage.css";
-import { Tweet, TrendingTopics , WhoToFollow , SideNavbar } from "@components/index";
+import { Tweet, TrendingTopics , WhoToFollow , Nav } from "@components/index";
 import { supabase } from "@config/supabase"; // Import supabase client
 
 // interface Profile {
@@ -265,7 +265,7 @@ const ProfileDetails = () => {
 
   return (
     <div className="profile-page">
-      <SideNavbar />
+      <Nav />
       <div className="main-content">
         <div className="profile-header">
           <img src={profileDetails.Banner_Url} alt="Cover" className="cover-picture" />
@@ -403,7 +403,7 @@ const ProfileDetails = () => {
       </div>
       <div className="side-content">
         <TrendingTopics />
-        <WhoToFollow />
+        {/* <WhoToFollow /> */}
       </div>
     </div>
   );

@@ -21,22 +21,21 @@ interface TweetProps {
 
 const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDisplay, likes, retweets, comments, saves,}) => {
   return (
-    <div className="tweet flex border">
-      <div className="avatar p-3">
+    <div className="tweet flex border-t-1 m-0 p-4">
+      <div className="avatar">
         <Avatar
           src={imageUrl} // profile image url to be replaced
           alt="User Avatar"
-          className="user-avatar min-w-12 min-h-12 p"
+          className="user-avatar min-w-12 min-h-12"
           // style={{ minWidth: '48px', minHeight: '48px' }}
         />
       </div>
-      <div className="post flex-col w-full">
-        <div className="user-info flex-col gap-3 p-3">   
-          <div className="flex">
-            <h4 className="font-semibold">{name}&nbsp;</h4>
-            <p className="text-slate-700">{username} · {timeDisplay}</p>
-          </div>
-          <p>{text}</p>
+      <div className="post flex-col w-full pl-2">
+        <div className="user-info flex">   
+            <p className="font-semibold p-0 m-0">{name}&nbsp;</p><p className="text-slate-700 p-0 m-0">{username} · {timeDisplay}</p>
+        </div>
+        <div>
+          <p className="p-0 m-0">{text}</p> 
             {imageUrl && (
               <Image isZoomed src={imageUrl} alt="Tweet Image" className="tweet-image" style={{ borderRadius: '10px' }} />
             )}

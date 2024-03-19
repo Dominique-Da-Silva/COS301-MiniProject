@@ -1,4 +1,5 @@
-import { Tweet, TrendingTopics , SideNavbar , CreateTweet, Nav } from "@components/index";
+import { Tweet, TrendingTopics , CreateTweet, Nav, Search } from "@components/index";
+import {Tabs, Tab, Chip} from "@nextui-org/react";
 import React,{useState,useEffect} from "react";
 import {supabase} from '@config/supabase';
 import "./HomePage.css";
@@ -202,35 +203,68 @@ const HomePage: React.FC<HomePageProps> = () => {
 
   // TWEET DISPLAY
   return (
-    <div className="container">
+    <div className="container flex">
       <div className="nav w-1/5 ml-24 mr-1">
         <Nav />
       </div>
-      <div className="main-content">
-          <CreateTweet></CreateTweet>
-          {tweets.map(tweet => {
-          const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-          const saves = savesCount[tweet.Tweet_Id] || 0 ;
-          const comments = commentsCount[tweet.Tweet_Id] || 0;
-          const likes = likesCount[tweet.Tweet_Id] || 0;
-          const retweets = retweetsCount[tweet.Tweet_Id] || 0;
-          return (
-            <Tweet
-              key={tweet.Tweet_Id}
-              name={user ? user.Name : "Unknown User"}
-              username={user ? `@${user.Username}` : ""}
-              text={tweet.Content}
-              imageUrl={tweet.Img_Url}
-              timeDisplay={getTimeDisplay(tweet.Created_at)}
-              likes={formatCount(likes)}
-              retweets={formatCount(retweets)}
-              saves={formatCount(saves)}
-              comments={formatCount(comments)}
+      <div className="main-content max-w-full m-0 p-0 border">
+        <div className="flex min-w-full flex-col justify-center">
+          <Tabs 
+            aria-label="Options" 
+            color="primary" 
+            variant="underlined"
+            classNames={{
+              tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider justify-center",
+              cursor: "w-full bg-[#22d3ee]",
+              tab: "max-w-full h-2 px-0 h-12",
+              tabContent: "group-data-[selected=true]:text-[#06b6d4]"
+            }}
+          >
+            <Tab
+              title={
+                <div className="flex items-center space-x-2">
+                  <span>For you</span>
+                </div>
+              }
+              className="text-"
+            >
+              <CreateTweet></CreateTweet>
+              {tweets.map(tweet => {
+                const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+                const saves = savesCount[tweet.Tweet_Id] || 0 ;
+                const comments = commentsCount[tweet.Tweet_Id] || 0;
+                const likes = likesCount[tweet.Tweet_Id] || 0;
+                const retweets = retweetsCount[tweet.Tweet_Id] || 0;
+                return (
+                  <Tweet
+                    key={tweet.Tweet_Id}
+                    name={user ? user.Name : "Unknown User"}
+                    username={user ? `@${user.Username}` : ""}
+                    text={tweet.Content}
+                    imageUrl={tweet.Img_Url}
+                    timeDisplay={getTimeDisplay(tweet.Created_at)}
+                    likes={formatCount(likes)}
+                    retweets={formatCount(retweets)}
+                    saves={formatCount(saves)}
+                    comments={formatCount(comments)}
+                  />
+                );
+              })}
+            </Tab>
+            <Tab
+              title={
+                <div className="flex items-center space-x-2">
+                  <span>Following</span>
+                </div>
+              }
             />
-          );
-        })}
+          </Tabs>
+        </div>  
       </div>
-      <div className="sidebar-right w-1/4">
+      <div className="sidebar-right w-1/4 mr-28 ml-7 mt-2 pl-2">
+        <div className="mb-3">
+          <Search />
+        </div>
         <TrendingTopics />
         {/* <WhoToFollow /> */}
       </div>
