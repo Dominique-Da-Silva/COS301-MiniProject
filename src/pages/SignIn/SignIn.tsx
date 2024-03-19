@@ -1,26 +1,87 @@
-// SignIn.js
+import { useState, useEffect } from 'react';
+import { supabase } from "@config/supabase";
+import { loggedInUserStore } from '@store/index';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { Button, Input, Card} from '@nextui-org/react';
 import { Link } from 'react-router-dom';
-import './SignIn.css';
-import { HomeImage } from '@components/index';
+import { twitterLogo } from "@assets/index"
 
 const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate hook
+  const { userData, loginUser } = loggedInUserStore((state) => { return { userData: state.user, loginUser: state.loginUser}; });
+
+  useEffect(() => {
+    // Create a new async function
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        navigate('/profile'); // Redirect to profile page if user is logged in
+      }
+    };
+  
+    // Call the async function
+    checkUser();
+  }, [navigate]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error('Error logging in:', error.message);
+    } else {
+      console.log('User logged in:', data);
+      loginUser(data.user); // Update user data state
+      navigate('/profile'); // Redirect user to /profile page
+    }
+  };
+
   return (
-    <div className='pageContainer'>
-      <div className='imageContainer'>
-        <HomeImage />
-      </div>
-      <div className='signInContainer'>
-        <h2>Sign In Page</h2>
-        
-        <Link to="/signup">Sign up with phone or email</Link>
-        <p className='terms'>
-        By singing up you agree to the <a href='https://twitter.com/en/tos'>Terms of Service</a>
-        and <a href='https://twitter.com/en/privacy'>Privacy Policy</a>, including <a href='https://help.twitter.com/en/rules-and-policies/x-cookies'> Cookie Use</a>.
-        </p>
-        <div className='login'>
-          <p>Already have an account? <Link to="/login">Login</Link></p>
+    <div className="flex items-center justify-center h-screen"> 
+      <Card shadow="sm" className="w-[400px] p-10">
+        <div className="text-center">
+          <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
+          <h2 className="text-xl font-bold mb-6">Log In to Twitter</h2>
         </div>
-      </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            type="email"
+            placeholder="Phone, email, or username"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+            className="mb-4"
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+            className="mb-4"
+          />
+          <Button type="submit" className='w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg'>SignIn</Button>
+        </form>
+        <div className="text-center mt-6">
+            <div className="text-blue-500 mr-12 hover:underline">Forgot Password?</div>
+            <div className="text-blue-500 hover:underline"><Link to="/signup">Sign Up</Link></div>
+        </div>
+        {userData && ( 
+          <div>
+            <h2>User Data:</h2>
+            <p>Email: {userData.email}</p>
+            <p>UID: {userData.id}</p>
+            {/* Add more fields as needed */}
+          </div>
+        )}
+      </Card>
     </div>
   );
 };
