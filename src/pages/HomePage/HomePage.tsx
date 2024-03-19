@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { supabase } from "@config/supabase";
-import Tweet from "../../components/Tweet/Tweet";
-import TrendingTopics from "../../components/TrendingTopics/TrendingTopics";
-import Nav from "../../components/Nav/Nav";
-// import WhoToFollow from "../../components/WhoToFollow/WhoToFollow";
+import { Tweet, TrendingTopics , SideNavbar , CreateTweet, Nav } from "@components/index";
+import React,{useState,useEffect} from "react";
+import {supabase} from '@config/supabase';
 import "./HomePage.css";
 
 interface HomePageProps {}
@@ -209,19 +206,11 @@ const HomePage: React.FC<HomePageProps> = () => {
       <div className="nav w-1/5 ml-24 mr-1">
         <Nav />
       </div>
-       
-      <div className="main-content w-2/5 p-0 border">
-        <div className="tweet-input">
-          <img
-            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-            alt="User Avatar"
-          ></img>
-          <input type="text" placeholder="What's happening?"></input>
-          <button>Tweet</button>
-        </div>
-        {tweets.map((tweet) => {
-          const user = users.find((u) => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-          const saves = savesCount[tweet.Tweet_Id] || 0;
+      <div className="main-content">
+          <CreateTweet></CreateTweet>
+          {tweets.map(tweet => {
+          const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+          const saves = savesCount[tweet.Tweet_Id] || 0 ;
           const comments = commentsCount[tweet.Tweet_Id] || 0;
           const likes = likesCount[tweet.Tweet_Id] || 0;
           const retweets = retweetsCount[tweet.Tweet_Id] || 0;
