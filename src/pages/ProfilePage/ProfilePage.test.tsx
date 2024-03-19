@@ -62,4 +62,21 @@ describe('fetchUserProfile', () => {
         // make sure no error is called
         expect(console.error).not.toHaveBeenCalled();
     });
+
+    test('handles errors gracefully', async () => {
+        // Mock getUser response to throw an error
+        require('@config/supabase').supabase.auth.getUser.mockRejectedValueOnce(new Error('getUser error'));
+
+        // Render ProfilePage component
+        render(<ProfilePage />);
+
+        // Wait for ProfilePage component to be mounted and ensure that fetchUserProfile function is called
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        // Ensure that getUser and related methods are called
+        expect(require('@config/supabase').supabase.auth.getUser).toHaveBeenCalled();
+
+        // Ensure that console.error is called with the correct error message
+        expect(console.error).toHaveBeenCalledWith('Error fetching user profile:', 'getUser error');
+    });
 });
