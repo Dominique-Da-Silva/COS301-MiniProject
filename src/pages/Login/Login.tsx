@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import './Login.css';
 import { HomeImage } from '@components/index';
+import { github, google } from '@assets/index';
 
 const SignIn = () => {
   return (

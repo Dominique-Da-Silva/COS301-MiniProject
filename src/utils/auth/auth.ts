@@ -14,6 +14,8 @@ export async function signInWithGoogle(): Promise<"success" | "error">{
   if (error) {
     return "error";
   } else {
+    //invoke edge function to add user to database
+
     return "success";
   }
 }

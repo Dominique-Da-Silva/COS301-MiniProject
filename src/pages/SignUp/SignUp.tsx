@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { signUpNewUser } from '@utils/index';
+import { isUserLoggedIn, signUpNewUser } from '@utils/index';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import { supabase } from '@config/supabase';
 
@@ -23,9 +23,9 @@ const SignUp = () => {
     // Create a new async function
     const checkUser = async () => {
       // Check if user is already logged in
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        navigate('/home'); // Redirect to profile page if user is logged in
+      const result = await isUserLoggedIn();
+      if (result) {
+        navigate('/profile'); // Redirect to profile page if user is logged in
       }
     };
   
