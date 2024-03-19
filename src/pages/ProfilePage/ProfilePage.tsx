@@ -11,7 +11,7 @@ import { IoMdPerson, IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
 import { BiCalendar } from "react-icons/bi";
-
+import { NavLink } from "react-router-dom";
 // interface Profile {
 //   Bio?: string | null | undefined;
 //   Img_Url?: string | null | undefined;
@@ -36,6 +36,23 @@ const ProfileDetails = () => {
   const [editedWebsite, setEditedWebsite] = useState("");
   const [editedImage, setEditedImage] = useState<File | null>(null);
   const [editedBanner, setEditedBanner] = useState<File | null>(null);
+  const [content, setContent] = useState(null);
+
+  const loadTweets = () => {
+    setContent(loadTweetsContent());
+  };
+
+  const loadReplies = () => {
+    setContent(loadRepliesContent());
+  };
+
+  const loadMedia = () => {
+    setContent(loadMediaContent());
+  };
+
+  const loadLiked = () => {
+    setContent(loadLikedContent());
+  };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -278,6 +295,19 @@ const ProfileDetails = () => {
     setIsEditing(false);
   };
 
+  const loadTweetsContent = () => {
+    return <div>Loading tweets...</div>;
+  };
+  const loadRepliesContent = () => {
+    return <div>Loading replies...</div>;
+  };
+  const loadMediaContent = () => {
+    return <div>Loading media...</div>;
+  };
+  const loadLikedContent = () => {
+    return <div>Loading liked content...</div>;
+  };
+
   if (!profileDetails || !userProfile) {
     return <div>Loading...</div>; // Render loading indicator until data is fetched
   }
@@ -308,9 +338,11 @@ const ProfileDetails = () => {
                   Joined {createdAt}
                 </p>
               </div>
-              <Button className="ml-auto">
-                <IoMdSettings className="mr-1" ></IoMdSettings>Edit Profile
-              </Button>
+              <NavLink to="/editProfile">
+                <Button className="ml-auto">
+                  <IoMdSettings className="mr-1"></IoMdSettings>Edit Profile
+                </Button>
+              </NavLink>
               {/* Profile Details */}
               <div className="profile-details ">
                 <div className="flex items-center">
@@ -329,10 +361,18 @@ const ProfileDetails = () => {
                 </div>
               </div>
               <div className="profile-tabs">
-                <Button className="active">Tweets</Button>
-                <Button>Replies</Button>
-                <Button>Media</Button>
-                <Button>Likes</Button>
+                <Button className="active" onClick={loadTweets}>
+                  Tweets
+                </Button>
+                <Button className="active" onClick={loadReplies}>
+                  Replies
+                </Button>
+                <Button className="active" onClick={loadMedia}>
+                  Media
+                </Button>
+                <Button className="active" onClick={loadLiked}>
+                  Likes
+                </Button>
               </div>
             </div>
           </div>
@@ -340,16 +380,7 @@ const ProfileDetails = () => {
           {/* Tweets */}
         </div>
         {/* Tweets */}
-        <Tweet
-          name={userProfile.Name}
-          username={userProfile.Username}
-          text="This is a tweet"
-          timeDisplay={createdAt}
-          likes={profileDetails.likes}
-          retweets={profileDetails.retweets}
-          comments={profileDetails.comments}
-          saves={profileDetails.saves}
-        />
+        {content}
       </div>
       <div className="sidebar-right w-1/4">
         <TrendingTopics />
