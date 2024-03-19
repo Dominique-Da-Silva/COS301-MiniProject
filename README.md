@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="/public/twitter.svg" />
+    <img src="https://skillicons.dev/icons?i=twitter&theme=light" />
   </a>
 </p>
 
@@ -83,7 +83,7 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=deno,cypress,figma,md,npm,postgres,react,supabase,ts,vercel,vite,vitest&perline=4&theme=light" />
+    <img src="https://skillicons.dev/icons?i=deno,cypress,figma,md,npm,postgres,react,supabase,tailwind,ts,vercel,vite,vitest&perline=4&theme=light" />
   </a>
 </p>
 
