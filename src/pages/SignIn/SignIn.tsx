@@ -56,23 +56,25 @@ const SignIn = () => {
           <span className="text-gray-500">or</span>
           <Divider className="w-1/3 bg-gray-300 ml-2"/>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            type="email"
-            placeholder="Phone, email, or username"
-            value={form.email}
-            onChange={e => setForm({ ...form, email: e.target.value })}
-            required
-            className="mb-4"
-          />
-          <Input
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={e => setForm({ ...form, password: e.target.value })}
-            required
-            className="mb-4"
-          />
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <Input variant="underlined"
+              type="email"
+              placeholder="Phone, email, or username"
+              value={form.email}
+              onChange={e => setForm({ ...form, email: e.target.value })}
+              required
+            />
+          </div>
+          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <Input variant="underlined"
+              type="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={e => setForm({ ...form, password: e.target.value })}
+              required
+            />
+          </div>
           <Button type="submit" className='w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg'>SignIn</Button>
         </form>
         <div className="text-center mt-6 flex justify-center">
