@@ -80,3 +80,44 @@ describe('fetchUserProfile', () => {
         expect(console.error).toHaveBeenCalledWith('Error fetching user profile:', 'getUser error');
     });
 });
+
+describe('handleSaveClick', () => {
+
+    // Mocked variables and functions
+    let consoleLogSpy;
+    let consoleErrorSpy;
+    let setProfileDetailsMock;
+    let setUserProfileMock;
+    let setIsEditingMock;
+    let setEditedNameMock;
+    let setEditedBioMock;
+
+    // setting up mock funcs for the mock vars
+    beforeEach(() => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        setProfileDetailsMock = jest.fn();
+        setUserProfileMock = jest.fn();
+        setIsEditingMock = jest.fn();
+        setEditedNameMock = jest.fn();
+        setEditedBioMock = jest.fn();
+    });
+    
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+  
+    //tests
+    test('should update user and profile data without errors', async () => {
+        // Call the function
+        await ProfilePage.handleSaveClick();
+        // each of the below will check the diffrent parts of the function behave been called correctly
+        expect(setProfileDetailsMock).toHaveBeenCalled(); 
+        expect(setUserProfileMock).toHaveBeenCalled(); 
+        expect(setIsEditingMock).toHaveBeenCalledWith(false); 
+        expect(setEditedNameMock).toHaveBeenCalledWith(''); 
+        expect(setEditedBioMock).toHaveBeenCalledWith(''); 
+        expect(consoleErrorSpy).not.toHaveBeenCalled();
+    });
+  });
