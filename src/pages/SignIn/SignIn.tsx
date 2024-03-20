@@ -61,8 +61,8 @@ const SignIn = () => {
           />
           <Button type="submit" className='w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg'>SignIn</Button>
         </form>
-        <div className="text-center mt-6">
-            <div className="text-blue-500 mr-12 hover:underline">Forgot Password?</div>
+        <div className="text-center mt-6 flex justify-center">
+            <div className="text-blue-500 mr-10 hover:underline">Forgot Password?</div>
             <div className="text-blue-500 hover:underline"><Link to="/signup">Sign Up</Link></div>
         </div>
       </Card>
