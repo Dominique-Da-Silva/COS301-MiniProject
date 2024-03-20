@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import { Button, Input, Card} from '@nextui-org/react';
 import { Link } from 'react-router-dom';
-import { twitterLogo } from "@assets/index"
+import { twitterLogo } from "@assets/index";
 import { isUserLoggedIn, signInUser } from '@utils/index';
 import { github, google } from '@assets/index';
 

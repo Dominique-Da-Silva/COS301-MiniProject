@@ -4,7 +4,7 @@ import './Login.css';
 import { HomeImage } from '@components/index';
 // import { github, google } from '@assets/index';
 import { useEffect } from 'react';
-import { isUserLoggedIn } from '@utils/index';
+import { isUserLoggedIn, signInWithGithub, signInWithGoogle } from '@utils/index';
 
 const SignIn = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
