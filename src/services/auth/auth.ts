@@ -14,7 +14,7 @@ export async function signInWithGoogle(): Promise<"success" | "error">{
   if (error) {
     return "error";
   } else {
-    //invoke edge function to add user to database
+    //add user to database if not already there
 
     return "success";
   }
@@ -28,6 +28,7 @@ export async function signInWithGithub(): Promise<"success" | "error">{
   if (error) {
     return "error";
   } else {
+    //add user to database if not already there
     return "success";
   }
 }
@@ -51,6 +52,7 @@ export async function signUpNewUser(email: string, password: string): Promise<"s
   if (error) {
     return "error";
   } else {
+    //add user to database
     return "success";
   }
 }
@@ -64,6 +66,7 @@ export async function signInUser(email: string, password: string): Promise<"succ
   if (error) {
     return "error";
   } else {
+    //add user to database if not already there
     return "success";
   }
 }
