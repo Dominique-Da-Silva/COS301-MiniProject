@@ -10,13 +10,13 @@ import './Nav.css'
 
 const Nav = () => {
   return (
-    <div className="sidebar mr-0 pl-12 border-r-0 font-semibold">
-      <div className="sidebar-item-logo h-13 flex items-center pl-2">
-        <FaTwitter size={30} />
+    <div className="sidebar mr-0 pl-12 border-r-0 font-semibold fixed">
+      <div className="sidebar-item-logo w-16 flex items-center mb-4 cursor-pointer rounded-full hover:bg-slate-200 p-3">
+        <FaTwitter className="w-10 h-10"/>
       </div>
       
       <div className="sidebar-item font-semibold">
-        <GoHomeFill size={50} />
+        <GoHomeFill className="w-8 h-8" />
         Home
       </div>
       <div className="sidebar-item font-semibold">
@@ -24,7 +24,7 @@ const Nav = () => {
         Explore
       </div>
       <div className="sidebar-item font-semibold">
-        <PiBellBold size={30} />
+        <PiBellBold radius="md" className='p-0 m-0' />
         Notifications
       </div>
       <div className="sidebar-item font-semibold">

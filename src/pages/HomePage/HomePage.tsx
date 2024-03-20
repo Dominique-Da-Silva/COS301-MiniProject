@@ -1,5 +1,5 @@
 import { Tweet, TrendingTopics , CreateTweet, Nav, Search } from "@components/index";
-import {Tabs, Tab, Chip} from "@nextui-org/react";
+import {Tabs, Tab} from "@nextui-org/react";
 import React,{useState,useEffect} from "react";
 import {supabase} from '@config/supabase';
 import "./HomePage.css";
@@ -211,13 +211,12 @@ const HomePage: React.FC<HomePageProps> = () => {
         <div className="flex min-w-full flex-col justify-center">
           <Tabs 
             aria-label="Options" 
-            color="primary" 
             variant="underlined"
             classNames={{
               tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider justify-center",
-              cursor: "w-full bg-[#22d3ee]",
+              cursor: "max-w-24 rounded-full h-1 bg-[#22d3ee]",
               tab: "max-w-full h-2 px-0 h-12",
-              tabContent: "group-data-[selected=true]:text-[#06b6d4]"
+              tabContent: "group-data-[selected=true]:text-[#000000] font-semibold"
             }}
           >
             <Tab
@@ -226,7 +225,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                   <span>For you</span>
                 </div>
               }
-              className="text-"
+              className="text-md"
             >
               <CreateTweet></CreateTweet>
               {tweets.map(tweet => {
@@ -257,7 +256,10 @@ const HomePage: React.FC<HomePageProps> = () => {
                   <span>Following</span>
                 </div>
               }
-            />
+              className="text-md"
+            >
+              <CreateTweet></CreateTweet>
+            </Tab>
           </Tabs>
         </div>  
       </div>

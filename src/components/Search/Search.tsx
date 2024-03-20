@@ -1,5 +1,3 @@
-import React from 'react'
-import { Input, Button } from "@nextui-org/react";
 import { IoSearch } from "react-icons/io5";
 
 const Search = () => {
