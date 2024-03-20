@@ -9,4 +9,4 @@ Link to the related issue by typing ```#``` or you can use can just paste the li
 3. proposed change 3
 
 ### Mentions of people responsible for reviewing the pull request
-Choose from @waveyboym, @KumbiraiShonhiwa, @KamogeloMoeketse, @u21598012 and remove this sentence once you have chosen a reviewer.
+Choose from @waveyboym, @KumbiraiShonhiwa, @KamogeloMoeketse, @u21598012 and remove this sentence once you have chosen a reviewer. Note that if your pr is bringing changes downstream, you do not need to get a reviewer to review, but you may just go ahead and merge your pr.
