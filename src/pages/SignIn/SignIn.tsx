@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-import { Button, Input, Card} from '@nextui-org/react';
+import { Button, Input, Card, Divider} from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 import { twitterLogo } from "@assets/index";
 import { isUserLoggedIn, signInUser } from '@utils/index';
@@ -47,10 +47,15 @@ const SignIn = () => {
           <img src={google} alt="logo" className="logo mr-2 w-5 h-5"/>
           Sign in with Google
         </Button>
-        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-4">
+        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-1">
           <img src={github} alt="logo" className="logo mr-2 w-5 h-5"/>
           Sign in with Github
         </Button>
+        <div className="flex items-center justify-center my-2 mb-5">
+          <Divider className="w-1/3 bg-gray-300 mr-2"/>
+          <span className="text-gray-500">or</span>
+          <Divider className="w-1/3 bg-gray-300 ml-2"/>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="email"
