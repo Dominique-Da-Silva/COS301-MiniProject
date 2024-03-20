@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { isUserLoggedIn, signUpNewUser } from '@utils/index';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-import { supabase } from '@config/supabase';
+// import { supabase } from '@config/supabase';
 
 const SignUp = () => {
   const [form, setForm] = useState({ email: '', password: '' });

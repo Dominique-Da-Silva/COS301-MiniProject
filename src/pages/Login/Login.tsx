@@ -2,7 +2,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import { HomeImage } from '@components/index';
-import { github, google } from '@assets/index';
+// import { github, google } from '@assets/index';
 import { useEffect } from 'react';
 import { isUserLoggedIn } from '@utils/index';
 

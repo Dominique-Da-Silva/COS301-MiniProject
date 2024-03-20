@@ -4,7 +4,7 @@ import { Button, Input, Card} from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 import { twitterLogo } from "@assets/index"
 import { isUserLoggedIn, signInUser } from '@utils/index';
-import { google } from '@assets/index';
+import { github, google } from '@assets/index';
 
 const SignIn = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -43,9 +43,13 @@ const SignIn = () => {
           <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
           <h2 className="text-xl font-bold mb-6">Log In to Twitter</h2>
         </div>
-        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-5">
+        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-4">
           <img src={google} alt="logo" className="logo mr-2 w-5 h-5"/>
           Sign in with Google
+        </Button>
+        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-4">
+          <img src={github} alt="logo" className="logo mr-2 w-5 h-5"/>
+          Sign in with Github
         </Button>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
