@@ -15,11 +15,11 @@ export async function signInWithGoogle(): Promise<"success" | "error">{
     return "error";
   } else {
     //add user to database if not already there
-
-    return "success";
+    const result = await addUserToDatabase();
+    return result;
   }
 }
-  
+
 export async function signInWithGithub(): Promise<"success" | "error">{
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
@@ -29,10 +29,11 @@ export async function signInWithGithub(): Promise<"success" | "error">{
     return "error";
   } else {
     //add user to database if not already there
-    return "success";
+    const result = await addUserToDatabase();
+    return result;
   }
 }
-  
+
 export async function signOut(): Promise<"success" | "error">{
   const { error } = await supabase.auth.signOut()
 
@@ -53,7 +54,8 @@ export async function signUpNewUser(email: string, password: string): Promise<"s
     return "error";
   } else {
     //add user to database
-    return "success";
+    const result = await addUserToDatabase();
+    return result;
   }
 }
 
@@ -74,4 +76,29 @@ export async function signInUser(email: string, password: string): Promise<"succ
 export async function isUserLoggedIn(): Promise<boolean>{
   const { data: { user } } = await supabase.auth.getUser()
   return user ? true : false;
+}
+
+async function addUserToDatabase(){
+  //add user to database if not already there
+  const logged_user = await supabase.auth.getUser();
+  if (!logged_user.data.user) return "error";
+
+  //check if user is already in database
+  const { data: users, error: db_error } = await supabase.from('User').select().eq('auth_id', logged_user.data.user.id);
+  if (db_error) return "error";
+  if (users.length > 0) return "success";
+
+  const user = {
+    auth_id: logged_user.data.user.id,
+    Created_at: new Date().toISOString(),
+    Email: logged_user.data.user.email ? logged_user.data.user.email : "",
+    Name: logged_user.data.user.user_metadata.full_name,
+    Surname: logged_user.data.user.user_metadata.surname,
+    User_Id: undefined,
+    Username: logged_user.data.user.user_metadata.username,
+  };
+
+  await supabase.from('User').insert(user);
+
+  return "success";
 }

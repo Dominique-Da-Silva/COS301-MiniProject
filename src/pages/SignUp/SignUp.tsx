@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { isUserLoggedIn, signUpNewUser } from "@utils/index";
+import { isUserLoggedIn, signUpNewUser } from "@services/index";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 import {
   Button,
@@ -14,7 +14,6 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { github, google, twitterLogo } from "@assets/index";
-// import { supabase } from '@config/supabase';
 
 const SignUp = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -33,10 +32,6 @@ const SignUp = () => {
       navigate("/home"); // Redirect to home page if user is logged in
     }
   };
-
-  // const handleOnCreateAccount = () => {
-  //   navigate("/signup/flow/1");
-  // }
 
   useEffect(() => {
     // Create a new async function

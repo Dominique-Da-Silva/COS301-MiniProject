@@ -1,10 +1,9 @@
-// Login.js
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import { HomeImage } from '@components/index';
-// import { github, google } from '@assets/index';
+import { github, google } from '@assets/index';
 import { useEffect } from 'react';
-import { isUserLoggedIn, signInWithGithub, signInWithGoogle } from '@utils/index';
+import { isUserLoggedIn, signInWithGithub, signInWithGoogle } from '@services/index';
 
 const Login = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
