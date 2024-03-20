@@ -1,4 +1,4 @@
-// SignIn.js
+// Login.js
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import { HomeImage } from '@components/index';
@@ -6,7 +6,7 @@ import { HomeImage } from '@components/index';
 import { useEffect } from 'react';
 import { isUserLoggedIn, signInWithGithub, signInWithGoogle } from '@utils/index';
 
-const SignIn = () => {
+const Login = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
@@ -44,4 +44,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;
