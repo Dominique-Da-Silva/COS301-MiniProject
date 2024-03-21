@@ -4,7 +4,7 @@ import { isUserLoggedIn, signUpNewUser } from "@services/index";
 import { useNavigate, Link } from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
-import { twitterLogo } from "@assets/index";
+import { twitterLogo, chevron } from "@assets/index";
 
 import { SuggestedFollow, ProfilePictureSet, ExpectPassword, CodeSent, CreateAnAccount, SetUsername } from "@components/index";
 
@@ -114,14 +114,16 @@ const SignUp = () => {
           <div className=" mt-8">
             <div className="block text-black font-semibold">Date of birth</div>
           </div>
-          <div className="flex gap-9">
+          <div className="flex gap-2">
             <Dropdown>
               <DropdownTrigger>
                 <Button 
                   variant="bordered"
-                  className="capitalize"
+                  className="capitalize border border-gray-300"
+                  style={{ borderRadius: '5px', minWidth: '120px'}}
                 >
-                  {selectedMonth}
+                  <span>{selectedMonth}</span> 
+                  <img src={chevron} alt="chevron" className="w-4 h-4 ml-8" />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -143,9 +145,11 @@ const SignUp = () => {
               <DropdownTrigger>
                 <Button
                   variant="bordered"
-                  className="capitalize"
+                  className="capitalize border border-gray-300"
+                  style={{ borderRadius: '5px', minWidth: '70px'}}
                 >
-                  {selectedDay}
+                  <span>{selectedDay}</span>
+                  <img src={chevron} alt="chevron" className="w-4 h-4 ml-2" />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -165,9 +169,11 @@ const SignUp = () => {
               <DropdownTrigger>
                 <Button
                   variant="bordered"
-                  className="capitalize"
+                  className="capitalize border border-gray-300"
+                  style={{ borderRadius: '5px', minWidth: '110px'}}
                 >
-                  {selectedYear}
+                  <span>{selectedYear}</span>
+                  <img src={chevron} alt="chevron" className="w-4 h-4 ml-9" />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
