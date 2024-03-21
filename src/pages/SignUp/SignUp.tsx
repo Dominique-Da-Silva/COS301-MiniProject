@@ -84,7 +84,7 @@ const SignUp = () => {
   }, [navigate]);
 
   return (
-    <div className="flex items-center justify-center h-screen"> 
+    <div className="flex items-center justify-center h-screen bg-white"> 
       <Card shadow="sm" className="w-[400px] p-10">
         <div className="text-center">
           <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
@@ -104,14 +104,11 @@ const SignUp = () => {
           <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"> 
             <Input variant="underlined"
               type="password"
-              placeholder="Email/Phone number"
+              placeholder="Email"
               value={form.password}
               onChange={e => setForm({ ...form, password: e.target.value })}
               required
             />
-          </div>
-          <div className="text-center flex justify-between">
-            <div className="text-blue-500 hover:underline">Use email</div>
           </div>
           <div className=" mt-8">
             <div className="block text-black font-semibold">Date of birth</div>
