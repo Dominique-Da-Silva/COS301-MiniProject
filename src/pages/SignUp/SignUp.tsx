@@ -6,12 +6,29 @@ import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
 import { twitterLogo } from "@assets/index";
 
+import { SuggestedFollow, ProfilePictureSet, ExpectPassword, CodeSent, CreateAnAccount, SetUsername } from "@components/index";
+
 const SignUp = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [selectedMonth, setSelectedMonth] = useState("Month");
   const [selectedDay, setSelectedDay] = useState("Day");
   const [selectedYear, setSelectedYear] = useState("Year");
   // const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  //this is the new form that you shall use that will gradually be filled up as the user progresses through the flow
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    dob_month: "",
+    dob_day: "",
+    dob_year: "",
+    code: "",
+    password: "",
+    avatar: "",
+    username: ""
+  });
+  //snippet code of updating properties in this "userData" object
+  //setUserData({ ...userData, password: "new value here" })
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
