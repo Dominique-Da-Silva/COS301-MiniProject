@@ -131,6 +131,7 @@ const SignUp = () => {
                 selectionMode="single"
                 selectedKeys={selectedMonth}
                 onSelectionChange={setSelectedMonth}
+                className="max-h-40 overflow-y-auto"
               >
                 {monthItems.map(month => (
                 <DropdownItem key={month.key}>{month.label}</DropdownItem>
@@ -154,6 +155,7 @@ const SignUp = () => {
                 selectionMode="single"
                 selectedKeys={selectedDay}
                 onSelectionChange={setSelectedDay}
+                className="max-h-40 overflow-y-auto"
               >
                 {dayItems}
               </DropdownMenu>
@@ -175,6 +177,7 @@ const SignUp = () => {
                 selectionMode="single"
                 selectedKeys={selectedYear}
                 onSelectionChange={setSelectedYear}
+                className="max-h-40 overflow-y-auto"
               >
                 {yearItems}
               </DropdownMenu>
