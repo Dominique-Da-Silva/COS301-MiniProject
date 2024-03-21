@@ -35,7 +35,7 @@ const SignIn = () => {
   }, [navigate]);
 
   return (
-    <div className="flex items-center justify-center h-screen"> 
+    <div className="flex items-center justify-center h-screen bg-white"> 
       <Card shadow="sm" className="w-[400px] p-10">
         <div className="text-center">
           <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
