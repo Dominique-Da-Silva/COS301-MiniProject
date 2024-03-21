@@ -1,14 +1,44 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
+import React from "react";
 import { isUserLoggedIn, signUpNewUser } from "@services/index";
 import { useNavigate, Link } from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
 import { twitterLogo } from "@assets/index";
 
 const SignUp = () => {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [selectedMonth, setSelectedMonth] = useState("Month");
+  const [selectedDay, setSelectedDay] = useState("Day");
+  const [selectedYear, setSelectedYear] = useState("Year");
   // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const navigate = useNavigate(); // Initialize useNavigate hook
+
+  const yearItems = [];
+  for (let year = 1904; year <= 2024; year++) {
+    yearItems.push(<DropdownItem key={year.toString()}>{year.toString()}</DropdownItem>);
+  }
+
+  const dayItems = [];
+  for (let day = 1; day <= 31; day++) {
+  dayItems.push(<DropdownItem key={day.toString().padStart(2, '0')}>{day.toString().padStart(2, '0')}</DropdownItem>);
+  }
+
+  const monthItems = [
+    { key: "January", label: "January" },
+    { key: "February", label: "February" },
+    { key: "March", label: "March" },
+    { key: "April", label: "April" },
+    { key: "May", label: "May" },
+    { key: "June", label: "June" },
+    { key: "July", label: "July" },
+    { key: "August", label: "August" },
+    { key: "September", label: "September" },
+    { key: "October", label: "October" },
+    { key: "November", label: "November" },
+    { key: "December", label: "December" },
+  ];
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -65,6 +95,75 @@ const SignUp = () => {
           </div>
           <div className="text-center flex justify-between">
             <div className="text-blue-500 hover:underline">Use email</div>
+          </div>
+          <div className=" mt-8">
+            <div className="block text-black font-semibold">Date of birth</div>
+          </div>
+          <div className="flex gap-9">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button 
+                  variant="bordered"
+                  className="capitalize"
+                >
+                  {selectedMonth}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Month"
+                variant="flat"
+                disallowEmptySelection
+                selectionMode="single"
+                selectedKeys={selectedMonth}
+                onSelectionChange={setSelectedMonth}
+              >
+                {monthItems.map(month => (
+                <DropdownItem key={month.key}>{month.label}</DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  variant="bordered"
+                  className="capitalize"
+                >
+                  {selectedDay}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Day"
+                variant="flat"
+                disallowEmptySelection
+                selectionMode="single"
+                selectedKeys={selectedDay}
+                onSelectionChange={setSelectedDay}
+              >
+                {dayItems}
+              </DropdownMenu>
+            </Dropdown>
+
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  variant="bordered"
+                  className="capitalize"
+                >
+                  {selectedYear}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Year"
+                variant="flat"
+                disallowEmptySelection
+                selectionMode="single"
+                selectedKeys={selectedYear}
+                onSelectionChange={setSelectedYear}
+              >
+                {yearItems}
+              </DropdownMenu>
+            </Dropdown>
           </div>
           <Button radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
         </form>
