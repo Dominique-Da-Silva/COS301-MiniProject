@@ -16,7 +16,7 @@ const SignUp = () => {
   // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   //this is the new form that you shall use that will gradually be filled up as the user progresses through the flow
-  const [userData, setUserData] = useState({
+  const [user_data, setUserData] = useState({
     name: "",
     email: "",
     dob_month: "",
@@ -29,6 +29,7 @@ const SignUp = () => {
   });
   //snippet code of updating properties in this "userData" object
   //setUserData({ ...userData, password: "new value here" })
+  const [flow_page, setFlowPage] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
