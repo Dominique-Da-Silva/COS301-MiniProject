@@ -1,4 +1,5 @@
 import { supabase } from "@config/supabase";
+import { uploadProfile } from "@services/index";
 
 export async function signInWithGoogle(): Promise<"success" | "error">{
   const { error } = await supabase.auth.signInWithOAuth({
@@ -44,15 +45,41 @@ export async function signOut(): Promise<"success" | "error">{
   }
 }
 
-export async function signUpNewUser(email: string, password: string): Promise<"success" | "error">{
+export async function signUpNewUser(user_data: {
+  name: string,
+  email: string,
+  dob_month: string,
+  dob_day: string,
+  dob_year: string,
+  password: string,
+  avatar: string,
+  username: string
+}): Promise<"success" | "error">{
   const { error } = await supabase.auth.signUp({
-    email,
-    password,
+    email: user_data.email,
+    password: user_data.password,
   })
 
   if (error) {
     return "error";
   } else {
+    //add user to database if not already there
+    const logged_user = await supabase.auth.getUser();
+    if (!logged_user.data.user) return "error";
+
+    //update user metadata
+    await supabase.auth.updateUser({
+      data: { 
+        full_name: user_data.name,
+        username: user_data.username,
+        dob: `${user_data.dob_year}-${user_data.dob_month}-${user_data.dob_day}`
+      }
+    })
+
+    //upload avatar to storage
+    const res = await uploadProfile(user_data.avatar);
+    if (res === "error") return "error";
+
     //add user to database
     const result = await addUserToDatabase();
     return result;
