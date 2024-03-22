@@ -1,3 +1,3 @@
-import { sum } from "./utils/utils";
+import { sum, createDateObject } from "./utils/utils";
 
-export { sum };
+export { sum, createDateObject };

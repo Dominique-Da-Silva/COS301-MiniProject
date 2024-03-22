@@ -7,6 +7,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-or
 import { twitterLogo, chevron } from "@assets/index";
 
 import { SuggestedFollow, ProfilePictureSet, ExpectPassword, CodeSent, CreateAnAccount, SetUsername } from "@components/index";
+import { createDateObject } from '@utils/index';
 
 const SignUp = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -19,9 +20,7 @@ const SignUp = () => {
   const [user_data, setUserData] = useState({
     name: "",
     email: "",
-    dob_month: "January",
-    dob_day: "1",
-    dob_year: "1904",
+    dob: createDateObject(),
     code: "",//idk about this one so just don't use it for now
     password: "",
     username: ""

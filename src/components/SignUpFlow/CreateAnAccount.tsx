@@ -1,12 +1,11 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { createDateObject } from '@utils/index';
 
 type Props = {
     send: (form: {
         name: string,
         email: string,
-        dob_month: string,
-        dob_day: string,
-        dob_year: string,
+        dob: Date
     }) => void;
 }
 
@@ -14,9 +13,7 @@ const CreateAnAccount = (props: Props) => {
     const [form, setForm] = useState({
         name: "",
         email: "",
-        dob_month: "",
-        dob_day: "",
-        dob_year: "",
+        dob: new Date()
     });
 
     function next(){

@@ -49,9 +49,7 @@ export async function signOut(): Promise<"success" | "error">{
 export async function signUpNewUser(user_data: {
   name: string,
   email: string,
-  dob_month: string,
-  dob_day: string,
-  dob_year: string,
+  dob: Date
   password: string,
   username: string
 }): Promise<"success" | "error">{
@@ -62,7 +60,7 @@ export async function signUpNewUser(user_data: {
       data: {
         first_name: user_data.name,
         username: user_data.username,
-        dob: new Date(`${user_data.dob_month} ${user_data.dob_day}, ${user_data.dob_year}`).toISOString(),
+        dob: user_data.dob,
       }
     }
   })
