@@ -1,156 +1,157 @@
 import { Tweet, TrendingTopics , WhoToFollow , SideNavbar , CreateTweet } from "@components/index";
 import React,{useState,useEffect} from "react";
-import {supabase} from '@config/supabase';
+//import {supabase} from '@config/supabase';
 import "./HomePage.css";
+import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
 interface HomePageProps {}
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const [tweets, setTweets] = useState<any[]>([]);
-  const [users, setUsers] = useState<any[]>([]);
-  const [savesCount, setSavesCount] = useState<any>({});
-  const [commentsCount, setCommentsCount] = useState<any>({});
-  const [retweetsCount, setRetweetsCount] = useState<any>({});
-  const [likesCount, setLikesCount] = useState<any>({});
+  const [tweets, setTweets] = useState<any[]>(mockTweets);
+  const [users,setUsers] = useState<any[]>(mockUsers);
+  const [savesCount, setSavesCount] = useState<any>(mockSavesCount);
+  const [commentsCount, setCommentsCount] = useState<any>(mockCommentsCount);
+  const [retweetsCount, setRetweetsCount] = useState<any>(mockRetweetsCount);
+  const [likesCount, setLikesCount] = useState<any>(mockLikesCount);
   
 
   // FETCHING THE TWEETS FROM TWEETS TABLE
-  useEffect(() => {
-    const fetchTweets = async () => {
-      try {
-        const { data: tweetsData, error } = await supabase.from('Tweets').select('*');
-        if (error) {
-          throw error;
-        }
-        //console.log(tweetsData);
-        setTweets(tweetsData);
-      } catch (error) {
-        console.error('Error fetching tweets:', error);
-      }
-    };
+  // useEffect(() => {
+    // const fetchTweets = async () => {
+    //   try {
+    //     const { data: tweetsData, error } = await supabase.from('Tweets').select('*');
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     //console.log(tweetsData);
+    //     setTweets(tweetsData);
+    //   } catch (error) {
+    //     console.error('Error fetching tweets:', error);
+    //   }
+    // };
 
     // FETCHING THE USERS FROM THE USER TABLE
-    const fetchUsers = async () => {
-      try {
-        const { data: usersData, error } = await supabase.from('User').select('*');
-        if (error) {
-          throw error;
-        }
-        //console.log(usersData);
-        setUsers(usersData);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
+    // const fetchUsers = async () => {
+    //   try {
+    //     const { data: usersData, error } = await supabase.from('User').select('*');
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     //console.log(usersData);
+    //     setUsers(usersData);
+    //   } catch (error) {
+    //     console.error('Error fetching users:', error);
+    //   }
+    // };
 
     // FETCHING & COUNTING THE NUMBER OF SAVES FOR INDIVIDUAL TWEET
-    const fetchSavesCount = async () => {
-      try {
-        const { data: savesCountData, error } = await supabase.from('Saves').select('*');
-        if (error) {
-          throw error;
-        }
-        console.log('Saves count data:', savesCountData);
+    // const fetchSavesCount = async () => {
+    //   try {
+    //     const { data: savesCountData, error } = await supabase.from('Saves').select('*');
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     console.log('Saves count data:', savesCountData);
 
-        const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
-        savesCountData.forEach(row => {
-          const tweetId = row.Tweet_Id;
-          if (tweetId in countMap) {
-            countMap[tweetId]++;  
-          } else {
-            countMap[tweetId] = 1;
-          }
-        });
-        setSavesCount(countMap);
+    //     const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
+    //     savesCountData.forEach(row => {
+    //       const tweetId = row.Tweet_Id;
+    //       if (tweetId in countMap) {
+    //         countMap[tweetId]++;  
+    //       } else {
+    //         countMap[tweetId] = 1;
+    //       }
+    //     });
+    //     setSavesCount(countMap);
 
-      } catch (error) {
-        console.error('Error fetching saves count:', error);
-      }
-    };
+    //   } catch (error) {
+    //     console.error('Error fetching saves count:', error);
+    //   }
+    // };
 
-    // FETCHING & COUNTING THE NUMBER OF COMMENTS FOR INDIVIDUAL TWEET
-    const fetchCommentsCount = async () => {
-      try {
-        const { data: commentsCountData, error } = await supabase.from('Comments').select('*');
-        if (error) {
-          throw error;
-        }
-        console.log('Comments count data:', commentsCountData);
+    // // FETCHING & COUNTING THE NUMBER OF COMMENTS FOR INDIVIDUAL TWEET
+    // const fetchCommentsCount = async () => {
+    //   try {
+    //     const { data: commentsCountData, error } = await supabase.from('Comments').select('*');
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     console.log('Comments count data:', commentsCountData);
 
-        const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
-        commentsCountData.forEach(row => {
-          const tweetId = row.Tweet_Id;
-          if (tweetId in countMap) {
-            countMap[tweetId]++;
-          } else {
-            countMap[tweetId] = 1;
-          }
-        });
-        setCommentsCount(countMap);
-      } catch (error) {
-        console.error('Error fetching comments count:', error);
-      }
-    };
+    //     const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
+    //     commentsCountData.forEach(row => {
+    //       const tweetId = row.Tweet_Id;
+    //       if (tweetId in countMap) {
+    //         countMap[tweetId]++;
+    //       } else {
+    //         countMap[tweetId] = 1;
+    //       }
+    //     });
+    //     setCommentsCount(countMap);
+    //   } catch (error) {
+    //     console.error('Error fetching comments count:', error);
+    //   }
+    // };
 
-    // FETCHING & COUNTING THE NUMBER OF RETWEETS FOR INDIVIDUAL TWEET
-    const fetchRetweetsCount = async () => {
-      try {
-        const { data: retweetsCountData, error } = await supabase.from('Retweets').select('*');
-        if (error) {
-          throw error;
-        }
-        console.log('Retweets count data:', retweetsCountData);
+    // // FETCHING & COUNTING THE NUMBER OF RETWEETS FOR INDIVIDUAL TWEET
+    // const fetchRetweetsCount = async () => {
+    //   try {
+    //     const { data: retweetsCountData, error } = await supabase.from('Retweets').select('*');
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     console.log('Retweets count data:', retweetsCountData);
 
-        const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
-        retweetsCountData.forEach(row => {
-          const tweetId = row.Tweet_Id;
-          if (tweetId in countMap) {
-            countMap[tweetId]++;  
-          } else {
-            countMap[tweetId] = 1;
-          }
-        });
-        setRetweetsCount(countMap);
+    //     const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
+    //     retweetsCountData.forEach(row => {
+    //       const tweetId = row.Tweet_Id;
+    //       if (tweetId in countMap) {
+    //         countMap[tweetId]++;  
+    //       } else {
+    //         countMap[tweetId] = 1;
+    //       }
+    //     });
+    //     setRetweetsCount(countMap);
 
-      } catch (error) {
-        console.error('Error fetching retweets count:', error);
-      }
-    };
+    //   } catch (error) {
+    //     console.error('Error fetching retweets count:', error);
+    //   }
+    // };
 
 
-    // FETCHING & COUNTING THE NUMBER OF LIKES FOR INDIVIDUAL TWEET
-    const fetchLikesCount = async () => {
-      try {
-        const { data: likesCountData, error } = await supabase.from('Likes').select('*');
-        if (error) {
-          throw error;
-        }
-        console.log('Likes count data:', likesCountData);
+    // // FETCHING & COUNTING THE NUMBER OF LIKES FOR INDIVIDUAL TWEET
+    // const fetchLikesCount = async () => {
+    //   try {
+    //     const { data: likesCountData, error } = await supabase.from('Likes').select('*');
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     console.log('Likes count data:', likesCountData);
 
-        const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
-        likesCountData.forEach(row => {
-          const tweetId = row.Tweet_Id;
-          if (tweetId in countMap) {
-            countMap[tweetId]++;  
-          } else {
-            countMap[tweetId] = 1;
-          }
-        });
-        setLikesCount(countMap);
+    //     const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
+    //     likesCountData.forEach(row => {
+    //       const tweetId = row.Tweet_Id;
+    //       if (tweetId in countMap) {
+    //         countMap[tweetId]++;  
+    //       } else {
+    //         countMap[tweetId] = 1;
+    //       }
+    //     });
+    //     setLikesCount(countMap);
 
-      } catch (error) {
-        console.error('Error fetching likes count:', error);
-      }
-    };
+    //   } catch (error) {
+    //     console.error('Error fetching likes count:', error);
+    //   }
+    // };
 
-    // Call both fetch functions when the component mounts
-    fetchTweets();
-    fetchUsers();
-    fetchSavesCount();
-    fetchCommentsCount();
-    fetchRetweetsCount();
-    fetchLikesCount();
-  }, []);
+    // // Call both fetch functions when the component mounts
+    // // fetchTweets();
+    // // fetchUsers();
+    // fetchSavesCount();
+    // fetchCommentsCount();
+    // fetchRetweetsCount();
+    // fetchLikesCount();
+  // }, []);
   
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
