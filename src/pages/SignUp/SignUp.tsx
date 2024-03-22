@@ -9,28 +9,23 @@ import { twitterLogo, chevron } from "@assets/index";
 import { SuggestedFollow, ProfilePictureSet, ExpectPassword, CodeSent, CreateAnAccount, SetUsername } from "@components/index";
 import { createDateObject } from '@utils/index';
 
-const SignUp = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+
+//The Name, Email and Date Capture
+const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
+
+
   const [selectedMonth, setSelectedMonth] = useState("Month");
   const [selectedDay, setSelectedDay] = useState("Day");
   const [selectedYear, setSelectedYear] = useState("Year");
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  //this is the new form that you shall use that will gradually be filled up as the user progresses through the flow
-  const [user_data, setUserData] = useState({
-    name: "",
-    email: "",
-    dob: createDateObject(),
-    code: "",//idk about this one so just don't use it for now
-    password: "",
-    username: ""
-  });
-  //snippet code of updating properties in this "userData" object
-  //setUserData({ ...userData, password: "new value here" })
-  const [flow_page, setFlowPage] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
 
-  const navigate = useNavigate(); // Initialize useNavigate hook
 
+  const handleNextPressed = () => {
+    console.table(formData);
+
+    setFlowPage(2);
+  }
+  
   const yearItems = [];
   for (let year = 1904; year <= 2024; year++) {
     yearItems.push(<DropdownItem key={year.toString()}>{year.toString()}</DropdownItem>);
@@ -38,7 +33,7 @@ const SignUp = () => {
 
   const dayItems = [];
   for (let day = 1; day <= 31; day++) {
-  dayItems.push(<DropdownItem key={day.toString().padStart(2, '0')}>{day.toString().padStart(2, '0')}</DropdownItem>);
+    dayItems.push(<DropdownItem key={day.toString().padStart(2, '0')}>{day.toString().padStart(2, '0')}</DropdownItem>);
   }
 
   const monthItems = [
@@ -56,49 +51,29 @@ const SignUp = () => {
     { key: "December", label: "December" },
   ];
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await signUpNewUser(user_data);
-  };
-
-  useEffect(() => {
-    // Create a new async function
-    const checkUser = async () => {
-      // Check if user is already logged in
-      const result = await isUserLoggedIn();
-      if (result) {
-        navigate("/home");
-      }
-    };
-
-    // Call the async function
-    checkUser();
-  }, []);
-
   return (
-    <div className="flex items-center justify-center h-screen bg-white"> 
-      <Card shadow="sm" className="w-[400px] p-10">
+    <Card shadow="sm" className="w-[400px] p-10">
         <div className="text-center">
           <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
           <h2 className="text-xl font-bold mb-6">Create an account</h2>
         </div>
-        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4 pt-2">
+        <form className="w-full flex flex-col gap-4 pt-2">
           <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
             <Input 
               variant="underlined"
-              type="email"
+              type="text"
               placeholder="Name"
-              value={form.email}
-              onChange={e => setForm({ ...form, email: e.target.value })}
+              value={formData.name}
+              onChange={e => setFormData({ ...formData, name: e.target.value })}
               required
             />
           </div>
           <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4"> 
             <Input variant="underlined"
-              type="password"
+              type="email"
               placeholder="Email"
-              value={form.password}
-              onChange={e => setForm({ ...form, password: e.target.value })}
+              value={formData.email}
+              onChange={e => setFormData({ ...formData, email: e.target.value })}
               required
             />
           </div>
@@ -180,9 +155,117 @@ const SignUp = () => {
               </DropdownMenu>
             </Dropdown>
           </div>
-          <Button radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
+          <Button onPress={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
         </form>
       </Card>
+  )
+}
+
+
+//the create password flow
+const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
+
+  const handleNextPressed = () => {
+    //todo: create supabase user here
+    // supabase.auth.s
+
+    setFlowPage(3);
+  }
+
+  return (
+    <Card shadow="sm" className="w-[400px] p-10">
+        <div className="text-center">
+          <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
+          <h2 className="text-xl font-bold mb-6">You'll need a password</h2>
+        </div>
+        <form className="w-full flex flex-col gap-4 pt-2">
+          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+            <Input 
+              variant="underlined"
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={e => setFormData({ ...formData, password: e.target.value })}
+              required
+            />
+          </div>
+          <Button onPress={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
+        </form>
+      </Card>
+  )
+}
+
+
+
+
+
+const SignUp = () => {
+  //this is the new form that you shall use that will gradually be filled up as the user progresses through the flow
+  //avatar should be uploaded straight to supabase bucket
+  const [formData, setFormData] = useState({ 
+    name: "",
+    email: "", 
+    password: "",
+    username: "",
+    birthdate: new Date(),
+    
+  });
+  
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  
+  //snippet code of updating properties in this "userData" object
+  //setUserData({ ...userData, password: "new value here" })
+  const [flowPage, setFlowPage] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+
+  //   const status = await signUpNewUser(form.email, form.password);
+
+  //   if (status === "error") {
+  //     console.error("Error signing up");
+  //   } else {
+  //     navigate("/home"); // Redirect to home page if user is logged in
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   // Create a new async function
+  //   const checkUser = async () => {
+  //     // Check if user is already logged in
+  //     const result = await isUserLoggedIn();
+  //     if (result) {
+  //       navigate("/profile"); // Redirect to profile page if user is logged in
+  //     }
+  //   };
+
+  //   // Call the async function
+  //   checkUser();
+  // }, [navigate]);
+
+
+  const DisplayPage = () => {
+    if (flowPage === 1){
+      return <Flow1 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow1>;
+    }else if (flowPage === 2){
+      return <Flow2 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow2>;
+    } else if (flowPage === 3){
+      return <div>Flow 3</div>
+    }else if (flowPage === 4){
+      return <div>Flow 4</div>
+    }else if (flowPage === 5){
+      return <div>Flow 5</div>
+    }
+  }
+
+
+  return (
+    <div className="flex items-center justify-center h-screen bg-white"> 
+      {DisplayPage()}
     </div>
   );
 };
