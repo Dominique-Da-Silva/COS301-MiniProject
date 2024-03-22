@@ -15,27 +15,27 @@ const Nav = () => {
         <FaTwitter className="w-10 h-10"/>
       </div>
       
-      <div className="sidebar-item font-semibold">
+      <div className="sidebar-item font-medium">
         <GoHomeFill className="w-8 h-8" />
         Home
       </div>
-      <div className="sidebar-item font-semibold">
+      <div className="sidebar-item font-normal">
         <IoSearch size={30} />
         Explore
       </div>
-      <div className="sidebar-item font-semibold">
+      <div className="sidebar-item font-normal">
         <PiBellBold radius="md" className='p-0 m-0' />
         Notifications
       </div>
-      <div className="sidebar-item font-semibold">
+      <div className="sidebar-item font-normal">
         <FaRegBookmark size={30} />
         Bookmarks
       </div>
-      <div className="sidebar-item font-semibold">
+      <div className="sidebar-item font-normal">
         <FaRegUserCircle size={30} />
         Profile
       </div>
-      <div className="sidebar-item font-semibold">
+      <div className="sidebar-item font-normal">
         <FiSettings size={30} />
         Settings
       </div>

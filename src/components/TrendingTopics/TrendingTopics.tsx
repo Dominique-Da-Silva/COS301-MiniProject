@@ -43,11 +43,11 @@ const TrendingTopics: React.FC<TrendingTopicsProps> = () => {
       </CardHeader>
       <Divider/>
       <CardBody>
-      <div className="space-y-4">
+        <div className="space-y-4 items-center">
           {" "}
           {topics.map((topic: Topic) => (
-            <div key={topic.name} className="flex-col items-center">
-              <div className="flex">
+            <div key={topic.name} className="flex- col">
+              <div className="flex items-center">
                 <div className="ml-4">
                 <img
                   src={topic.avatarUrl}
@@ -67,7 +67,6 @@ const TrendingTopics: React.FC<TrendingTopicsProps> = () => {
               <Divider/>
             </div>
           ))}
-          
         </div>
       </CardBody>
       <Divider/>
