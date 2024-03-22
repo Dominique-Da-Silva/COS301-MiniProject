@@ -1,7 +1,7 @@
 import { useEffect, useState} from "react";
 import React from "react";
 import { isUserLoggedIn, signUpNewUser } from "@services/index";
-import { useNavigate, Link } from "react-router-dom"; // Import useNavigate hook
+import { useNavigate} from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
 import { twitterLogo, chevron } from "@assets/index";
@@ -21,6 +21,8 @@ const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
 
 
   const handleNextPressed = () => {
+
+    // setFormData({...formData, birthdate: new Date(selectedYear ,selectedMonth, selectedDay) })
     console.table(formData);
 
     setFlowPage(2);
@@ -178,7 +180,7 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
           <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
           <h2 className="text-xl font-bold mb-6">You'll need a password</h2>
         </div>
-        <form className="w-full flex flex-col gap-4 pt-2">
+        <form className="w-full flex flex-col gap-10 pt-2">
           <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
             <Input 
               variant="underlined"
@@ -188,16 +190,28 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
               onChange={e => setFormData({ ...formData, password: e.target.value })}
               required
             />
-          </div>
+          </div >
+          <p className="text-xs text-center mt-12">
+            <span>
+              By singing up you agree to the{' '}
+              <a href="https://twitter.com/en/tos" className="text-blue-500 hover:underline">
+                Terms of Service
+              </a>{' '}
+              and{' '}
+              <a href="https://twitter.com/en/privacy" className="text-blue-500 hover:underline">
+                Privacy Policy
+              </a>
+              , including{' '}
+              <a href="https://help.twitter.com/en/rules-and-policies/x-cookies" className="text-blue-500 hover:underline">
+                Cookie Use
+              </a>
+            </span>
+          </p>
           <Button onPress={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
         </form>
       </Card>
   )
 }
-
-
-
-
 
 const SignUp = () => {
   //this is the new form that you shall use that will gradually be filled up as the user progresses through the flow
