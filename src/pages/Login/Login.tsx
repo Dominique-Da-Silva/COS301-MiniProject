@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-//import { supabase } from "@config/supabase";
+import { supabase } from "@config/supabase";
 import { loggedInUserStore } from '@store/index';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import { Button, Input, Card} from '@nextui-org/react';

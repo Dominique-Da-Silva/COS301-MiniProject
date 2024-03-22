@@ -1,6 +1,6 @@
 import { useState } from 'react';
-//import { supabase } from "@config/supabase";
-//import { loggedInUserStore } from '@store/index';
+import { supabase } from "@config/supabase";
+import { loggedInUserStore } from '@store/index';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
