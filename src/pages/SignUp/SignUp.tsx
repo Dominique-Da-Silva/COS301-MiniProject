@@ -22,9 +22,8 @@ const SignUp = () => {
     dob_month: "January",
     dob_day: "1",
     dob_year: "1904",
-    code: "",
+    code: "",//idk about this one so just don't use it for now
     password: "",
-    avatar: null,
     username: ""
   });
   //snippet code of updating properties in this "userData" object

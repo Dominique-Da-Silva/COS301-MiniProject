@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { uploadProfile } from "@services/index";
 
-type Props = {
-    getAvatar: (img: File | null) => void;
+interface Props {
+    next: () => void;
 }
 
 const ProfilePictureSet = (props: Props) => {
@@ -12,7 +13,12 @@ const ProfilePictureSet = (props: Props) => {
         setAvatar(e.target.files[0]);
     }
 
-    function next(){ props.getAvatar(avatar); }
+    async function next(){ 
+        if(avatar === null) return;
+        const result = await uploadProfile(avatar);
+        if(result === "error") return;
+        props.next();
+    }
 
     return (
         <div>ProfilePictureSet</div>
