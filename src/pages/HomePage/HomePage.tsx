@@ -1,19 +1,27 @@
 import { Tweet, TrendingTopics , WhoToFollow , SideNavbar , CreateTweet } from "@components/index";
-import React,{useState,useEffect} from "react";
+// import React,{useState,useEffect} from "react";
+import React,{useState} from "react";
 //import {supabase} from '@config/supabase';
 import "./HomePage.css";
 import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
 interface HomePageProps {}
 
-const HomePage: React.FC<HomePageProps> = () => {
-  const [tweets, setTweets] = useState<any[]>(mockTweets);
-  const [users,setUsers] = useState<any[]>(mockUsers);
-  const [savesCount, setSavesCount] = useState<any>(mockSavesCount);
-  const [commentsCount, setCommentsCount] = useState<any>(mockCommentsCount);
-  const [retweetsCount, setRetweetsCount] = useState<any>(mockRetweetsCount);
-  const [likesCount, setLikesCount] = useState<any>(mockLikesCount);
+// const HomePage: React.FC<HomePageProps> = () => {
+//   const [tweets, setTweets] = useState<any[]>({});
+//   const [users,setUsers] = useState<any[]>({});
+//   const [savesCount, setSavesCount] = useState<any>({});
+//   const [commentsCount, setCommentsCount] = useState<any>({});
+//   const [retweetsCount, setRetweetsCount] = useState<any>({});
+//   const [likesCount, setLikesCount] = useState<any>({});
   
+const HomePage: React.FC<HomePageProps> = () => {
+  const [tweets] = useState<any[]>(mockTweets);
+  const [users] = useState<any[]>(mockUsers);
+  const [savesCount] = useState<any>(mockSavesCount);
+  const [commentsCount] = useState<any>(mockCommentsCount);
+  const [retweetsCount] = useState<any>(mockRetweetsCount);
+  const [likesCount] = useState<any>(mockLikesCount);
 
   // FETCHING THE TWEETS FROM TWEETS TABLE
   // useEffect(() => {
