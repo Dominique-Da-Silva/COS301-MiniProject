@@ -19,12 +19,12 @@ const SignUp = () => {
   const [user_data, setUserData] = useState({
     name: "",
     email: "",
-    dob_month: "",
-    dob_day: "",
-    dob_year: "",
+    dob_month: "January",
+    dob_day: "1",
+    dob_year: "1904",
     code: "",
     password: "",
-    avatar: "",
+    avatar: null,
     username: ""
   });
   //snippet code of updating properties in this "userData" object
@@ -60,7 +60,7 @@ const SignUp = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await signUpNewUser(form.email, form.password);
+    await signUpNewUser(user_data);
   };
 
   useEffect(() => {

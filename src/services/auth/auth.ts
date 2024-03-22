@@ -54,12 +54,19 @@ export async function signUpNewUser(user_data: {
   dob_day: string,
   dob_year: string,
   password: string,
-  avatar: string,
+  avatar: File | null,
   username: string
 }): Promise<"success" | "error">{
   const { error } = await supabase.auth.signUp({
     email: user_data.email,
     password: user_data.password,
+    options: {
+      data: {
+        first_name: user_data.name,
+        username: user_data.username,
+        dob: new Date(`${user_data.dob_month} ${user_data.dob_day}, ${user_data.dob_year}`).toISOString(),
+      }
+    }
   })
 
   if (error) {
@@ -70,8 +77,9 @@ export async function signUpNewUser(user_data: {
     if (!logged_user.data.user) return "error";
 
     //upload avatar to storage
-    const res = await uploadProfile(user_data.avatar);
-    if (res === "error") return "error";
+    if(user_data.avatar !== null){
+      await uploadProfile(user_data.avatar);
+    }
 
     //add user to database
     const user = {

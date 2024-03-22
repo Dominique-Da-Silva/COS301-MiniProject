@@ -1,6 +1,6 @@
 import { supabase } from '@config/supabase'
 
-export async function uploadProfile(file: string) {
+export async function uploadProfile(file: File) {
     //get current users id
     const user = await supabase.auth.getUser();
     if (!user.data.user) return;

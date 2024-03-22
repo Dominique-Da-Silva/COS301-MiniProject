@@ -1,22 +1,15 @@
 import { useState } from "react";
 
 type Props = {
-    getAvatar: (img: any) => void;
+    getAvatar: (img: File | null) => void;
 }
 
 const ProfilePictureSet = (props: Props) => {
-    const [avatar, setAvatar] = useState<string>("");
+    const [avatar, setAvatar] = useState<File | null>(null);
 
     function captureImage(e: React.ChangeEvent<HTMLInputElement>) {
         if(e.target.files === null)return;
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            if(e.target?.result) {
-                setAvatar(e.target.result as string);
-            }
-        }
-        reader.readAsDataURL(file);
+        setAvatar(e.target.files[0]);
     }
 
     function next(){ props.getAvatar(avatar); }
