@@ -1,12 +1,13 @@
-import { Tweet, TrendingTopics , CreateTweet, Nav, Search } from "@components/index";
+import {  TrendingTopics , CreateTweet, Nav, Search } from "@components/index";
+// import { Tweet } from "@components/index" 
 import {Tabs, Tab} from "@nextui-org/react";
-import React,{useState,useEffect} from "react";
-import {supabase} from '@config/supabase';
+// import React,{useState,useEffect} from "react";
+// import {supabase} from '@config/supabase';
 import "./HomePage.css";
 
-interface HomePageProps {}
+// interface HomePageProps {}
 
-const HomePage: React.FC<HomePageProps> = () => {
+// const HomePage: React.FC<HomePageProps> = () => {
   // const [tweets, setTweets] = useState<any[]>([]);
   // const [users, setUsers] = useState<any[]>([]);
   // const [savesCount, setSavesCount] = useState<any>({});
@@ -202,6 +203,8 @@ const HomePage: React.FC<HomePageProps> = () => {
   // };
 
   // TWEET DISPLAY
+
+const HomePage = () => {
   return (
     <div className="container flex">
       <div className="nav w-1/5 ml-24 mr-1">
