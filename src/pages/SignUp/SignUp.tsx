@@ -60,14 +60,7 @@ const SignUp = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const status = await signUpNewUser(form.email, form.password);
-
-    if (status === "error") {
-      console.error("Error signing up");
-    } else {
-      navigate("/home"); // Redirect to home page if user is logged in
-    }
+    await signUpNewUser(form.email, form.password);
   };
 
   useEffect(() => {
@@ -76,13 +69,13 @@ const SignUp = () => {
       // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (result) {
-        navigate("/profile"); // Redirect to profile page if user is logged in
+        navigate("/home");
       }
     };
 
     // Call the async function
     checkUser();
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="flex items-center justify-center h-screen bg-white"> 

@@ -10,15 +10,19 @@ const SignIn = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const status = await signInUser(form.email, form.password);
-
-    if (status === "error") {
-      console.error('Error signing up');
-    } else {
-      navigate('/home'); // Redirect to home page if user is logged in
-    }
+    await signInUser(form.email, form.password);
+    navigate('/home');
   };
+
+  const signInWithProvider = async (provider: 'google' | 'github') => {
+    if (provider === 'google') {
+        await signInWithGoogle();
+        navigate('/home');
+    } else {
+        await signInWithGithub();
+        navigate('/home');
+    }
+  }
 
   useEffect(() => {
     // Create a new async function
@@ -26,13 +30,13 @@ const SignIn = () => {
       // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (result) {
-        navigate('/profile'); // Redirect to profile page if user is logged in
+        navigate('/home');
       }
     };
   
     // Call the async function
     checkUser();
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="flex items-center justify-center h-screen bg-white"> 
@@ -41,11 +45,11 @@ const SignIn = () => {
           <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
           <h2 className="text-xl font-bold mb-6">Log In to Twitter</h2>
         </div>
-        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-4">
+        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-4" onClick={() => signInWithProvider("google")}>
           <img src={google} alt="logo" className="logo mr-2 w-5 h-5"/>
           Sign in with Google
         </Button>
-        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-1">
+        <Button radius="full" className="bg-transparent border flex items-center justify-center mb-1" onClick={() => signInWithProvider("github")}>
           <img src={github} alt="logo" className="logo mr-2 w-5 h-5"/>
           Sign in with Github
         </Button>

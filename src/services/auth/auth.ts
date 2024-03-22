@@ -17,6 +17,7 @@ export async function signInWithGoogle(): Promise<"success" | "error">{
   } else {
     //add user to database if not already there
     const result = await addUserToDatabase();
+    if (result === "error") await signOut();
     return result;
   }
 }
@@ -31,6 +32,7 @@ export async function signInWithGithub(): Promise<"success" | "error">{
   } else {
     //add user to database if not already there
     const result = await addUserToDatabase();
+    if (result === "error") await signOut();
     return result;
   }
 }
@@ -67,22 +69,28 @@ export async function signUpNewUser(user_data: {
     const logged_user = await supabase.auth.getUser();
     if (!logged_user.data.user) return "error";
 
-    //update user metadata
-    await supabase.auth.updateUser({
-      data: { 
-        full_name: user_data.name,
-        username: user_data.username,
-        dob: `${user_data.dob_year}-${user_data.dob_month}-${user_data.dob_day}`
-      }
-    })
-
     //upload avatar to storage
     const res = await uploadProfile(user_data.avatar);
     if (res === "error") return "error";
 
     //add user to database
-    const result = await addUserToDatabase();
-    return result;
+    const user = {
+      auth_id: logged_user.data.user.id,
+      Created_at: new Date().toISOString(),
+      Email: user_data.email,
+      Name: user_data.name,
+      Surname: "",
+      User_Id: undefined,
+      Username: user_data.username,
+    };
+  
+    const result = await supabase.from('User').insert(user);
+    if (result.error){ 
+      await signOut();
+      return "error";
+    }
+
+    return "success";
   }
 }
 
@@ -101,8 +109,18 @@ export async function signInUser(email: string, password: string): Promise<"succ
 }
 
 export async function isUserLoggedIn(): Promise<boolean>{
-  const { data: { user } } = await supabase.auth.getUser()
-  return user ? true : false;
+  const { data } = await supabase.auth.getSession();
+  return data.session !== null;
+}
+
+export async function doesLoggedUserExistInDatabase() : Promise<boolean>{
+  const logged_user = await supabase.auth.getUser();
+  if (!logged_user.data.user) return false;
+
+  //check if user is already in database by counting the number of users with the same auth_id
+  const { count, error } = await supabase.from('User').select('*', { count: 'exact', head: true }).eq('auth_id', logged_user.data.user.id);
+  if (error || count === null) return false;
+  return count > 0;
 }
 
 async function addUserToDatabase(){
@@ -110,22 +128,23 @@ async function addUserToDatabase(){
   const logged_user = await supabase.auth.getUser();
   if (!logged_user.data.user) return "error";
 
-  //check if user is already in database
-  const { data: users, error: db_error } = await supabase.from('User').select().eq('auth_id', logged_user.data.user.id);
-  if (db_error) return "error";
-  if (users.length > 0) return "success";
+  //check if user is already in database by counting the number of users with the same auth_id
+  const existing_user = await doesLoggedUserExistInDatabase();
+  if (existing_user) return "success";
 
   const user = {
     auth_id: logged_user.data.user.id,
     Created_at: new Date().toISOString(),
     Email: logged_user.data.user.email ? logged_user.data.user.email : "",
-    Name: logged_user.data.user.user_metadata.full_name,
-    Surname: logged_user.data.user.user_metadata.surname,
+    Name: logged_user.data.user.user_metadata.full_name ? logged_user.data.user.user_metadata.full_name : "",
+    Surname: logged_user.data.user.user_metadata.surname ? logged_user.data.user.user_metadata.surname : "",
     User_Id: undefined,
-    Username: logged_user.data.user.user_metadata.username,
+    Username: logged_user.data.user.user_metadata.full_name ? logged_user.data.user.user_metadata.full_name : "",
   };
 
-  await supabase.from('User').insert(user);
+  const res = await supabase.from('User').insert(user);
+
+  if (res.error) return "error";
 
   return "success";
 }

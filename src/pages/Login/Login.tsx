@@ -14,13 +14,13 @@ const Login = () => {
       // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (result) {
-        navigate('/profile'); // Redirect to profile page if user is logged in
+        navigate('/home');
       }
     };
   
     // Call the async function
     checkUser();
-  }, [navigate]);
+  }, []);
   
   return (
     <div className='pageContainer'>
