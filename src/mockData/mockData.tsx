@@ -133,8 +133,8 @@ export const mockUserProfile = {
   Username: 'johndoe',
   auth_id: '123456789',
   Created_at: '2022-01-01T00:00:00.000Z',
-  followers: 250,
-  following: 100,
+  followers: 2500,
+  following: 1000,
 };
 
 export const mockProfileDetails = {
