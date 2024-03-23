@@ -1,20 +1,17 @@
-// import { useState, useEffect, Suspense } from "react";
-import { useState,  Suspense } from "react";
+import { useState, Suspense, useEffect, useRef } from "react";
 import "./ProfilePage.css";
-import { Tweet, TrendingTopics , WhoToFollow , SideNavbar } from "@components/index";
 //import { supabase } from "@config/supabase"; // Import supabase client
-import { mockUserProfile,mockProfileDetails} from '../../mockData/mockData';
+import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
 
 import {
-  Tweet,
   TrendingTopics,
   WhoToFollow,
   SideNavbar,
+  EditProfile,
+  SearchBar,
 } from "@components/index";
-import { supabase } from "@config/supabase"; // Import supabase client
-import { IoMdPerson, IoMdSettings } from "react-icons/io";
+import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
-import { RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
 import { BiCalendar } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 // interface Profile {
@@ -30,15 +27,62 @@ import { NavLink } from "react-router-dom";
 //   [key: string]: string | number | boolean | null | undefined; // index signature
 // }
 
+interface PopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const editingProfile: React.FC<PopupProps> = ({ isOpen, onClose }) => {
+  const [isVisible, setIsVisible] = useState(isOpen);
+  const popupRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsVisible(isOpen);
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isVisible, onClose]);
+
+  if (!isVisible) {
+    return null;
+  }
+  return <EditProfile />;
+};
+
 const ProfileDetails = () => {
   const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails] = useState<any>(mockProfileDetails);
-  const [createdAt] = useState<any>(new Date(mockUserProfile.Created_at).toLocaleString('en-US', { month: 'long', year: 'numeric' }));
+  const [createdAt] = useState<any>(
+    new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
+      month: "long",
+      year: "numeric",
+    })
+  );
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(mockUserProfile.Name);
   const [editedBio, setEditedBio] = useState(mockProfileDetails.Bio);
-  const [editedLocation, setEditedLocation] = useState(mockProfileDetails.Location);
-  const [editedWebsite, setEditedWebsite] = useState(mockProfileDetails.Website);
+  const [editedLocation, setEditedLocation] = useState(
+    mockProfileDetails.Location
+  );
+  const [editedWebsite, setEditedWebsite] = useState(
+    mockProfileDetails.Website
+  );
   const [editedImage, setEditedImage] = useState<File | null>(null);
   const [editedBanner, setEditedBanner] = useState<File | null>(null);
   const [content, setContent] = useState(null);
@@ -60,18 +104,18 @@ const ProfileDetails = () => {
   //         const createdDate = new Date(userData.Created_at);
   //         const formattedDate = createdDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
   //         setCreatedAt(formattedDate);
-  };
-  const loadLiked = () => {
-    setContent(loadLikedContent());
-  };
-    setContent(loadMediaContent());
-  const loadMedia = () => {
-  };
-    setContent(loadRepliesContent());
-  const loadReplies = () => {
-  const loadTweets = () => {
-    setContent(loadTweetsContent());
-  };
+  // };
+  // const loadLiked = () => {
+  //   setContent(loadLikedContent());
+  // };
+  //   setContent(loadMediaContent());
+  // const loadMedia = () => {
+  // };
+  //   setContent(loadRepliesContent());
+  // const loadReplies = () => {
+  // const loadTweets = () => {
+  //   setContent(loadTweetsContent());
+  // };
 
   //         if (userData?.User_Id) {
   //           const { data: profileData, error: profileError } = await supabase
@@ -121,17 +165,16 @@ const ProfileDetails = () => {
   //   fetchUserProfile();
   // }, []);
 
-  const handleEditClick = () => {
-    console.log("Edit button clicked");
-    console.log(profileDetails);
-    console.log(userProfile);
-    setIsEditing(true);
-    setEditedName(userProfile?.Name);
-    setEditedBio(profileDetails?.Bio);
-    setEditedLocation(profileDetails?.Location);
-    setEditedWebsite(profileDetails?.Website);
-  };
-
+  // const handleEditClick = () => {
+  //   console.log("Edit button clicked");
+  //   console.log(profileDetails);
+  //   console.log(userProfile);
+  //   setIsEditing(true);
+  //   setEditedName(userProfile?.Name);
+  //   setEditedBio(profileDetails?.Bio);
+  //   setEditedLocation(profileDetails?.Location);
+  //   setEditedWebsite(profileDetails?.Website);
+  // };
 
   // const handleSaveClick = async () => {
   //   console.log(editedImage);
@@ -218,7 +261,7 @@ const ProfileDetails = () => {
   //         // Insert image reference into database table
   //         const { data: bannerInsertData, error: bannerInsertError } = await supabase
   //           .from("Profile")
-  //           .update({ 
+  //           .update({
   //             Banner_Url: bannerURL?.publicUrl,
   //             Bio: editedBio,
   //             Img_Url: editedImage ? editedImage.toString() : "",
@@ -280,167 +323,110 @@ const ProfileDetails = () => {
   //   }
   // };
 
-  const handleCancelClick = () => {
-    // Reset Editing state to close the edit window
-    setIsEditing(false);
-  };
+  // const handleCancelClick = () => {
+  //   // Reset Editing state to close the edit window
+  //   setIsEditing(false);
+  // };
 
-  const loadTweetsContent = () => {
-    return <div>Loading tweets...</div>;
-  };
-  const loadRepliesContent = () => {
-    return <div>Loading replies...</div>;
-  };
-  const loadMediaContent = () => {
-    return <div>Loading media...</div>;
-  };
-  const loadLikedContent = () => {
-    return <div>Loading liked content...</div>;
-  };
+  // const loadTweetsContent = () => {
+  //   return <div>Loading tweets...</div>;
+  // };
+  // const loadRepliesContent = () => {
+  //   return <div>Loading replies...</div>;
+  // };
+  // const loadMediaContent = () => {
+  //   return <div>Loading media...</div>;
+  // };
+  // const loadLikedContent = () => {
+  //   return <div>Loading liked content...</div>;
+  // };
 
   if (!profileDetails || !userProfile) {
     return <div>Loading...</div>; // Render loading indicator until data is fetched
   }
 
+  const [isEditingProfileOpen, setIsEditingProfileOpen] = useState(false);
+
+  const handleEditProfileClose = () => {
+    setIsEditingProfileOpen(false);
+  };
+
+  const handleEditProfileOpen = () => {
+    setIsEditingProfileOpen(true);
+  };
   return (
-    <div className="profile-page flex">
-      <div className="sidebar-left w-1/4">
-        {/* Side Navbar */}
-        <SideNavbar />
-      </div>
-      <div className="main-content flex-1">
-        {/* Profile  Header} */}
-        <div className="profile-header bg gray-200 p-4 flex items-center">
-          <div className="profile-info flex items-center">
-            <div>
+    <div>
+      {" "}
+      {/* BANNER */}{" "}
+      <div className="profile-page flex">
+        <div className="sidebar-left w-1/4">
+          {/* Side Navbar */}
+          <SideNavbar />
+        </div>
+
+        <div className="main-content flex-1">
+          <div className="banner flex">
+            {/* <img src={profileDetails.Banner_Url} alt="Banner" /> */}
+          </div>
+          {/* Profile  Header} */}
+          <div className="profile-header bg gray-200 p-4 flex items-center">
+            <div className="profile-info flex items-center">
               <div>
-                <h2 className="font-bold text-xl">
-                  <Avatar
-                    src={profileDetails.Img_Url}
-                    alt={userProfile.Name}
-                    size="lg"
-                  />
-                  {userProfile.Name}
-                </h2>
-                <p className="text-gray-500">@{userProfile.Username}</p>
-                <p className="text-gray-500">
-                  <BiCalendar className="mr-1" />
-                  Joined {createdAt}
-                </p>
-              </div>
-              <NavLink to="/editProfile">
-                <Button className="ml-auto">
-                  <IoMdSettings className="mr-1"></IoMdSettings>Edit Profile
-                </Button>
-              </NavLink>
-              {/* Profile Details */}
-              <div className="profile-details ">
-                <div className="flex items-center">
-                  <div className="flex-1">
-                    <h3 className="font-bold text-lg">Tweets</h3>
-                    <p className="text-gray-500">0</p>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-lg">Following</h3>
-                    <p className="text-gray-500">{userProfile.following}</p>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-lg">Followers</h3>
-                    <p className="text-gray-500">{userProfile.followers}</p>
+                <div>
+                  <h2 className="font-bold text-xl">
+                    <Avatar
+                      src={profileDetails.Img_Url}
+                      alt={userProfile.Name}
+                      size="lg"
+                    />
+                    {userProfile.Name}
+                  </h2>
+                  <p className="text-gray-500">@{userProfile.Username}</p>
+                  <p className="text-gray-500">
+                    <BiCalendar className="mr-1" />
+                    Joined {createdAt}
+                  </p>
+                </div>
+                <NavLink to="/editProfile">
+                  <Button className="ml-auto ">
+                    <IoMdSettings className="mr-1 "></IoMdSettings>Edit Profile
+                  </Button>
+                </NavLink>
+                {/* Profile Details */}
+                <div className="profile-details ">
+                  <div className="flex items-center">
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg">Tweets</h3>
+                      <p className="text-gray-500">0</p>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg">Following</h3>
+                      <p className="text-gray-500">{userProfile.following}</p>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg">Followers</h3>
+                      <p className="text-gray-500">{userProfile.followers}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="profile-tabs">
-                <Button className="active" onClick={loadTweets}>
-                  Tweets
-                </Button>
-                <Button className="active" onClick={loadReplies}>
-                  Replies
-                </Button>
-                <Button className="active" onClick={loadMedia}>
-                  Media
-                </Button>
-                <Button className="active" onClick={loadLiked}>
-                  Likes
-                </Button>
+                <div className="profile-tabs">
+                  <Button className="active">Tweets</Button>
+                  <Button className="active">Replies</Button>
+                  <Button className="active">Media</Button>
+                  <Button className="active">Likes</Button>
+                </div>
               </div>
             </div>
           </div>
-
-              <label htmlFor="image">Profile Image</label>
-              {editedImage ? (
-                <img
-                  src={URL.createObjectURL(editedImage)}
-                  alt="Profile Image"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : profileDetails.Img_Url ? (
-                <img
-                  src={profileDetails.Img_Url}
-                  alt="Profile Image"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : (
-                <span>No profile image selected</span>
-              )}
-              <input
-                type="file"
-                name="image"
-                onChange={(e) => {
-                  const files = e.target.files;
-                  if (files && files.length > 0) {
-                    setEditedImage(files[0]);
-                  }
-                }}
-              />
-
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                value={editedName}
-                onChange={(e) => setEditedName(e.target.value)}
-              />
-              <label htmlFor="bio">Bio</label>
-              <textarea
-                value={editedBio}
-                onChange={(e) => setEditedBio(e.target.value)}
-              ></textarea>
-              <label htmlFor="location">Location</label>
-              <input
-                type="text"
-                value={editedLocation}
-                onChange={(e) => setEditedLocation(e.target.value)}
-              />
-              <label htmlFor="website">Website</label>
-              <input
-                type="text"
-                value={editedWebsite}
-                onChange={(e) => setEditedWebsite(e.target.value)}
-              />
-              {/* <button onClick={handleSaveClick}>Save</button> */}
-              <button onClick={handleCancelClick}>Cancel</button>
-            </div>
-          ) : (
-            <div>
-              <h3>{profileDetails.Profile_Type}</h3>
-              <p>{profileDetails.Bio}</p>
-              <p>
-                . Location: {profileDetails.Location} . Joined {createdAt}
-              </p>
-              <p><a href={profileDetails.Website}>{profileDetails.Website}</a></p>
-              <p>
-                <span>{userProfile.following} Following</span>{" "}
-                <span>{userProfile.followers} Followers</span>
-              </p>
-            </div>
-          )}
         </div>
         {/* Tweets */}
         {content}
-      </div>
-      <div className="sidebar-right w-1/4">
-        <TrendingTopics />
-        <WhoToFollow />
+
+        <div className="sidebar-right w-1/4">
+          <SearchBar />
+          <TrendingTopics />
+          <WhoToFollow />
+        </div>
       </div>
     </div>
   );

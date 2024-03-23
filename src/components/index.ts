@@ -5,6 +5,7 @@ import WhoToFollow from "./WhoToFollow/WhoToFollow";
 import SideNavbar from "./SideNavbar/SideNavbar";
 import CreateTweet from "./CreateTweet/CreateTweet";
 import EditProfile from "./EditProfile/EditProfile";
+import SearchBar from "./SearchBar/SearchBar";
 export {
   HomeImage,
   Tweet,
@@ -13,4 +14,5 @@ export {
   SideNavbar,
   CreateTweet,
   EditProfile,
+  SearchBar,
 };
