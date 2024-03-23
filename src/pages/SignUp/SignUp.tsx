@@ -5,8 +5,6 @@ import { useNavigate} from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
 import { twitterLogo, chevron } from "@assets/index";
-
-import { SuggestedFollow, ProfilePictureSet, ExpectPassword, CodeSent, CreateAnAccount, SetUsername } from "@components/index";
 import { createDateObject } from '@utils/index';
 
 
@@ -214,9 +212,9 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
 
   const handleNextPressed = () => {
-    //todo: create supabase user here
+    //todo: create supabase user here ->there is an auth function called ```signUpNewUser``` that should be called in the SignUp component when the fourth flow is reached. it is already imported on line 3
     // supabase.auth.s
-
+    
     setFlowPage(4);
   }
 
@@ -260,51 +258,41 @@ const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
 }
 
 const SignUp = () => {
-  //this is the new form that you shall use that will gradually be filled up as the user progresses through the flow
-  //avatar should be uploaded straight to supabase bucket
   const [formData, setFormData] = useState({ 
     name: "",
     email: "", 
     password: "",
     username: "",
-    birthdate: new Date(),
+    dob: new Date(),
   });
-  
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  
-  //snippet code of updating properties in this "userData" object
-  //setUserData({ ...userData, password: "new value here" })
   const [flowPage, setFlowPage] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
 
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
+  const handleSubmit = async () => {
+    const status = await signUpNewUser(formData);
+    if (status === "error") {
+      console.error("Error signing up");
+    } else {
+      navigate("/home"); // Redirect to home page if user is logged in
+    }
+  };
 
-  //   const status = await signUpNewUser(form.email, form.password);
-
-  //   if (status === "error") {
-  //     console.error("Error signing up");
-  //   } else {
-  //     navigate("/home"); // Redirect to home page if user is logged in
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // Create a new async function
-  //   const checkUser = async () => {
-  //     // Check if user is already logged in
-  //     const result = await isUserLoggedIn();
-  //     if (result) {
-  //       navigate("/profile"); // Redirect to profile page if user is logged in
-  //     }
-  //   };
-
-  //   // Call the async function
-  //   checkUser();
-  // }, [navigate]);
+  useEffect(() => {
+    // this is neccessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (result) {
+        navigate("/profile"); // Redirect to profile page if user is logged in
+      }
+    }
+    
+    // Call the async function
+    checkUser();
+  }, []);
 
 
   const DisplayPage = () => {
