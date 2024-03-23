@@ -7,15 +7,15 @@ import Search from "./Search/Search";
 import Nav from "./Nav/Nav";
 import EditProfile from "./EditProfile/EditProfile";
 import SearchBar from "./SearchBar/SearchBar";
+// import SideNavbar from "./SideNavbar/SideNavbar";
 export {
+  EditProfile,
+  SearchBar,
   HomeImage,
   Tweet,
   TrendingTopics,
   WhoToFollow,
-  SideNavbar,
+  Search,
   CreateTweet,
-  EditProfile,
-  SearchBar,
+  Nav,
 };
-
-export { HomeImage, Tweet , TrendingTopics , WhoToFollow , Search, CreateTweet, Nav };

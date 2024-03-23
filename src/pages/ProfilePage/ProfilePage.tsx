@@ -1,20 +1,22 @@
 import { useState, Suspense, useEffect, useRef } from "react";
 import "./ProfilePage.css";
-import { Tweet, TrendingTopics , WhoToFollow , Nav } from "@components/index";
+import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 //import { supabase } from "@config/supabase"; // Import supabase client
 import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
-
 import {
-  TrendingTopics,
-  WhoToFollow,
-  SideNavbar,
-  EditProfile,
-  SearchBar,
-} from "@components/index";
+  mockTweets,
+  mockUsers,
+  mockSavesCount,
+  mockCommentsCount,
+  mockRetweetsCount,
+  mockLikesCount,
+} from "../../mockData/mockData";
+import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
+import { Search } from "@components/index";
 // interface Profile {
 //   Bio?: string | null | undefined;
 //   Img_Url?: string | null | undefined;
@@ -108,7 +110,12 @@ const ProfileDetails = () => {
   const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
   const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
   const [replies, setReplies] = useState<TweetProps[]>([]);
-
+  const [tweets] = useState<any[]>(mockTweets);
+  const [users] = useState<any[]>(mockUsers);
+  const [savesCount] = useState<any>(mockSavesCount);
+  const [commentsCount] = useState<any>(mockCommentsCount);
+  const [retweetsCount] = useState<any>(mockRetweetsCount);
+  const [likesCount] = useState<any>(mockLikesCount);
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -126,7 +133,7 @@ const ProfileDetails = () => {
             likes: 2,
             retweets: 4,
             quotes: 1,
-          }
+          },
         ];
         setUserTweets(mockTweets);
 
@@ -152,7 +159,7 @@ const ProfileDetails = () => {
             likes: 8,
             retweets: 564,
             quotes: 10000,
-          }
+          },
         ];
         setLikedTweets(mockLikedTweets);
 
@@ -168,7 +175,7 @@ const ProfileDetails = () => {
             likes: 0,
             retweets: 0,
             quotes: 0,
-          }
+          },
         ];
         setUserReplies(mockReplies);
 
@@ -510,22 +517,57 @@ const ProfileDetails = () => {
   const handleEditProfileOpen = () => {
     setIsEditingProfileOpen(true);
   };
+
+  const getTimeDisplay = (timestamp: string) => {
+    const currentTime = new Date();
+    const parsedTimestamp = new Date(timestamp);
+
+    const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
+    const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
+
+    let timeDisplay;
+    if (minutesDiff < 60) {
+      timeDisplay = `${minutesDiff}m`;
+    } else {
+      const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
+      if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
+      else {
+        const month = parsedTimestamp.toLocaleString("en-us", {
+          month: "short",
+        });
+        const day = parsedTimestamp.getDate();
+        timeDisplay = `${month} ${day}`;
+      }
+    }
+
+    return timeDisplay;
+  };
+
+  const formatCount = (count: number): string | number => {
+    if (count < 1000) {
+      return count; // Return as it is if less than 1000
+    } else if (count < 1000000) {
+      // Convert to K format
+      return (count / 1000).toFixed(1) + "K";
+    } else {
+      // Convert to M format
+      return (count / 1000000).toFixed(1) + "M";
+    }
+  };
   return (
     <div>
       {" "}
       {/* BANNER */}{" "}
-      <div className="profile-page flex">
+      <div className="profile-page flex bg-white">
         <div className="sidebar-left w-1/4">
-          {/* Side Navbar */}
-          <SideNavbar />
+          <Nav />
         </div>
-
-        <div className="main-content flex-1">
+        <div className="main-content flex-1 ">
           <div className="banner flex">
             {/* <img src={profileDetails.Banner_Url} alt="Banner" /> */}
           </div>
           {/* Profile  Header} */}
-          <div className="profile-header bg gray-200 p-4 flex items-center">
+          <div className="profile-header bg-gray p-4 flex items-center">
             <div className="profile-info flex items-center">
               <div>
                 <div>
@@ -591,150 +633,97 @@ const ProfileDetails = () => {
                     Likes
                   </button>
                 </div>
-                {activeTab === "tweets" && (
-                  <div>
-                    {userTweets.length === 0 ? (
-                      <p>User hasn't tweeted yet</p>
-                    ) : (
-                      userTweets.map((tweet, index) => (
-                        <div key={index} className="tweet">
-                          <div className="user-info">
-                            <img
-                              src={tweet.image}
-                              alt="User profile"
-                              height={25}
-                              width={25}
-                            />
-                            <h4>{tweet.name}</h4>
-                            <p>@{tweet.username}</p>
-                          </div>
-                          <p>{tweet.text}</p>
-                          {tweet.image_url && (
-                            <p>
-                              <img
-                                src={tweet.image_url}
-                                alt="Tweet"
-                                height={150}
-                                width={350}
-                              />
-                            </p>
-                          )}
-                          <div className="flex space-x-4">
-                            <p>{tweet.likes}</p>
-                            <p>{tweet.retweets}</p>
-                            <p>{tweet.quotes}</p>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                )}
-                {activeTab === "media" && (
-                  <div className="grid grid-cols-3 gap-4">
-                    {userTweets.filter((tweet) => tweet.image_url !== "")
-                      .length === 0 ? (
-                      <p>No media to display</p>
-                    ) : (
-                      userTweets
-                        .filter((tweet) => tweet.image_url !== "")
-                        .map((tweet, index) => (
-                          <div key={index}>
-                            <img
-                              src={tweet.image_url}
-                              alt="Tweet"
-                              height={100}
-                              width={200}
-                            />
-                          </div>
-                        ))
-                    )}
-                  </div>
-                )}
-
-                {activeTab === "replies" && (
-                  <div>
-                    {userReplies.length === 0 ? (
-                      <p>No replies to display</p>
-                    ) : (
-                      userReplies.map((reply, index) => (
-                        <div key={index} className="reply">
-                          <div className="user-info">
-                            <h4>{reply.name}</h4>
-                            <p>@{reply.username}</p>
-                          </div>
-                          <p>{reply.text}</p>
-                          {reply.image_url && (
-                            <p>
-                              <img
-                                src={reply.image_url}
-                                alt="Tweet"
-                                height={150}
-                                width={350}
-                              />
-                            </p>
-                          )}
-                          <div className="flex space-x-4">
-                            <p>{reply.likes} Likes</p>
-                            <p>{reply.retweets} Retweets</p>
-                            <p>{reply.quotes} Quotes</p>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                )}
+                {activeTab === "tweets" &&
+                  tweets.map((tweet) => {
+                    const user = users.find(
+                      (u) => u.User_Id === userProfile.User_Id
+                    );
+                    const saves = savesCount[tweet.Tweet_Id] || 0;
+                    const comments = commentsCount[tweet.Tweet_Id] || 0;
+                    const likes = likesCount[tweet.Tweet_Id] || 0;
+                    const retweets = retweetsCount[tweet.Tweet_Id] || 0;
+                    if (user) {
+                      console.log(user.Name);
+                    }
+                    return (
+                      <Tweet
+                        key={tweet.Tweet_Id}
+                        name={user ? user.Name : "Unknown User"}
+                        username={user ? `@${user.Username}` : ""}
+                        text={tweet.Content}
+                        imageUrl={tweet.Img_Url}
+                        timeDisplay={getTimeDisplay(tweet.Created_at)}
+                        likes={formatCount(likes)}
+                        retweets={formatCount(retweets)}
+                        saves={formatCount(saves)}
+                        comments={formatCount(comments)}
+                      />
+                    );
+                  })}
+                {activeTab === "media"}
+                {activeTab === "replies" &&
+                  tweets.map((tweet) => {
+                    const user = users.find(
+                      (u) => u.User_Id === userProfile.User_Id
+                    );
+                    const saves = savesCount[tweet.Tweet_Id] || 0;
+                    const comments = commentsCount[tweet.Tweet_Id] || 0;
+                    const likes = likesCount[tweet.Tweet_Id] || 0;
+                    const retweets = retweetsCount[tweet.Tweet_Id] || 0;
+                    if (user) {
+                      console.log(user.Name);
+                    }
+                    return (
+                      <Tweet
+                        key={tweet.Tweet_Id}
+                        name={user ? user.Name : "Unknown User"}
+                        username={user ? `@${user.Username}` : ""}
+                        text={tweet.Content}
+                        imageUrl={tweet.Img_Url}
+                        timeDisplay={getTimeDisplay(tweet.Created_at)}
+                        likes={formatCount(likes)}
+                        retweets={formatCount(retweets)}
+                        saves={formatCount(saves)}
+                        comments={formatCount(comments)}
+                      />
+                    );
+                  })}
+                {activeTab === "likes" &&
+                  tweets.map((tweet) => {
+                    const user = users.find(
+                      (u) => u.User_Id === userProfile.User_Id
+                    );
+                    const saves = savesCount[tweet.Tweet_Id] || 0;
+                    const comments = commentsCount[tweet.Tweet_Id] || 0;
+                    const likes = likesCount[tweet.Tweet_Id] || 0;
+                    const retweets = retweetsCount[tweet.Tweet_Id] || 0;
+                    if (user) {
+                      console.log(user.Name);
+                    }
+                    return (
+                      <Tweet
+                        key={tweet.Tweet_Id}
+                        name={user ? user.Name : "Unknown User"}
+                        username={user ? `@${user.Username}` : ""}
+                        text={tweet.Content}
+                        imageUrl={tweet.Img_Url}
+                        timeDisplay={getTimeDisplay(tweet.Created_at)}
+                        likes={formatCount(likes)}
+                        retweets={formatCount(retweets)}
+                        saves={formatCount(saves)}
+                        comments={formatCount(comments)}
+                      />
+                    );
+                  })}
               </div>
-              {activeTab === "likes" && (
-                <div>
-                  {likedTweets.length === 0 ? (
-                    <p>No liked tweets to display.</p>
-                  ) : (
-                    likedTweets.map((tweet, index) => (
-                      <div key={index} className="tweet">
-                        <div className="user-info">
-                          <img
-                            src={tweet.image}
-                            alt="User profile"
-                            height={25}
-                            width={25}
-                          />
-                          <h4>{tweet.name}</h4>
-                          <p>@{tweet.username}</p>
-                        </div>
-                        <p>{tweet.text}</p>
-                        {tweet.image_url && (
-                          <p>
-                            <img
-                              src={tweet.image_url}
-                              alt="Tweet"
-                              height={150}
-                              width={350}
-                            />
-                          </p>
-                        )}
-                        <div className="flex space-x-4">
-                          <p>{tweet.likes} Likes</p>
-                          <p>{tweet.retweets} Retweets</p>
-                          <p>{tweet.quotes} Quotes</p>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              )}
             </div>
           </div>
         </div>
-
-        <div className="sidebar-right w-1/4">
-          <SearchBar />
+        <div className="side-content">
+          <Search />
           <TrendingTopics />
-          <WhoToFollow />
+          <WhoToFollow users={[]} />
         </div>
-      </div>
-      <div className="side-content">
-        <TrendingTopics />
-        <WhoToFollow users={[]} />
       </div>
     </div>
   );

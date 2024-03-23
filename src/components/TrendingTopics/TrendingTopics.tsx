@@ -54,11 +54,11 @@ const TrendingTopics: React.FC<TrendingTopicsProps> = () => {
                   <div className="ml-4">
                     <h3 className="text-base font-medium">{topic.name}</h3>
                     <p className="text-gray-500">{topic.description && topic.description.slice(0, excerptLength) + (topic.description.length > excerptLength ? '...' : '')}</p>
-                    <p className="text-gray-500">{topic.timePosted}</p>
+                    {/* <p className="text-gray-500">{topic.timePosted}</p> */}
                   </div>
-                  <Button size="lg" className="ml-auto mr-3 p-3 self-center">
+                  {/* <Button size="lg" className="ml-auto mr-3 p-3 self-center">
                     <span className="whitespace-nowarap">Read More</span>
-                  </Button>
+                  </Button> */}
                 </div>
                 <Divider/>
               </div>

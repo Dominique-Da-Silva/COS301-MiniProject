@@ -217,22 +217,22 @@ export const mockLikesCount = {
 
 export const mockTopics = [
   {
-    name: "Man City Wins the Premier League",
-    description: "Manchester City clinches the Premier League title with a win over Chelsea.",
+    name: "Arsenal Wins the Champions League",
+    description: "Arsenal secures the Champions League title with a victory over Real Madrid.",
     timePosted: "2023-04-15T12:00:00.000Z",
-    avatarUrl: 'https://people.com/thmb/2nqvmza52nj3JBwkZveNGIL9Erc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(689x399:691x401)/lebron-james-7f070c722a1143e295b46f67ff0005dc.jpg',
+    avatarUrl: 'https://example.com/Arsenal-champions-league.jpg',
   },
   {
-    name: "Man City Wins the Premier League",
-    description: "Manchester City clinches the Premier League title with a win over Chelsea.",
-    timePosted: "2023-04-15T12:00:00.000Z",
-    avatarUrl: 'https://people.com/thmb/2nqvmza52nj3JBwkZveNGIL9Erc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(689x399:691x401)/lebron-james-7f070c722a1143e295b46f67ff0005dc.jpg',
+    name: "Tokyo Olympics 2024 Opening Ceremony",
+    description: "The Tokyo Olympics 2024 kicks off with a spectacular opening ceremony.",
+    timePosted: "2023-04-16T10:00:00.000Z",
+    avatarUrl: 'https://example.com/tokyo-olympics-2024.jpg',
   },
   {
-    name: "Man City Wins the Premier League",
-    description: "Manchester City clinches the Premier League title with a win over Chelsea.",
-    timePosted: "2023-04-15T12:00:00.000Z",
-    avatarUrl: 'https://people.com/thmb/2nqvmza52nj3JBwkZveNGIL9Erc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(689x399:691x401)/lebron-james-7f070c722a1143e295b46f67ff0005dc.jpg',
+    name: "SpaceX Launches Mars Mission",
+    description: "SpaceX successfully launches its first manned mission to Mars.",
+    timePosted: "2023-04-17T08:00:00.000Z",
+    avatarUrl: 'https://example.com/spacex-mars-mission.jpg',
   }
 ];
 

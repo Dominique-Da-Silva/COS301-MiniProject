@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { SignUp, Login, SignIn, HomePage, ProfilePage } from '@pages/index';
+import { SignUp, Login, SignIn, HomePage, ProfilePage,  } from '@pages/index';
+import { EditProfile } from '@components/index';
 import './App.css';
 import "./styles/tailwind.css";
 
