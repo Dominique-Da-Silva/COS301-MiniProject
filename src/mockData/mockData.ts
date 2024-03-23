@@ -215,60 +215,44 @@ export const mockLikesCount = {
   10: 55,
 };
 
-export const mockTrendingTopics = new Map([
-  [
-    1,
-    {
-      name: "Technology",
-      description: "The latest news and updates in the world of technology.",
-      timePosted: "2023-04-15T12:00:00.000Z",
-      avatarUrl: "https://example.com/technology.jpg",
-    },
-  ],
-  [
-    2,
-    {
-      name: "Sports",
-      description:
-        "Get the latest scores, highlights, and analysis from the world of sports.",
-      timePosted: "2023-04-15T10:00:00.000Z",
-      avatarUrl: "https://example.com/sports.jpg",
-    },
-  ],
-  [
-    3,
-    {
-      name: "Food",
-      description: "Discover new recipes, restaurants, and food trends.",
-      timePosted: "2023-04-14T15:30:00.000Z",
-      avatarUrl: "https://example.com/food.jpg",
-    },
-  ],
-]);
+export const mockTopics = [
+  {
+    name: "Man City Wins the Premier League",
+    description: "Manchester City clinches the Premier League title with a win over Chelsea.",
+    timePosted: "2023-04-15T12:00:00.000Z",
+    avatarUrl: 'https://people.com/thmb/2nqvmza52nj3JBwkZveNGIL9Erc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(689x399:691x401)/lebron-james-7f070c722a1143e295b46f67ff0005dc.jpg',
+  },
+  {
+    name: "Man City Wins the Premier League",
+    description: "Manchester City clinches the Premier League title with a win over Chelsea.",
+    timePosted: "2023-04-15T12:00:00.000Z",
+    avatarUrl: 'https://people.com/thmb/2nqvmza52nj3JBwkZveNGIL9Erc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(689x399:691x401)/lebron-james-7f070c722a1143e295b46f67ff0005dc.jpg',
+  },
+  {
+    name: "Man City Wins the Premier League",
+    description: "Manchester City clinches the Premier League title with a win over Chelsea.",
+    timePosted: "2023-04-15T12:00:00.000Z",
+    avatarUrl: 'https://people.com/thmb/2nqvmza52nj3JBwkZveNGIL9Erc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(689x399:691x401)/lebron-james-7f070c722a1143e295b46f67ff0005dc.jpg',
+  }
+];
 
-export const whoToFollow = new Map([
-  [
-    1,
-    {
-      user_id: 11,
-      name: "Alice Johnson",
-      username: "alicejohnson",
-    },
-  ],
-  [
-    2,
-    {
-      user_id: 12,
-      name: "Tom Wilson ",
-      username: "tomwilson",
-    },
-  ],
-  [
-    3,
-    {
-      user_id: 13,
-      name: "Olivia Brown",
-      username: "oliviabrown",
-    },
-  ],
-]);
+export const mockFollowSuggestions = [
+  {
+    user_id: "1",
+    name: "PlayStation",
+    username: "Playstation",
+    avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/PlayStation_App_Icon.jpg/800px-PlayStation_App_Icon.jpg',
+  },
+  {
+    user_id: "2",
+    name: "Man City",
+    username: "ManchesterCity",
+    avatarUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png',
+  },
+  {
+    user_id: "3",
+    name: "Elon",
+    username: "ElonMusk",
+    avatarUrl: 'https://play-lh.googleusercontent.com/A-Rnrh0J7iKmABskTonqFAANRLGTGUg_nuE4PEMYwJavL3nPt5uWsU2WO_DSgV_mOOM',
+  }
+];

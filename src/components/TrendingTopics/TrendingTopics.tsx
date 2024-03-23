@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Button } from "@nextui-org/react";
 // import { supabase } from "@config/supabase";
-import { mockTrendingTopics } from "../../mockData/mockData";
+import {Card, CardHeader, CardBody, CardFooter, Divider} from "@nextui-org/react";
+import { mockTopics } from '../../mockData/mockData';
+
 interface Topic {
   name: string;
   description: string;
@@ -10,14 +12,18 @@ interface Topic {
 }
 interface TrendingTopicsProps {}
 
+const excerptLength = 40;
+
 const TrendingTopics: React.FC<TrendingTopicsProps> = () => {
-  const [topics, setTopics] = useState<any>(mockTrendingTopics);
+  const [topics] = useState<any>(mockTopics);
+
+  // const [topics, setTopics] = useState<any[]>([]);
   // const fetchTopics = async () => {
   //   try {
   //     const { data: topicData, error } = await supabase
   //       .from("Topics")
   //       .select("*")
-  //       .limit(3);
+  //       .limit(5);
   //     if (error) {
   //       throw error;
   //     }
@@ -34,32 +40,38 @@ const TrendingTopics: React.FC<TrendingTopicsProps> = () => {
   // fetchTopics();
   return (
     <div>
-      <div className="bg-white p-4 shadow rounded-md">
-        <h2 className="text-lg font-bold mb-4">Trending Topics</h2>
-        <div className="space-y-4">
-          {Array.from(topics.values()).map((topic) => (
-            <div key={(topic as Topic).name} className="flex items-center">
-              <div className="ml-4">
-                <img
-                  src={(topic as Topic).avatarUrl}
-                  alt={(topic as Topic).name}
-                  className="h-12 w-12 rounded-full"
-                />
+      <Card className="max-w-[400px] bg-gray-50 shadow-none">
+        <CardHeader className="flex gap-1 pb-0">
+          <h2 className="text-lg font-bold mb-4">Trending Topics</h2>
+        </CardHeader>
+        <Divider/>
+        <CardBody className="m-0 p-0">
+          <div className="space-y-4 m-0">
+            {" "}
+            {topics.map((topic: Topic) => (
+              <div key={topic.name} className="flex- col cursor-pointer hover:bg-slate-200 !m-0">
+                <div className="flex m-0">
+                  <div className="ml-4">
+                    <h3 className="text-base font-medium">{topic.name}</h3>
+                    <p className="text-gray-500">{topic.description && topic.description.slice(0, excerptLength) + (topic.description.length > excerptLength ? '...' : '')}</p>
+                    <p className="text-gray-500">{topic.timePosted}</p>
+                  </div>
+                  <Button size="lg" className="ml-auto mr-3 p-3 self-center">
+                    <span className="whitespace-nowarap">Read More</span>
+                  </Button>
+                </div>
+                <Divider/>
               </div>
-              <div className="ml-4">
-                <h3 className="text-base font-medium">{(topic as Topic).name}</h3>
-                <p className="text-gray-500">{(topic as Topic).description}</p>
-               
-              </div>
-              <Button size="lg" className="ml-auto p-3">
-                <span className="whitespace-nowarp">More Tweets</span>
-              </Button>
-            </div>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
+        </CardBody>
+        <Divider/>
+        <CardFooter className="cursor-pointer text-sky-500 hover:bg-slate-200">
+          Show more
+        </CardFooter>
+      </Card>          
     </div>
-  );  
+  );
 };
 
 export default TrendingTopics;

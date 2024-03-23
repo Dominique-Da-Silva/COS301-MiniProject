@@ -1,5 +1,6 @@
 import { useState, Suspense, useEffect, useRef } from "react";
 import "./ProfilePage.css";
+import { Tweet, TrendingTopics , WhoToFollow , Nav } from "@components/index";
 //import { supabase } from "@config/supabase"; // Import supabase client
 import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
 
@@ -730,6 +731,10 @@ const ProfileDetails = () => {
           <TrendingTopics />
           <WhoToFollow />
         </div>
+      </div>
+      <div className="side-content">
+        <TrendingTopics />
+        <WhoToFollow users={[]} />
       </div>
     </div>
   );
