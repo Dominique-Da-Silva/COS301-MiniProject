@@ -281,12 +281,14 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
       setAvatarURL(reader.result as string);
     };
     reader.readAsDataURL(selectedFile);
+
+    setFormData({ ...formData, avatar: selectedFile});
   }
 
   const handleNextPressed = async() => {
-    if(avatar === null) return;
-    const result = await uploadProfile(avatar);
-    if(result === "error") return;
+    // if(avatar === null) return;
+    // const result = await uploadProfile(avatar);
+    // if(result === "error") return;
     setFlowPage(5);
   }
 
@@ -341,10 +343,51 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
   )
 }
 
+const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
+
+  const handleNextPressed = () => {
+    // if(formData.password === "") return;
+    // await signUpNewUser(formData);
+    setFlowPage(6);
+  }
+
+  return (
+    <Card shadow="sm" className="w-[400px] p-10">
+      <div className="text-center">
+        <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
+        <h2 className="text-xl font-bold mb-6">What should we call you?</h2>
+      </div>
+      <p className="text-xs text-gray-600 mb-4">
+        Your @username is unique. You can always change it later.
+      </p>
+      <form className="w-full flex flex-col gap-10 pt-2">
+        <div className="relative">
+          <Input
+            variant="underlined"
+            type="text"
+            placeholder="Username"
+            value={formData.username}
+            onChange={e => setFormData({ ...formData, username: e.target.value })}
+            required
+          />
+        </div>
+        <Button
+          onClick={handleNextPressed}
+          radius="full"
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-600 text-white mt-12"
+        >
+          Next
+        </Button>
+      </form>
+    </Card>
+  )
+}
+
 const SignUp = () => {
   const [formData, setFormData] = useState({ 
     name: "",
-    email: "", 
+    email: "",
     password: "",
     username: "",
     dob: new Date(),
@@ -378,7 +421,9 @@ const SignUp = () => {
     }else if (flowPage === 4){
       return <Flow4 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow4>;
     }else if (flowPage === 5){
-      return <div>Flow 5</div>
+      return <Flow5 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow5>;
+    }else if (flowPage === 6){
+      return <Flow5 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow5>;
     }
   }
 
