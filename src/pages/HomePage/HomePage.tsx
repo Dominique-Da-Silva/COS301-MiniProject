@@ -1,8 +1,8 @@
-import { Tweet, TrendingTopics , WhoToFollow , SideNavbar , CreateTweet } from "@components/index";
+import { Tweet, TrendingTopics , WhoToFollow , Nav , Search, CreateTweet } from "@components/index";
 // import React,{useState,useEffect} from "react";
 import React,{useState} from "react";
 //import {supabase} from '@config/supabase';
-import "./HomePage.css";
+// import {Tabs, Tab} from "@nextui-org/react";
 import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
 interface HomePageProps {}
@@ -165,50 +165,49 @@ const HomePage: React.FC<HomePageProps> = () => {
     const currentTime = new Date();
     const parsedTimestamp = new Date(timestamp);
 
-  //   const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
-  //   const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
+    const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
+    const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
 
-  //   let timeDisplay;
-  //   if (minutesDiff < 60) {
-  //     timeDisplay = `${minutesDiff}m`;
-  //   } else {
-  //     const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
-  //     if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
-  //     else {
-  //       const month = parsedTimestamp.toLocaleString("en-us", {
-  //         month: "short",
-  //       });
-  //       const day = parsedTimestamp.getDate();
-  //       timeDisplay = `${month} ${day}`;
-  //     }
-  //   }
+    let timeDisplay;
+    if (minutesDiff < 60) {
+      timeDisplay = `${minutesDiff}m`;
+    } else {
+      const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
+      if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
+      else {
+        const month = parsedTimestamp.toLocaleString("en-us", {
+          month: "short",
+        });
+        const day = parsedTimestamp.getDate();
+        timeDisplay = `${month} ${day}`;
+      }
+    }
 
-  //   return timeDisplay;
-  // };
+    return timeDisplay;
+  };
 
-  // const formatCount = (count: number): string | number => {
-  //   if (count < 1000) {
-  //     return count; // Return as it is if less than 1000
-  //   } else if (count < 1000000) {
-  //     // Convert to K format
-  //     return (count / 1000).toFixed(1) + "K";
-  //   } else {
-  //     // Convert to M format
-  //     return (count / 1000000).toFixed(1) + "M";
-  //   }
-  // };
+  const formatCount = (count: number): string | number => {
+    if (count < 1000) {
+      return count; // Return as it is if less than 1000
+    } else if (count < 1000000) {
+      // Convert to K format
+      return (count / 1000).toFixed(1) + "K";
+    } else {
+      // Convert to M format
+      return (count / 1000000).toFixed(1) + "M";
+    }
+  };
 
   // TWEET DISPLAY
 
-const HomePage = () => {
   return (
     <div className="container flex">
-      <div className="nav w-1/5 ml-24 mr-1">
+      <div className="nav w-1/5 ml-20 mr-6">
         <Nav />
       </div>
       <div className="main-content max-w-full m-0 p-0 border">
         <div className="flex min-w-full flex-col m-0 p-0 justify-center">
-          <Tabs 
+          {/* <Tabs 
             aria-label="Options" 
             variant="underlined"
             classNames={{
@@ -225,9 +224,9 @@ const HomePage = () => {
                 </div>
               }
               className="text-md p-0"
-            >
+            > */}
               <CreateTweet></CreateTweet>
-              {/* {tweets.map(tweet => {
+               {tweets.map(tweet => {
                 const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
                 const saves = savesCount[tweet.Tweet_Id] || 0 ;
                 const comments = commentsCount[tweet.Tweet_Id] || 0;
@@ -247,8 +246,8 @@ const HomePage = () => {
                     comments={formatCount(comments)}
                   />
                 );
-              })} */}
-            </Tab>
+              })}
+            {/* </Tab>
             <Tab
               title={
                 <div className="flex items-center space-x-2">
@@ -259,15 +258,15 @@ const HomePage = () => {
             >
               <CreateTweet></CreateTweet>
             </Tab>
-          </Tabs>
+          </Tabs> */}
         </div>  
       </div>
-      <div className="sidebar-right w-1/4 mr-28 ml-7 mt-2 pl-2">
+      <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
         <div className="mb-3">
           <Search />
         </div>
         <TrendingTopics />
-        {/* <WhoToFollow /> */}
+        <WhoToFollow users={[]} />
       </div>
     </div>
   );
