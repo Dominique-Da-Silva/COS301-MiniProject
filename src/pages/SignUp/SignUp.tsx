@@ -3,7 +3,7 @@ import { isUserLoggedIn, signUpNewUser, uploadProfile } from "@services/index";
 import { useNavigate} from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
-import { twitterLogo, chevron } from "@assets/index";
+import { twitterLogo, chevron, defaultavater } from "@assets/index";
 import { createDateObject } from '@utils/index';
 
 
@@ -220,9 +220,9 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 }
 
 const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
-  const handleNextPressed = async() => {
-    if(formData.password === "") return;
-    await signUpNewUser(formData);
+  const handleNextPressed = () => {
+    // if(formData.password === "") return;
+    // await signUpNewUser(formData);
     setFlowPage(4);
   }
 
@@ -265,6 +265,82 @@ const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
   )
 }
 
+const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
+
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [avatarURL, setAvatarURL] = useState<string | null>(null);
+
+  function captureImage(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files === null) return;
+    const selectedFile = e.target.files[0];
+    setAvatar(selectedFile);
+
+    // Display the uploaded image preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAvatarURL(reader.result as string);
+    };
+    reader.readAsDataURL(selectedFile);
+  }
+
+  const handleNextPressed = async() => {
+    if(avatar === null) return;
+    const result = await uploadProfile(avatar);
+    if(result === "error") return;
+    setFlowPage(5);
+  }
+
+  return (
+    <Card shadow="sm" className="w-[400px] p-10">
+      <div className="text-center">
+        <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
+        <h2 className="text-xl font-bold mb-6">Pick a profile picture</h2>
+        <p className="text-xs text-gray-600 mb-4">
+          Have a favorite selfie? Upload it now.
+        </p>
+      </div>
+      <form className="w-full flex flex-col gap-10 pt-2">
+        {/* Circular container for image preview or placeholder */}
+        <label htmlFor="avatar" className="cursor-pointer">
+          <div className="flex justify-center items-center">
+            <div className="w-36 h-36 rounded-full overflow-hidden border border-gray-300 flex justify-center items-center">
+              {avatarURL ? (
+                <img
+                  src={avatarURL}
+                  alt="uploaded-avatar"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <img
+                  src={defaultavater}
+                  alt="default-avatar"
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+          </div>
+          {/* Input for image upload */}
+          <input
+            id="avatar"
+            type="file"
+            accept="image/*"
+            onChange={captureImage}
+            className="hidden"
+          />
+        </label>
+        <Button
+          onClick={handleNextPressed}
+          radius="full"
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-600 text-white"
+        >
+          Next
+        </Button>
+      </form>
+    </Card>
+  )
+}
+
 const SignUp = () => {
   const [formData, setFormData] = useState({ 
     name: "",
@@ -300,7 +376,7 @@ const SignUp = () => {
     } else if (flowPage === 3){
       return <Flow3 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow3>;
     }else if (flowPage === 4){
-      return <div>Flow 4</div>
+      return <Flow4 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow4>;
     }else if (flowPage === 5){
       return <div>Flow 5</div>
     }
