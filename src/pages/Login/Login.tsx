@@ -54,7 +54,7 @@ const Login = () => {
           <div className="flex items-center justify-center pb-4">
             <span className="text-gray-500">OR</span>
           </div>
-          <Button radius="full" className="bg-transparent border flex items-center justify-center mb-2 w-[300px] h-[50px]">
+          <Button radius="full" className="border flex items-center justify-center mb-2 w-[300px] h-[50px] bg-blue-500 text-white">
             <Link to="/signup">Sign up with phone or email</Link>
           </Button>
           <p className='text-[16px] mb-10'>
