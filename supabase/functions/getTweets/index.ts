@@ -21,14 +21,24 @@ Deno.serve(async (req) => {
 
   try {
 
-    const { tweetsData, error } = await supabase
-    .from('tweets')
-    .select(`*, retweets(count)`);
-    /**
-     * const { data, error } = await supabase
-      .from('countries')
-      .select(`*, cities(count)`)
-     */
+
+    const { data: tweetsData, error } = await supabase
+    .from('Tweets')
+    .select(`
+      *,
+      Retweets (
+       count()
+      ),
+      Likes(
+        count()
+      ),
+      Saves(
+        count()
+      ),
+      Comments(
+        count()
+      )
+    `);
   
     if(error)
     {
