@@ -32,6 +32,19 @@ interface PopupProps {
   onClose: () => void;
 }
 
+interface TweetProps {
+  id: number;
+  image: string;
+  createdAt: string;
+  name: string;
+  username: string;
+  text: string;
+  image_url: string;
+  likes: number;
+  retweets: number;
+  quotes: number;
+}
+
 const editingProfile: React.FC<PopupProps> = ({ isOpen, onClose }) => {
   const [isVisible, setIsVisible] = useState(isOpen);
   const popupRef = useRef<HTMLDivElement>(null);
@@ -66,6 +79,7 @@ const editingProfile: React.FC<PopupProps> = ({ isOpen, onClose }) => {
 };
 
 const ProfileDetails = () => {
+  const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails] = useState<any>(mockProfileDetails);
   const [createdAt] = useState<any>(
@@ -86,6 +100,147 @@ const ProfileDetails = () => {
   const [editedImage, setEditedImage] = useState<File | null>(null);
   const [editedBanner, setEditedBanner] = useState<File | null>(null);
   const [content, setContent] = useState(null);
+  const [followingCount, setFollowingCount] = useState<number>(10); // mock following count
+  const [followerCount, setFollowerCount] = useState<number>(20); // mock followers count
+  const [userTweets, setUserTweets] = useState<TweetProps[]>([]);
+  const [userReplies, setUserReplies] = useState<TweetProps[]>([]);
+  const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
+  const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
+  const [replies, setReplies] = useState<TweetProps[]>([]);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        //const { data: { user } } = {};
+        // if (user) {
+        const mockTweets: TweetProps[] = [
+          {
+            id: 1,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "This is a mock tweet.",
+            createdAt: "2022-01-01T00:00:00Z",
+            image_url: "",
+            likes: 2,
+            retweets: 4,
+            quotes: 1,
+          }
+        ];
+        setUserTweets(mockTweets);
+
+        const userData = {
+          following: 10, // mock following count
+          followers: 20, // mock followers count
+          Created_at: "2020-01-01T00:00:00Z",
+          User_Id: 1,
+          Username: "rickgrimes",
+        };
+        //setUserProfile(userData);
+
+        const mockLikedTweets: TweetProps[] = [
+          {
+            id: 1,
+            image:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
+            name: "Mock User L1",
+            username: "MUL1",
+            text: "Remember to change data",
+            createdAt: "2022-01-01T00:00:00Z",
+            image_url: "",
+            likes: 8,
+            retweets: 564,
+            quotes: 10000,
+          }
+        ];
+        setLikedTweets(mockLikedTweets);
+
+        const mockReplies: TweetProps[] = [
+          {
+            id: 1,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "This is a mock reply.",
+            createdAt: "2022-01-01T00:00:00Z",
+            image_url: "",
+            likes: 0,
+            retweets: 0,
+            quotes: 0,
+          }
+        ];
+        setUserReplies(mockReplies);
+
+        // const createdDate = new Date(userData.Created_at);
+        // const formattedDate = createdDate.toLocaleString("en-US", {
+        //   month: "long",
+        //   year: "numeric",
+        // });
+        // setCreatedAt(formattedDate);
+
+        if (userData?.User_Id) {
+          const profileData = {
+            Profile_Type: "Public", // mock profile type
+            Bio: "This is a mock bio.", // mock bio
+            Location: "Mock City", // mock location
+            Website: "https://mockwebsite.com", // mock website
+            Img_Url: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            Banner_Url:
+              "https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2020/02/Usign-Gradients-Featured-Image.jpg",
+          };
+          //setProfileDetails(profileData);
+
+          // Count followers
+          const { data: followersData, error: followersError } = {
+            data: [{ id: 1 }, { id: 2 }, { id: 3 }], // mock followers data
+            error: null, // or some mock error
+          };
+
+          const followersCount = followersData.length;
+          setFollowerCount(followersData.length);
+
+          // Count following
+          const { data: followingData, error: followingError } = {
+            data: [
+              { id: 1 },
+              { id: 2 },
+              { id: 3 },
+              ,
+              { id: 4 },
+              { id: 6 },
+              { id: 5 },
+            ], // mock following data
+            error: null, // or some mock error
+          };
+
+          const followingCount = followingData.length;
+          setFollowingCount(followingData.length);
+
+          //implement functionality to fetch current user's tweets: const { data: userTweets, error: tweetFetchError }
+
+          //implement functionality to fetch retweets : const { data: replies, error: repliesError }
+
+          //implement functionality to fetch likes :  const { data: userLikes, error: userLikesError }
+
+          // setUserProfile((prevState: any) => ({
+          //   ...prevState,
+          //   followers: followerCount,
+          //   following: followingCount,
+          // }));
+        } else {
+          console.error("User data ID is undefined");
+        }
+      } catch (error) {
+        console.error("Error fetching user profile:");
+      }
+    };
+
+    fetchUserProfile();
+  }, [activeTab]);
+
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+  };
 
   // useEffect(() => {
   //   const fetchUserProfile = async () => {
@@ -410,17 +565,165 @@ const ProfileDetails = () => {
                   </div>
                 </div>
                 <div className="profile-tabs">
-                  <Button className="active">Tweets</Button>
-                  <Button className="active">Replies</Button>
-                  <Button className="active">Media</Button>
-                  <Button className="active">Likes</Button>
+                  <button
+                    className={activeTab === "tweets" ? "active" : ""}
+                    onClick={() => handleTabClick("tweets")}
+                  >
+                    Tweets
+                  </button>
+                  <button
+                    className={activeTab === "replies" ? "active" : ""}
+                    onClick={() => handleTabClick("replies")}
+                  >
+                    Tweets & replies
+                  </button>
+                  <button
+                    className={activeTab === "media" ? "active" : ""}
+                    onClick={() => handleTabClick("media")}
+                  >
+                    Media
+                  </button>
+                  <button
+                    className={activeTab === "likes" ? "active" : ""}
+                    onClick={() => handleTabClick("likes")}
+                  >
+                    Likes
+                  </button>
                 </div>
+                {activeTab === "tweets" && (
+                  <div>
+                    {userTweets.length === 0 ? (
+                      <p>User hasn't tweeted yet</p>
+                    ) : (
+                      userTweets.map((tweet, index) => (
+                        <div key={index} className="tweet">
+                          <div className="user-info">
+                            <img
+                              src={tweet.image}
+                              alt="User profile"
+                              height={25}
+                              width={25}
+                            />
+                            <h4>{tweet.name}</h4>
+                            <p>@{tweet.username}</p>
+                          </div>
+                          <p>{tweet.text}</p>
+                          {tweet.image_url && (
+                            <p>
+                              <img
+                                src={tweet.image_url}
+                                alt="Tweet"
+                                height={150}
+                                width={350}
+                              />
+                            </p>
+                          )}
+                          <div className="flex space-x-4">
+                            <p>{tweet.likes}</p>
+                            <p>{tweet.retweets}</p>
+                            <p>{tweet.quotes}</p>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+                {activeTab === "media" && (
+                  <div className="grid grid-cols-3 gap-4">
+                    {userTweets.filter((tweet) => tweet.image_url !== "")
+                      .length === 0 ? (
+                      <p>No media to display</p>
+                    ) : (
+                      userTweets
+                        .filter((tweet) => tweet.image_url !== "")
+                        .map((tweet, index) => (
+                          <div key={index}>
+                            <img
+                              src={tweet.image_url}
+                              alt="Tweet"
+                              height={100}
+                              width={200}
+                            />
+                          </div>
+                        ))
+                    )}
+                  </div>
+                )}
+
+                {activeTab === "replies" && (
+                  <div>
+                    {userReplies.length === 0 ? (
+                      <p>No replies to display</p>
+                    ) : (
+                      userReplies.map((reply, index) => (
+                        <div key={index} className="reply">
+                          <div className="user-info">
+                            <h4>{reply.name}</h4>
+                            <p>@{reply.username}</p>
+                          </div>
+                          <p>{reply.text}</p>
+                          {reply.image_url && (
+                            <p>
+                              <img
+                                src={reply.image_url}
+                                alt="Tweet"
+                                height={150}
+                                width={350}
+                              />
+                            </p>
+                          )}
+                          <div className="flex space-x-4">
+                            <p>{reply.likes} Likes</p>
+                            <p>{reply.retweets} Retweets</p>
+                            <p>{reply.quotes} Quotes</p>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
               </div>
+              {activeTab === "likes" && (
+                <div>
+                  {likedTweets.length === 0 ? (
+                    <p>No liked tweets to display.</p>
+                  ) : (
+                    likedTweets.map((tweet, index) => (
+                      <div key={index} className="tweet">
+                        <div className="user-info">
+                          <img
+                            src={tweet.image}
+                            alt="User profile"
+                            height={25}
+                            width={25}
+                          />
+                          <h4>{tweet.name}</h4>
+                          <p>@{tweet.username}</p>
+                        </div>
+                        <p>{tweet.text}</p>
+                        {tweet.image_url && (
+                          <p>
+                            <img
+                              src={tweet.image_url}
+                              alt="Tweet"
+                              height={150}
+                              width={350}
+                            />
+                          </p>
+                        )}
+                        <div className="flex space-x-4">
+                          <p>{tweet.likes} Likes</p>
+                          <p>{tweet.retweets} Retweets</p>
+                          <p>{tweet.quotes} Quotes</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
-        {/* Tweets */}
-        {content}
 
         <div className="sidebar-right w-1/4">
           <SearchBar />
