@@ -1,6 +1,5 @@
 import { useEffect, useState} from "react";
-import React from "react";
-import { isUserLoggedIn, signUpNewUser } from "@services/index";
+import { isUserLoggedIn, signUpNewUser, uploadProfile } from "@services/index";
 import { useNavigate} from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
@@ -11,29 +10,36 @@ import { createDateObject } from '@utils/index';
 //The Name, Email and Date Capture
 const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
 
-
   const [selectedMonth, setSelectedMonth] = useState("Month");
   const [selectedDay, setSelectedDay] = useState("Day");
   const [selectedYear, setSelectedYear] = useState("Year");
 
-
-
-  const handleNextPressed = () => {
-
-    // setFormData({...formData, birthdate: new Date(selectedYear ,selectedMonth, selectedDay) })
-    console.table(formData);
-
-    setFlowPage(2);
+  const handleNextPressed = (e: any) => {
+    e.preventDefault();
+    if(formData.name === "" || formData.email === "") return;
+    if(selectedDay === "Day" || selectedMonth === "Month" || selectedYear === "Year") return;
+    setFormData({...formData, dob: createDateObject(selectedDay, selectedMonth, selectedYear) });
+    setFlowPage(3);//we are skipping capturing the code for now
   }
   
   const yearItems = [];
   for (let year = 1904; year <= 2024; year++) {
-    yearItems.push(<DropdownItem key={year.toString()}>{year.toString()}</DropdownItem>);
+    yearItems.push(
+    <DropdownItem 
+      key={year.toString()}
+      onClick={() => setSelectedYear(year.toString())}>
+        {year.toString()}
+      </DropdownItem>);
   }
 
   const dayItems = [];
   for (let day = 1; day <= 31; day++) {
-    dayItems.push(<DropdownItem key={day.toString().padStart(2, '0')}>{day.toString().padStart(2, '0')}</DropdownItem>);
+    dayItems.push(
+    <DropdownItem 
+    key={day.toString().padStart(2, '0')}
+    onClick={() => setSelectedDay(day.toString())}>
+      {day.toString().padStart(2, '0')}
+    </DropdownItem>);
   }
 
   const monthItems = [
@@ -102,7 +108,11 @@ const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
                 className="max-h-40 overflow-y-auto"
               >
                 {monthItems.map(month => (
-                <DropdownItem key={month.key}>{month.label}</DropdownItem>
+                <DropdownItem 
+                  key={month.key}
+                  onClick={() => setSelectedMonth(month.label)}>
+                    {month.label}
+                  </DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>
@@ -155,14 +165,14 @@ const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
               </DropdownMenu>
             </Dropdown>
           </div>
-          <Button onPress={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
+          <Button onClick={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
         </form>
       </Card>
   )
 }
 
 
-//the create password flow
+//the capture of the code sent to the email//but skip for now
 const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 
   const handleNextPressed = () => {
@@ -203,23 +213,16 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
           >
             <p className="text-gray-600 font-bold">Resend email</p>
           </Button>
-          <Button onPress={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
+          <Button onClick={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
         </form>
       </Card>
   )
 }
 
 const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
-
-  const navigate = useNavigate(); // Initialize useNavigate hook
-
   const handleNextPressed = async() => {
-    const status = await signUpNewUser(formData);
-    if (status === "error") {
-      console.error("Error signing up");
-    } else {
-      navigate("/home"); // Redirect to home page if user is logged in
-    }
+    if(formData.password === "") return;
+    await signUpNewUser(formData);
     setFlowPage(4);
   }
 
@@ -256,7 +259,7 @@ const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
               </a>
             </span>
           </p>
-          <Button onPress={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
+          <Button onClick={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
         </form>
       </Card>
   )
@@ -289,7 +292,6 @@ const SignUp = () => {
     checkUser();
   }, []);
 
-
   const DisplayPage = () => {
     if (flowPage === 1){
       return <Flow1 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow1>;
@@ -303,7 +305,6 @@ const SignUp = () => {
       return <div>Flow 5</div>
     }
   }
-
 
   return (
     <div className="flex items-center justify-center h-screen bg-white"> 
