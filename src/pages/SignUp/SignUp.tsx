@@ -168,10 +168,56 @@ const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
 const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 
   const handleNextPressed = () => {
+
+    setFlowPage(3);
+  }
+
+  return (
+    <Card shadow="sm" className="w-[400px] p-10">
+        <div className="text-center">
+          <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
+          <h2 className="text-xl font-bold mb-4">We sent you a code</h2>
+        </div>
+        <p className="text-xs text-gray-600 mb-4">Enter it below to verify</p>
+        <form className="w-full flex flex-col pt-2">
+          <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0">
+            <Input 
+              variant="underlined"
+              type="text"
+              placeholder="Enter code"
+              value={formData.code}
+              onChange={e => setFormData({ ...formData, code: e.target.value })}
+              required
+            />
+          </div>
+          <p className="text-xs text-blue-500 hover:underline mb-1">Didn't receive email?</p>
+          <Button 
+            variant="bordered"
+            size="sm"
+            style={{
+              width: '100px',
+              height: '50px',
+              borderRadius: '10px',
+              minWidth: '70px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.4)',  
+            }}
+            className="capitalize border border-gray-300 mb-12"
+          >
+            <p className="text-gray-600 font-bold">Resend email</p>
+          </Button>
+          <Button onPress={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
+        </form>
+      </Card>
+  )
+}
+
+const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
+
+  const handleNextPressed = () => {
     //todo: create supabase user here
     // supabase.auth.s
 
-    setFlowPage(3);
+    setFlowPage(4);
   }
 
   return (
@@ -187,7 +233,7 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
               type="password"
               placeholder="Password"
               value={formData.password}
-              onChange={e => setFormData({ ...formData, password: e.target.value })}
+              onChange={e => setFormData({ ...formData, code: e.target.value })}
               required
             />
           </div >
@@ -222,7 +268,6 @@ const SignUp = () => {
     password: "",
     username: "",
     birthdate: new Date(),
-    
   });
   
   // const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -268,7 +313,7 @@ const SignUp = () => {
     }else if (flowPage === 2){
       return <Flow2 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow2>;
     } else if (flowPage === 3){
-      return <div>Flow 3</div>
+      return <Flow3 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow3>;
     }else if (flowPage === 4){
       return <div>Flow 4</div>
     }else if (flowPage === 5){
