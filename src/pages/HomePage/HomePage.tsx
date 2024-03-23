@@ -1,6 +1,5 @@
 import { Tweet, TrendingTopics , WhoToFollow , Nav , Search, CreateTweet } from "@components/index";
 // import React,{useState,useEffect} from "react";
-import { Tweet, TrendingTopics , WhoToFollow , SideNavbar , CreateTweet } from "@components/index";
 //import React,{useState,useEffect} from "react";
 import React,{useState} from "react";
 //import {supabase} from '@config/supabase';
@@ -102,7 +101,7 @@ const [likesCount] = useState<any>(mockLikesCount);
     }
   };
 
-  // TWEET DISPLAY
+  // TWEET DISPLAY with mock data, scroll down for db acess tweet display
 
   return (
     <div className="container flex">
@@ -162,10 +161,15 @@ const [likesCount] = useState<any>(mockLikesCount);
             >
               <CreateTweet></CreateTweet>
             </Tab>
-          </Tabs> */}
-        </div>  
-  // TWEET DISPLAY with db acess
- /* return (
+            </Tabs> */}
+      </div>  
+      <WhoToFollow users={[]}/>
+      </div>
+    </div>
+  );
+  //TWEET DISPLAY with db acess
+  /*
+  return (
     <div className="container">
       <SideNavbar />
       <div className="main-content">
@@ -197,83 +201,7 @@ const [likesCount] = useState<any>(mockLikesCount);
       </div>
     </div>
   );
-        <WhoToFollow />
-      </div>
-    </div>
-  );
-*/
-
-//mock data Tweet Display
-return (
-  <div className="container flex">
-    <div className="nav w-1/5 ml-20 mr-6">
-      <Nav />
-    </div>
-    <div className="main-content max-w-full m-0 p-0 border">
-      <div className="flex min-w-full flex-col m-0 p-0 justify-center">
-        {/* <Tabs 
-          aria-label="Options" 
-          variant="underlined"
-          classNames={{
-            tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider justify-center",
-            cursor: "max-w-24 rounded-full h-1 bg-[#22d3ee]",
-            tab: "max-w-full h-2 px-0 h-12",
-            tabContent: "group-data-[selected=true]:text-[#000000] font-semibold"
-          }}
-        >
-          <Tab
-            title={
-              <div className="flex items-center space-x-2">
-                <span>For you</span>
-              </div>
-            }
-            className="text-md p-0"
-          > */}
-            <CreateTweet></CreateTweet>
-             {tweets.map(tweet => {
-              const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-              const saves = savesCount[tweet.Tweet_Id] || 0 ;
-              const comments = commentsCount[tweet.Tweet_Id] || 0;
-              const likes = likesCount[tweet.Tweet_Id] || 0;
-              const retweets = retweetsCount[tweet.Tweet_Id] || 0;
-              return (
-                <Tweet
-                  key={tweet.Tweet_Id}
-                  name={user ? user.Name : "Unknown User"}
-                  username={user ? `@${user.Username}` : ""}
-                  text={tweet.Content}
-                  imageUrl={tweet.Img_Url}
-                  timeDisplay={getTimeDisplay(tweet.Created_at)}
-                  likes={formatCount(likes)}
-                  retweets={formatCount(retweets)}
-                  saves={formatCount(saves)}
-                  comments={formatCount(comments)}
-                />
-              );
-            })}
-          {/* </Tab>
-          <Tab
-            title={
-              <div className="flex items-center space-x-2">
-                <span>Following</span>
-              </div>
-            }
-            className="text-md"
-          >
-            <CreateTweet></CreateTweet>
-          </Tab>
-        </Tabs> */}
-      </div>  
-    </div>
-    <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
-      <div className="mb-3">
-        <Search />
-      </div>
-      <TrendingTopics />
-      <WhoToFollow users={[]} />
-    </div>
-  </div>
-);
-};
+  */
+      }
 
 export default HomePage;
