@@ -211,10 +211,15 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 
 const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
 
-  const handleNextPressed = () => {
-    //todo: create supabase user here ->there is an auth function called ```signUpNewUser``` that should be called in the SignUp component when the fourth flow is reached. it is already imported on line 3
-    // supabase.auth.s
-    
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  const handleNextPressed = async() => {
+    const status = await signUpNewUser(formData);
+    if (status === "error") {
+      console.error("Error signing up");
+    } else {
+      navigate("/home"); // Redirect to home page if user is logged in
+    }
     setFlowPage(4);
   }
 
@@ -269,16 +274,6 @@ const SignUp = () => {
   const [flowPage, setFlowPage] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
 
   const navigate = useNavigate(); // Initialize useNavigate hook
-
-
-  const handleSubmit = async () => {
-    const status = await signUpNewUser(formData);
-    if (status === "error") {
-      console.error("Error signing up");
-    } else {
-      navigate("/home"); // Redirect to home page if user is logged in
-    }
-  };
 
   useEffect(() => {
     // this is neccessary for checking if the user is signed in
