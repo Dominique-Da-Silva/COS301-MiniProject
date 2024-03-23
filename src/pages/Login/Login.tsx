@@ -30,7 +30,7 @@ const Login = () => {
   
     // Call the async function
     checkUser();
-  }, []);
+  }, [navigate]);
   
   return (
     <div className='flex top-0 h-screen'>

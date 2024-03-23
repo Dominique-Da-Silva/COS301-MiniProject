@@ -409,7 +409,7 @@ const SignUp = () => {
     
     // Call the async function
     checkUser();
-  }, []);
+  }, [navigate]);
 
   const DisplayPage = () => {
     if (flowPage === 1){

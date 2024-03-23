@@ -36,7 +36,7 @@ const SignIn = () => {
   
     // Call the async function
     checkUser();
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="flex items-center justify-center h-screen bg-white"> 
