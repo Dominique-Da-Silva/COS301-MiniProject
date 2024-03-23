@@ -4,6 +4,6 @@ import WhoToFollow from './WhoToFollow';
 
 describe('WhoToFollow component', () => {
   test("renders without crashing", () => {
-    render(<WhoToFollow />);
+    render(<WhoToFollow users={[]} />);
   })
 });
