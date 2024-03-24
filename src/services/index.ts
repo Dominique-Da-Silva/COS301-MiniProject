@@ -1,4 +1,5 @@
-import {fetchUsers} from "./homeServices/getUsersData"
-import {fetchTweets}  from "./homeServices/getTweets"
-export{fetchUsers}
-export{fetchTweets}
+//import func from "./folder/func";
+
+//export default {
+//  func
+//};
