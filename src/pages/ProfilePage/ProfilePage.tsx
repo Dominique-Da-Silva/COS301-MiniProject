@@ -265,150 +265,104 @@ const ProfileDetails = () => {
     return <div>Loading...</div>; // Render loading indicator until data is fetched
   }
 
-  return (
-    <div className="profile-page">
+  return ( 
+    <div className="profile-page flex">
       <Nav />
-      <div className="main-content">
-        <div className="profile-header">
-          <img src={profileDetails.Banner_Url} alt="Cover" className="cover-picture" />
-          <div className="profile-info">
-            <img
-              src={profileDetails.Img_Url}
-              alt="Profile"
-              className="profile-picture"
-            />
-            <div>
-              <div>
-                <h2>{userProfile.Name}</h2>
-                <h3>@{userProfile.Username}</h3>
-              </div>
-              <button onClick={handleEditClick}>Edit Profile</button>
-            </div>
-          </div>
-        </div>
-        <div className="profile-details">
-          {isEditing ? (
-            <div>
-              <label htmlFor="banner">Banner</label>
-              {editedBanner ? (
-                <img
-                  src={URL.createObjectURL(editedBanner)}
-                  alt="Banner"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : profileDetails.Banner_Url ? (
-                <img
-                  src={profileDetails.Banner_Url}
-                  alt="Banner"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : (
-                <span>No banner image selected</span>
-              )}
-              <input
-                type="file"
-                name="banner"
-                onChange={(e) => {
-                  const files = e.target.files;
-                  if (files && files.length > 0) {
-                    setEditedBanner(files[0]);
-                  }
-                }}
-              />
-
-              <label htmlFor="image">Profile Image</label>
-              {editedImage ? (
-                <img
-                  src={URL.createObjectURL(editedImage)}
-                  alt="Profile Image"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : profileDetails.Img_Url ? (
-                <img
-                  src={profileDetails.Img_Url}
-                  alt="Profile Image"
-                  style={{ maxWidth: '100%', maxHeight: '200px' }}
-                />
-              ) : (
-                <span>No profile image selected</span>
-              )}
-              <input
-                type="file"
-                name="image"
-                onChange={(e) => {
-                  const files = e.target.files;
-                  if (files && files.length > 0) {
-                    setEditedImage(files[0]);
-                  }
-                }}
-              />
-
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                value={editedName}
-                onChange={(e) => setEditedName(e.target.value)}
-              />
-              <label htmlFor="bio">Bio</label>
-              <textarea
-                value={editedBio}
-                onChange={(e) => setEditedBio(e.target.value)}
-              ></textarea>
-              <label htmlFor="location">Location</label>
-              <input
-                type="text"
-                value={editedLocation}
-                onChange={(e) => setEditedLocation(e.target.value)}
-              />
-              <label htmlFor="website">Website</label>
-              <input
-                type="text"
-                value={editedWebsite}
-                onChange={(e) => setEditedWebsite(e.target.value)}
-              />
-              {/* <button onClick={handleSaveClick}>Save</button> */}
-              <button onClick={handleCancelClick}>Cancel</button>
-            </div>
-          ) : (
-            <div>
-              <h3>{profileDetails.Profile_Type}</h3>
-              <p>{profileDetails.Bio}</p>
-              <p>
-                . Location: {profileDetails.Location} . Joined {createdAt}
-              </p>
-              <p><a href={profileDetails.Website}>{profileDetails.Website}</a></p>
-              <p>
-                <span>{userProfile.following} Following</span>{" "}
-                <span>{userProfile.followers} Followers</span>
-              </p>
-            </div>
-          )}
-        </div>
-        <div className="profile-tabs">
-          <button className="active">Tweets</button>
-          <button>Tweets & replies</button>
-          <button>Media</button>
-          <button>Likes</button>
-        </div>
-        <Tweet
-          name="Devon Lane"
-          username="@johndoe"
-          text="Tom is in a big hurry."
-          imageUrl="https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg" 
-          timeDisplay=""        />
-        <Tweet
-          name="Darlene Robertson"
-          username="@johndoe"
-          text="Tom is in a big hurry."
-          imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg" 
-          timeDisplay=""   />
+      <div className="main-content flex-grow ml-72">
+  <div className="profile-header">
+    <img src={profileDetails.Banner_Url} alt="Cover" className="cover-picture" />
+    <div className="profile-info flex items-center">
+      <img src={profileDetails.Img_Url} alt="Profile" className="profile-picture" />
+      <div className="ml-4">
+        <h2>{userProfile.Name}</h2>
+        <h3>@{userProfile.Username}</h3>
       </div>
-      <div className="side-content">
-        <TrendingTopics />
+      <button onClick={handleEditClick} className="ml-auto bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+        Edit Profile
+      </button>
+    </div>
+  </div>
+  <div className="profile-details mt-4">
+    {isEditing ? (
+      <div>
+        <label htmlFor="banner">Banner</label>
+        {editedBanner ? (
+          <img src={URL.createObjectURL(editedBanner)} alt="Banner" className="max-w-full max-h-200px mb-4" />
+        ) : profileDetails.Banner_Url ? (
+          <img src={profileDetails.Banner_Url} alt="Banner" className="max-w-full max-h-200px mb-4" />
+        ) : (
+          <span>No banner image selected</span>
+        )}
+        <input type="file" name="banner" onChange={(e) => handleBannerChange(e)} />
+
+        <label htmlFor="image">Profile Image</label>
+        {editedImage ? (
+          <img src={URL.createObjectURL(editedImage)} alt="Profile Image" className="max-w-full max-h-200px mb-4" />
+        ) : profileDetails.Img_Url ? (
+          <img src={profileDetails.Img_Url} alt="Profile Image" className="max-w-full max-h-200px mb-4" />
+        ) : (
+          <span>No profile image selected</span>
+        )}
+        <input type="file" name="image" onChange={(e) => handleImageChange(e)} />
+
+        <label htmlFor="name">Name</label>
+        <input type="text" value={editedName} onChange={(e) => setEditedName(e.target.value)} />
+        <label htmlFor="bio">Bio</label>
+        <textarea value={editedBio} onChange={(e) => setEditedBio(e.target.value)}></textarea>
+        <label htmlFor="location">Location</label>
+        <input type="text" value={editedLocation} onChange={(e) => setEditedLocation(e.target.value)} />
+        <label htmlFor="website">Website</label>
+        <input type="text" value={editedWebsite} onChange={(e) => setEditedWebsite(e.target.value)} />
+        <div className="flex justify-end">
+          <button onClick={handleSaveClick} className="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded mr-2">
+            Save
+          </button>
+          <button onClick={handleCancelClick} className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded">
+            Cancel
+          </button>
+        </div>
+      </div>
+    ) : (
+      <div>
+        <h3>{profileDetails.Profile_Type}</h3>
+        <p>{profileDetails.Bio}</p>
+        <p>. Location: {profileDetails.Location}. Joined {createdAt}</p>
+        <p><a href={profileDetails.Website}>{profileDetails.Website}</a></p>
+        <p>
+          <span>{userProfile.following} Following</span>{" "}
+          <span>{userProfile.followers} Followers</span>
+        </p>
+      </div>
+    )}
+  </div>
+  <div className="profile-tabs mt-4">
+    <button className="active">Tweets</button>
+    <button>Tweets & replies</button>
+    <button>Media</button>
+    <button>Likes</button>
+  </div>
+  <Tweet
+    name="Devon Lane"
+    username="@johndoe"
+    text="Tom is in a big hurry."
+    imageUrl="https://upload.wikimedia.org/wikipedia/commons/d/de/Nokota_Horses_cropped.jpg"
+    timeDisplay=""
+  />
+  <Tweet
+    name="Darlene Robertson"
+    username="@johndoe"
+    text="Tom is in a big hurry."
+    imageUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
+    timeDisplay=""
+  />
+</div>
+
+      <div className="side-content w-1/4">
+      <TrendingTopics />
         <WhoToFollow users={[]} />
       </div>
     </div>
-  );
+  ); 
 };
 
 const ProfilePage = () => {

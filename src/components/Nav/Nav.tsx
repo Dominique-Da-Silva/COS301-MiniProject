@@ -3,13 +3,13 @@ import { GoHomeFill } from "react-icons/go";
 import { FiSettings } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
 import { PiBellBold } from "react-icons/pi";
-import { FaRegBookmark } from "react-icons/fa6";
+import { FaRegBookmark } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Button } from '@nextui-org/button';
 
 const Nav = () => {
   return (
-    <div className="sidebar mt-0 mr-0 pl-12 border-r-0 font-semibold fixed">
+    <div className="sidebar mt-0 mr-0 pl-12 border-r-0 font-semibold fixed h-full bg-white w-1/5 overflow-y-auto overflow-x-hidden">
       <div className="sidebar-item-logo w-16 h-16 flex items-center mb-2 cursor-pointer rounded-full hover:bg-slate-200 p-3">
         <FaTwitter size={35} />
       </div>
@@ -38,11 +38,11 @@ const Nav = () => {
         <FiSettings size={28} className="mr-5" />
         Settings
       </div>
-      <Button size="lg" className="post-button bg-sky-500 w-56 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
+      <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
         Post
       </Button>
     </div>
-  )
+  );
 }
 
 export default Nav;
