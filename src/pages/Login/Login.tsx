@@ -41,8 +41,8 @@ const Login = () => {
           <div className='w-full'>
             <img src={twitterLogo} alt="logo" className="w-14 ml-2" />
           </div>
-          <h1 className='text-black font-black text-[84px] mt-5'>Happening Now</h1>
-          <h2 className='text-black font-black text-[42px] mt-5 mb-5'>Join Twitter today</h2>
+          <h1 className='text-black font-black text-5xl mt-5'>Happening Now</h1>
+          <h2 className='text-black font-black text-2xl mt-5 mb-5'>Join Twitter today</h2>
           <Button radius="full" className="bg-transparent border flex items-center justify-center mb-4 w-[300px] h-[50px]" onClick={() => signInWithProvider("google")}>
             <img src={google} alt="logo" className="logo mr-2 w-5 h-5"/>
             Sign up with Google
@@ -57,9 +57,9 @@ const Login = () => {
           <Button radius="full" className="border flex items-center justify-center mb-2 w-[300px] h-[50px] bg-blue-500 text-white">
             <Link to="/signup">Sign up with phone or email</Link>
           </Button>
-          <p className='text-[16px] mb-10'>
-          By signing up, you agree to 
-          the <a href='https://twitter.com/en/tos' className='text-blue-500'>Terms of Service</a> and <a href='https://twitter.com/en/privacy' className='text-blue-500'>Privacy Policy</a>, including <a href='https://help.twitter.com/en/rules-and-policies/x-cookies' className='text-blue-500'> Cookie Use</a>.
+          <p className='text-sm mb-10 text-center'>
+            By signing up, you agree to 
+            the <a href='https://twitter.com/en/tos' className='text-blue-500'>Terms of Service</a> and <a href='https://twitter.com/en/privacy' className='text-blue-500'>Privacy Policy</a>, including <a href='https://help.twitter.com/en/rules-and-policies/x-cookies' className='text-blue-500'> Cookie Use</a>.
           </p>
           <p className='text-[16px]'>
             Already have an account? <Link to="/signin" className='text-blue-500'>Log In</Link>
