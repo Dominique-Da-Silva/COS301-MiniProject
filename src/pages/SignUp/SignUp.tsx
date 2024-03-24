@@ -238,13 +238,13 @@ const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
               type="password"
               placeholder="Password"
               value={formData.password}
-              onChange={e => setFormData({ ...formData, code: e.target.value })}
+              onChange={e => setFormData({ ...formData, password: e.target.value })}
               required
             />
           </div >
           <p className="text-xs text-center mt-12">
             <span>
-              By singing up you agree to the{' '}
+              By signing up you agree to the{' '}
               <a href="https://twitter.com/en/tos" className="text-blue-500 hover:underline">
                 Terms of Service
               </a>{' '}
