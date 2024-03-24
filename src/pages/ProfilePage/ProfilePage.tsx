@@ -231,16 +231,13 @@ const ProfileDetails = () => {
           //     "https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2020/02/Usign-Gradients-Featured-Image.jpg",
           // };
           //setProfileDetails(profileData);
-
           // Count followers
           // const { data: followersData, error: followersError } = {
           //   data: [{ id: 1 }, { id: 2 }, { id: 3 }], // mock followers data
           //   error: null, // or some mock error
           // };
-
           // const followersCount = followersData.length;
           // setFollowerCount(followersData.length);
-
           // // Count following
           // const { data: followingData, error: followingError } = {
           //   data: [
@@ -254,16 +251,11 @@ const ProfileDetails = () => {
           //   ], // mock following data
           //   error: null, // or some mock error
           // };
-
           // const followingCount = followingData.length;
           // setFollowingCount(followingData.length);
-
           //implement functionality to fetch current user's tweets: const { data: userTweets, error: tweetFetchError }
-
           //implement functionality to fetch retweets : const { data: replies, error: repliesError }
-
           //implement functionality to fetch likes :  const { data: userLikes, error: userLikesError }
-
           // setUserProfile((prevState: any) => ({
           //   ...prevState,
           //   followers: followerCount,
@@ -280,7 +272,7 @@ const ProfileDetails = () => {
     fetchUserProfile();
   }, [activeTab]);
 
-  const handleTabClick = (tabName:string ) => {
+  const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
 
@@ -555,11 +547,11 @@ const ProfileDetails = () => {
     <div>
       {" "}
       {/* BANNER */}{" "}
-      <div className="profile-page flex bg-white">
-        <div className="sidebar-left w-1/4">
+      <div className="container flex">
+        <div className="nav w-1/5 ml-20 mr-6">
           <Nav />
         </div>
-        <div className="main-content flex-1 ">
+        <div className="main-content max-w-full m-0 p-0 border ">
           <div className="banner flex">
             {/* <img src={profileDetails.Banner_Url} alt="Banner" /> */}
           </div>
@@ -704,17 +696,17 @@ const ProfileDetails = () => {
                   ) : (
                     likedTweets.map((tweet, index) => (
                       <Tweet
-                          key={index}
-                          name={tweet.name}
-                          username={tweet.username}
-                          text={tweet.text}
-                          imageUrl={tweet.image_url}
-                          likes={tweet.likes}
-                          retweets={tweet.retweets}
-                          comments={1000}
-                          saves={1000}
-                          timeDisplay={getTimeDisplay(tweet.createdAt)}
-                        />
+                        key={index}
+                        name={tweet.name}
+                        username={tweet.username}
+                        text={tweet.text}
+                        imageUrl={tweet.image_url}
+                        likes={tweet.likes}
+                        retweets={tweet.retweets}
+                        comments={1000}
+                        saves={1000}
+                        timeDisplay={getTimeDisplay(tweet.createdAt)}
+                      />
                     ))
                   )}
                 </div>
@@ -722,8 +714,10 @@ const ProfileDetails = () => {
             </div>
           </div>
         </div>
-        <div className="side-content">
-          <Search />
+        <div className="sidebar-right w-1/4 mr-32 ml-7 pl-1 pr-2">
+          <div className="mb-3">
+            <Search />
+          </div>
           <TrendingTopics />
           <WhoToFollow users={[]} />
         </div>
