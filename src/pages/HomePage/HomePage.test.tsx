@@ -24,3 +24,55 @@ jest.mock('@components/index', () => ({
   SideNavbar: jest.fn().mockReturnValue(null),
   CreateTweet: jest.fn().mockReturnValue(null),
 }));
+
+
+//function test for fetchtweets
+
+describe('HomePage', () => {
+  test('fetches Tweets from the Tweets table', async () => {
+    // Render the component
+    render(<HomePage />);
+
+    // Check if supabase.from has been called with the correct table name
+    expect(supabase.from).toHaveBeenCalledWith('Tweets');
+
+    // Check if supabase.from(...).select has been called
+    expect(supabase.from().select).toHaveBeenCalled();
+
+  });
+});
+
+// function test for fetchusers
+
+describe('HomePage', () => {
+  test('fetches users from the User table', async () => {
+    // Render the component
+    render(<HomePage />);
+
+    // Check if supabase.from has been called with the correct table name
+    expect(supabase.from).toHaveBeenCalledWith('User');
+
+    // Check if supabase.from(...).select has been called
+    expect(supabase.from().select).toHaveBeenCalled();
+
+  });
+});
+
+// function test for fetchSaves
+
+describe('HomePage', () => {
+  test('fetches saves from the saves table', async () => {
+    // Render the component
+    render(<HomePage />);
+
+    // Check if supabase.from has been called with the correct table name
+    expect(supabase.from).toHaveBeenCalledWith('Saves');
+
+    // Check if supabase.from(...).select has been called
+    expect(supabase.from().select).toHaveBeenCalled();
+
+  });
+});
+
+
+
