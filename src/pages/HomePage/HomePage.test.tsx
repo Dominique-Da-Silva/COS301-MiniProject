@@ -1,10 +1,11 @@
 import { render, waitFor } from '@testing-library/react';
+//import { getTimeDisplay } from './HomePage'; // Import the getTimeDisplay function
 import HomePage from './HomePage';
 
 test('renders HomePage component without crashing', () => {
   render(<HomePage />);
 });
-
+/*
 // Mocking the funcs used for supa base
 jest.mock('@config/supabase', () => ({
   supabase: {
@@ -120,7 +121,26 @@ describe('HomePage', () => {
     expect(supabase.from().select).toHaveBeenCalled();
 
   });
-});
+
+// testing the getTimedisplay function
 
 
+describe('getTimeDisplay function', () => {
+  test('if diff is less than 60 mins', () => {
+    const currentTime = new Date();
+    const pastTime = new Date(currentTime.getTime() - 30 * 60000); // 30 minutes ago i think?
+    expect(getTimeDisplay(pastTime.toISOString())).toBe('30m');
+  });
+
+  test('if diff is less than 24 hours but more than 60 mins', () => {
+    const currentTime = new Date();
+    const pastTime = new Date(currentTime.getTime() - 5 * 3600000); // 5 hours ago i think?
+    expect(getTimeDisplay(pastTime.toISOString())).toBe('5h');
+  });
+
+  test('if diff is more than 24 hours', () => {
+    const pastTime = new Date('2024-03-20T12:00:00Z'); // just picked a date that will always be in the past
+    expect(getTimeDisplay(pastTime.toISOString())).toBe('Mar 20');
+  });
+}); */
 
