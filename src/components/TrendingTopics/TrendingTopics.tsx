@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button } from "@nextui-org/react";
 // import { supabase } from "@config/supabase";
 import {Card, CardHeader, CardBody, CardFooter, Divider} from "@nextui-org/react";
 import { mockTopics } from '../../mockData/mockData';

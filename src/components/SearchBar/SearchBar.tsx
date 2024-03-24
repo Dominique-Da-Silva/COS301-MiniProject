@@ -1,4 +1,4 @@
-import { Input, Button } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import SearchIcon from "@mui/icons-material/Search"; // Correct import statement for SearchIcon
 
 const SearchBar: React.FC = () => {

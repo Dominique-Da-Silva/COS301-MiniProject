@@ -221,15 +221,15 @@ const ProfileDetails = () => {
         // setCreatedAt(formattedDate);
 
         if (userData?.User_Id) {
-          const profileData = {
-            Profile_Type: "Public", // mock profile type
-            Bio: "This is a mock bio.", // mock bio
-            Location: "Mock City", // mock location
-            Website: "https://mockwebsite.com", // mock website
-            Img_Url: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
-            Banner_Url:
-              "https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2020/02/Usign-Gradients-Featured-Image.jpg",
-          };
+          // const profileData = {
+          //   Profile_Type: "Public", // mock profile type
+          //   Bio: "This is a mock bio.", // mock bio
+          //   Location: "Mock City", // mock location
+          //   Website: "https://mockwebsite.com", // mock website
+          //   Img_Url: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+          //   Banner_Url:
+          //     "https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2020/02/Usign-Gradients-Featured-Image.jpg",
+          // };
           //setProfileDetails(profileData);
 
           // Count followers
