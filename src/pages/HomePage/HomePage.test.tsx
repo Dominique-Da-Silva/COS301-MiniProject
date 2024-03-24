@@ -74,5 +74,53 @@ describe('HomePage', () => {
   });
 });
 
+// function test for fetchComments
+
+describe('HomePage', () => {
+  test('fetches Comments from the Comments table', async () => {
+    // Render the component
+    render(<HomePage />);
+
+    // Check if supabase.from has been called with the correct table name
+    expect(supabase.from).toHaveBeenCalledWith('Comments');
+
+    // Check if supabase.from(...).select has been called
+    expect(supabase.from().select).toHaveBeenCalled();
+
+  });
+});
+
+// function test for FetchRetweets
+
+describe('HomePage', () => {
+  test('fetches Retweets from the Retweets table', async () => {
+    // Render the component
+    render(<HomePage />);
+
+    // Check if supabase.from has been called with the correct table name
+    expect(supabase.from).toHaveBeenCalledWith('Retweets');
+
+    // Check if supabase.from(...).select has been called
+    expect(supabase.from().select).toHaveBeenCalled();
+
+  });
+});
+
+// function test for FetchLikes
+
+describe('HomePage', () => {
+  test('fetches Likes from the Likes table', async () => {
+    // Render the component
+    render(<HomePage />);
+
+    // Check if supabase.from has been called with the correct table name
+    expect(supabase.from).toHaveBeenCalledWith('Likes');
+
+    // Check if supabase.from(...).select has been called
+    expect(supabase.from().select).toHaveBeenCalled();
+
+  });
+});
+
 
 
