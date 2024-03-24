@@ -288,22 +288,82 @@ const ProfileDetails = () => {
         };
         //setUserProfile(userData);
 
-        // const mockLikedTweets: TweetProps[] = [
-        //   {
-        //     id: 1,
-        //     image:
-        //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
-        //     name: "Mock User L1",
-        //     username: "MUL1",
-        //     text: "Remember to change data",
-        //     createdAt: "2022-01-01T00:00:00Z",
-        //     image_url: "",
-        //     likes: 8,
-        //     retweets: 564,
-        //     quotes: 10000,
-        //   },
-        // ];
-        // setLikedTweets(mockLikedTweets);
+        const mockLikedTweets: TweetProps[] = [
+          {
+            id: 1,
+            image:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
+            name: "Mock User L1",
+            username: "MUL1",
+            text: "Remember to change data",
+            createdAt: "2022-01-01T00:00:00Z",
+            image_url: "",
+            likes: 8,
+            retweets: 564,
+            quotes: 10000,
+          },
+          {
+            id: 2,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
+            name: "Mock User L1",
+            username: "MUL1",
+            text: "Remember to change data",
+            createdAt: "2022-01-01T00:00:00Z",
+            image_url: "",
+            likes: 8,
+            retweets: 564,
+            quotes: 10000,
+          },
+          {
+            id: 3,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
+            name: "Mock User L1",
+            username: "MUL1",
+            text: "Great day ahead!",
+            createdAt: "2022-01-02T00:00:00Z",
+            image_url: "",
+            likes: 15,
+            retweets: 678,
+            quotes: 20000,
+          },
+          {
+            id: 4,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
+            name: "Mock User L1",
+            username: "MUL1",
+            text: "Just tweeting!",
+            createdAt: "2022-01-03T00:00:00Z",
+            image_url: "",
+            likes: 20,
+            retweets: 789,
+            quotes: 30000,
+          },
+          {
+            id: 5,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
+            name: "Mock User L1",
+            username: "MUL1",
+            text: "Feeling happy!",
+            createdAt: "2022-01-04T00:00:00Z",
+            image_url: "",
+            likes: 25,
+            retweets: 890,
+            quotes: 40000,
+          },
+          {
+            id: 6,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
+            name: "Mock User L1",
+            username: "MUL1",
+            text: "Tweeting away!",
+            createdAt: "2022-01-05T00:00:00Z",
+            image_url: "",
+            likes: 30,
+            retweets: 912,
+            quotes: 50000,
+          },
+        ];
+        setLikedTweets(mockLikedTweets);
 
         const mockReplies: TweetProps[] = [
           {
