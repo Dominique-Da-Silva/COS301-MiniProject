@@ -6,11 +6,8 @@ import CreateTweet from "./CreateTweet/CreateTweet";
 import Search from "./Search/Search";
 import Nav from "./Nav/Nav";
 import EditProfile from "./EditProfile/EditProfile";
-import SearchBar from "./SearchBar/SearchBar";
-// import SideNavbar from "./SideNavbar/SideNavbar";
 export {
   EditProfile,
-  SearchBar,
   HomeImage,
   Tweet,
   TrendingTopics,
