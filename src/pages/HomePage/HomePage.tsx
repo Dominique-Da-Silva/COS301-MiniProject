@@ -1,166 +1,51 @@
-import { Tweet, TrendingTopics , WhoToFollow , Nav , Search, CreateTweet } from "@components/index";
-// import React,{useState,useEffect} from "react";
+import { Tweet, WhoToFollow , Nav , CreateTweet } from "@components/index";
+//import React,{useState,useEffect} from "react"; for db acess uncomment here as well
 import React,{useState} from "react";
-//import {supabase} from '@config/supabase';
 // import {Tabs, Tab} from "@nextui-org/react";
 import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
+//import { fetchTweets, fetchUsers } from "@services/index"; for db acess uncomment here as well
 
 interface HomePageProps {}
 
-// const HomePage: React.FC<HomePageProps> = () => {
-//   const [tweets, setTweets] = useState<any[]>({});
-//   const [users,setUsers] = useState<any[]>({});
-//   const [savesCount, setSavesCount] = useState<any>({});
-//   const [commentsCount, setCommentsCount] = useState<any>({});
-//   const [retweetsCount, setRetweetsCount] = useState<any>({});
-//   const [likesCount, setLikesCount] = useState<any>({});
-  
-const HomePage: React.FC<HomePageProps> = () => {
-  const [tweets] = useState<any[]>(mockTweets);
-  const [users] = useState<any[]>(mockUsers);
-  const [savesCount] = useState<any>(mockSavesCount);
-  const [commentsCount] = useState<any>(mockCommentsCount);
-  const [retweetsCount] = useState<any>(mockRetweetsCount);
-  const [likesCount] = useState<any>(mockLikesCount);
+//const HomePage: React.FC<HomePageProps> = () => {
+//const [tweets, setTweets] = useState<any[]>([]);
+//const [users, setUsers] = useState<any[]>([]);
 
-  // FETCHING THE TWEETS FROM TWEETS TABLE
-  // useEffect(() => {
-    // const fetchTweets = async () => {
-    //   try {
-    //     const { data: tweetsData, error } = await supabase.from('Tweets').select('*');
-    //     if (error) {
-    //       throw error;
-    //     }
-    //     //console.log(tweetsData);
-    //     setTweets(tweetsData);
-    //   } catch (error) {
-    //     console.error('Error fetching tweets:', error);
-    //   }
-    // };
+const HomePage: React.FC<HomePageProps> = () => {
+const [tweets] = useState<any[]>(mockTweets);
+const [users] = useState<any[]>(mockUsers);
+const [savesCount] = useState<any>(mockSavesCount);
+const [commentsCount] = useState<any>(mockCommentsCount);
+const [retweetsCount] = useState<any>(mockRetweetsCount);
+const [likesCount] = useState<any>(mockLikesCount);
+  
+//uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
+/*  useEffect(() => {
+   //FETCHING THE TWEETS FROM TWEETS TABLE
+   const fetchTweetData = async () => {
+    try {
+      const tweetData = await fetchTweets();
+      setTweets(tweetData);
+    } catch (error) {
+      console.error('Error fetching tweets:', error);
+    }
+  };
 
     // FETCHING THE USERS FROM THE USER TABLE
-    // const fetchUsers = async () => {
-    //   try {
-    //     const { data: usersData, error } = await supabase.from('User').select('*');
-    //     if (error) {
-    //       throw error;
-    //     }
-    //     //console.log(usersData);
-    //     setUsers(usersData);
-    //   } catch (error) {
-    //     console.error('Error fetching users:', error);
-    //   }
-    // };
-
-    // FETCHING & COUNTING THE NUMBER OF SAVES FOR INDIVIDUAL TWEET
-    // const fetchSavesCount = async () => {
-    //   try {
-    //     const { data: savesCountData, error } = await supabase.from('Saves').select('*');
-    //     if (error) {
-    //       throw error;
-    //     }
-    //     console.log('Saves count data:', savesCountData);
-
-    //     const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
-    //     savesCountData.forEach(row => {
-    //       const tweetId = row.Tweet_Id;
-    //       if (tweetId in countMap) {
-    //         countMap[tweetId]++;  
-    //       } else {
-    //         countMap[tweetId] = 1;
-    //       }
-    //     });
-    //     setSavesCount(countMap);
-
-    //   } catch (error) {
-    //     console.error('Error fetching saves count:', error);
-    //   }
-    // };
-
-    // // FETCHING & COUNTING THE NUMBER OF COMMENTS FOR INDIVIDUAL TWEET
-    // const fetchCommentsCount = async () => {
-    //   try {
-    //     const { data: commentsCountData, error } = await supabase.from('Comments').select('*');
-    //     if (error) {
-    //       throw error;
-    //     }
-    //     console.log('Comments count data:', commentsCountData);
-
-    //     const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
-    //     commentsCountData.forEach(row => {
-    //       const tweetId = row.Tweet_Id;
-    //       if (tweetId in countMap) {
-    //         countMap[tweetId]++;
-    //       } else {
-    //         countMap[tweetId] = 1;
-    //       }
-    //     });
-    //     setCommentsCount(countMap);
-    //   } catch (error) {
-    //     console.error('Error fetching comments count:', error);
-    //   }
-    // };
-
-    // // FETCHING & COUNTING THE NUMBER OF RETWEETS FOR INDIVIDUAL TWEET
-    // const fetchRetweetsCount = async () => {
-    //   try {
-    //     const { data: retweetsCountData, error } = await supabase.from('Retweets').select('*');
-    //     if (error) {
-    //       throw error;
-    //     }
-    //     console.log('Retweets count data:', retweetsCountData);
-
-    //     const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
-    //     retweetsCountData.forEach(row => {
-    //       const tweetId = row.Tweet_Id;
-    //       if (tweetId in countMap) {
-    //         countMap[tweetId]++;  
-    //       } else {
-    //         countMap[tweetId] = 1;
-    //       }
-    //     });
-    //     setRetweetsCount(countMap);
-
-    //   } catch (error) {
-    //     console.error('Error fetching retweets count:', error);
-    //   }
-    // };
-
-
-    // // FETCHING & COUNTING THE NUMBER OF LIKES FOR INDIVIDUAL TWEET
-    // const fetchLikesCount = async () => {
-    //   try {
-    //     const { data: likesCountData, error } = await supabase.from('Likes').select('*');
-    //     if (error) {
-    //       throw error;
-    //     }
-    //     console.log('Likes count data:', likesCountData);
-
-    //     const countMap: { [key: number]: number } = {}; // Specify type annotation for countMap
-    //     likesCountData.forEach(row => {
-    //       const tweetId = row.Tweet_Id;
-    //       if (tweetId in countMap) {
-    //         countMap[tweetId]++;  
-    //       } else {
-    //         countMap[tweetId] = 1;
-    //       }
-    //     });
-    //     setLikesCount(countMap);
-
-    //   } catch (error) {
-    //     console.error('Error fetching likes count:', error);
-    //   }
-    // };
-
+     const fetchData = async () => {
+      try {
+         const usersData = await fetchUsers();
+         setUsers(usersData);
+         
+      } catch (error) {
+         console.error('Error fetching users:', error);
+      }
+     };
     // // Call both fetch functions when the component mounts
-    // // fetchTweets();
-    // // fetchUsers();
-    // fetchSavesCount();
-    // fetchCommentsCount();
-    // fetchRetweetsCount();
-    // fetchLikesCount();
-  // }, []);
-  
+     fetchTweetData();
+     fetchData();
+  }, []);
+  */
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
     const parsedTimestamp = new Date(timestamp);
@@ -197,8 +82,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       return (count / 1000000).toFixed(1) + "M";
     }
   };
-
-  // TWEET DISPLAY
+  // TWEET DISPLAY with mock data, scroll down for db acess tweet display
 
   return (
     <div className="container flex">
@@ -258,18 +142,44 @@ const HomePage: React.FC<HomePageProps> = () => {
             >
               <CreateTweet></CreateTweet>
             </Tab>
-          </Tabs> */}
-        </div>  
-      </div>
-      <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
-        </div>
-        <TrendingTopics />
-        <WhoToFollow users={[]} />
+            </Tabs> */}
+      </div>  
+      <WhoToFollow users={[]}/>
       </div>
     </div>
   );
-};
+//TWEET DISPLAY with db acess
+/* 
+return (
+  <div className="container">
+    <Nav />
+    <div className="main-content">
+        <CreateTweet></CreateTweet>
+        {tweets.map(tweet => {
+        const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+        return (
+          <Tweet
+            key={tweet.Tweet_Id}
+            name={user ? user.Name : 'Unknown User'}
+            username={user ? `@${user.Username}` : ''}
+            text={tweet.Content}
+            imageUrl={tweet.Img_Url}
+            timeDisplay={getTimeDisplay(tweet.Created_at)}
+            likes={formatCount(tweet.Likes[0].count)}
+            retweets={formatCount(tweet.Retweets[0].count)}
+            saves={formatCount(tweet.Saves[0].count)}
+            comments={formatCount(tweet.Comments[0].count)}
+          />
+        );
+      })}
+    </div>
+    <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
+
+      <WhoToFollow users={[]} />
+    </div>
+  </div>
+);*/
+
+    }
 
 export default HomePage;
