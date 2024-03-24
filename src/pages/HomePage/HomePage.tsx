@@ -1,18 +1,16 @@
 import { Tweet, WhoToFollow , Nav , CreateTweet } from "@components/index";
-// import React,{useState,useEffect} from "react";
 //import React,{useState,useEffect} from "react";
 import React,{useState} from "react";
-//import {supabase} from '@config/supabase';
 // import {Tabs, Tab} from "@nextui-org/react";
-//import {supabase} from '@config/supabase'; 
 import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
+//import { fetchTweets, fetchUsers } from "@services/index";
 
 interface HomePageProps {}
 
-/*const HomePage: React.FC<HomePageProps> = () => {
-  const [tweets, setTweets] = useState<any[]>([]);
-  const [users, setUsers] = useState<any[]>([]);
-*/
+//const HomePage: React.FC<HomePageProps> = () => {
+//const [tweets, setTweets] = useState<any[]>([]);
+//const [users, setUsers] = useState<any[]>([]);
+
 const HomePage: React.FC<HomePageProps> = () => {
 const [tweets] = useState<any[]>(mockTweets);
 const [users] = useState<any[]>(mockUsers);
@@ -24,46 +22,30 @@ const [likesCount] = useState<any>(mockLikesCount);
 //uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
 /*  useEffect(() => {
    //FETCHING THE TWEETS FROM TWEETS TABLE
-   const fetchTweets = async () => {
+   const fetchTweetData = async () => {
     try {
-      const { data, error } = await supabase.functions.invoke('getTweets', {
-        //this is part of the body of the http request that is passed into the function, I put it here
-        // for post requests of making tweets and so forth
-        body: JSON.stringify({}),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (error) {
-        throw error;
-      }
-  
-      console.log(data); // Log the data to see the structure
-      setTweets(data); // Assuming 'data' contains the tweets
+      const tweetData = await fetchTweets();
+      setTweets(tweetData);
     } catch (error) {
       console.error('Error fetching tweets:', error);
     }
   };
 
     // FETCHING THE USERS FROM THE USER TABLE
-     const fetchUsers = async () => {
+     const fetchData = async () => {
       try {
-         const { data: usersData, error } = await supabase.from('User').select('*');
-         if (error) {
-           throw error;
-         }
-         //console.log(usersData);
+         const usersData = await fetchUsers();
          setUsers(usersData);
+         
       } catch (error) {
          console.error('Error fetching users:', error);
       }
      };
     // // Call both fetch functions when the component mounts
-     fetchTweets();
-     fetchUsers();
-  }, []);*/
-  
+     fetchTweetData();
+     fetchData();
+  }, []);
+  */
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
     const parsedTimestamp = new Date(timestamp);
@@ -100,7 +82,6 @@ const [likesCount] = useState<any>(mockLikesCount);
       return (count / 1000000).toFixed(1) + "M";
     }
   };
-
   // TWEET DISPLAY with mock data, scroll down for db acess tweet display
 
   return (
@@ -167,41 +148,38 @@ const [likesCount] = useState<any>(mockLikesCount);
       </div>
     </div>
   );
-  //TWEET DISPLAY with db acess
-  /*
-  return (
-    <div className="container">
-      <SideNavbar />
-      <div className="main-content">
-          <CreateTweet></CreateTweet>
-          {tweets.map(tweet => {
-          const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-          return (
-            <Tweet
-              key={tweet.Tweet_Id}
-              name={user ? user.Name : 'Unknown User'}
-              username={user ? `@${user.Username}` : ''}
-              text={tweet.Content}
-              imageUrl={tweet.Img_Url}
-              timeDisplay={getTimeDisplay(tweet.Created_at)}
-              likes={formatCount(tweet.Likes[0].count)}
-              retweets={formatCount(tweet.Retweets[0].count)}
-              saves={formatCount(tweet.Saves[0].count)}
-              comments={formatCount(tweet.Comments[0].count)}
-            />
-          );
-        })}
-      </div>
-      <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
-        </div>
-        <TrendingTopics />
-        <WhoToFollow users={[]} />
-      </div>
+//TWEET DISPLAY with db acess
+/* 
+return (
+  <div className="container">
+    <Nav />
+    <div className="main-content">
+        <CreateTweet></CreateTweet>
+        {tweets.map(tweet => {
+        const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+        return (
+          <Tweet
+            key={tweet.Tweet_Id}
+            name={user ? user.Name : 'Unknown User'}
+            username={user ? `@${user.Username}` : ''}
+            text={tweet.Content}
+            imageUrl={tweet.Img_Url}
+            timeDisplay={getTimeDisplay(tweet.Created_at)}
+            likes={formatCount(tweet.Likes[0].count)}
+            retweets={formatCount(tweet.Retweets[0].count)}
+            saves={formatCount(tweet.Saves[0].count)}
+            comments={formatCount(tweet.Comments[0].count)}
+          />
+        );
+      })}
     </div>
-  );
-  */
-      }
+    <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
+
+      <WhoToFollow users={[]} />
+    </div>
+  </div>
+);*/
+
+    }
 
 export default HomePage;
