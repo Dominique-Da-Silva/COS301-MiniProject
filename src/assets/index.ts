@@ -4,8 +4,11 @@ import github from "./github.svg";
 import google from "./google.svg";
 import chevron from "./down-chevron.png"
 import defaultavater from "./DefaultAvatar.png"
+import profile1 from "./profile1.jpg"
+import profile2 from "./profile2.jpg"
+import profile3 from "./profile3.jpg"
 
 export {
-    twitter, twitterLogo, github, google, chevron, defaultavater
+    twitter, twitterLogo, github, google, chevron, defaultavater, profile1, profile2, profile3
 }
 

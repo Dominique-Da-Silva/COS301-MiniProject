@@ -3,7 +3,7 @@ import { isUserLoggedIn, signUpNewUser, uploadProfile } from "@services/index";
 import { useNavigate} from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
-import { twitterLogo, chevron, defaultavater } from "@assets/index";
+import { twitterLogo, chevron, defaultavater, profile1, profile2, profile3} from "@assets/index";
 import { createDateObject } from '@utils/index';
 
 
@@ -346,7 +346,7 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
 const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
 
   const handleNextPressed = () => {
-    // if(formData.password === "") return;
+    // if(formData.username === "") return;
     // await signUpNewUser(formData);
     setFlowPage(6);
   }
@@ -371,6 +371,71 @@ const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
             required
           />
         </div>
+        <Button
+          onClick={handleNextPressed}
+          radius="full"
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-600 text-white mt-12"
+        >
+          Next
+        </Button>
+      </form>
+    </Card>
+  )
+}
+
+const Flow6 = ({formData, setFormData, setFlowPage}:any) => {
+
+  const suggestedUsers = [
+    { name: "Tessa Engelbrecht", username: "@mp13ceo", bio: "Happy to be here!", profilePic: profile1 },
+    { name: "Kyle Marshall", username: "@dreamerandrager", bio: "What even is a design?", profilePic: profile2 },
+    { name: "Kumbirai Shonhiwa", username: "@ArisNeiman", bio: "Send me your bios please...", profilePic: profile3 }
+  ];
+
+  const handleNextPressed = () => {
+    // if(formData.password === "") return;
+    // await signUpNewUser(formData);
+  }
+
+  return (
+    <Card shadow="sm" className="w-[400px] p-10">
+      <div className="text-center">
+        <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
+        <h2 className="text-xl font-bold mb-4">Don't miss out</h2>
+        <p className="text-xs text-gray-600 mb-4">
+          When you follow someone, you'll see their Tweets in your Timeline. 
+          You'll also get more relevant recommendations.
+        </p>
+        <h2 className="text-xl font-bold mb-8">Follow one or more accounts</h2>
+      </div>
+      <div className="flex flex-col gap-6">
+        {suggestedUsers.map((user, index) => (
+          <div key={index} className="flex items-center gap-1">
+            <div className="w-12 h-12 overflow-hidden rounded-full">
+              <img src={user.profilePic} alt="profile-pic" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold -mb-3">{user.name}</h3>
+              <p className="text-gray-600 -mb-3">{user.username}</p>
+              <p className="text-gray-600 text-xs">{user.bio}</p>
+            </div>
+            <Button 
+              radius="full" 
+              variant="bordered" 
+              className="ml-auto font-semibold text-blue-500 border-blue-500" 
+              style={{ 
+                padding: '5px 10px', 
+                fontSize: '12px', 
+                width: '80px', 
+                height: '30px'
+              }}
+            >
+              Follow
+            </Button>
+          </div>
+        ))}
+      </div>
+      <form className="w-full flex flex-col gap-10 pt-2">
         <Button
           onClick={handleNextPressed}
           radius="full"
@@ -423,7 +488,7 @@ const SignUp = () => {
     }else if (flowPage === 5){
       return <Flow5 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow5>;
     }else if (flowPage === 6){
-      return <Flow5 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow5>;
+      return <Flow6 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow6>;
     }
   }
 
