@@ -280,7 +280,7 @@ const ProfileDetails = () => {
     fetchUserProfile();
   }, [activeTab]);
 
-  const handleTabClick = (tabName) => {
+  const handleTabClick = (tabName:string ) => {
     setActiveTab(tabName);
   };
 
