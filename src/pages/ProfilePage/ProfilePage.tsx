@@ -1,5 +1,5 @@
 import { useState, Suspense, useEffect } from "react";
-import "./ProfilePage.css";
+
 import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 //import { supabase } from "@config/supabase"; // Import supabase client
 import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
@@ -168,6 +168,114 @@ const ProfileDetails = () => {
             retweets: 4,
             quotes: 1,
           },
+          {
+            id: 2,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Just another day on Twitter.",
+            createdAt: "2022-01-02T00:00:00Z",
+            image_url: "",
+            likes: 5,
+            retweets: 3,
+            quotes: 0,
+          },
+          {
+            id: 3,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Feeling good today!",
+            createdAt: "2022-01-03T00:00:00Z",
+            image_url: "",
+            likes: 10,
+            retweets: 8,
+            quotes: 2,
+          },
+          {
+            id: 4,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Just tweeted!",
+            createdAt: "2022-01-04T00:00:00Z",
+            image_url: "",
+            likes: 15,
+            retweets: 12,
+            quotes: 3,
+          },
+          {
+            id: 5,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Another tweet.",
+            createdAt: "2022-01-05T00:00:00Z",
+            image_url: "",
+            likes: 20,
+            retweets: 18,
+            quotes: 5,
+          },
+          {
+            id: 6,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "More tweets coming!",
+            createdAt: "2022-01-06T00:00:00Z",
+            image_url: "",
+            likes: 25,
+            retweets: 22,
+            quotes: 6,
+          },
+          {
+            id: 7,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Tweeting away.",
+            createdAt: "2022-01-07T00:00:00Z",
+            image_url: "",
+            likes: 30,
+            retweets: 28,
+            quotes: 7,
+          },
+          {
+            id: 8,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Having fun on Twitter.",
+            createdAt: "2022-01-08T00:00:00Z",
+            image_url: "",
+            likes: 35,
+            retweets: 32,
+            quotes: 8,
+          },
+          {
+            id: 9,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Just another tweet.",
+            createdAt: "2022-01-09T00:00:00Z",
+            image_url: "",
+            likes: 40,
+            retweets: 38,
+            quotes: 9,
+          },
+          {
+            id: 10,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Tweeting is fun!",
+            createdAt: "2022-01-10T00:00:00Z",
+            image_url: "",
+            likes: 45,
+            retweets: 42,
+            quotes: 10,
+          },
         ];
         setUserTweets(mockTweets);
 
@@ -180,22 +288,22 @@ const ProfileDetails = () => {
         };
         //setUserProfile(userData);
 
-        const mockLikedTweets: TweetProps[] = [
-          {
-            id: 1,
-            image:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
-            name: "Mock User L1",
-            username: "MUL1",
-            text: "Remember to change data",
-            createdAt: "2022-01-01T00:00:00Z",
-            image_url: "",
-            likes: 8,
-            retweets: 564,
-            quotes: 10000,
-          },
-        ];
-        setLikedTweets(mockLikedTweets);
+        // const mockLikedTweets: TweetProps[] = [
+        //   {
+        //     id: 1,
+        //     image:
+        //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr7fjxvXMeWVUHUTjwGaS2Co_4dT7NwiLbxsJw1YhX2Q&s",
+        //     name: "Mock User L1",
+        //     username: "MUL1",
+        //     text: "Remember to change data",
+        //     createdAt: "2022-01-01T00:00:00Z",
+        //     image_url: "",
+        //     likes: 8,
+        //     retweets: 564,
+        //     quotes: 10000,
+        //   },
+        // ];
+        // setLikedTweets(mockLikedTweets);
 
         const mockReplies: TweetProps[] = [
           {
@@ -209,6 +317,114 @@ const ProfileDetails = () => {
             likes: 0,
             retweets: 0,
             quotes: 0,
+          },
+          {
+            id: 2,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Just another day on Twitter.",
+            createdAt: "2022-01-02T00:00:00Z",
+            image_url: "",
+            likes: 5,
+            retweets: 3,
+            quotes: 0,
+          },
+          {
+            id: 3,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Feeling good today!",
+            createdAt: "2022-01-03T00:00:00Z",
+            image_url: "",
+            likes: 10,
+            retweets: 8,
+            quotes: 2,
+          },
+          {
+            id: 4,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Just tweeted!",
+            createdAt: "2022-01-04T00:00:00Z",
+            image_url: "",
+            likes: 15,
+            retweets: 12,
+            quotes: 3,
+          },
+          {
+            id: 5,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Another tweet.",
+            createdAt: "2022-01-05T00:00:00Z",
+            image_url: "",
+            likes: 20,
+            retweets: 18,
+            quotes: 5,
+          },
+          {
+            id: 6,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "More tweets coming!",
+            createdAt: "2022-01-06T00:00:00Z",
+            image_url: "",
+            likes: 25,
+            retweets: 22,
+            quotes: 6,
+          },
+          {
+            id: 7,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Tweeting away.",
+            createdAt: "2022-01-07T00:00:00Z",
+            image_url: "",
+            likes: 30,
+            retweets: 28,
+            quotes: 7,
+          },
+          {
+            id: 8,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Having fun on Twitter.",
+            createdAt: "2022-01-08T00:00:00Z",
+            image_url: "",
+            likes: 35,
+            retweets: 32,
+            quotes: 8,
+          },
+          {
+            id: 9,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Just another tweet.",
+            createdAt: "2022-01-09T00:00:00Z",
+            image_url: "",
+            likes: 40,
+            retweets: 38,
+            quotes: 9,
+          },
+          {
+            id: 10,
+            image: "https://cdn-icons-png.freepik.com/512/5951/5951752.png",
+            name: "Mock User",
+            username: "rickgrimes",
+            text: "Tweeting is fun!",
+            createdAt: "2022-01-10T00:00:00Z",
+            image_url: "",
+            likes: 45,
+            retweets: 42,
+            quotes: 10,
           },
         ];
         setUserReplies(mockReplies);
@@ -544,16 +760,19 @@ const ProfileDetails = () => {
   //   setIsEditingProfileOpen(true);
   // };
   return (
-    <div>
-      {" "}
-      {/* BANNER */}{" "}
-      <div className="container flex">
-        <div className="nav w-1/5 ml-20 mr-6">
-          <Nav />
-        </div>
-        <div className="main-content max-w-full m-0 p-0 border ">
-          <div className="banner flex">
-            {/* <img src={profileDetails.Banner_Url} alt="Banner" /> */}
+    <div className="container flex">
+      <div className="nav w-1/5 ml-20 mr-6">
+        <Nav />
+      </div>
+      {/* BANNER */}
+      <div className="main-content max-w-full m-0 p-0 border">
+        <div className="flex min-w-full flex-col m-0 p-0 justify-center">
+          <div className="banner">
+            <img
+              src={profileDetails.Banner_Url}
+              alt="Banner"
+              className="object-cover w-full h-48"
+            />
           </div>
           {/* Profile  Header} */}
           <div className="profile-header bg-gray p-4 flex items-center">
@@ -580,54 +799,148 @@ const ProfileDetails = () => {
                   </Button>
                 </NavLink>
                 {/* Profile Details */}
-                <div className="profile-details ">
-                  <div className="flex items-center">
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg">Tweets</h3>
-                      <p className="text-gray-500">0</p>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg">Following</h3>
-                      <p className="text-gray-500">{userProfile.following}</p>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg">Followers</h3>
-                      <p className="text-gray-500">{userProfile.followers}</p>
+                <div>
+                  <div className="profile-details ">
+                    <div className="flex items-center">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg">Tweets</h3>
+                        <p className="text-gray-500">0</p>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg">Following</h3>
+                        <p className="text-gray-500">{userProfile.following}</p>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg">Followers</h3>
+                        <p className="text-gray-500">{userProfile.followers}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="profile-tabs">
-                  <button
-                    className={activeTab === "tweets" ? "active" : ""}
-                    onClick={() => handleTabClick("tweets")}
-                  >
-                    Tweets
-                  </button>
-                  <button
-                    className={activeTab === "replies" ? "active" : ""}
-                    onClick={() => handleTabClick("replies")}
-                  >
-                    Tweets & replies
-                  </button>
-                  <button
-                    className={activeTab === "media" ? "active" : ""}
-                    onClick={() => handleTabClick("media")}
-                  >
-                    Media
-                  </button>
-                  <button
-                    className={activeTab === "likes" ? "active" : ""}
-                    onClick={() => handleTabClick("likes")}
-                  >
-                    Likes
-                  </button>
+                <div>
+                  <div className="flex border-b border-gray-200">
+                    <button
+                      className={`px-4 py-2 text-sm font-semibold ${
+                        activeTab === "tweets"
+                          ? "text-blue-500 border-b-2 border-blue-500"
+                          : "text-gray-500"
+                      }`}
+                      onClick={() => handleTabClick("tweets")}
+                    >
+                      Tweets
+                    </button>
+
+                    <button
+                      className={`px-4 py-2 text-sm font-semibold ${
+                        activeTab === "replies"
+                          ? "text-blue-500 border-b-2 border-blue-500"
+                          : "text-gray-500"
+                      }`}
+                      onClick={() => handleTabClick("replies")}
+                    >
+                      Tweets & replies
+                    </button>
+                    <button
+                      className={`px-4 py-2 text-sm font-semibold ${
+                        activeTab === "media"
+                          ? "text-blue-500 border-b-2 border-blue-500"
+                          : "text-gray-500"
+                      }`}
+                      onClick={() => handleTabClick("media")}
+                    >
+                      Media
+                    </button>
+                    <button
+                      className={`px-4 py-2 text-sm font-semibold ${
+                        activeTab === "likes"
+                          ? "text-blue-500 border-b-2 border-blue-500"
+                          : "text-gray-500"
+                      }`}
+                      onClick={() => handleTabClick("likes")}
+                    >
+                      Likes
+                    </button>
+                  </div>
+                  {activeTab === "tweets" && (
+                    <div>
+                      {userTweets.length === 0 ? (
+                        <p className="text-center text-gray-500">
+                          User hasn't tweeted yet
+                        </p>
+                      ) : (
+                        userTweets.map((tweet, index) => (
+                          <Tweet
+                            key={index}
+                            name={tweet.name}
+                            username={tweet.username}
+                            text={tweet.text}
+                            imageUrl={tweet.image_url}
+                            likes={tweet.likes}
+                            retweets={tweet.retweets}
+                            comments={1000}
+                            saves={1000}
+                            timeDisplay={getTimeDisplay(tweet.createdAt)}
+                          />
+                        ))
+                      )}
+                    </div>
+                  )}
+                  {activeTab === "media" && (
+                    <div className="grid grid-cols-3 gap-1">
+                      {userTweets.filter((tweet) => tweet.image_url !== "")
+                        .length === 0 ? (
+                        <p className="text-center text-gray-500">
+                          No media to display
+                        </p>
+                      ) : (
+                        userTweets
+                          .filter((tweet) => tweet.image_url !== "")
+                          .map((tweet, index) => (
+                            <div key={index}>
+                              <img
+                                src={tweet.image_url}
+                                alt="Tweet"
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
+                          ))
+                      )}
+                    </div>
+                  )}
+
+                  {activeTab === "replies" && (
+                    <div>
+                      {userReplies.length === 0 ? (
+                        <p className="text-center text-gray-500">
+                          No replies to display
+                        </p>
+                      ) : (
+                        userReplies.map((reply, index) => (
+                          <Tweet
+                            key={index}
+                            name={reply.name}
+                            username={reply.username}
+                            text={reply.text}
+                            imageUrl={reply.image_url}
+                            likes={reply.likes}
+                            retweets={reply.retweets}
+                            comments={1000}
+                            saves={1000}
+                            timeDisplay={getTimeDisplay(reply.createdAt)}
+                          />
+                        ))
+                      )}
+                    </div>
+                  )}
                 </div>
-                {activeTab === "tweets" && (
+                {activeTab === "likes" && (
                   <div>
-                    {userTweets.length === 0 ? (
-                      <p>User hasn't tweeted yet</p>
+                    {likedTweets.length === 0 ? (
+                      <p className="text-center text-gray-500">
+                        No liked Tweets to display
+                      </p>
                     ) : (
-                      userTweets.map((tweet, index) => (
+                      likedTweets.map((tweet, index) => (
                         <Tweet
                           key={index}
                           name={tweet.name}
@@ -644,83 +957,17 @@ const ProfileDetails = () => {
                     )}
                   </div>
                 )}
-                {activeTab === "media" && (
-                  <div className="grid grid-cols-3 gap-4">
-                    {userTweets.filter((tweet) => tweet.image_url !== "")
-                      .length === 0 ? (
-                      <p>No media to display</p>
-                    ) : (
-                      userTweets
-                        .filter((tweet) => tweet.image_url !== "")
-                        .map((tweet, index) => (
-                          <div key={index}>
-                            <img
-                              src={tweet.image_url}
-                              alt="Tweet"
-                              height={100}
-                              width={200}
-                            />
-                          </div>
-                        ))
-                    )}
-                  </div>
-                )}
-
-                {activeTab === "replies" && (
-                  <div>
-                    {userReplies.length === 0 ? (
-                      <p>No replies to display</p>
-                    ) : (
-                      userReplies.map((reply, index) => (
-                        <Tweet
-                          key={index}
-                          name={reply.name}
-                          username={reply.username}
-                          text={reply.text}
-                          imageUrl={reply.image_url}
-                          likes={reply.likes}
-                          retweets={reply.retweets}
-                          comments={1000}
-                          saves={1000}
-                          timeDisplay={getTimeDisplay(reply.createdAt)}
-                        />
-                      ))
-                    )}
-                  </div>
-                )}
               </div>
-              {activeTab === "likes" && (
-                <div>
-                  {likedTweets.length === 0 ? (
-                    <p>No liked tweets to display.</p>
-                  ) : (
-                    likedTweets.map((tweet, index) => (
-                      <Tweet
-                        key={index}
-                        name={tweet.name}
-                        username={tweet.username}
-                        text={tweet.text}
-                        imageUrl={tweet.image_url}
-                        likes={tweet.likes}
-                        retweets={tweet.retweets}
-                        comments={1000}
-                        saves={1000}
-                        timeDisplay={getTimeDisplay(tweet.createdAt)}
-                      />
-                    ))
-                  )}
-                </div>
-              )}
             </div>
           </div>
         </div>
-        <div className="sidebar-right w-1/4 mr-32 ml-7 pl-1 pr-2">
-          <div className="mb-3">
-            <Search />
-          </div>
-          <TrendingTopics />
-          <WhoToFollow users={[]} />
+      </div>
+      <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
+        <div className="mb-3">
+          <Search />
         </div>
+        <TrendingTopics />
+        <WhoToFollow users={[]} />
       </div>
     </div>
   );

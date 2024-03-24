@@ -1,6 +1,5 @@
 // SignIn.js
 import { Link } from 'react-router-dom';
-import './SignIn.css';
 import { HomeImage } from '@components/index';
 
 const SignIn = () => {

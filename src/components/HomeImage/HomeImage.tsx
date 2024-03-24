@@ -1,4 +1,4 @@
-import './HomeImage.css';
+
 import { twitter } from '@assets/index';
 
 const HomeImage = () => {
