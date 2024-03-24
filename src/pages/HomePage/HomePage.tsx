@@ -1,9 +1,9 @@
 import { Tweet, WhoToFollow , Nav , CreateTweet } from "@components/index";
-//import React,{useState,useEffect} from "react";
+//import React,{useState,useEffect} from "react"; for db acess uncomment here as well
 import React,{useState} from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
-//import { fetchTweets, fetchUsers } from "@services/index";
+//import { fetchTweets, fetchUsers } from "@services/index"; for db acess uncomment here as well
 
 interface HomePageProps {}
 

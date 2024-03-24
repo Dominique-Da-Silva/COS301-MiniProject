@@ -2,7 +2,7 @@ import {supabase} from '@config/supabase';
 // FETCHING THE USERS FROM THE USER TABLE
 const fetchUsers = async () => {
     try {
-       const { data: usersData, error } = await supabase.from('User').select('*');
+        const { data: usersData, error } = await supabase.from('User').select('Username, Name, Surname');
        if (error) {
          throw error;
        }
