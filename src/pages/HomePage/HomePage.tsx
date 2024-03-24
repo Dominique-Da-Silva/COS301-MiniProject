@@ -1,4 +1,4 @@
-import { Tweet, TrendingTopics , WhoToFollow , Nav , Search, CreateTweet } from "@components/index";
+import { Tweet, WhoToFollow , Nav , CreateTweet } from "@components/index";
 // import React,{useState,useEffect} from "react";
 //import React,{useState,useEffect} from "react";
 import React,{useState} from "react";
