@@ -104,7 +104,7 @@ const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
                 disallowEmptySelection
                 selectionMode="single"
                 selectedKeys={selectedMonth}
-                onSelectionChange={setSelectedMonth}
+                onSelectionChange={(key) => setSelectedMonth(key.toString())}
                 className="max-h-40 overflow-y-auto"
               >
                 {monthItems.map(month => (
@@ -134,7 +134,7 @@ const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
                 disallowEmptySelection
                 selectionMode="single"
                 selectedKeys={selectedDay}
-                onSelectionChange={setSelectedDay}
+                onSelectionChange={(key) => setSelectedDay(key.toString())}
                 className="max-h-40 overflow-y-auto"
               >
                 {dayItems}
@@ -158,7 +158,7 @@ const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
                 disallowEmptySelection
                 selectionMode="single"
                 selectedKeys={selectedYear}
-                onSelectionChange={setSelectedYear}
+                onSelectionChange={(key) => setSelectedYear(key.toString())}
                 className="max-h-40 overflow-y-auto"
               >
                 {yearItems}
