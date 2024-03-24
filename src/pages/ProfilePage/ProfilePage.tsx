@@ -1,22 +1,24 @@
-import { useState, Suspense, useEffect, useRef } from "react";
+import { useState, Suspense, useEffect } from "react";
 import "./ProfilePage.css";
 import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 //import { supabase } from "@config/supabase"; // Import supabase client
 import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
-import {
-  mockTweets,
-  mockUsers,
-  mockSavesCount,
-  mockCommentsCount,
-  mockRetweetsCount,
-  mockLikesCount,
-} from "../../mockData/mockData";
-import { EditProfile, SearchBar } from "@components/index";
+
+// import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 import { Search } from "@components/index";
+// import {
+//   mockTweets,
+//   mockUsers,
+//   mockSavesCount,
+//   mockCommentsCount,
+//   mockRetweetsCount,
+//   mockLikesCount,
+// } from "../../mockData/mockData";
+
 // interface Profile {
 //   Bio?: string | null | undefined;
 //   Img_Url?: string | null | undefined;
@@ -30,10 +32,10 @@ import { Search } from "@components/index";
 //   [key: string]: string | number | boolean | null | undefined; // index signature
 // }
 
-interface PopupProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+// interface PopupProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+// }
 
 interface TweetProps {
   id: number;
@@ -48,38 +50,75 @@ interface TweetProps {
   quotes: number;
 }
 
-const editingProfile: React.FC<PopupProps> = ({ isOpen, onClose }) => {
-  const [isVisible, setIsVisible] = useState(isOpen);
-  const popupRef = useRef<HTMLDivElement>(null);
+const getTimeDisplay = (timestamp: string) => {
+  const currentTime = new Date();
+  const parsedTimestamp = new Date(timestamp);
 
-  useEffect(() => {
-    setIsVisible(isOpen);
-  }, [isOpen]);
+  const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
+  const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        popupRef.current &&
-        !popupRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    if (isVisible) {
-      document.addEventListener("mousedown", handleClickOutside);
+  let timeDisplay;
+  if (minutesDiff < 60) {
+    timeDisplay = `${minutesDiff}m`;
+  } else {
+    const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
+    if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
+    else {
+      const month = parsedTimestamp.toLocaleString("en-us", {
+        month: "short",
+      });
+      const day = parsedTimestamp.getDate();
+      timeDisplay = `${month} ${day}`;
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isVisible, onClose]);
-
-  if (!isVisible) {
-    return null;
   }
-  return <EditProfile />;
+
+  return timeDisplay;
 };
+
+// const formatCount = (count: number): string | number => {
+//   if (count < 1000) {
+//     return count; // Return as it is if less than 1000
+//   } else if (count < 1000000) {
+//     // Convert to K format
+//     return (count / 1000).toFixed(1) + "K";
+//   } else {
+//     // Convert to M format
+//     return (count / 1000000).toFixed(1) + "M";
+//   }
+// };
+
+// const editingProfile: React.FC<PopupProps> = ({ isOpen, onClose }) => {
+//   const [isVisible, setIsVisible] = useState(isOpen);
+//   const popupRef = useRef<HTMLDivElement>(null);
+
+//   useEffect(() => {
+//     setIsVisible(isOpen);
+//   }, [isOpen]);
+
+//   useEffect(() => {
+//     const handleClickOutside = (event: MouseEvent) => {
+//       if (
+//         popupRef.current &&
+//         !popupRef.current.contains(event.target as Node)
+//       ) {
+//         onClose();
+//       }
+//     };
+
+//     if (isVisible) {
+//       document.addEventListener("mousedown", handleClickOutside);
+//     }
+
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, [isVisible, onClose]);
+
+//   if (!isVisible) {
+//     return null;
+//   }
+//   return <EditProfile />;
+// };
 
 const ProfileDetails = () => {
   const [activeTab, setActiveTab] = useState("tweets");
@@ -91,31 +130,26 @@ const ProfileDetails = () => {
       year: "numeric",
     })
   );
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedName, setEditedName] = useState(mockUserProfile.Name);
-  const [editedBio, setEditedBio] = useState(mockProfileDetails.Bio);
-  const [editedLocation, setEditedLocation] = useState(
-    mockProfileDetails.Location
-  );
-  const [editedWebsite, setEditedWebsite] = useState(
-    mockProfileDetails.Website
-  );
-  const [editedImage, setEditedImage] = useState<File | null>(null);
-  const [editedBanner, setEditedBanner] = useState<File | null>(null);
-  const [content, setContent] = useState(null);
-  const [followingCount, setFollowingCount] = useState<number>(10); // mock following count
-  const [followerCount, setFollowerCount] = useState<number>(20); // mock followers count
+  // const [isEditing, setIsEditing] = useState(false);
+  // const [editedName, setEditedName] = useState(mockUserProfile.Name);
+  // const [editedBio, setEditedBio] = useState(mockProfileDetails.Bio);
+  // const [editedLocation, setEditedLocation] = useState(
+  //   mockProfileDetails.Location
+  // );
+  // const [editedWebsite, setEditedWebsite] = useState(
+  //   mockProfileDetails.Website
+  // );
+  // const [editedImage, setEditedImage] = useState<File | null>(null);
+  // const [editedBanner, setEditedBanner] = useState<File | null>(null);
+  // const [content, setContent] = useState(null);
+  // const [followingCount, setFollowingCount] = useState<number>(10); // mock following count
+  // const [followerCount, setFollowerCount] = useState<number>(20); // mock followers count
   const [userTweets, setUserTweets] = useState<TweetProps[]>([]);
   const [userReplies, setUserReplies] = useState<TweetProps[]>([]);
-  const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
+  // const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
   const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
-  const [replies, setReplies] = useState<TweetProps[]>([]);
-  const [tweets] = useState<any[]>(mockTweets);
-  const [users] = useState<any[]>(mockUsers);
-  const [savesCount] = useState<any>(mockSavesCount);
-  const [commentsCount] = useState<any>(mockCommentsCount);
-  const [retweetsCount] = useState<any>(mockRetweetsCount);
-  const [likesCount] = useState<any>(mockLikesCount);
+  // const [replies, setReplies] = useState<TweetProps[]>([]);
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -199,30 +233,30 @@ const ProfileDetails = () => {
           //setProfileDetails(profileData);
 
           // Count followers
-          const { data: followersData, error: followersError } = {
-            data: [{ id: 1 }, { id: 2 }, { id: 3 }], // mock followers data
-            error: null, // or some mock error
-          };
+          // const { data: followersData, error: followersError } = {
+          //   data: [{ id: 1 }, { id: 2 }, { id: 3 }], // mock followers data
+          //   error: null, // or some mock error
+          // };
 
-          const followersCount = followersData.length;
-          setFollowerCount(followersData.length);
+          // const followersCount = followersData.length;
+          // setFollowerCount(followersData.length);
 
-          // Count following
-          const { data: followingData, error: followingError } = {
-            data: [
-              { id: 1 },
-              { id: 2 },
-              { id: 3 },
-              ,
-              { id: 4 },
-              { id: 6 },
-              { id: 5 },
-            ], // mock following data
-            error: null, // or some mock error
-          };
+          // // Count following
+          // const { data: followingData, error: followingError } = {
+          //   data: [
+          //     { id: 1 },
+          //     { id: 2 },
+          //     { id: 3 },
+          //     ,
+          //     { id: 4 },
+          //     { id: 6 },
+          //     { id: 5 },
+          //   ], // mock following data
+          //   error: null, // or some mock error
+          // };
 
-          const followingCount = followingData.length;
-          setFollowingCount(followingData.length);
+          // const followingCount = followingData.length;
+          // setFollowingCount(followingData.length);
 
           //implement functionality to fetch current user's tweets: const { data: userTweets, error: tweetFetchError }
 
@@ -508,52 +542,15 @@ const ProfileDetails = () => {
     return <div>Loading...</div>; // Render loading indicator until data is fetched
   }
 
-  const [isEditingProfileOpen, setIsEditingProfileOpen] = useState(false);
+  // const [isEditingProfileOpen, setIsEditingProfileOpen] = useState(false);
 
-  const handleEditProfileClose = () => {
-    setIsEditingProfileOpen(false);
-  };
+  // const handleEditProfileClose = () => {
+  //   setIsEditingProfileOpen(false);
+  // };
 
-  const handleEditProfileOpen = () => {
-    setIsEditingProfileOpen(true);
-  };
-
-  const getTimeDisplay = (timestamp: string) => {
-    const currentTime = new Date();
-    const parsedTimestamp = new Date(timestamp);
-
-    const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
-    const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
-
-    let timeDisplay;
-    if (minutesDiff < 60) {
-      timeDisplay = `${minutesDiff}m`;
-    } else {
-      const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
-      if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
-      else {
-        const month = parsedTimestamp.toLocaleString("en-us", {
-          month: "short",
-        });
-        const day = parsedTimestamp.getDate();
-        timeDisplay = `${month} ${day}`;
-      }
-    }
-
-    return timeDisplay;
-  };
-
-  const formatCount = (count: number): string | number => {
-    if (count < 1000) {
-      return count; // Return as it is if less than 1000
-    } else if (count < 1000000) {
-      // Convert to K format
-      return (count / 1000).toFixed(1) + "K";
-    } else {
-      // Convert to M format
-      return (count / 1000000).toFixed(1) + "M";
-    }
-  };
+  // const handleEditProfileOpen = () => {
+  //   setIsEditingProfileOpen(true);
+  // };
   return (
     <div>
       {" "}
@@ -633,89 +630,95 @@ const ProfileDetails = () => {
                     Likes
                   </button>
                 </div>
-                {activeTab === "tweets" &&
-                  tweets.map((tweet) => {
-                    const user = users.find(
-                      (u) => u.User_Id === userProfile.User_Id
-                    );
-                    const saves = savesCount[tweet.Tweet_Id] || 0;
-                    const comments = commentsCount[tweet.Tweet_Id] || 0;
-                    const likes = likesCount[tweet.Tweet_Id] || 0;
-                    const retweets = retweetsCount[tweet.Tweet_Id] || 0;
-                    if (user) {
-                      console.log(user.Name);
-                    }
-                    return (
-                      <Tweet
-                        key={tweet.Tweet_Id}
-                        name={user ? user.Name : "Unknown User"}
-                        username={user ? `@${user.Username}` : ""}
-                        text={tweet.Content}
-                        imageUrl={tweet.Img_Url}
-                        timeDisplay={getTimeDisplay(tweet.Created_at)}
-                        likes={formatCount(likes)}
-                        retweets={formatCount(retweets)}
-                        saves={formatCount(saves)}
-                        comments={formatCount(comments)}
-                      />
-                    );
-                  })}
-                {activeTab === "media"}
-                {activeTab === "replies" &&
-                  tweets.map((tweet) => {
-                    const user = users.find(
-                      (u) => u.User_Id === userProfile.User_Id
-                    );
-                    const saves = savesCount[tweet.Tweet_Id] || 0;
-                    const comments = commentsCount[tweet.Tweet_Id] || 0;
-                    const likes = likesCount[tweet.Tweet_Id] || 0;
-                    const retweets = retweetsCount[tweet.Tweet_Id] || 0;
-                    if (user) {
-                      console.log(user.Name);
-                    }
-                    return (
-                      <Tweet
-                        key={tweet.Tweet_Id}
-                        name={user ? user.Name : "Unknown User"}
-                        username={user ? `@${user.Username}` : ""}
-                        text={tweet.Content}
-                        imageUrl={tweet.Img_Url}
-                        timeDisplay={getTimeDisplay(tweet.Created_at)}
-                        likes={formatCount(likes)}
-                        retweets={formatCount(retweets)}
-                        saves={formatCount(saves)}
-                        comments={formatCount(comments)}
-                      />
-                    );
-                  })}
-                {activeTab === "likes" &&
-                  tweets.map((tweet) => {
-                    const user = users.find(
-                      (u) => u.User_Id === userProfile.User_Id
-                    );
-                    const saves = savesCount[tweet.Tweet_Id] || 0;
-                    const comments = commentsCount[tweet.Tweet_Id] || 0;
-                    const likes = likesCount[tweet.Tweet_Id] || 0;
-                    const retweets = retweetsCount[tweet.Tweet_Id] || 0;
-                    if (user) {
-                      console.log(user.Name);
-                    }
-                    return (
-                      <Tweet
-                        key={tweet.Tweet_Id}
-                        name={user ? user.Name : "Unknown User"}
-                        username={user ? `@${user.Username}` : ""}
-                        text={tweet.Content}
-                        imageUrl={tweet.Img_Url}
-                        timeDisplay={getTimeDisplay(tweet.Created_at)}
-                        likes={formatCount(likes)}
-                        retweets={formatCount(retweets)}
-                        saves={formatCount(saves)}
-                        comments={formatCount(comments)}
-                      />
-                    );
-                  })}
+                {activeTab === "tweets" && (
+                  <div>
+                    {userTweets.length === 0 ? (
+                      <p>User hasn't tweeted yet</p>
+                    ) : (
+                      userTweets.map((tweet, index) => (
+                        <Tweet
+                          key={index}
+                          name={tweet.name}
+                          username={tweet.username}
+                          text={tweet.text}
+                          imageUrl={tweet.image_url}
+                          likes={tweet.likes}
+                          retweets={tweet.retweets}
+                          comments={1000}
+                          saves={1000}
+                          timeDisplay={getTimeDisplay(tweet.createdAt)}
+                        />
+                      ))
+                    )}
+                  </div>
+                )}
+                {activeTab === "media" && (
+                  <div className="grid grid-cols-3 gap-4">
+                    {userTweets.filter((tweet) => tweet.image_url !== "")
+                      .length === 0 ? (
+                      <p>No media to display</p>
+                    ) : (
+                      userTweets
+                        .filter((tweet) => tweet.image_url !== "")
+                        .map((tweet, index) => (
+                          <div key={index}>
+                            <img
+                              src={tweet.image_url}
+                              alt="Tweet"
+                              height={100}
+                              width={200}
+                            />
+                          </div>
+                        ))
+                    )}
+                  </div>
+                )}
+
+                {activeTab === "replies" && (
+                  <div>
+                    {userReplies.length === 0 ? (
+                      <p>No replies to display</p>
+                    ) : (
+                      userReplies.map((reply, index) => (
+                        <Tweet
+                          key={index}
+                          name={reply.name}
+                          username={reply.username}
+                          text={reply.text}
+                          imageUrl={reply.image_url}
+                          likes={reply.likes}
+                          retweets={reply.retweets}
+                          comments={1000}
+                          saves={1000}
+                          timeDisplay={getTimeDisplay(reply.createdAt)}
+                        />
+                      ))
+                    )}
+                  </div>
+                )}
               </div>
+              {activeTab === "likes" && (
+                <div>
+                  {likedTweets.length === 0 ? (
+                    <p>No liked tweets to display.</p>
+                  ) : (
+                    likedTweets.map((tweet, index) => (
+                      <Tweet
+                          key={index}
+                          name={tweet.name}
+                          username={tweet.username}
+                          text={tweet.text}
+                          imageUrl={tweet.image_url}
+                          likes={tweet.likes}
+                          retweets={tweet.retweets}
+                          comments={1000}
+                          saves={1000}
+                          timeDisplay={getTimeDisplay(tweet.createdAt)}
+                        />
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
