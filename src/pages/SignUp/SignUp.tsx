@@ -220,9 +220,8 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 }
 
 const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
-  const handleNextPressed = () => {
-    // if(formData.password === "") return;
-    // await signUpNewUser(formData);
+  const handleNextPressed = async() => {
+    if(formData.password === "") return;
     setFlowPage(4);
   }
 
@@ -286,9 +285,9 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
   }
 
   const handleNextPressed = async() => {
-    // if(avatar === null) return;
-    // const result = await uploadProfile(avatar);
-    // if(result === "error") return;
+    if(avatar === null) return;
+    const result = await uploadProfile(avatar);
+    if(result === "error") return;
     setFlowPage(5);
   }
 
@@ -345,9 +344,9 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
 
 const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
 
-  const handleNextPressed = () => {
-    // if(formData.username === "") return;
-    // await signUpNewUser(formData);
+  const handleNextPressed = async() => {
+    if(formData.username === "") return;
+    await signUpNewUser(formData);
     setFlowPage(6);
   }
 
@@ -384,7 +383,9 @@ const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
   )
 }
 
-const Flow6 = ({formData, setFormData, setFlowPage}:any) => {
+const Flow6 = () => {
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const suggestedUsers = [
     { name: "Tessa Engelbrecht", username: "@mp13ceo", bio: "Happy to be here!", profilePic: profile1 },
@@ -393,8 +394,7 @@ const Flow6 = ({formData, setFormData, setFlowPage}:any) => {
   ];
 
   const handleNextPressed = () => {
-    // if(formData.password === "") return;
-    // await signUpNewUser(formData);
+    navigate("/home");
   }
 
   return (
@@ -468,7 +468,7 @@ const SignUp = () => {
       // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (result) {
-        navigate("/profile"); // Redirect to profile page if user is logged in
+        navigate("/home"); // Redirect to home page if user is logged in
       }
     }
     
@@ -488,7 +488,7 @@ const SignUp = () => {
     }else if (flowPage === 5){
       return <Flow5 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow5>;
     }else if (flowPage === 6){
-      return <Flow6 formData={formData} setFormData={setFormData} setFlowPage={setFlowPage}></Flow6>;
+      return <Flow6/>;
     }
   }
 
