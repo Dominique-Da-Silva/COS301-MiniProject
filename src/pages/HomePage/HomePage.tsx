@@ -202,10 +202,8 @@ const HomePage: React.FC<HomePageProps> = () => {
 
   return (
     <div className="container flex">
-      <div className="nav w-1/5 ml-20 mr-6">
-        <Nav />
-      </div>
-      <div className="main-content max-w-full m-0 p-0 border">
+      <Nav />
+      <div className="main-content max-w-full m-0 p-0 border ml-72">
         <div className="flex min-w-full flex-col m-0 p-0 justify-center">
           {/* <Tabs 
             aria-label="Options" 
