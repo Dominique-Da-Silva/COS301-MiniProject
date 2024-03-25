@@ -1,10 +1,10 @@
-import './HomeImage.css';
+
 import { twitter } from '@assets/index';
 
 const HomeImage = () => {
   return (
-    <div className='image-container'>
-        <img src={twitter} alt="Twitter home/splash page" className='full-image' />
+    <div className='w-full h-full'>
+        <img src={twitter} alt="Twitter home/splash page" className='w-full h-full object-cover' />
     </div>
   );
 };
