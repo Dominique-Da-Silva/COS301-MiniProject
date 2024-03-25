@@ -33,13 +33,13 @@ const Login = () => {
   }, [navigate]);
   
   return (
-    <div className='flex top-0 h-screen'>
+    <div className='flex top-0 h-screen w-screen'>
       <div className='flex top-0 w-[60vw]'>
         <HomeImage />
       </div>
-      <div className='flex flex-col items-center justify-center'>
+      <div className='flex flex-col items-center justify-center w-[40vw]'>
           <div className='w-full'>
-            <img src={twitterLogo} alt="logo" className="w-14 ml-2" />
+            <img src={twitterLogo} alt="logo" className="w-14 ml-10" />
           </div>
           <h1 className='text-black font-black text-5xl mt-5'>Happening Now</h1>
           <h2 className='text-black font-black text-2xl mt-5 mb-5'>Join Twitter today</h2>
