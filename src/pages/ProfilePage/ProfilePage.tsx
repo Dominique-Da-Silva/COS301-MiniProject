@@ -27,8 +27,8 @@ const ProfileDetails = () => {
   const [editedBio, setEditedBio] = useState(mockProfileDetails.Bio);
   const [editedLocation, setEditedLocation] = useState(mockProfileDetails.Location);
   const [editedWebsite, setEditedWebsite] = useState(mockProfileDetails.Website);
-  const [editedImage, setEditedImage] = useState<File | null>(null);
-  const [editedBanner, setEditedBanner] = useState<File | null>(null);
+  // const [editedImage, setEditedImage] = useState<File | null>(null);
+  // const [editedBanner, setEditedBanner] = useState<File | null>(null);
 
   // useEffect(() => {
   //   const fetchUserProfile = async () => {
