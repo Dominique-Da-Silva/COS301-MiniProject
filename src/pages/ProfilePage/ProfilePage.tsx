@@ -845,8 +845,8 @@ const ProfileDetails = () => {
                     size="lg"
                   />
                   <NavLink to="/editProfile">
-                    <Button className="ml-auto rounded-full">
-                      <IoMdSettings className="mr-1 "></IoMdSettings>Edit Profile
+                    <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
+                      <IoMdSettings className="mr-1 "></IoMdSettings>Edit profile
                     </Button>
                   </NavLink>
                 </div>
@@ -855,8 +855,9 @@ const ProfileDetails = () => {
                   {userProfile.Name}
                 </h2>
 
-                <p className="text-gray-500">@{userProfile.Username}</p>
-                <p className="text-gray-500">
+                <p className="text-gray-500 mb-5">@{userProfile.Username}</p>
+                <p className="mb-2">{profileDetails.Bio}</p>
+                <p className="text-gray-500 flex items-center">
                   <BiCalendar className="mr-1" />
                   Joined {createdAt}
                 </p>
@@ -864,7 +865,7 @@ const ProfileDetails = () => {
               {/* Profile Details */}
               <div>
                 <div className="profile-details ">
-                  <div className="flex gap-6 items-center px-4">
+                  <div className="flex gap-6 items-center px-4 mb-6">
                     {/* <div className="flex">
                       <h3 className="font-bold text-lg">Tweets</h3>
                       <p className="text-gray-500">0</p>
@@ -881,11 +882,11 @@ const ProfileDetails = () => {
                 </div>
               </div>
                 <div>
-                  <div className="flex border-b border-gray-200">
+                  <div className="flex justify-around border-b border-gray-200">
                     <button
-                      className={`px-4 py-2 text-sm font-semibold ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
                         activeTab === "tweets"
-                          ? "text-blue-500 border-b-2 border-blue-500"
+                          ? "text-black border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("tweets")}
@@ -894,19 +895,19 @@ const ProfileDetails = () => {
                     </button>
 
                     <button
-                      className={`px-4 py-2 text-sm font-semibold ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
                         activeTab === "replies"
-                          ? "text-blue-500 border-b-2 border-blue-500"
+                          ? "text-black border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("replies")}
                     >
-                      Tweets & replies
+                      Replies
                     </button>
                     <button
-                      className={`px-4 py-2 text-sm font-semibold ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
                         activeTab === "media"
-                          ? "text-blue-500 border-b-2 border-blue-500"
+                          ? "text-black border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("media")}
@@ -914,9 +915,9 @@ const ProfileDetails = () => {
                       Media
                     </button>
                     <button
-                      className={`px-4 py-2 text-sm font-semibold ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
                         activeTab === "likes"
-                          ? "text-blue-500 border-b-2 border-blue-500"
+                          ? "text-black border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("likes")}
