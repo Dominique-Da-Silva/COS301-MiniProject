@@ -1,87 +1,70 @@
-import { useState, useEffect } from 'react';
-import { supabase } from "@config/supabase";
-import { loggedInUserStore } from '@store/index';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-import { Button, Input, Card} from '@nextui-org/react';
-import { Link } from 'react-router-dom';
-import { twitterLogo } from "@assets/index"
+import { Link, useNavigate } from 'react-router-dom';
+import { HomeImage } from '@components/index';
+import { github, google, twitterLogo } from '@assets/index';
+import { useEffect } from 'react';
+import { isUserLoggedIn, signInWithGithub, signInWithGoogle } from '@services/index';
+import { Button } from '@nextui-org/react';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate hook
-  const { userData, loginUser } = loggedInUserStore((state) => { return { userData: state.user, loginUser: state.loginUser}; });
+
+  const signInWithProvider = async (provider: 'google' | 'github') => {
+    if (provider === 'google') {
+        await signInWithGoogle();
+        navigate('/home');
+    } else {
+        await signInWithGithub();
+        navigate('/home');
+    }
+  }
 
   useEffect(() => {
     // Create a new async function
     const checkUser = async () => {
       // Check if user is already logged in
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        navigate('/profile'); // Redirect to profile page if user is logged in
+      const result = await isUserLoggedIn();
+      if (result) {
+        navigate('/home');
       }
     };
   
     // Call the async function
     checkUser();
   }, [navigate]);
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      console.error('Error logging in:', error.message);
-    } else {
-      console.log('User logged in:', data);
-      loginUser(data.user); // Update user data state
-      navigate('/profile'); // Redirect user to /profile page
-    }
-  };
-
+  
   return (
-    <div className="flex items-center justify-center h-screen"> 
-      <Card shadow="sm" className="w-[400px] p-10">
-        <div className="text-center">
-          <img src={twitterLogo} alt="logo" className="w-14 mx-auto mb-2" />
-          <h2 className="text-xl font-bold mb-6">Log In to Twitter</h2>
-        </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            type="email"
-            placeholder="Phone, email, or username"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-            className="mb-4"
-          />
-          <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-            className="mb-4"
-          />
-          <Button type="submit" className='w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg'>Login</Button>
-        </form>
-        <div className="text-center mt-6">
-            <div className="text-blue-500 mr-12 hover:underline">Forgot Password?</div>
-            <div className="text-blue-500 hover:underline"><Link to="/signup">Sign Up</Link></div>
-        </div>
-        {userData && ( 
-          <div>
-            <h2>User Data:</h2>
-            <p>Email: {userData.email}</p>
-            <p>UID: {userData.id}</p>
-            {/* Add more fields as needed */}
+    <div className='flex top-0 h-screen'>
+      <div className='flex top-0 w-[60vw]'>
+        <HomeImage />
+      </div>
+      <div className='flex flex-col items-center justify-center'>
+          <div className='w-full'>
+            <img src={twitterLogo} alt="logo" className="w-14 ml-2" />
           </div>
-        )}
-      </Card>
+          <h1 className='text-black font-black text-5xl mt-5'>Happening Now</h1>
+          <h2 className='text-black font-black text-2xl mt-5 mb-5'>Join Twitter today</h2>
+          <Button radius="full" className="bg-transparent border flex items-center justify-center mb-4 w-[300px] h-[50px]" onClick={() => signInWithProvider("google")}>
+            <img src={google} alt="logo" className="logo mr-2 w-5 h-5"/>
+            Sign up with Google
+          </Button>
+          <Button radius="full" className="bg-transparent border flex items-center justify-center mb-4 w-[300px] h-[50px]" onClick={() => signInWithProvider("github")}>
+            <img src={github} alt="logo" className="logo mr-2 w-5 h-5"/>
+            Sign up with Github
+          </Button>
+          <div className="flex items-center justify-center pb-4">
+            <span className="text-gray-500">OR</span>
+          </div>
+          <Button radius="full" className="border flex items-center justify-center mb-2 w-[300px] h-[50px] bg-blue-500 text-white">
+            <Link to="/signup">Sign up with phone or email</Link>
+          </Button>
+          <p className='text-sm mb-10 text-center'>
+            By signing up, you agree to 
+            the <a href='https://twitter.com/en/tos' className='text-blue-500'>Terms of Service</a> and <a href='https://twitter.com/en/privacy' className='text-blue-500'>Privacy Policy</a>, including <a href='https://help.twitter.com/en/rules-and-policies/x-cookies' className='text-blue-500'> Cookie Use</a>.
+          </p>
+          <p className='text-[16px]'>
+            Already have an account? <Link to="/signin" className='text-blue-500'>Log In</Link>
+          </p>
+      </div>
     </div>
   );
 };

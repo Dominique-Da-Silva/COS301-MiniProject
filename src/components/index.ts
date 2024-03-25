@@ -5,5 +5,15 @@ import WhoToFollow from "./WhoToFollow/WhoToFollow";
 import CreateTweet from "./CreateTweet/CreateTweet";
 import Search from "./Search/Search";
 import Nav from "./Nav/Nav";
+import EditProfile from "./EditProfile/EditProfile";
 
-export { HomeImage, Tweet , TrendingTopics , WhoToFollow , Search, CreateTweet, Nav };
+export {
+  EditProfile,
+  HomeImage,
+  Tweet,
+  TrendingTopics,
+  WhoToFollow,
+  Search,
+  CreateTweet,
+  Nav,
+};
