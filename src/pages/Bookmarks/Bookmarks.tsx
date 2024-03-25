@@ -1,5 +1,4 @@
 import { Nav } from '@components/index';
-import React from 'react';
 
 const Bookmarks = () => {
   return (
