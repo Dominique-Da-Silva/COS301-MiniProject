@@ -825,58 +825,61 @@ const ProfileDetails = () => {
         <Nav />
       </div>
       {/* BANNER */}
-      <div className="main-content max-w-full m-0 p-0 border">
+      <div className="main-content flex-1 min-w-[610px]  p-0 border">
         <div className="flex min-w-full flex-col m-0 p-0 justify-center">
-          <div className="banner">
+          <div className="banner m-0">
             <img
               src={profileDetails.Banner_Url}
               alt="Banner"
-              className="object-cover w-full h-48"
+              className="w-full h-48 m-0"
             />
           </div>
           {/* Profile  Header} */}
-          <div className="profile-header bg-gray p-4 flex items-center">
-            <div className="profile-info flex items-center">
-              <div>
-                <div>
-                  <h2 className="font-bold text-xl">
-                    <Avatar
-                      src={profileDetails.Img_Url}
-                      alt={userProfile.Name}
-                      size="lg"
-                    />
-                    {userProfile.Name}
-                  </h2>
-                  <p className="text-gray-500">@{userProfile.Username}</p>
-                  <p className="text-gray-500">
-                    <BiCalendar className="mr-1" />
-                    Joined {createdAt}
-                  </p>
+          <div className="profile-header bg-gray min-w-full p-0 flex items-center">
+            <div className="profile-info flex flex-col min-w-full m-0">
+              <div className="m-0 p-4">
+                <div className="profile flex min-w-full flex-1 justify-between items-center">
+                  <Avatar
+                    src={profileDetails.Img_Url}
+                    alt={userProfile.Name}
+                    size="lg"
+                  />
+                  <NavLink to="/editProfile">
+                    <Button className="ml-auto rounded-full">
+                      <IoMdSettings className="mr-1 "></IoMdSettings>Edit Profile
+                    </Button>
+                  </NavLink>
                 </div>
-                <NavLink to="/editProfile">
-                  <Button className="ml-auto ">
-                    <IoMdSettings className="mr-1 "></IoMdSettings>Edit Profile
-                  </Button>
-                </NavLink>
-                {/* Profile Details */}
-                <div>
-                  <div className="profile-details ">
-                    <div className="flex items-center">
-                      <div className="flex-1">
-                        <h3 className="font-bold text-lg">Tweets</h3>
-                        <p className="text-gray-500">0</p>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-bold text-lg">Following</h3>
-                        <p className="text-gray-500">{userProfile.following}</p>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-bold text-lg">Followers</h3>
-                        <p className="text-gray-500">{userProfile.followers}</p>
-                      </div>
+                <h2 className="font-bold text-xl">
+                  
+                  {userProfile.Name}
+                </h2>
+
+                <p className="text-gray-500">@{userProfile.Username}</p>
+                <p className="text-gray-500">
+                  <BiCalendar className="mr-1" />
+                  Joined {createdAt}
+                </p>
+              </div>
+              {/* Profile Details */}
+              <div>
+                <div className="profile-details ">
+                  <div className="flex gap-6 items-center px-4">
+                    {/* <div className="flex">
+                      <h3 className="font-bold text-lg">Tweets</h3>
+                      <p className="text-gray-500">0</p>
+                    </div> */}
+                    <div className="flex">
+                      <p className="font-semibold">{userProfile.following}&nbsp;</p>
+                      <h3 className="text-base text-gray-500">Following</h3>
+                    </div>
+                    <div className="flex">
+                      <p className="font-semibold">{userProfile.followers}&nbsp;</p>
+                      <h3 className="text-base text-gray-500">Followers</h3>
                     </div>
                   </div>
                 </div>
+              </div>
                 <div>
                   <div className="flex border-b border-gray-200">
                     <button
@@ -1017,7 +1020,6 @@ const ProfileDetails = () => {
                     )}
                   </div>
                 )}
-              </div>
             </div>
           </div>
         </div>
