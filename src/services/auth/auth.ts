@@ -63,11 +63,9 @@ export async function signUpNewUser(user_data: {
   })
 
   if (error) {
-    console.log("encountered auth error ", error);
     return "error";
   } else {
     //add user to database if not already there
-    console.log("checking if user is logged in");
     const logged_user = await supabase.auth.getUser();
     if (!logged_user.data.user) return "error";
 
@@ -82,14 +80,12 @@ export async function signUpNewUser(user_data: {
       Username: "",
     };
   
-    console.log("creating user");
     const result = await supabase.from('User').insert(user);
     if (result.error){ 
       await signOut();
       return "error";
     }
 
-    console.log("user added to database");
     return "success";
   }
 }
