@@ -6,6 +6,7 @@ import CreateTweet from "./CreateTweet/CreateTweet";
 import Search from "./Search/Search";
 import Nav from "./Nav/Nav";
 import EditProfile from "./EditProfile/EditProfile";
+
 export {
   EditProfile,
   HomeImage,
