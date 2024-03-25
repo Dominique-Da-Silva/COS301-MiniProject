@@ -1,5 +1,5 @@
 import { useEffect, useState} from "react";
-import { isUserLoggedIn, signUpNewUser, uploadProfile } from "@services/index";
+import { isUserLoggedIn, signUpNewUser, updateUsername, uploadProfile } from "@services/index";
 import { useNavigate} from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
@@ -175,8 +175,8 @@ const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
 //the capture of the code sent to the email//but skip for now
 const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 
-  const handleNextPressed = () => {
-
+  const handleNextPressed = (e: any) => {
+    e.preventDefault();
     setFlowPage(3);
   }
 
@@ -220,8 +220,14 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 }
 
 const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
-  const handleNextPressed = async() => {
+  const handleNextPressed = async(e: any) => {
+    e.preventDefault();
     if(formData.password === "") return;
+    const status = await signUpNewUser(formData);
+    if(status === "error"){ 
+      console.log("Error signing up user");
+      return;
+    }
     setFlowPage(4);
   }
 
@@ -284,10 +290,11 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
     setFormData({ ...formData, avatar: selectedFile});
   }
 
-  const handleNextPressed = async() => {
-    if(avatar === null) return;
-    const result = await uploadProfile(avatar);
-    if(result === "error") return;
+  const handleNextPressed = async(e: any) => {
+    e.preventDefault();
+    if(avatar !== null){
+      await uploadProfile(avatar);
+    }
     setFlowPage(5);
   }
 
@@ -346,7 +353,7 @@ const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
 
   const handleNextPressed = async() => {
     if(formData.username === "") return;
-    await signUpNewUser(formData);
+    await updateUsername(formData.username);
     setFlowPage(6);
   }
 
@@ -454,7 +461,6 @@ const SignUp = () => {
     name: "",
     email: "",
     password: "",
-    username: "",
     dob: new Date(),
   });
 
