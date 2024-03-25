@@ -14,15 +14,32 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    'eqeqeq': 'error',
-    'camelcase': ['error', {
-      'properties': 'never', // Avoid camelCase for object properties
-      'ignoreDestructuring': true, // Ignore destructured variables
-      'ignoreImports': true // Ignore import statements
-    }],
+    'eqeqeq': 'error', // Enforce the use of === and !==
     'no-unused-vars': 'error', // Enforce no unused vars
     '@typescript-eslint/no-unused-vars': 'error', // Enforce no unused vars for TypeScript
     'no-unused-expressions': 'error', // Enforce no unused expressions
     '@typescript-eslint/no-explicit-any': 'off', // Allow the use of any type
+    // Custom rules for variable and object property naming
+    '@typescript-eslint/naming-convention': [
+      'error',
+      // Enforce snake_case for variables and object properties
+      {
+        selector: 'variableLike',
+        format: ['snake_case', 'camelCase', 'PascalCase'],
+        leadingUnderscore: 'allow',
+      },
+      // Allow camelCase for function names
+      {
+        selector: 'function',
+        format: ['camelCase'],
+        leadingUnderscore: 'allow',
+      },
+      // Allow camelCase for function parameters
+      {
+        selector: 'parameter',
+        format: ['camelCase', 'snake_case'],
+        leadingUnderscore: 'allow',
+      },
+    ],
   },
 }
