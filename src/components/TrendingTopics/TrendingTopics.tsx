@@ -39,7 +39,7 @@ const TrendingTopics: React.FC<TrendingTopicsProps> = () => {
   // fetchTopics();
   return (
     <div>
-      <Card className="max-w-[400px] bg-gray-50 shadow-none">
+      <Card className="bg-gray-50 shadow-none w-11/12">
         <CardHeader className="flex gap-1 pb-0">
           <h2 className="text-lg font-bold mb-4">Trending Topics</h2>
         </CardHeader>
