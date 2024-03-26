@@ -1033,7 +1033,7 @@ const ProfileDetails = () => {
         <WhoToFollow users={[]} />
       </div>
     </div>
-  );
+  ); 
 };
 
 const ProfilePage = () => {
