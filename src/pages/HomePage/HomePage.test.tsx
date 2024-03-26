@@ -8,7 +8,7 @@ test('renders HomePage component without crashing', () => {
 });
 
 // Mocking the funcs used for supa base
-jest.mock('supabase', () => ({
+jest.mock('@config/supabase', () => ({
   supabase: {
     from: jest.fn().mockReturnValue({
       select: jest.fn().mockReturnValue({ data: [], error: null }),
