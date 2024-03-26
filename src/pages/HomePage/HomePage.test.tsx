@@ -1,11 +1,11 @@
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 //import { getTimeDisplay } from './HomePage'; // Import the getTimeDisplay function
 import HomePage from './HomePage';
 
 test('renders HomePage component without crashing', () => {
   render(<HomePage />);
 });
-/*
+
 // Mocking the funcs used for supa base
 jest.mock('@config/supabase', () => ({
   supabase: {
@@ -142,5 +142,6 @@ describe('getTimeDisplay function', () => {
     const pastTime = new Date('2024-03-20T12:00:00Z'); // just picked a date that will always be in the past
     expect(getTimeDisplay(pastTime.toISOString())).toBe('Mar 20');
   });
-}); */
+})
+});
 
