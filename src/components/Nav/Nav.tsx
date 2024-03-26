@@ -13,7 +13,7 @@ const Nav = () => {
   const location = useLocation();
 
   return (
-    <div className="sidebar mt-0 mr-0 pl-12 border-r-0 font-semibold fixed h-full bg-white w-1/5 overflow-y-auto overflow-x-hidden">
+    <div className="sidebar mt-0 mr-0 pl-12 border-r-0 font-semibold fixed h-full bg-white">
       {/* Logo */}
       <NavLink
         to="/home"
