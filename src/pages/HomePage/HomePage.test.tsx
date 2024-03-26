@@ -1,11 +1,17 @@
 import { render } from '@testing-library/react';
-//import { getTimeDisplay } from './HomePage'; 
+import getTimeDisplay from './HomePage';
 import HomePage from './HomePage';
-import {supabase} from '@config/supabase';
+import { supabase } from '@config/supabase';
+
+
+
 
 test('renders HomePage component without crashing', () => {
   render(<HomePage />);
 });
+
+
+
 
 // Mocking the funcs used for supa base
 jest.mock('@config/supabase', () => ({
@@ -39,7 +45,7 @@ describe('HomePage', () => {
     expect(supabase.from).toHaveBeenCalledWith('Tweets');
 
     // Check if supabase.from(...).select has been called
-    expect(supabase.from().select).toHaveBeenCalled();
+    expect(supabase.from('Tweets').select).toHaveBeenCalled();
 
   });
 });
@@ -55,7 +61,7 @@ describe('HomePage', () => {
     expect(supabase.from).toHaveBeenCalledWith('User');
 
     // Check if supabase.from(...).select has been called
-    expect(supabase.from().select).toHaveBeenCalled();
+    expect(supabase.from('User').select).toHaveBeenCalled();
 
   });
 });
@@ -71,7 +77,7 @@ describe('HomePage', () => {
     expect(supabase.from).toHaveBeenCalledWith('Saves');
 
     // Check if supabase.from(...).select has been called
-    expect(supabase.from().select).toHaveBeenCalled();
+    expect(supabase.from('Saves').select).toHaveBeenCalled();
 
   });
 });
@@ -87,7 +93,7 @@ describe('HomePage', () => {
     expect(supabase.from).toHaveBeenCalledWith('Comments');
 
     // Check if supabase.from(...).select has been called
-    expect(supabase.from().select).toHaveBeenCalled();
+    expect(supabase.from('Comments').select).toHaveBeenCalled();
 
   });
 });
@@ -103,7 +109,7 @@ describe('HomePage', () => {
     expect(supabase.from).toHaveBeenCalledWith('Retweets');
 
     // Check if supabase.from(...).select has been called
-    expect(supabase.from().select).toHaveBeenCalled();
+    expect(supabase.from('Retweets').select).toHaveBeenCalled();
 
   });
 });
@@ -119,7 +125,7 @@ describe('HomePage', () => {
     expect(supabase.from).toHaveBeenCalledWith('Likes');
 
     // Check if supabase.from(...).select has been called
-    expect(supabase.from().select).toHaveBeenCalled();
+    expect(supabase.from('Likes').select).toHaveBeenCalled();
 
   });
 
@@ -145,4 +151,3 @@ describe('getTimeDisplay function', () => {
   });
 })
 });
-
