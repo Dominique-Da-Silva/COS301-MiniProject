@@ -43,7 +43,7 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   // fetchUsers();
   return (
     <div>
-      <Card className="max-w-[400px] bg-gray-50 shadow-none mt-8">
+      <Card className="bg-gray-50 shadow-none mt-8">
         <CardHeader className="flex gap-1 pl-3 !pb-0">
           <h2 className="text-lg font-bold mb-4">Who to follow</h2>
         </CardHeader>
