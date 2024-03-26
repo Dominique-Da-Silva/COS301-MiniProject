@@ -1,13 +1,14 @@
 import { render } from '@testing-library/react';
-//import { getTimeDisplay } from './HomePage'; // Import the getTimeDisplay function
+//import { getTimeDisplay } from './HomePage'; 
 import HomePage from './HomePage';
+import {supabase} from '@config/supabase';
 
 test('renders HomePage component without crashing', () => {
   render(<HomePage />);
 });
 
 // Mocking the funcs used for supa base
-jest.mock('@config/supabase', () => ({
+jest.mock('supabase', () => ({
   supabase: {
     from: jest.fn().mockReturnValue({
       select: jest.fn().mockReturnValue({ data: [], error: null }),
