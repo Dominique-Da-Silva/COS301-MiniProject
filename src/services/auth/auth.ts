@@ -106,6 +106,13 @@ export async function signInUser(email: string, password: string): Promise<"succ
 
 export async function isUserLoggedIn(): Promise<boolean>{
   const { data } = await supabase.auth.getSession();
+  if(data.session === null)return false;
+  else{
+    const res = await addUserToDatabase();
+    if(res === "error"){
+      await signOut();
+    }
+  } 
   return data.session !== null;
 }
 
