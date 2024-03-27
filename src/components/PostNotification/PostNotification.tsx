@@ -13,8 +13,10 @@ const PostNotification: React.FC<PostNotificationProp> = ({
 }) => {
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4">
-      <div className="avatar">
+      <div className="flex-col w-auto">
         <PiBellFill />
+      </div>
+      <div className="avatar">
         <Avatar
           src={avatarUrl} // profile image url to be replaced
           alt="User Avatar"

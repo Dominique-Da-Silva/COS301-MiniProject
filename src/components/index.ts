@@ -8,6 +8,7 @@ import Nav from "./Nav/Nav";
 import EditProfile from "./EditProfile/EditProfile";
 import PostNotification from "./PostNotification/PostNotification";
 import LikeNotification from "./PostNotification/LikedNotification";
+import Mention from "./Mentions/Mention";
 
 export {
   EditProfile,
@@ -19,5 +20,6 @@ export {
   CreateTweet,
   Nav,
   PostNotification,
-  LikeNotification
+  LikeNotification,
+  Mention,
 };

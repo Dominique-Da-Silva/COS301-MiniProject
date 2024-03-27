@@ -1,4 +1,81 @@
 // mockData.ts
+export const mockMentions = [
+  {
+    Tweet_Id: 1,
+    User_Id: 1,
+    Name: "Jane Smith",
+    Username: "janesmith",
+    Content:
+      "Just landed in New York City for the weekend! Can not wait to explore the city. 🗽🌃",
+    avatarUrl: "https://example.com/john-doe.jpg",
+    Created_at: "2023-04-14T18:30:00.000Z",
+    MentionedUser: "johndoe",
+  },
+  {
+    Tweet_Id: 2,
+    User_Id: 2,
+    Name: "Bob Johnson",
+    Username: "bobj ohnson",
+    Content: "Watching the game tonight! Who is your team? 🏀",
+    avatarUrl: "https://example.com/jane-smith.jpg",
+    Created_at: "2023-04-14T20:15:00.000Z",
+    MentionedUser: "johndoe",
+  },
+  {
+    Tweet_Id: 3,
+    User_Id: 3,
+    Name: "Samantha Lee",
+    Username: "samanthalee",
+    Content:
+      "Tried the new vegan restaurant downtown, and it was amazing! Highly recommend their lentil burgers. 🌱🍔",
+    avatarUrl: "https://example.com/bob-johnson.jpg",
+    Created_at: "2023-04-13T14:20:00.000Z",
+    MentionedUser: "johndoe",
+  },
+  {
+    Tweet_Id: 4,
+    User_Id: 4,
+    Name: "Michael Brown",
+    Username: "michaelbrown",
+    Content:
+      'Just finished reading "The Great Gatsby" for the third time. Timeless classic! 📚',
+    avatarUrl: "https://example.com/samantha-lee.jpg",
+    Created_at: "2023-04-12T22:45:00.000Z",
+    MentionedUser: "johndoe",
+  },
+  {
+    Tweet_Id: 5,
+    User_Id: 5,
+    Name: "Emily Davis",
+    Username: "emilydavis",
+    Content: "Working on a new coding project this weekend. Wish me luck! 💻🤞",
+    avatarUrl: "https://example.com/michael-brown.jpg",
+    Created_at: "2023-04-15T10:00:00.000Z",
+    MentionedUser: "johndoe",
+  },
+  {
+    Tweet_Id: 6,
+    User_Id: 6,
+    Name: "David Wilson",
+    Username: "davidwilson",
+    Content:
+      "Spent the day hiking in the mountains. Nature is so beautiful! 🌲⛰️",
+    avatarUrl: "https://example.com/emily-davis.jpg",
+    Created_at: "2023-04-15T16:30:00.000Z",
+    MentionedUser: "johndoe",
+  },
+  {
+    Tweet_Id: 7,
+    User_Id: 7,
+    Name: "Sarah Thompson",
+    Username: "sarahthompson",
+    Content: "Just adopted the cutest puppy! Say hello to Buddy. 🐶❤️",
+    avatarUrl: "https://example.com/david-wilson.jpg",
+    Created_at: "2023-04-14T12:00:00.000Z",
+    MentionedUser: "johndoe",
+  },
+];
+
 export const mockTweets = [
   {
     Tweet_Id: 1,
@@ -282,13 +359,32 @@ export const mockNotifications = [
     time: "2023-04-18T11:00:00.000Z",
     avatarUrl: "https://example.com/new-follower.jpg",
   },
+  {
+    id: 4,
+    message: "You have a new follower!",
+    time: "2023-04-18T09:30:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+  {
+    id: 5,
+    message: "Your post has been message.",
+    time: "2023-04-18T10:15:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+  {
+    id: 6,
+    message: "You have a new message.",
+    time: "2023-04-18T11:00:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
 ];
 
 export const mockLikedNotifications = [
   {
     id: 1,
     message: "Johnny liked your reply ",
-    tweet: "Just landed in New York City for the weekend! Can not wait to explore the city. 🗽🌃",
+    tweet:
+      "Just landed in New York City for the weekend! Can not wait to explore the city. 🗽🌃",
     time: "2023-04-18T09:30:00.000Z",
     avatarUrl: "https://example.com/new-follower.jpg",
   },
@@ -306,28 +402,27 @@ export const mockLikedNotifications = [
     time: "2023-04-18T09:30:00.000Z",
     avatarUrl: "https://example.com/new-follower.jpg",
   },
-];
-
-export const mockMentions = [
   {
-    id: 1,
-    user: {
-      name: "John Doe",
-      username: "johndoe",
-      avatarUrl: "https://example.com/johndoe.jpg",
-    },
-    tweet: "Just mentioned you in a tweet!",
+    id: 4,
+    message: "Johnny liked your reply ",
+    tweet:
+      "Just landed in New York City for the weekend! Can not wait to explore the city. 🗽🌃",
     time: "2023-04-18T09:30:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
   },
   {
-    id: 2,
-    user: {
-      name: "Jane Smith",
-      username: "janesmith",
-      avatarUrl: "https://example.com/janesmith.jpg",
-    },
-    tweet: "You were mentioned in a post!",
-    time: "2023-04-18T10:15:00.000Z",
+    id: 5,
+    message: "Aris Neiman liked your tweet ",
+    tweet: "What a game, what a win! #GoManchesterUnited",
+    time: "2023-04-18T09:30:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
   },
-  // Add more mock mentions here
+  {
+    id: 6,
+    message: "Kamo liked your tweet ",
+    tweet: "What a game, what a win! #GoManchesterCity",
+    time: "2023-04-18T09:30:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+  
 ];

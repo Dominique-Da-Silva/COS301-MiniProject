@@ -6,18 +6,49 @@ import {
   Search,
   PostNotification,
   LikeNotification,
+  Mention,
 } from "@components/index";
 import { Button } from "@nextui-org/react";
 import { IoMdSettings } from "react-icons/io";
-import { mockNotifications, mockLikedNotifications } from "mockData/mockData";
+import {
+  mockNotifications,
+  mockLikedNotifications,
+  mockMentions,
+} from "mockData/mockData";
 
 interface NotificationsProps {}
 const Notifications: React.FC<NotificationsProps> = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [postnotifications] = useState<any[]>(mockNotifications);
   const [likedNotfications] = useState<any[]>(mockLikedNotifications);
+  const [mentions] = useState<any[]>(mockMentions);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
+  };
+
+  const getTimeDisplay = (timestamp: string) => {
+    const currentTime = new Date();
+    const parsedTimestamp = new Date(timestamp);
+
+    const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
+    const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
+
+    let timeDisplay;
+    if (minutesDiff < 60) {
+      timeDisplay = `${minutesDiff}m`;
+    } else {
+      const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
+      if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
+      else {
+        const month = parsedTimestamp.toLocaleString("en-us", {
+          month: "short",
+        });
+        const day = parsedTimestamp.getDate();
+        timeDisplay = `${month} ${day}`;
+      }
+    }
+
+    return timeDisplay;
   };
   return (
     <div className="container flex">
@@ -34,11 +65,11 @@ const Notifications: React.FC<NotificationsProps> = () => {
             </Button>
           </div>
           {/* Notifications Tabs */}
-          <div className="flex justify-around border-b border-gray-200">
+          <div className="flex justify-around border-b border-gray-200 items-center">
             <div>
               <div className="flex gap-4">
                 <button
-                  className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                  className={`px-20 py-4 text-base font-semibold hover:bg-gray-200 ${
                     activeTab === "all" ? "text-blue-500" : "text-gray-500"
                   }`}
                   onClick={() => handleTabClick("all")}
@@ -46,7 +77,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   All
                 </button>
                 <button
-                  className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                  className={`px-20 py-4 text-base font-semibold hover:bg-gray-200 ${
                     activeTab === "verified" ? "text-blue-500" : "text-gray-500"
                   }`}
                   onClick={() => handleTabClick("verified")}
@@ -54,7 +85,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   Verified
                 </button>
                 <button
-                  className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                  className={`px-20 py- text-base font-semibold hover:bg-gray-200 ${
                     activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                   }`}
                   onClick={() => handleTabClick("mentions")}
@@ -79,6 +110,33 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         />
                       ))
                     )}
+                    :{" "}
+                    {likedNotfications.map((notification, index) => (
+                      <LikeNotification
+                        key={index}
+                        id={index}
+                        description={notification.message}
+                        tweet={notification.tweet}
+                        avatarUrl={notification.avatarUrl}
+                      />
+                    ))}{" "}
+                    :{" "}
+                    {mentions.map((mention, index) => (
+                      <Mention
+                        key={index}
+                        id={index}
+                        name={mention.Name}
+                        username={mention.Username}
+                        text={mention.Content}
+                        imageUrl={mention.avatarUrl}
+                        replyToUsername={mention.MentionedUser}
+                        saves={1000}
+                        comments={100}
+                        retweets={100}
+                        likes={100}
+                        timeDisplay={getTimeDisplay(mention.Created_at)}
+                      />
+                    ))}
                   </div>
                 )}
                 {activeTab === "verified" && (
@@ -100,7 +158,32 @@ const Notifications: React.FC<NotificationsProps> = () => {
                     )}
                   </div>
                 )}
-                {activeTab === "mentions" && <div></div>}
+                {activeTab === "mentions" && (
+                  <div>
+                    {mentions.length === 0 ? (
+                      <p className="text-center text-gray-500">
+                        You have no mentions
+                      </p>
+                    ) : (
+                      mentions.map((mention, index) => (
+                        <Mention
+                          key={index}
+                          id={index}
+                          name={mention.Name}
+                          username={mention.Username}
+                          text={mention.Content}
+                          imageUrl={mention.avatarUrl}
+                          replyToUsername={mention.MentionedUser}
+                          saves={1000}
+                          comments={100}
+                          retweets={100}
+                          likes={100}
+                          timeDisplay={getTimeDisplay(mention.Created_at)}
+                        />
+                      ))
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
