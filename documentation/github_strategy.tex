@@ -71,7 +71,21 @@ Issue titles should be clear, specific, and descriptive, summarizing the problem
 Issues should include a detailed description of the problem, task, or user story, including acceptance criteria and any relevant context or constraints.
 \subsection{Assignment and Labels}
 Assign issues to the appropriate team member and apply relevant labels (e.g., bug, enhancement, documentation) to categorize and prioritize tasks.
+\subsection{CI/CD Strategy and Deployment}
+\begin{itemize}
+    \item \textbf{Git repo}: \url{https://github.com/COS301-SE-2024/MiniProject13}
+    \item \textbf{Git branching strategy we are using}: Trunk based strategy, so this means that we have a main branch, a dev branch and feature branches only. So our dev branch receives rapid development as we integrate and merge feature branches into dev. This also means feature branches are very short
+    \item \subsection*{lived and does not result in us having a complicated branching strategy or having merge conflicts as often as these branches live very close to dev. This also allows us to release new features as soon as possible as branches are not deeply nested, thereby making our CI/CD pipeline more robust and active.}
 
-\section{CI/CD Strategy}
-\subsection{Deployment}
+    \subsection*{During the implementation phase, we are not reviewing developers' code in depth as of yet as we are trying to add as many features as quickly as possible since we are trying to make a proof of concept or rather skeleton implementation. Once we are done with that, we shall go through our codebase once more and start to write the actual product. Here, our review process will involve at least 2 signees approving the PR before it can be merged. This is to ensure that multiple eyes may catch some errors. So status checks will have to pass first, namely, linting, testing, and deploying a preview build. Once that is done, a reviewer will look through the PR details and verify by looking at the code changed that the PR is indeed doing what it is claiming to do. The reviewer may ask the developer who submitted the PR to also reference any issues that this PR addresses, although our PR templates stipulate that they do so. Finally, the reviewer will navigate to the preview build page and confirm that the new feature or fix does indeed work. Then the PR can be merged, and the dev branch will create its own preview build.}
+    
+    \subsection*{Ideally this: \url{https://github.com/COS301-SE-2024/MiniProject13/blob/dev/.github/workflows/lint_test_coverage_build_deploy_release_merge_main.yml}}
+    
+    \begin{itemize}
+    \item \textbf{a)} We are deploying to Vercel: \url{mini-project13.vercel.app}
+    \item \textbf{b)} We are using GitHub actions to deploy. Our actions are defined to run when a PR to dev is created, thus creating a preview build and when a PR from dev to main is opened, thus creating a production build.
+    \item \textbf{c)} We plan to deploy once every week, usually on the weekends allowing us to deploy new features as quickly as possible. However, for the team, anytime a PR is created to the dev branch, a preview build is created, and this allows those who worked on their latest feature to get instant feedback from the rest of the team and use that feedback to iterate and improve their designs and overall usage of the web app.
+    \end{itemize}
+    
+    \end{document}
 \end{document}

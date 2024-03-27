@@ -95,44 +95,51 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
   </a>
 </p>
 
-
 # Users
+
 ## I am just checking out the application
+
 Please navigate to <a href="https://mini-project13.vercel.app/">twitter clone</a> to use the application
 
 ## I am part of the team
+
 Please see <a href="CONTRIBUTING.md">contributing</a> for more details on how you can contribute to this repo
 
 ## I am an external developer and I want to try the app
 
 1. Clone the repository.
 2. Configure and install the dependencies:
+
 ```
 npm install
 ```
+
 3. Start up a development server and navigate to the appropriate port:
+
 ```
 npm run dev
 ```
+
 4. To close the development server run
-```CTRL-C```
-5. To run tests, run 
+   `CTRL-C`
+5. To run tests, run
+
 ```
 npm test
 ```
 
 # Meet The Team
 
-| Name and Surname | Github Profiles | Roles | Bio | Profile Image |
-| :-| - | :- | :- | - |
-| Tessa Engelbrecht | <a href=""> <img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | Project Manager | As a project manager, I thrive on building strong relationships with my team members. My passion lies in getting to know each individual's strengths and working collaboratively to leverage those talents effectively. I prioritise regular team meetings to ensure clear communication, alignment, and understanding of expectations.  | <img src="images/IMG-20240312-WA0082.jpg"  width="100"> |
-| Kumbirai Shonhiwa | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | Business Analyst | Passionate about web design | <img src="images/IMG-20240312-WA0079.jpg" width="100"> |
-| Kyle Marshall | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | Designer | Hi, I am Kyle Marshall! As a dedicated designer, I bring a keen eye for beauty, aesthetics and professionalism to every project. Currently pursuing my third year in Computer Science, I leverage my technical knowledge to enhance my design work. Specializing in UX/UI design, I'm passionate about crafting intuitive user experiences that seamlessly blend form and function.  | <img src="images/IMG-20240312-WA0073.jpg" width="100"> |
-| Yashvitha Kanaparthy | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | UI Engineer | Building applications | <img src="images/IMG-20240312-WA0076.jpg" width="200"> |
-| Quintin D'hotman de Villiers | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | Integration Engineer | Enthusiastic about automation | <img src="images/IMG-20240312-WA0077.jpg" width="200"> |
-| Kamogelo Moeketse | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | Data Engineer | Analyzing data is my passion | <img src="images/IMG-20240312-WA0074.jpg" width="100"> |
-| Dhinaz Rangasamy | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>  | Architect | Bridging technology and business | <img src="images/IMG-20240312-WA0078.jpg" width="100"> |
-| Given Chauke  | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>  | Services Engineer| Life long learner who enjoys challenges and building useful software products. Interested in gaming 🎮 and board games ♟| <img src="images/IMG-20240312-WA0083.jpg" width="100"> |
-| Dominique Da Silva | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | Services Engineer | Ensuring software quality | <img src="images/IMG-20240312-WA0081.jpg" width="100"> |
-| Alex Pretorius | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | Testing Engineer | Crafting elegant software solutions | <img src="images/IMG-20240312-WA0080.jpg" width="100"> |
-| Michael Chinyama | <a href="https://waveyboym.github.io/"><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | DevOps, CI/CD Engineer | Interested in computer science and creating fun CS related projects | <img src="https://avatars.githubusercontent.com/u/93211335?v=4" width="100"> |
+| Name and Surname             | Github Profiles                                                                                           | Roles                  | Bio                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Profile Image                                                                |
+| :--------------------------- | --------------------------------------------------------------------------------------------------------- | :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Tessa Engelbrecht            | <a href=""> <img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                            | Project Manager        | As a project manager, I thrive on building strong relationships with my team members. My passion lies in getting to know each individual's strengths and working collaboratively to leverage those talents effectively. I prioritise regular team meetings to ensure clear communication, alignment, and understanding of expectations.                                                                                                                         | <img src="images/IMG-20240312-WA0082.jpg"  width="100">                      |
+| Kumbirai Shonhiwa            | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | Business Analyst       | Passionate about web design                                                                                                                                                                                                                                                                                                                                                                                                                                     | <img src="images/IMG-20240312-WA0079.jpg" width="100">                       |
+| Kyle Marshall                | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | Designer               | Hi, I am Kyle Marshall! As a dedicated designer, I bring a keen eye for beauty, aesthetics and professionalism to every project. Currently pursuing my third year in Computer Science, I leverage my technical knowledge to enhance my design work. Specializing in UX/UI design, I'm passionate about crafting intuitive user experiences that seamlessly blend form and function.                                                                             | <img src="images/IMG-20240312-WA0073.jpg" width="100">                       |
+| Yashvitha Kanaparthy         | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | UI Engineer            | I'm a passionate UI engineer deeply immersed in the world of creative design and user experience. With a strong background in Computer Science, currently in my third year of study, I excel in designing user-friendly digital interfaces that skillfully merge aesthetics with functionality. With a keen eye for detail and a commitment to innovation, I'm dedicated to creating captivating experiences that resonate with users across diverse platforms. | <img src="images/IMG-20240312-WA0076.jpg" width="200">                       |
+| Quintin D'hotman de Villiers | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | Integration Engineer   | Enthusiastic about automation                                                                                                                                                                                                                                                                                                                                                                                                                                   | <img src="images/IMG-20240312-WA0077.jpg" width="200">                       |
+| Kamogelo Moeketse            | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | Data Engineer          | Analyzing data is my passion                                                                                                                                                                                                                                                                                                                                                                                                                                    | <img src="images/IMG-20240312-WA0074.jpg" width="100">                       |
+| Dhinaz Rangasamy             | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | Architect              | Bridging technology and business                                                                                                                                                                                                                                                                                                                                                                                                                                | <img src="images/IMG-20240312-WA0078.jpg" width="100">                       |
+| Given Chauke                 | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | Services Engineer      | Life long learner who enjoys challenges and building useful software products. Interested in gaming 🎮 and board games ♟                                                                                                                                                                                                                                                                                                                                        | <img src="images/IMG-20240312-WA0083.jpg" width="100">                       |
+| Dominique Da Silva           | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | Services Engineer      | Ensuring software quality                                                                                                                                                                                                                                                                                                                                                                                                                                       | <img src="images/IMG-20240312-WA0081.jpg" width="100">                       |
+| Alex Pretorius               | <a href=""><img src="https://skillicons.dev/icons?i=github&theme=light"/></a>                             | Testing Engineer       | Crafting elegant software solutions                                                                                                                                                                                                                                                                                                                                                                                                                             | <img src="images/IMG-20240312-WA0080.jpg" width="100">                       |
+| Michael Chinyama             | <a href="https://waveyboym.github.io/"><img src="https://skillicons.dev/icons?i=github&theme=light"/></a> | DevOps, CI/CD Engineer | Interested in computer science and creating fun CS related projects                                                                                                                                                                                                                                                                                                                                                                                             | <img src="https://avatars.githubusercontent.com/u/93211335?v=4" width="100"> |
