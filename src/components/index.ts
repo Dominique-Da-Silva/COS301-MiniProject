@@ -6,6 +6,8 @@ import CreateTweet from "./CreateTweet/CreateTweet";
 import Search from "./Search/Search";
 import Nav from "./Nav/Nav";
 import EditProfile from "./EditProfile/EditProfile";
+import PostNotification from "./PostNotification/PostNotification";
+import LikeNotification from "./PostNotification/LikedNotification";
 
 export {
   EditProfile,
@@ -16,4 +18,6 @@ export {
   Search,
   CreateTweet,
   Nav,
+  PostNotification,
+  LikeNotification
 };

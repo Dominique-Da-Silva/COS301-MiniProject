@@ -218,22 +218,25 @@ export const mockLikesCount = {
 export const mockTopics = [
   {
     name: "Arsenal Wins the Champions League",
-    description: "Arsenal secures the Champions League title with a victory over Real Madrid.",
+    description:
+      "Arsenal secures the Champions League title with a victory over Real Madrid.",
     timePosted: "2023-04-15T12:00:00.000Z",
-    avatarUrl: 'https://example.com/Arsenal-champions-league.jpg',
+    avatarUrl: "https://example.com/Arsenal-champions-league.jpg",
   },
   {
     name: "Tokyo Olympics 2024 Opening Ceremony",
-    description: "The Tokyo Olympics 2024 kicks off with a spectacular opening ceremony.",
+    description:
+      "The Tokyo Olympics 2024 kicks off with a spectacular opening ceremony.",
     timePosted: "2023-04-16T10:00:00.000Z",
-    avatarUrl: 'https://example.com/tokyo-olympics-2024.jpg',
+    avatarUrl: "https://example.com/tokyo-olympics-2024.jpg",
   },
   {
     name: "SpaceX Launches Mars Mission",
-    description: "SpaceX successfully launches its first manned mission to Mars.",
+    description:
+      "SpaceX successfully launches its first manned mission to Mars.",
     timePosted: "2023-04-17T08:00:00.000Z",
-    avatarUrl: 'https://example.com/spacex-mars-mission.jpg',
-  }
+    avatarUrl: "https://example.com/spacex-mars-mission.jpg",
+  },
 ];
 
 export const mockFollowSuggestions = [
@@ -241,18 +244,90 @@ export const mockFollowSuggestions = [
     user_id: "1",
     name: "PlayStation",
     username: "Playstation",
-    avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/PlayStation_App_Icon.jpg/800px-PlayStation_App_Icon.jpg',
+    avatarUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/PlayStation_App_Icon.jpg/800px-PlayStation_App_Icon.jpg",
   },
   {
     user_id: "2",
     name: "Man City",
     username: "ManchesterCity",
-    avatarUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png',
+    avatarUrl:
+      "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png",
   },
   {
     user_id: "3",
     name: "Elon",
     username: "ElonMusk",
-    avatarUrl: 'https://play-lh.googleusercontent.com/A-Rnrh0J7iKmABskTonqFAANRLGTGUg_nuE4PEMYwJavL3nPt5uWsU2WO_DSgV_mOOM',
-  }
+    avatarUrl:
+      "https://play-lh.googleusercontent.com/A-Rnrh0J7iKmABskTonqFAANRLGTGUg_nuE4PEMYwJavL3nPt5uWsU2WO_DSgV_mOOM",
+  },
+];
+
+export const mockNotifications = [
+  {
+    id: 1,
+    message: "You have a new follower!",
+    time: "2023-04-18T09:30:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+  {
+    id: 2,
+    message: "Your post has been message.",
+    time: "2023-04-18T10:15:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+  {
+    id: 3,
+    message: "You have a new message.",
+    time: "2023-04-18T11:00:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+];
+
+export const mockLikedNotifications = [
+  {
+    id: 1,
+    message: "Johnny liked your reply ",
+    tweet: "Just landed in New York City for the weekend! Can not wait to explore the city. 🗽🌃",
+    time: "2023-04-18T09:30:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+  {
+    id: 2,
+    message: "Aris Neiman liked your tweet ",
+    tweet: "What a game, what a win! #GoManchesterUnited",
+    time: "2023-04-18T09:30:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+  {
+    id: 3,
+    message: "Kamo liked your tweet ",
+    tweet: "What a game, what a win! #GoManchesterCity",
+    time: "2023-04-18T09:30:00.000Z",
+    avatarUrl: "https://example.com/new-follower.jpg",
+  },
+];
+
+export const mockMentions = [
+  {
+    id: 1,
+    user: {
+      name: "John Doe",
+      username: "johndoe",
+      avatarUrl: "https://example.com/johndoe.jpg",
+    },
+    tweet: "Just mentioned you in a tweet!",
+    time: "2023-04-18T09:30:00.000Z",
+  },
+  {
+    id: 2,
+    user: {
+      name: "Jane Smith",
+      username: "janesmith",
+      avatarUrl: "https://example.com/janesmith.jpg",
+    },
+    tweet: "You were mentioned in a post!",
+    time: "2023-04-18T10:15:00.000Z",
+  },
+  // Add more mock mentions here
 ];
