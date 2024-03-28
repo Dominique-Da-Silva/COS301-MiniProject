@@ -106,13 +106,6 @@ export async function signInUser(email: string, password: string): Promise<"succ
 
 export async function isUserLoggedIn(): Promise<boolean>{
   const { data } = await supabase.auth.getSession();
-  if(data.session === null)return false;
-  else{
-    const res = await addUserToDatabase();
-    if(res === "error"){
-      await signOut();
-    }
-  } 
   return data.session !== null;
 }
 
@@ -126,7 +119,7 @@ export async function doesLoggedUserExistInDatabase() : Promise<boolean>{
   return count > 0;
 }
 
-async function addUserToDatabase(){
+export async function addUserToDatabase(){
   //add user to database if not already there
   const logged_user = await supabase.auth.getUser();
   if (!logged_user.data.user) return "error";

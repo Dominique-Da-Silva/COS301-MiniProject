@@ -2,8 +2,27 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings } from '@pages/index';
 import { EditProfile } from '@components/index';
 import "./styles/tailwind.css";
+import { useEffect } from 'react';
+import { supabase } from '@config/index';
+import { addUserToDatabase, signOut } from '@services/index';
 
 const App = () => {
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(async(event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        const res = await addUserToDatabase();
+        if(res === "error"){
+          await signOut();
+        }
+      }
+      else if(event === 'SIGNED_OUT') {
+        console.log('signed out');
+      }
+
+    });
+  }, [])
+
   return (
     <Router>
       <Routes>
