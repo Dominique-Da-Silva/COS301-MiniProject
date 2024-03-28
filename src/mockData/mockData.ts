@@ -256,3 +256,12 @@ export const mockFollowSuggestions = [
     avatarUrl: 'https://play-lh.googleusercontent.com/A-Rnrh0J7iKmABskTonqFAANRLGTGUg_nuE4PEMYwJavL3nPt5uWsU2WO_DSgV_mOOM',
   }
 ];
+
+export const mockTrending = [ 
+  {
+    Trending_Id: "1",
+    TagName: "PlayStation",
+    NumPosts: "Playstation",
+    avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/PlayStation_App_Icon.jpg/800px-PlayStation_App_Icon.jpg',
+  }
+];
