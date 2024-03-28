@@ -261,51 +261,51 @@ export const mockTrending = [
   {
   Trending_Id: "1",
   TagName: "GTA6",
-  NumPosts: "4217"
+  NumPosts: 42176
   },
   {
   Trending_Id: "2",
   TagName: "SpaceXLaunch",
-  NumPosts: "9854"
+  NumPosts: 29854
   },
   {
   Trending_Id: "3",
   TagName: "NewiPhoneLeak",
-  NumPosts: "17231"
+  NumPosts: 17231
   },
   {
   Trending_Id: "4",
   TagName: "WorldCupQualifiers",
-  NumPosts: "5429"
+  NumPosts: 15429
   },
   {
   Trending_Id: "5",
   TagName: "ViralCatVideo",
-  NumPosts: "83412"
+  NumPosts: 13412
   },
   {
   Trending_Id: "6",
   TagName: "ThrowbackThursday",
-  NumPosts: "14725"
+  NumPosts: 4725
   },
   {
   Trending_Id: "7",
   TagName: "CelebrityBreakup",
-  NumPosts: "57814"
+  NumPosts: 814
   },
   {
   Trending_Id: "8",
   TagName: "Dogecoin",
-  NumPosts: "16273"
+  NumPosts: 273
   },
   {
   Trending_Id: "9",
   TagName: "StrangerThings4",
-  NumPosts: "68432"
+  NumPosts: 32
   },
   {
   Trending_Id: "10",
   TagName: "MarchMadness",
-  NumPosts: "92135"
+  NumPosts: 21
   }
 ];
