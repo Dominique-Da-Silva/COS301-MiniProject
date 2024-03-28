@@ -259,9 +259,53 @@ export const mockFollowSuggestions = [
 
 export const mockTrending = [ 
   {
-    Trending_Id: "1",
-    TagName: "PlayStation",
-    NumPosts: "Playstation",
-    avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/PlayStation_App_Icon.jpg/800px-PlayStation_App_Icon.jpg',
+  Trending_Id: "1",
+  TagName: "GTA6",
+  NumPosts: "4217"
+  },
+  {
+  Trending_Id: "2",
+  TagName: "SpaceXLaunch",
+  NumPosts: "9854"
+  },
+  {
+  Trending_Id: "3",
+  TagName: "NewiPhoneLeak",
+  NumPosts: "17231"
+  },
+  {
+  Trending_Id: "4",
+  TagName: "WorldCupQualifiers",
+  NumPosts: "5429"
+  },
+  {
+  Trending_Id: "5",
+  TagName: "ViralCatVideo",
+  NumPosts: "83412"
+  },
+  {
+  Trending_Id: "6",
+  TagName: "ThrowbackThursday",
+  NumPosts: "14725"
+  },
+  {
+  Trending_Id: "7",
+  TagName: "CelebrityBreakup",
+  NumPosts: "57814"
+  },
+  {
+  Trending_Id: "8",
+  TagName: "Dogecoin",
+  NumPosts: "16273"
+  },
+  {
+  Trending_Id: "9",
+  TagName: "StrangerThings4",
+  NumPosts: "68432"
+  },
+  {
+  Trending_Id: "10",
+  TagName: "MarchMadness",
+  NumPosts: "92135"
   }
 ];
