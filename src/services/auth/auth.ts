@@ -1,4 +1,5 @@
 import { supabase } from "@config/supabase";
+import { extractUsername } from "@utils/index";
 
 export async function signInWithGoogle(): Promise<"success" | "error">{
   const { error } = await supabase.auth.signInWithOAuth({
@@ -106,13 +107,6 @@ export async function signInUser(email: string, password: string): Promise<"succ
 
 export async function isUserLoggedIn(): Promise<boolean>{
   const { data } = await supabase.auth.getSession();
-  if(data.session === null)return false;
-  else{
-    const res = await addUserToDatabase();
-    if(res === "error"){
-      await signOut();
-    }
-  } 
   return data.session !== null;
 }
 
@@ -126,7 +120,7 @@ export async function doesLoggedUserExistInDatabase() : Promise<boolean>{
   return count > 0;
 }
 
-async function addUserToDatabase(){
+export async function addUserToDatabase(){
   //add user to database if not already there
   const logged_user = await supabase.auth.getUser();
   if (!logged_user.data.user) return "error";
@@ -142,12 +136,36 @@ async function addUserToDatabase(){
     Name: logged_user.data.user.user_metadata.full_name ? logged_user.data.user.user_metadata.full_name : "",
     Surname: logged_user.data.user.user_metadata.surname ? logged_user.data.user.user_metadata.surname : "",
     User_Id: undefined,
-    Username: logged_user.data.user.user_metadata.full_name ? logged_user.data.user.user_metadata.full_name : "",
+    Username: logged_user.data.user.user_metadata.user_name ? 
+      logged_user.data.user.user_metadata.user_name : 
+      extractUsername(logged_user.data.user.email),
   };
 
   const res = await supabase.from('User').insert(user);
-
+  
   if (res.error) return "error";
+  //this code will need to be rewritten and moved to a separate services function...issue tracking 
+
+  const id = await supabase.from('User').select('User_Id').eq('auth_id', logged_user.data.user.id);
+
+  if(id.data === null)return "success";
+  if(id.data.length === 0)return "success";
+
+  const profile_data = { 
+    Banner_Url: undefined, 
+    Bio: undefined, 
+    Img_Url: logged_user.data.user.user_metadata.avatar_url,
+    Location: undefined,
+    Profile_Id: undefined,
+    Profile_Type: undefined,
+    Theme: undefined, 
+    User_Id: id.data[0].User_Id,
+    Website: undefined
+  }
+
+  await supabase.from("Profile").insert(profile_data);
+
+  //end of movable code
 
   return "success";
 }
