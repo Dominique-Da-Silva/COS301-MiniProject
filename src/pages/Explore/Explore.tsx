@@ -120,7 +120,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
               <Tabs variant="underlined" aria-label="Tabs variants"  classNames={{
                 tabList: "w-full relative rounded-none p-0 border-b border-divider flex",
                 cursor: "w-14 bg-sky-500 h-1 rounded-full",
-                tab: "px-0 m-0 h-12 text font-semibold",
+                tab: "px-0 m-0 h-12 font-semibold hover:bg-gray-200",
                 tabContent: "group-data-[selected=true]:text-black text-gray-500",
               }}>
                 <Tab key="Top" title="Top" className="p-0">
