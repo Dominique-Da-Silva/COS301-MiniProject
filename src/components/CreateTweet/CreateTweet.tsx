@@ -1,30 +1,37 @@
-import { Avatar, Button, Textarea } from "@nextui-org/react";
+import { Avatar, Button, Textarea, Tooltip} from "@nextui-org/react";
 import { GalleryIcon, GIFIcon, PollsIcon, ScheduleIcon, StickersIcon } from '@assets/index';
 
 const CreateTweet = () => {
 
-  const handleGalleryClick = () => {
+  const handleGalleryClick = (event: any) => {
+    event.preventDefault();
     // Handle Gallery click
   };
-
-  const handleGIFClick = () => {
+  
+  const handleGIFClick = (event: any) => {
+    event.preventDefault();
     // Handle GIF click
   };
-
-  const handlePollsClick = () => {
+  
+  const handlePollsClick = (event: any) => {
+    event.preventDefault();
     // Handle Polls click
   };
-
-  const handleStickersClick = () => {
+  
+  const handleStickersClick = (event: any) => {
+    event.preventDefault();
     // Handle Stickers click
   };
-
-  const handleScheduleClick = () => {
+  
+  const handleScheduleClick = (event: any) => {
+    event.preventDefault();
     // Handle Schedule click
   };
+  
 
   return (
     <div className="py-2 px-4 min-h-50 flex-col">
+      {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
       <div className="items-start">
         <Avatar
           // src={imageUrl} // profile image url to be replaced
@@ -40,21 +47,31 @@ const CreateTweet = () => {
         />
       </div>
       <div className="flex mt-2 gap-1">
-        <Button isIconOnly onClick={handleGalleryClick} variant="light">
-          <img src={GalleryIcon} alt="Gallery" className="w-8 h-8" />
-        </Button>
-        <Button isIconOnly onClick={handleGIFClick} variant="light">
-          <img src={GIFIcon} alt="GIF" className="w-8 h-7" />
-        </Button>
-        <Button isIconOnly onClick={handlePollsClick} variant="light">
-          <img src={PollsIcon} alt="Polls" className="w-7 h-7" />
-        </Button>
-        <Button isIconOnly onClick={handleStickersClick} variant="light">
-          <img src={StickersIcon} alt="Emoji" className="w-7 h-7" />
-        </Button>
-        <Button isIconOnly onClick={handleScheduleClick} variant="light">
-          <img src={ScheduleIcon} alt="Schedule" className="w-6 h-6" />
-        </Button>
+        <Tooltip content="Media" placement="bottom">
+          <Button isIconOnly onClick={handleGalleryClick} variant="light">
+            <img src={GalleryIcon} alt="Gallery" className="w-8 h-8" />
+          </Button>
+        </Tooltip>
+        <Tooltip content="GIF" placement="bottom">
+          <Button isIconOnly onClick={handleGIFClick} variant="light">
+            <img src={GIFIcon} alt="GIF" className="w-8 h-7" />
+          </Button>
+        </Tooltip>
+        <Tooltip content="Poll" placement="bottom">
+          <Button isIconOnly onClick={handlePollsClick} variant="light">
+            <img src={PollsIcon} alt="Polls" className="w-7 h-7" />
+          </Button>
+        </Tooltip>
+        <Tooltip content="Emoji" placement="bottom">
+          <Button isIconOnly onClick={handleStickersClick} variant="light">
+            <img src={StickersIcon} alt="Emoji" className="w-7 h-7" />
+          </Button>
+        </Tooltip>
+        <Tooltip content="Schedule" placement="bottom">
+          <Button isIconOnly onClick={handleScheduleClick} variant="light">
+            <img src={ScheduleIcon} alt="Schedule" className="w-6 h-6" />
+          </Button>
+        </Tooltip>
       </div>
       <div className="flex justify-end mt-2">
         <Button
