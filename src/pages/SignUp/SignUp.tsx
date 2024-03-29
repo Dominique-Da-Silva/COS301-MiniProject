@@ -224,10 +224,7 @@ const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
     e.preventDefault();
     if(formData.password === "") return;
     const status = await signUpNewUser(formData);
-    if(status === "error"){ 
-      console.log("Error signing up user");
-      return;
-    }
+    if(status === "error"){  return; }
     setFlowPage(4);
   }
 
@@ -351,9 +348,20 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
 
 const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
 
+  const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
+
+  const generateUsernameSuggestions = () => {
+    // Use userData to generate suggestions (Example: combining name and email)
+    const suggestions: string[] = [
+      formData.name.toLowerCase().replace(/\s+/g, '_') + Math.floor(Math.random() * 1000).toString(),
+      formData.email.split('@')[0].toLowerCase() + Math.floor(Math.random() * 1000).toString(),
+    ];
+    setUsernameSuggestions(suggestions);
+  };
+
   const handleNextPressed = async() => {
     if(formData.username === "") return;
-    await updateUsername(formData.username);
+    const res = await updateUsername(formData.username);
     setFlowPage(6);
   }
 
@@ -376,6 +384,24 @@ const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
             onChange={e => setFormData({ ...formData, username: e.target.value })}
             required
           />
+          <div className="flex mt-2 flex-wrap">
+            <a className="text-blue-500 cursor-pointer" onClick={() => setFormData({ ...formData, username: formData.name.toLowerCase().replace(/\s+/g, '_') })}>
+              @{formData.name.toLowerCase().replace(/\s+/g, '_')},
+            </a>
+            &nbsp;
+            <a className="text-blue-500 cursor-pointer" onClick={() => setFormData({ ...formData, username: formData.email.split('@')[0].toLowerCase() })}>
+              @{formData.email.split('@')[0].toLowerCase()},
+            </a>
+            {
+              usernameSuggestions.map((suggestion, index) => (
+                <a key={index} className="text-blue-500 cursor-pointer" onClick={() => setFormData({ ...formData, username: suggestion })}>
+                  &nbsp;@{suggestion},
+                </a>
+              ))
+            }
+          </div>
+          {usernameSuggestions.length === 0 && 
+            <a className="text-blue-500 cursor-pointer" onClick={generateUsernameSuggestions}>show more</a>}
         </div>
         <Button
           onClick={handleNextPressed}
