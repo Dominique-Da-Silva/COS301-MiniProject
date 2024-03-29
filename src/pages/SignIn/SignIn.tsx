@@ -78,7 +78,7 @@ const SignIn = () => {
               required
             />
           </div>
-          <Button radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>SignIn</Button>
+          <Button radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Sign In</Button>
         </form>
         <div className="text-center mt-6 flex justify-between">
             <div className="text-blue-500 hover:underline">Forgot Password?</div>
