@@ -1,5 +1,6 @@
 import { supabase } from "@config/supabase";
 import { extractUsername } from "@utils/index";
+import { insertProfileDetails } from "..";
 
 export async function signInWithGoogle(): Promise<"success" | "error">{
   const { error } = await supabase.auth.signInWithOAuth({
@@ -143,29 +144,10 @@ export async function addUserToDatabase(){
 
   const res = await supabase.from('User').insert(user);
   
-  if (res.error) return "error";
-  //this code will need to be rewritten and moved to a separate services function...issue tracking 
-
-  const id = await supabase.from('User').select('User_Id').eq('auth_id', logged_user.data.user.id);
-
-  if(id.data === null)return "success";
-  if(id.data.length === 0)return "success";
-
-  const profile_data = { 
-    Banner_Url: undefined, 
-    Bio: undefined, 
-    Img_Url: logged_user.data.user.user_metadata.avatar_url,
-    Location: undefined,
-    Profile_Id: undefined,
-    Profile_Type: undefined,
-    Theme: undefined, 
-    User_Id: id.data[0].User_Id,
-    Website: undefined
-  }
-
-  await supabase.from("Profile").insert(profile_data);
-
-  //end of movable code
+  if (res.error) return "error"; 
+  await insertProfileDetails({
+    Img_Url: logged_user.data.user.user_metadata.avatar_url ? logged_user.data.user.user_metadata.avatar_url : "",
+  });
 
   return "success";
 }
