@@ -37,7 +37,7 @@ const Tweet: React.FC<TweetProps> = ({name, username, text, imageUrl, timeDispla
         <div>
           <p className="p-0 m-0">{text}</p> 
             {imageUrl && (
-              <Image isZoomed src={imageUrl} alt="Tweet Image" className="tweet-image w-auto h-full" style={{ borderRadius: '10px' }} />
+              <Image src={imageUrl} alt="Tweet Image" className="tweet-image w-auto h-full" style={{ borderRadius: '10px' }} />
             )}
         </div>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
