@@ -22,6 +22,7 @@
 
 - [Twitter clone - By MP-13](#twitter-clone---by-mp-13)
 - [Table of contents](#table-of-contents)
+- [Summary](#summary)
 - [Introduction](#introduction)
 - [Features (a short summary of the user's functionality)](#features-a-short-summary-of-the-users-functionality)
 - [Demo Video](#demo-video)
@@ -34,8 +35,13 @@
   - [I am an external developer and I want to try the app](#i-am-an-external-developer-and-i-want-to-try-the-app)
 - [Meet The Team](#meet-the-team)
 
+# Summary
+MP-13 is a Twitter clone project aimed at replicating the functionality and user experience of the popular social media platform, Twitter
+
 # Introduction
 
+<details>
+<summary>introduction - click to expand</summary>
 MP-13 is a Twitter clone project aimed at replicating the functionality and user experience of the popular social media platform, Twitter. This application serves as a platform for users to engage in real-time conversations, share updates, and connect with others globally. With a focus on mirroring Twitter's core features such as posting tweets, following other users, and receiving notifications, MP-13 aims to provide users with a familiar and seamless social networking experience.
 
 Designed to cater to a wide range of users, MP-13 offers a user-friendly interface and intuitive navigation, ensuring accessibility for both novice and experienced social media users. Whether users are seeking to share their thoughts, discover trending topics, or engage with like-minded individuals, MP-13 provides a dynamic platform for fostering connections and facilitating meaningful interactions. With its robust functionality and commitment to user satisfaction, MP-13 emerges as a compelling alternative to existing social media platforms, promising a vibrant and engaging online community experience.
@@ -43,9 +49,12 @@ Designed to cater to a wide range of users, MP-13 offers a user-friendly interfa
 As a testament to its dedication to innovation and user-centric design, MP-13 continually evolves to incorporate new features and enhancements based on user feedback and emerging trends in social media. With a mission to empower users to express themselves freely and connect with others in a safe and inclusive environment, MP-13 stands as a beacon of digital connectivity and social interaction in the ever-expanding landscape of online networking platforms.
 
 To learn more about this project see our documentation [Here are the links to our Documentation](#here-are-the-links-to-our-documentation)
+</details>
 
 # Features (a short summary of the user's functionality)
 
+<details>
+<summary>Features (a short summary of the user's functionality) - click to expand</summary>
 MP-13 offers a comprehensive set of features designed to enhance the user experience and foster meaningful interactions within its community. Users can seamlessly engage with the platform through various functionalities, including:
 
 1. Posting Tweets: Users can share their thoughts, updates, and multimedia content with their followers through the posting of tweets.
@@ -61,6 +70,7 @@ MP-13 offers a comprehensive set of features designed to enhance the user experi
 6. Search Functionality: Users can easily search for specific content, hashtags, users, or topics of interest, facilitating discovery and access to relevant information within the platform.
 
 With these features and more, MP-13 offers a dynamic and immersive social networking experience, empowering users to express themselves, connect with others, and stay informed within a vibrant online community.
+</details>
 
 # Demo Video
 
