@@ -21,3 +21,23 @@ const fetchTweets = async () => {
   };
 
    export {fetchTweets};
+
+  const addTweet = async (tweetData: any) => {
+  try {
+    const { data, error } = await supabase.functions.invoke('addTweet', {
+      body: JSON.stringify(tweetData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    console.error('Error adding tweet:', error);
+    throw error; // Re-throw the error to handle it in the calling code if needed
+  }
+};
+
+export { addTweet };
