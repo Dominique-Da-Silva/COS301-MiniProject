@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { addTweet } from './getTweets'; // Adjust the path accordingly
+import { addTweet } from './getTweets'; 
 import { supabase } from '@config/supabase';
 
 test('addTweet inserts a tweet successfully', async () => {

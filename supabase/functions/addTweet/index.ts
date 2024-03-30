@@ -16,15 +16,19 @@ Deno.serve(async (req) => {
   }
 
   try {
+
     // Extract data from the request body
-    const requestBody = await req.json();
-    const { User_Id, Content, Img_Url } = requestBody;
+    const { User_Id, Content, Img_Url } = await req.json(); // Parse the entire request body once
+    console.log('User_Id:', User_Id);
+    console.log('Content:', Content);
+    console.log('Img_Url:', Img_Url);
+
 
     // Insert the extracted data into the database
     const { data: insertedTweet, error } = await supabase
       .from('Tweets')
       .insert([{ User_Id, Content, Img_Url }])
-      .single();
+      .select();
 
     if (error) {
       throw error;
