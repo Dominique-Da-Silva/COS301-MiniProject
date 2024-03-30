@@ -3,7 +3,7 @@ import { Tweet, TrendingTopics , WhoToFollow , Nav , Search, CreateTweet } from 
 import React,{useState} from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 //import { fetchTweets, fetchUsers } from "@services/index"; 
-import { addTweet } from "@services/index";
+//import { addTweet } from "@services/index";
 import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
 interface HomePageProps {}
@@ -50,11 +50,6 @@ const HomePage: React.FC<HomePageProps> = () => {
   }, []);
   */
   //testing
-  const tweetData = {
-    User_Id: 123,
-    Content: 'Hello, world!',
-    Img_Url: 'https://example.com/image.jpg',
-  };
 
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
