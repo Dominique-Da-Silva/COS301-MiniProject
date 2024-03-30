@@ -6,7 +6,9 @@ import CreateTweet from "./CreateTweet/CreateTweet";
 import Search from "./Search/Search";
 import Nav from "./Nav/Nav";
 import EditProfile from "./EditProfile/EditProfile";
-import AccountInfo from "./AccountInfo/AccountInfo"
+import AccountInfo from "./AccountInfo/AccountInfo";
+import NotificationSettings from "./NotificationSettings/NotificationSettings";
+import DisplaySettings from "./DisplaySettings/DisplaySettings"
 
 export {
   EditProfile,
@@ -17,5 +19,7 @@ export {
   Search,
   CreateTweet,
   Nav,
-  AccountInfo
+  AccountInfo,
+  NotificationSettings,
+  DisplaySettings
 };
