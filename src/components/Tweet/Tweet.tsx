@@ -31,13 +31,10 @@ const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,li
         />
       </div>
       <div className="post flex-col w-auto pl-2">
-        <div className="user-info flex">
-          {/* Wrap username with NavLink */}
-          <NavLink to={`/profile/${username.substring(1)}`} className="font-semibold p-0 m-0">{name}&nbsp;</NavLink>
-          <p className="text-slate-700 p-0 m-0">
-            {username} · {timeDisplay}
-          </p>
-        </div>
+      <div className="user-info flex">
+        <NavLink to={`/profile/${username.substring(1)}`} className="font-semibold p-0 m-0">{name}&nbsp;</NavLink>
+        <NavLink to={`/profile/${username.substring(1)}`} className="text-slate-700 p-0 m-0">{`@${username.substring(1)}`} &nbsp;· {timeDisplay}</NavLink>
+      </div>
         <div>
           <p className="p-0 m-0">{text}</p>
           {imageUrl && (
