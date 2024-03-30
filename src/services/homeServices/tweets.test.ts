@@ -4,7 +4,7 @@ import { supabase } from '@config/supabase';
 
 test('addTweet inserts a tweet successfully', async () => {
   const tweetData = {
-    User_Id: 123,
+    User_Id: 13,
     Content: 'Hello, world!',
     Img_Url: 'https://example.com/image.jpg',
   };
@@ -20,7 +20,10 @@ test('addTweet inserts a tweet successfully', async () => {
   const result = await addTweet(tweetData);
 
   // Expectations
-  expect(result).toEqual('Tweet inserted successfully');
+  expect(result.length).toBeGreaterThan(0); // Check if result contains at least one item
+  expect(result[0].Content).toBe('Hello, world!'); // Check if the first item has the expected content
+  expect(result[0].User_Id).toBe(13); // Check if the first item has the expected user ID
+  
 
   // Restore the original implementation of supabase.functions.invoke
   supabase.functions.invoke = originalInvoke;

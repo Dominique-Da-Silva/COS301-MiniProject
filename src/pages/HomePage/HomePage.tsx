@@ -55,15 +55,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     Content: 'Hello, world!',
     Img_Url: 'https://example.com/image.jpg',
   };
-  const postTweetData = async (req: any) => {
-    try {
-      const tweet = await addTweet(req);
-      console.log(tweet);
-    } catch (error) {
-      console.error('Error fetching tweets:', error);
-    }
-  };
-  postTweetData(tweetData);
+
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
     const parsedTimestamp = new Date(timestamp);
