@@ -1,17 +1,17 @@
-import { Nav, AccountInfo } from "@components/index";
+import { Nav, AccountInfo, NotificationSettings,DisplaySettings } from "@components/index";
 import React, { useState } from "react";
-import {  Link, Spacer } from "@nextui-org/react";
+import { Link, Spacer } from "@nextui-org/react";
 
 const Settings = () => {
-  const [activeTab, setActiveTab] = useState('account');
+  const [activeTab, setActiveTab] = useState("account");
   const renderSettingsContent = () => {
     switch (activeTab) {
-      case 'account':
+      case "account":
         return <AccountInfo />;
-      case 'monetization':
-        return <div>Monetization settings</div>;
-      case 'premium':
-        return <div>Premium settings</div>;
+      case "Notifications":
+        return <NotificationSettings />;
+      case "Display":
+        return <DisplaySettings/>;
       // Add cases for other tabs
       default:
         return null;
@@ -24,26 +24,38 @@ const Settings = () => {
         <Nav />
       </div>
       <div className="main-content flex w-2/5 m-0 p-0 border">
-        <div className="flex flex-col m-0 p-0 justify-center">
-          <h3>Settings</h3>
+        <div className="flex flex-col m-0 p-0">
+          <div className="p-4 border-b border-gray-300">
+            <h2 className="text-gray-600 font-semibold">SETTINGS</h2>
+          </div>
           <div className="mt-4">
-            <Link href="#" onClick={() => setActiveTab('account')}>
-              <p>Your account</p>
-            </Link>
-            <Spacer y={0.5} />
-            <Link href="#" onClick={() => setActiveTab('monetization')}>
-              <p>Monetization</p>
-            </Link>
-            <Spacer y={0.5} />
-            <Link href="#" onClick={() => setActiveTab('premium')}>
-              <p>Premium</p>
-            </Link>
-            {/* Add more links for other settings */}
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <Link href="#" onClick={() => setActiveTab("account")}>
+                <p className="font-semibold">Your account</p>
+              </Link>
+            </div>
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <Link href="#" onClick={() => setActiveTab("Notifications")}>
+                <p className="font-semibold">Notification settings</p>
+              </Link>
+            </div>
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <Link
+                href="#"
+                onClick={() =>
+                  setActiveTab("Display")
+                }
+              >
+                <p className="font-semibold">
+                Display
+                </p>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
       <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-      {renderSettingsContent()}
+        {renderSettingsContent()}
       </div>
     </div>
   );
