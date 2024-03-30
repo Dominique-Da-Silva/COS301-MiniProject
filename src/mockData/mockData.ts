@@ -426,3 +426,56 @@ export const mockLikedNotifications = [
   },
   
 ];
+
+export const mockTrending = [ 
+  {
+  Trending_Id: "1",
+  TagName: "GTA6",
+  NumPosts: 42176
+  },
+  {
+  Trending_Id: "2",
+  TagName: "SpaceXLaunch",
+  NumPosts: 29854
+  },
+  {
+  Trending_Id: "3",
+  TagName: "NewiPhoneLeak",
+  NumPosts: 17231
+  },
+  {
+  Trending_Id: "4",
+  TagName: "WorldCupQualifiers",
+  NumPosts: 15429
+  },
+  {
+  Trending_Id: "5",
+  TagName: "ViralCatVideo",
+  NumPosts: 13412
+  },
+  {
+  Trending_Id: "6",
+  TagName: "ThrowbackThursday",
+  NumPosts: 4725
+  },
+  {
+  Trending_Id: "7",
+  TagName: "CelebrityBreakup",
+  NumPosts: 814
+  },
+  {
+  Trending_Id: "8",
+  TagName: "Dogecoin",
+  NumPosts: 273
+  },
+  {
+  Trending_Id: "9",
+  TagName: "StrangerThings4",
+  NumPosts: 32
+  },
+  {
+  Trending_Id: "10",
+  TagName: "MarchMadness",
+  NumPosts: 21
+  }
+];
