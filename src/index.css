@@ -11,6 +11,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+[data-overlay-container=true] {
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  /* min-height: 100vh; */
+  display: flex;
+  flex: 1 1 0;
+  justify-content: center;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

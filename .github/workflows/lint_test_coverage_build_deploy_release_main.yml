@@ -91,7 +91,7 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
@@ -119,5 +119,5 @@ jobs:
         artifacts: "License"
         commit: "dev"
         generateReleaseNotes: true
-        name: "v0.1.0"
-        tag: "v0.1.0"
+        name: "v0.1.2"
+        tag: "v0.1.2"

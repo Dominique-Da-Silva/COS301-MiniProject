@@ -11,7 +11,7 @@ const CreateTweet = () => {
           className="user-avatar min-w-12 min-h-12"
           // style={{ minWidth: '48px', minHeight: '48px' }}
         />
-      <input type="text" placeholder="What is happening?!" className="flex-1 !border-none outline-none text-base !p-2 !m-0"></input>
+      <input type="text" placeholder="What is happening?!" className="flex-1 w-1 border-none outline-none text-base p-2 m-0"></input>
       <Button radius="full" className="rounded-full bg-sky-500 text-white border-none font-bold">
         Post
       </Button>
