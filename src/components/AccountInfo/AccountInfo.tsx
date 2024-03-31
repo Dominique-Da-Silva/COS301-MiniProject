@@ -1,6 +1,5 @@
 // AccountInfo.tsx
-import React from "react";
-import { Spacer } from "@nextui-org/react";
+// import React from "react";
 
 const AccountInfo = () => {
   return (

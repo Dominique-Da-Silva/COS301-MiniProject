@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { IoFilterOutline } from "react-icons/io5";
 import { MutedNotifications } from "@components/index";
 const NotificationSettings = () => {

@@ -1,6 +1,6 @@
 import { Nav, AccountInfo, NotificationSettings,DisplaySettings,ChangePassword } from "@components/index";
-import React, { useState } from "react";
-import { Link, Spacer } from "@nextui-org/react";
+import  { useState } from "react";
+import { Link} from "@nextui-org/react";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("account");
