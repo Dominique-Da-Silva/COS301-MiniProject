@@ -11,6 +11,9 @@ import NotificationSettings from "./NotificationSettings/NotificationSettings";
 import DisplaySettings from "./DisplaySettings/DisplaySettings";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import MutedNotifications from "./MutedNotifications/MutedNotifications";
+import PostNotification from "./PostNotification/PostNotification";
+import LikeNotification from "./PostNotification/LikedNotification";
+import Mention from "./Mentions/Mention";
 
 export {
   EditProfile,
@@ -21,6 +24,9 @@ export {
   Search,
   CreateTweet,
   Nav,
+  PostNotification,
+  LikeNotification,
+  Mention,
   AccountInfo,
   NotificationSettings,
   DisplaySettings,
