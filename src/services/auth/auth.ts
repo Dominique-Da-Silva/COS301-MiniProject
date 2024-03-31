@@ -87,6 +87,10 @@ export async function signUpNewUser(user_data: {
       await signOut();
       return "error";
     }
+    
+    await insertProfileDetails({
+      Img_Url: logged_user.data.user.user_metadata.avatar_url ? logged_user.data.user.user_metadata.avatar_url : "",
+    });
 
     return "success";
   }
