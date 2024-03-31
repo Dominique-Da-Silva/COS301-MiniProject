@@ -9,7 +9,7 @@ import {
   Mention,
 } from "@components/index";
 import { Button } from "@nextui-org/react";
-import { IoMdSettings } from "react-icons/io";
+import { FiSettings } from "react-icons/fi";
 import {
   mockNotifications,
   mockLikedNotifications,
@@ -60,8 +60,8 @@ const Notifications: React.FC<NotificationsProps> = () => {
           {/* Notification Header */}
           <div className="flex justify-between items-center p-2">
             <h1 className="text-2xl font-bold">Notifications</h1>
-            <Button className="p-3 rounded-full border bg-white border-gray-300 items-center">
-              <IoMdSettings className="mr-1" />
+            <Button >
+              <FiSettings size={18} />
             </Button>
           </div>
           {/* Notifications Tabs */}
