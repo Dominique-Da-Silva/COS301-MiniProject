@@ -119,5 +119,5 @@ jobs:
         artifacts: "License"
         commit: "dev"
         generateReleaseNotes: true
-        name: "v0.1.2"
-        tag: "v0.1.2"
+        name: "v0.2.0"
+        tag: "v0.2.0"
