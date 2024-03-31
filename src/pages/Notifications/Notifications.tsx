@@ -55,21 +55,21 @@ const Notifications: React.FC<NotificationsProps> = () => {
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>
-      <div className="main-content flex 1 max-w-full m-0 p-0 border">
+      <div className="main-content w-2/5 m-0 p-0 border">
         <div className="flex flex-col w-full m-0 p-0 justify-center">
           {/* Notification Header */}
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center p-2">
             <h1 className="text-2xl font-bold">Notifications</h1>
             <Button className="p-3 rounded-full border bg-white border-gray-300 items-center">
               <IoMdSettings className="mr-1" />
             </Button>
           </div>
           {/* Notifications Tabs */}
-          <div className="flex justify-around border-b border-gray-200 items-center">
-            <div>
-              <div className="flex gap-4">
+          <div className="flex w-full justify-around border-b border-gray-200 items-center">
+            <div className="w-full">
+              <div className="flex ">
                 <button
-                  className={`px-20 py-4 text-base font-semibold hover:bg-gray-200 ${
+                  className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
                     activeTab === "all" ? "text-blue-500" : "text-gray-500"
                   }`}
                   onClick={() => handleTabClick("all")}
@@ -77,7 +77,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   All
                 </button>
                 <button
-                  className={`px-20 py-4 text-base font-semibold hover:bg-gray-200 ${
+                  className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
                     activeTab === "verified" ? "text-blue-500" : "text-gray-500"
                   }`}
                   onClick={() => handleTabClick("verified")}
@@ -85,7 +85,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   Verified
                 </button>
                 <button
-                  className={`px-20 py- text-base font-semibold hover:bg-gray-200 ${
+                  className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
                     activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                   }`}
                   onClick={() => handleTabClick("mentions")}
@@ -189,7 +189,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
           </div>
         </div>
       </div>
-      <div className="sidebar-right w-1/4 mr-32 ml-7 pl-1 pr-2">
+      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
         <div className="mb-3">
           <Search />
         </div>
