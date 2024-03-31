@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
-import { describe, test, expect } from 'vitest';
+import { describe, test} from 'vitest';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-//import { countFollowers, followUser, unfollowUser } from '@services/index';
+import { countFollowers, followUser, unfollowUser } from '@services/index';
 
 describe('ProfilePage component', () => {
     
