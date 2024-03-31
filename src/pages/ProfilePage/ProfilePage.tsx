@@ -819,6 +819,17 @@ const ProfileDetails = () => {
   // const handleEditProfileOpen = () => {
   //   setIsEditingProfileOpen(true);
   // };
+  
+  //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
+  //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
+  const [external] = useState(true);
+
+  const [following, setFollowing] = useState(false);
+
+  const handleButtonClick = () => {
+    setFollowing(!following);
+  }
+
   return (
     <div className="container flex">
       <div className="nav w-1/5 ml-20 mr-6">
@@ -844,11 +855,24 @@ const ProfileDetails = () => {
                     alt={userProfile.Name}
                     size="lg"
                   />
-                  <NavLink to="/editProfile">
-                    <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
-                      <IoMdSettings className="mr-1 "></IoMdSettings>Edit profile
+                  {external ? (
+                    <Button
+                    className={`ml-auto text-base font-semibold rounded-full border ${
+                      following ? 'bg-blue-400 text-white border-blue-400' : 'bg-white border-gray-300 text-blue-400'
+                    } h-9 items-center`}
+                    style={{ borderColor: following ? '#1DA1F2' : '#DADADA', color: following ? '#FFFFFF' : '#1DA1F2' }}
+                    onClick={handleButtonClick}
+                    >
+                      {following ? 'Following' : 'Follow'}
                     </Button>
-                  </NavLink>
+                  ) : (
+                    <NavLink to="/editProfile">
+                      <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
+                        <IoMdSettings className="mr-1" />
+                        Edit profile
+                      </Button>
+                    </NavLink>
+                  )}
                 </div>
                 <h2 className="font-bold text-xl">
                   
