@@ -7,96 +7,177 @@ import { FaRegBookmark } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Button } from '@nextui-org/button';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BiPlusCircle } from 'react-icons/bi';
+
 
 
 const Nav = () => {
   const location = useLocation();
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1265);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
-    <div className="sidebar mt-0 mr-0 pl-12 border-r-0 font-semibold fixed h-full bg-white">
+    <div className="sidebar left-0 top-0 h-full bg-white p-12">
       {/* Logo */}
       <NavLink
         to="/home"
-        className={`sidebar-item-logo w-16 h-16 flex items-center mb-2 cursor-pointer rounded-full hover:bg-slate-200 p-3 ${
-          location.pathname === '/home' ? '' : ''
-        }`}
+        className={`sidebar-item-logo w-16 h-16 flex items-center mb-2 cursor-pointer rounded-full p-3 ${location.pathname === '/home' ? '' : ''
+          }`}
       >
         <FaTwitter size={35} />
       </NavLink>
+      {isLargeScreen && (
+        <>
+          {/* Home */}
+          <NavLink
+            to="/home"
+            className={`sidebar-item font-medium cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/home' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <GoHomeFill size={28} className="mr-5" />
+            Home
+          </NavLink>
 
-      {/* Home */}
-      <NavLink
-        to="/home"
-        className={`sidebar-item font-medium cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/home' ? 'bg-gray-200 active-tab' : ''
-        }`}
-      >
-        <GoHomeFill size={28} className="mr-5" />
-        Home
-      </NavLink>
+          {/* Explore */}
+          <NavLink
+            to="/explore"
+            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/explore' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <IoSearch size={28} className="mr-5" />
+            Explore
+          </NavLink>
 
-      {/* Explore */}
-      <NavLink
-        to="/explore"
-        className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/explore' ? 'bg-gray-200 active-tab' : ''
-        }`}
-      >
-        <IoSearch size={28} className="mr-5" />
-        Explore
-      </NavLink>
+          {/* Notifications */}
+          <NavLink
+            to="/notifications"
+            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <PiBellBold size={28} className="mr-5" />
+            Notifications
+          </NavLink>
 
-      {/* Notifications */}
-      <NavLink
-        to="/notifications"
-        className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
-        }`}
-      >
-        <PiBellBold size={28} className="mr-5" />
-        Notifications
-      </NavLink>
+          {/* Bookmarks */}
+          <NavLink
+            to="/bookmarks"
+            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FaRegBookmark size={28} className="mr-5" />
+            Bookmarks
+          </NavLink>
 
-      {/* Bookmarks */}
-      <NavLink
-        to="/bookmarks"
-        className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
-        }`}
-      >
-        <FaRegBookmark size={28} className="mr-5" />
-        Bookmarks
-      </NavLink>
+          {/* Profile */}
+          <NavLink
+            to="/profile"
+            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FaRegUserCircle size={28} className="mr-5" />
+            Profile
+          </NavLink>
 
-      {/* Profile */}
-      <NavLink
-        to="/profile"
-        className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
-        }`}
-      >
-        <FaRegUserCircle size={28} className="mr-5" />
-        Profile
-      </NavLink>
+          {/* Settings */}
+          <NavLink
+            to="/settings"
+            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FiSettings size={28} className="mr-5" />
+            Settings
+          </NavLink>
 
-      {/* Settings */}
-      <NavLink
-        to="/settings"
-        className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
-        }`}
-      >
-        <FiSettings size={28} className="mr-5" />
-        Settings
-      </NavLink>
+          {/* Post Button - will route to create tweet component */} 
+          <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4"> 
+            Post
+          </Button> 
+          
+        </>
+      )}
 
-      {/* Post Button */}
-      <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
-        Post
-      </Button>
+
+      {!isLargeScreen && (
+        <>
+          {/* Home */}
+          <NavLink
+            to="/home"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/home' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <GoHomeFill size={28} />
+          </NavLink>
+
+          {/* Explore */}
+          <NavLink
+            to="/explore"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/explore' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <IoSearch size={28} />
+          </NavLink>
+
+          {/* Notifications */}
+          <NavLink
+            to="/notifications"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <PiBellBold size={28} />
+          </NavLink>
+
+          {/* Bookmarks */}
+          <NavLink
+            to="/bookmarks"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FaRegBookmark size={28} />
+          </NavLink>
+
+          {/* Profile */}
+          <NavLink
+            to="/profile"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FaRegUserCircle size={28} />
+          </NavLink>
+
+          {/* Settings */}
+          <NavLink
+            to="/settings"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FiSettings size={28} />
+          </NavLink>
+          {/* Post */}
+          <NavLink
+            to="/" //will route to create a tweet component
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
+          >
+            <BiPlusCircle size={28} color="#FFFFFF" />
+          </NavLink>
+
+        </>
+      )}
     </div>
   );
 };
 
 
 export default Nav;
+
