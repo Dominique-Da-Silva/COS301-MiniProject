@@ -9,7 +9,7 @@ import {
   Mention,
 } from "@components/index";
 import { Button } from "@nextui-org/react";
-import { IoMdSettings } from "react-icons/io";
+import { FiSettings } from "react-icons/fi";
 import {
   mockNotifications,
   mockLikedNotifications,
@@ -55,17 +55,17 @@ const Notifications: React.FC<NotificationsProps> = () => {
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>
-      <div className="main-content flex 1 max-w-full m-0 p-0 border">
-        <div className="flex flex-col w-full m-0 p-0 justify-center">
+      <div className="main-content max-w-full m-0 p-0 border">
+        <div className=" flex flex-col w-full m-0 p-0 justify-center">
           {/* Notification Header */}
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold">Notifications</h1>
-            <Button className="p-3 rounded-full border bg-white border-gray-300 items-center">
-              <IoMdSettings className="mr-1" />
+            <Button >
+              <FiSettings size={18} />
             </Button>
           </div>
           {/* Notifications Tabs */}
-          <div className="flex justify-around border-b border-gray-200 items-center">
+          <div className="justify-around border-b border-gray-200 items-center">
             <div>
               <div className="flex gap-4">
                 <button
