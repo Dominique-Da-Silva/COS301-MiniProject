@@ -30,7 +30,7 @@ const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,li
           // style={{ minWidth: '48px', minHeight: '48px' }}
         />
       </div>
-      <div className="post flex-col w-auto pl-2">
+      <div className="post flex-col w-full pl-2">
 
       <div className="user-info flex">
         <NavLink
@@ -67,7 +67,6 @@ const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,li
           <p className="p-0 m-0">{text}</p>
           {imageUrl && (
             <Image
-              isZoomed
               src={imageUrl}
               alt="Tweet Image"
               className="tweet-image w-auto h-full"
