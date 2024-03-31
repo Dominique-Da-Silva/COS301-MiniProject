@@ -90,11 +90,11 @@ const HomePage: React.FC<HomePageProps> = () => {
 
   return (
     <div className="container flex">
-      <div className="nav w-1/5 ml-20 mr-6">
+      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>
-      <div className="main-content flex-1 max-w-full m-0 p-0 border">
-        <div className="flex min-w-full flex-col m-0 p-0 justify-center">
+      <div className="main-content flex w-2/5 m-0 p-0 border">
+        <div className="flex flex-col m-0 p-0 justify-center">
           {/* <Tabs 
             aria-label="Options" 
             variant="underlined"
@@ -149,7 +149,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           </Tabs> */}
         </div>  
       </div>
-      <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
+      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
         <div className="mb-3">
           <Search />
         </div>
