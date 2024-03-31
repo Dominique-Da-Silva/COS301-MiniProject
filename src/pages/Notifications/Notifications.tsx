@@ -110,7 +110,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         />
                       ))
                     )}
-                    :{" "}
+                    {" "}
                     {likedNotfications.map((notification, index) => (
                       <LikeNotification
                         key={index}
@@ -120,7 +120,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         avatarUrl={notification.avatarUrl}
                       />
                     ))}{" "}
-                    :{" "}
+                    {" "}
                     {mentions.map((mention, index) => (
                       <Mention
                         key={index}
