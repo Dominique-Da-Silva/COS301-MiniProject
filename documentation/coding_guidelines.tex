@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Coding Development Guidelines}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Frontend}
+\subsection{Naming Conventions}
+\begin{itemize}
+    \item Utilize appropriate naming conventions that are readable and promote clean code.
+    \item Names of functions should describe the purpose of said function.
+    \item When naming components, ensure that they are in Pascal case like SelectButton, Dashboard. This ensures that components differ from default JSX element tags.
+    \item Functions defined inside components should be in Camel case, for example, getApplicationData(), hideText.
+    \item Constant fields that are set globally should be in capital letters only. For example, const PI = "3.14".
+\end{itemize}
+
+\subsection{Comments}
+\begin{itemize}
+    \item During the development of the software application, utilize comments to explain the functionality of methods/functions. This will ensure that when collaborating with other team members, each member working will understand.
+    \item After testing is completed and functions (with comments) have passed all tests, comments are to be removed. Ensure that all console.log and any debugging code has been removed as well.
+\end{itemize}
+
+\subsection{Utilize Destructuring to Get Props}
+\begin{itemize}
+    \item This feature in JavaScript functionality allows one to easily extract the form data and assign your variables from the object or array. Thus, promoting better writability. This ensures that code is cleaner and promotes better readability. Example: const \{firstName, lastName, city \} = employee.
+\end{itemize}
+
+\subsection{Make use of PropTypes for Type Checking and to Prevent Errors}
+\begin{itemize}
+    \item Utilization of PropTypes will help with type checking for the props that are passed to a component which helps preventing bugs. They ensure that correct datatype is passed for each prop.
+    \item Ensures that a value is passed, set default values, and acts as a validator to make sure that components receive valid data.
+\end{itemize}
+
+\section{Backend}
+
+\end{document}
