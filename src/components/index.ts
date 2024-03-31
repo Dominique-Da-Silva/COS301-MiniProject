@@ -8,7 +8,9 @@ import Nav from "./Nav/Nav";
 import EditProfile from "./EditProfile/EditProfile";
 import AccountInfo from "./AccountInfo/AccountInfo";
 import NotificationSettings from "./NotificationSettings/NotificationSettings";
-import DisplaySettings from "./DisplaySettings/DisplaySettings"
+import DisplaySettings from "./DisplaySettings/DisplaySettings";
+import ChangePassword from "./ChangePassword/ChangePassword";
+import MutedNotifications from "./MutedNotifications/MutedNotifications";
 
 export {
   EditProfile,
@@ -21,5 +23,7 @@ export {
   Nav,
   AccountInfo,
   NotificationSettings,
-  DisplaySettings
+  DisplaySettings,
+  ChangePassword,
+  MutedNotifications
 };

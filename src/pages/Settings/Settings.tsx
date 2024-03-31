@@ -1,4 +1,4 @@
-import { Nav, AccountInfo, NotificationSettings,DisplaySettings } from "@components/index";
+import { Nav, AccountInfo, NotificationSettings,DisplaySettings,ChangePassword } from "@components/index";
 import React, { useState } from "react";
 import { Link, Spacer } from "@nextui-org/react";
 
@@ -12,7 +12,8 @@ const Settings = () => {
         return <NotificationSettings />;
       case "Display":
         return <DisplaySettings/>;
-      // Add cases for other tabs
+      case "ChangePassword":
+        return<ChangePassword/>
       default:
         return null;
     }
@@ -32,6 +33,11 @@ const Settings = () => {
             <div className="hover:bg-gray-100 p-2 rounded-md">
               <Link href="#" onClick={() => setActiveTab("account")}>
                 <p className="font-semibold">Your account</p>
+              </Link>
+            </div>
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <Link href="#" onClick={() => setActiveTab("ChangePassword")}>
+                <p className="font-semibold">Change Password</p>
               </Link>
             </div>
             <div className="hover:bg-gray-100 p-2 rounded-md">
