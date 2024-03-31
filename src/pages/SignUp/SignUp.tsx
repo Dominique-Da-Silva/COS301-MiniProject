@@ -349,6 +349,7 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
 const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
 
   const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
+  const [error, setError] = useState<string>("");
 
   const generateUsernameSuggestions = () => {
     // Use userData to generate suggestions (Example: combining name and email)
@@ -362,7 +363,12 @@ const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
   const handleNextPressed = async() => {
     if(formData.username === "") return;
     const res = await updateUsername(formData.username);
-    setFlowPage(6);
+    if(res === "Username updated successfully"){
+      setFlowPage(6);
+    }
+    else{
+      setError(res);
+    }
   }
 
   return (
@@ -402,6 +408,9 @@ const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
           </div>
           {usernameSuggestions.length === 0 && 
             <a className="text-blue-500 cursor-pointer" onClick={generateUsernameSuggestions}>show more</a>}
+          {
+            error !== "" && <p className="text-red-500 text-xs mt-2">{error}</p>
+          }
         </div>
         <Button
           onClick={handleNextPressed}
