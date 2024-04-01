@@ -1,4 +1,13 @@
+import React, { useState } from "react";
 import { Avatar, Button, Textarea, Tooltip } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
+} from "@nextui-org/react";
 import {
   GalleryIcon,
   GIFIcon,
@@ -8,9 +17,20 @@ import {
 } from "@assets/index";
 
 const CreateTweet = () => {
-  const handleGalleryClick = (event: any) => {
-    event.preventDefault();
-    // Handle Gallery click
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState(null || undefined);
+
+
+  // const handleGalleryClick = (event: any) => {
+  //   event.preventDefault();
+  //   // Handle Gallery click
+  //   console.log("Gallery clicked");
+  // };
+
+  const handleImageChange = (event: any) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+    console.log(file);
   };
 
   const handleGIFClick = (event: any) => {
@@ -41,7 +61,7 @@ const CreateTweet = () => {
           // src={imageUrl} // profile image url to be replaced
           alt="User Avatar"
           className="user-avatar min-w-12 min-h-12"
-          // style={{ minWidth: '48px', minHeight: '48px' }}
+        // style={{ minWidth: '48px', minHeight: '48px' }}
         />
         {/* decide what variant is better suited later on  */}
         <Textarea
@@ -50,6 +70,11 @@ const CreateTweet = () => {
           className="p-2"
           style={{ width: "150px" }}
         />
+        {selectedImage && (
+          <div className="mt-4 mx-auto">
+            <img src={URL.createObjectURL(selectedImage)} alt="Selected Image" className="max-w-full" />
+          </div>
+        )}
       </div>
       <div className="flex justify-between items-center mt-2 mx-12">
         <div className="flex">
@@ -76,10 +101,37 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button isIconOnly onClick={handleGalleryClick} variant="light">
+            <Button isIconOnly onPress={onOpen} variant="light">{//onClick={handleGalleryClick}}
+            }
               <img src={GalleryIcon} alt="Gallery" className="w-6 h-6" />
             </Button>
           </Tooltip>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {(onClose: any) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                  <ModalBody>
+                    <p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                    </p>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="danger" variant="light" onPress={onClose}>
+                      Close
+                    </Button>
+                    <Button color="primary" onPress={onClose}>
+                      Action
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
           <Tooltip
             content="GIF"
             placement="bottom"
