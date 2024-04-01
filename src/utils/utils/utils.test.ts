@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest';
 import { sum, createDateObject } from './utils';
+import { extractUsername } from './utils';
 
 test('adds 1 + 2 to equal 3', () => {
     expect(sum(1, 2)).toBe(3)
@@ -60,3 +61,19 @@ test('createDateObject with invalid month and year', () => {
 test('createDateObject with invalid day, month, and year', () => {
     expect(createDateObject('32', 'Invalid', 'Invalid')).toBeInstanceOf(Date)
 })
+
+test('extractUsername with gmail',() => {
+    expect(extractUsername("abcd@gmail.com")).toBe("abcd");
+} )
+
+test('extractUsername with outlook',() => {
+    expect(extractUsername("abcd@outlook.com")).toBe("abcd");
+} )
+
+test('extractUsername with random',() => {
+    expect(extractUsername("abcd@blahblah@blahblah.com")).toBe("abcd");
+} )
+
+test('extractUsername with undefined',() => {
+    expect(extractUsername(undefined)).toBe("");
+} )
