@@ -7,8 +7,9 @@ import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts"
 import {followUser}  from "./usersProfileServices/followUser.ts"
 import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts"
 import { insertProfileDetails, updateProfileDetails } from "./profileServices/updateProfileDetails";
+import { addTweet } from "./homeServices/getTweets";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
-    fetchUsers, fetchTweets, fetchUserByUsername,
+    fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase};
