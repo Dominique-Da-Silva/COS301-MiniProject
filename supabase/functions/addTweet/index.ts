@@ -23,7 +23,11 @@ Deno.serve(async (req) => {
     console.log('Content:', Content);
     console.log('Img_Url:', Img_Url);
 
-
+    // Img should look as follows: {Img_name: "image.jpg", Img_obj: img}
+    // store the image in the storage bucket
+    // get the url from the storage bucket once stored
+    // store the tweet in the database with the url
+    
     // Insert the extracted data into the database
     const { data: insertedTweet, error } = await supabase
       .from('Tweets')
