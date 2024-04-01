@@ -23,6 +23,19 @@ export async function signInWithGoogle(): Promise<"success" | "error">{
   }
 }
 
+export async function getCurrentUser(): Promise<{ auth_id: string; } | undefined>{
+  console.log("Getting current user");
+  const logged_user = await supabase.auth.getUser();
+  console.log(logged_user);
+  if (!logged_user.data.user) return undefined;
+
+  //add user to database
+  const user = {
+    auth_id: logged_user.data.user.id,
+  };
+  return user;
+}
+
 export async function signInWithGithub(): Promise<"success" | "error">{
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'github',

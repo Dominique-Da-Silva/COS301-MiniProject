@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { Avatar, Button, Textarea, Tooltip } from "@nextui-org/react";
+import {
+  Avatar,
+  Button,
+  Textarea,
+  Tooltip
+} from "@nextui-org/react";
 import {
   Modal,
   ModalContent,
@@ -15,10 +20,19 @@ import {
   ScheduleIcon,
   StickersIcon,
 } from "@assets/index";
+import { addTweet } from "@services/index";
+import { getCurrentUser } from "@services/auth/auth";
+
+interface CreateTweetProps {
+  User_Id: any,
+  Content: string,
+  Img_Url: string
+}
 
 const CreateTweet = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState(null || undefined);
+  const [tweetText, setTweetText] = useState("");
 
 
   // const handleGalleryClick = (event: any) => {
@@ -53,6 +67,39 @@ const CreateTweet = () => {
     // Handle Schedule click
   };
 
+  const handlePostTweet = (event: any) => {
+    event.preventDefault();
+    // Handle Post Tweet click
+    console.log("Post Tweet clicked");
+    console.log("Tweet text:", tweetText);
+    console.log("Selected Image:", selectedImage);
+
+  };
+
+  const postTweet = async () => {
+    console.log("Post Tweet clicked");
+    try {
+      const currentUser = await getCurrentUser();
+      console.log("Current User:", currentUser);
+      console.log("Current User Auth ID:", currentUser?.auth_id);
+      if (currentUser !== undefined) {
+      const user = currentUser.auth_id;
+      console.log("User:", user);
+      const imgUrl = selectedImage ? URL.createObjectURL(selectedImage) : "";
+      const tweetData = { User_Id: user, Content: tweetText, Img_Url: imgUrl };
+      console.log("Tweet data:", tweetData);
+      const usersData = await addTweet(tweetData);
+      console.log("Tweet posted successfully:", usersData);
+      }
+      else
+      {
+        console.log("User not found");
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
   return (
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
@@ -69,6 +116,8 @@ const CreateTweet = () => {
           placeholder="What is happening?!"
           className="p-2"
           style={{ width: "150px" }}
+          value={tweetText}
+          onChange={(event: any) => setTweetText(event.target.value)}
         />
         {selectedImage && (
           <div className="mt-4 mx-auto">
@@ -245,6 +294,7 @@ const CreateTweet = () => {
           <Button
             radius="full"
             className="rounded-full bg-sky-500 text-white border-none font-bold"
+            onClick={postTweet}
           >
             Post
           </Button>
