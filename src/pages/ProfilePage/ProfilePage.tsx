@@ -130,6 +130,11 @@ const ProfileDetails = () => {
       year: "numeric",
     })
   );
+  //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
+  //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
+  const [external] = useState(true);
+
+  const [following, setFollowing] = useState(false);
   // const [isEditing, setIsEditing] = useState(false);
   // const [editedName, setEditedName] = useState(mockUserProfile.Name);
   // const [editedBio, setEditedBio] = useState(mockProfileDetails.Bio);
@@ -820,11 +825,7 @@ const ProfileDetails = () => {
   //   setIsEditingProfileOpen(true);
   // };
   
-  //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
-  //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
-  const [external] = useState(true);
-
-  const [following, setFollowing] = useState(false);
+  
 
   const handleButtonClick = () => {
     setFollowing(!following);
