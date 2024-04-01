@@ -10,6 +10,7 @@ const fetchTweets = async () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        method: 'GET',
       });
       if (error) {
         throw error;

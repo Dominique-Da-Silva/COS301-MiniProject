@@ -1,56 +1,59 @@
-import { Tweet, TrendingTopics , WhoToFollow , Nav , Search, CreateTweet } from "@components/index";
-// import React,{useState,useEffect} from "react";
-import React,{useState} from "react";
+import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet } from "@components/index";
+import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
-//import { fetchTweets, fetchUsers } from "@services/index"; 
+import { fetchTweets, fetchUsers } from "@services/index";
 //import { addTweet } from "@services/index";
-import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
+//import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
-interface HomePageProps {}
+interface HomePageProps { }
 
-//const HomePage: React.FC<HomePageProps> = () => {
-//const [tweets, setTweets] = useState<any[]>([]);
-//const [users, setUsers] = useState<any[]>([]);
-
-  
 const HomePage: React.FC<HomePageProps> = () => {
-  const [tweets] = useState<any[]>(mockTweets);
-  const [users] = useState<any[]>(mockUsers);
-  const [savesCount] = useState<any>(mockSavesCount);
-  const [commentsCount] = useState<any>(mockCommentsCount);
-  const [retweetsCount] = useState<any>(mockRetweetsCount);
-  const [likesCount] = useState<any>(mockLikesCount);
+  const [tweets, setTweets] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
 
-// FETCHING THE TWEETS FROM TWEETS AND USERS TABLE
-//uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
-/*  useEffect(() => {
-   //FETCHING THE TWEETS FROM TWEETS TABLE
-   const fetchTweetData = async () => {
-    try {
-      const tweetData = await fetchTweets();
-      setTweets(tweetData);
-    } catch (error) {
-      console.error('Error fetching tweets:', error);
-    }
-  };
+
+  // const HomePage: React.FC<HomePageProps> = () => {
+  // const [tweets] = useState<any[]>(mockTweets);
+  // const [users] = useState<any[]>(mockUsers);
+  // const [savesCount] = useState<any>(mockSavesCount);
+  // const [commentsCount] = useState<any>(mockCommentsCount);
+  // const [retweetsCount] = useState<any>(mockRetweetsCount);
+  // const [likesCount] = useState<any>(mockLikesCount);
+  //const [user] = useState<any>(null); // State variable to store current user
+
+  // FETCHING THE TWEETS FROM TWEETS AND USERS TABLE
+  //uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
+  useEffect(() => {
+    //FETCHING THE TWEETS FROM TWEETS TABLE
+    const fetchTweetData = async () => {
+      try {
+        const tweetData = await fetchTweets();
+        console.log(tweetData);
+        setTweets(tweetData);
+      } catch (error) {
+        console.error('Error fetching tweets:', error);
+      }
+    };
 
     // FETCHING THE USERS FROM THE USER TABLE
-     const fetchData = async () => {
+    const fetchData = async () => {
       try {
-         const usersData = await fetchUsers();
-         setUsers(usersData);
-         
+        const usersData = await fetchUsers();
+        console.log(usersData);
+        setUsers(usersData as any[]); // Add type assertion here
+
       } catch (error) {
-         console.error('Error fetching users:', error);
+        console.error('Error fetching users:', error);
       }
-     };
+    };
     // // Call both fetch functions when the component mounts
-     fetchTweetData();
-     fetchData();
+    fetchTweetData();
+    fetchData();
   }, []);
-  */
+
   //testing
 
+  // HELPER FUNCTIONS
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
     const parsedTimestamp = new Date(timestamp);
@@ -115,29 +118,29 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-              <CreateTweet></CreateTweet>
-               {tweets.map(tweet => {
-                const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-                const saves = savesCount[tweet.Tweet_Id] || 0 ;
-                const comments = commentsCount[tweet.Tweet_Id] || 0;
-                const likes = likesCount[tweet.Tweet_Id] || 0;
-                const retweets = retweetsCount[tweet.Tweet_Id] || 0;
-                return (
-                  <Tweet
-                    key={tweet.Tweet_Id}
-                    name={user ? user.Name : "Unknown User"}
-                    username={user ? `@${user.Username}` : ""}
-                    text={tweet.Content}
-                    imageUrl={tweet.Img_Url}
-                    timeDisplay={getTimeDisplay(tweet.Created_at)}
-                    likes={formatCount(likes)}
-                    retweets={formatCount(retweets)}
-                    saves={formatCount(saves)}
-                    comments={formatCount(comments)}
-                  />
-                );
-              })}
-            {/* </Tab>
+          <CreateTweet></CreateTweet>
+          {tweets?.map(tweet => {
+            const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+            const saves = 0;//savesCount[tweet.Tweet_Id] || 0 ;
+            const comments = 0;//commentsCount[tweet.Tweet_Id] || 0;
+            const likes = 0;//likesCount[tweet.Tweet_Id] || 0;
+            const retweets = 0;//retweetsCount[tweet.Tweet_Id] || 0;
+            return (
+              <Tweet
+                key={tweet.Tweet_Id}
+                name={user ? user.Name : "Unknown User"}
+                username={user ? `@${user.Username}` : ""}
+                text={tweet.Content}
+                imageUrl={tweet.Img_Url}
+                timeDisplay={getTimeDisplay(tweet.Created_at)}
+                likes={formatCount(likes)}
+                retweets={formatCount(retweets)}
+                saves={formatCount(saves)}
+                comments={formatCount(comments)}
+              />
+            );
+          })}
+          {/* </Tab>
             <Tab
               title={
                 <div className="flex items-center space-x-2">
@@ -149,7 +152,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               <CreateTweet></CreateTweet>
             </Tab>
           </Tabs> */}
-        </div>  
+        </div>
       </div>
       <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
         <div className="mb-3">

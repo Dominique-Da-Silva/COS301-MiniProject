@@ -42,8 +42,11 @@ Deno.serve(async (req) => {
   
     if(error)
     {
+      console.log("Error fetching tweets data");
+      console.log(error);
       throw error;
     }
+    console.log("Tweets data:");
     console.log(JSON.stringify(tweetsData));
     return new Response(JSON.stringify(tweetsData), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -57,6 +60,7 @@ Deno.serve(async (req) => {
       status: 400,
     })
   }
+  
 })
 
 /* To invoke locally:
