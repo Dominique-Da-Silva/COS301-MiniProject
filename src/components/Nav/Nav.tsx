@@ -9,6 +9,7 @@ import { Button } from '@nextui-org/button';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
+import { FaUser } from 'react-icons/fa';
 
 
 
@@ -100,11 +101,20 @@ const Nav = () => {
             Settings
           </NavLink>
 
-          {/* Post Button - will route to create tweet component */} 
-          <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4"> 
+          {/* Post Button - will route to create tweet component */}
+          <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
             Post
-          </Button> 
-          
+          </Button>
+          <div className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto">
+            <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+              {/* User icon (e.g., an icon component or an image) */}
+              <FaUser size={20} color="#FFFFFF" />
+            </div>
+            <div className="user-info">
+              <p className="text-sm font-semibold mb-1">Maybach Music</p>
+              <p className="text-xs">@thebiggest</p>
+            </div>
+          </div>
         </>
       )}
 
@@ -171,7 +181,12 @@ const Nav = () => {
           >
             <BiPlusCircle size={28} color="#FFFFFF" />
           </NavLink>
-
+          <div className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto">
+            <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+              {/* User icon (e.g., an icon component or an image) */}
+              <FaUser size={20} color="#FFFFFF" />
+            </div>
+          </div>
         </>
       )}
     </div>
