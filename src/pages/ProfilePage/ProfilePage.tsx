@@ -821,12 +821,11 @@ const ProfileDetails = () => {
   // };
   return (
     <div className="container flex">
-      <div className="nav w-1/5 ml-20 mr-6">
+      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>
-      {/* BANNER */}
-      <div className="main-content flex-1 min-w-[610px]  p-0 border">
-        <div className="flex min-w-full flex-col m-0 p-0 justify-center">
+      <div className="main-content flex w-2/5 m-0 p-0 border">
+        <div className="flex flex-col w-full m-0 p-0 justify-center">
           <div className="banner m-0">
             <img
               src={profileDetails.Banner_Url}
@@ -925,6 +924,7 @@ const ProfileDetails = () => {
                       Likes
                     </button>
                   </div>
+                  
                   {activeTab === "tweets" && (
                     <div>
                       {userTweets.length === 0 ? (
@@ -997,6 +997,7 @@ const ProfileDetails = () => {
                     </div>
                   )}
                 </div>
+
                 {activeTab === "likes" && (
                   <div>
                     {likedTweets.length === 0 ? (
@@ -1025,7 +1026,7 @@ const ProfileDetails = () => {
           </div>
         </div>
       </div>
-      <div className="sidebar-right w-1/4 mr-32 ml-7 mt-2 pl-1 pr-2">
+      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
         <div className="mb-3">
           <Search />
         </div>
@@ -1033,7 +1034,7 @@ const ProfileDetails = () => {
         <WhoToFollow users={[]} />
       </div>
     </div>
-  );
+  ); 
 };
 
 const ProfilePage = () => {
