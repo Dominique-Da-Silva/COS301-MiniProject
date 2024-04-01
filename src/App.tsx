@@ -21,7 +21,7 @@ const App = () => {
           await signOut();
         }
       }
-      else if(event === 'SIGNED_OUT') { }
+      else if(event === 'SIGNED_OUT') { /** do nothing */ }
     }
 
     supabase.auth.onAuthStateChange(handleAuthStateChange);

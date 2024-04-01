@@ -33,10 +33,10 @@ export function createDateObject(day?: string, month?: string, year?: string): D
 export function extractUsername(email?: string): string {
     if(email === undefined)return "";
     // Find the position of "@" symbol
-    var atIndex = email.indexOf('@');
+    const atIndex = email.indexOf('@');
     
     // Extract substring before "@" symbol
-    var username = email.substring(0, atIndex);
+    const username = email.substring(0, atIndex);
     
     return username;
 }
