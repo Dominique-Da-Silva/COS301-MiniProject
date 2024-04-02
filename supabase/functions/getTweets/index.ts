@@ -42,18 +42,16 @@ Deno.serve(async (req) => {
   
     if(error)
     {
-      console.log("Error fetching tweets data");
-      console.log(error);
       throw error;
     }
-    console.log("Tweets data:");
-    console.log(JSON.stringify(tweetsData));
+    // console.log("Tweets data:");
+    // console.log(JSON.stringify(tweetsData));
     return new Response(JSON.stringify(tweetsData), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
   } catch (error) {
-    console.log("jus give me the error dude");
+    //console.log("jus give me the error dude");
     console.log(error);
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

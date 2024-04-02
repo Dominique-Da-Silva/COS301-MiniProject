@@ -11,7 +11,6 @@ const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
 
-
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
@@ -26,8 +25,8 @@ const HomePage: React.FC<HomePageProps> = () => {
     const fetchTweetData = async () => {
       try {
         const tweetData = await fetchTweets();
-        console.log("Tweet Data:");
-        console.log(tweetData);
+        // console.log("Tweet Data:");
+        // console.log(tweetData);
         setTweets(tweetData);
       } catch (error) {
         console.error('Error fetching tweets:', error);
@@ -38,8 +37,8 @@ const HomePage: React.FC<HomePageProps> = () => {
     const fetchData = async () => {
       try {
         const usersData = await fetchUsers();
-        console.log("Users Data:");
-        console.log(usersData);
+        // console.log("Users Data:");
+        // console.log(usersData);
         setUsers(usersData as any[]); // Add type assertion here
 
       } catch (error) {
@@ -120,10 +119,10 @@ const HomePage: React.FC<HomePageProps> = () => {
             > */}
           <CreateTweet></CreateTweet>
           {tweets?.map(tweet => {
-            console.log("Tweet:");
-            console.log(tweet);
-            console.log("Users:");
-            console.log(users);
+            // console.log("Tweet:");
+            // console.log(tweet);
+            // console.log("Users:");
+            // console.log(users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
             const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
             const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;

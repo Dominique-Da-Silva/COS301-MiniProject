@@ -23,11 +23,11 @@ import {
 import { addTweet } from "@services/index";
 import { getCurrentUser } from "@services/auth/auth";
 
-interface CreateTweetProps {
-  User_Id: any,
-  Content: string,
-  Img_Url: string
-}
+// interface CreateTweetProps {
+//   User_Id: any,
+//   Content: string,
+//   Img_Url: string
+// }
 
 const CreateTweet = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -80,14 +80,14 @@ const CreateTweet = () => {
     console.log("Post Tweet clicked");
     try {
       const currentUser = await getCurrentUser();
-      console.log("Current User:", currentUser);
-      console.log("Current User Auth ID:", currentUser?.auth_id);
+      // console.log("Current User:", currentUser);
+      // console.log("Current User Auth ID:", currentUser?.auth_id);
       if (currentUser !== undefined) {
       const user = currentUser.auth_id;
-      console.log("User:", user);
+      // console.log("User:", user);
       const imgUrl = selectedImage ? URL.createObjectURL(selectedImage) : "";
       const tweetData = { User_Id: user, Content: tweetText, Img_Url: imgUrl };
-      console.log("Tweet data:", tweetData);
+      // console.log("Tweet data:", tweetData);
       const usersData = await addTweet(tweetData);
       console.log("Tweet posted successfully:", usersData);
       }

@@ -26,7 +26,7 @@ const fetchTweets = async () => {
 
   const addTweet = async (tweetData: any) => {
   try {
-    console.log(JSON.stringify(tweetData));
+    //console.log(JSON.stringify(tweetData));
     const { data, error } = await supabase.functions.invoke('addTweet', {
       body: JSON.stringify(tweetData)
     });
