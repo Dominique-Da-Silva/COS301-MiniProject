@@ -13,12 +13,10 @@ const HomePage: React.FC<HomePageProps> = () => {
 
 
   // const HomePage: React.FC<HomePageProps> = () => {
-  // const [tweets] = useState<any[]>(mockTweets);
-  // const [users] = useState<any[]>(mockUsers);
-  // const [savesCount] = useState<any>(mockSavesCount);
-  // const [commentsCount] = useState<any>(mockCommentsCount);
-  // const [retweetsCount] = useState<any>(mockRetweetsCount);
-  // const [likesCount] = useState<any>(mockLikesCount);
+  // const [savesCount, setSavesCount] = useState<any>(0);
+  // const [commentsCount, setCommentsCount] = useState<any>(0);
+  // const [retweetsCount, setRetweetsCount] = useState<any>(0);
+  // const [likesCount, setLikesCount] = useState<any>(0);
   //const [user] = useState<any>(null); // State variable to store current user
 
   // FETCHING THE TWEETS FROM TWEETS AND USERS TABLE
@@ -28,6 +26,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     const fetchTweetData = async () => {
       try {
         const tweetData = await fetchTweets();
+        console.log("Tweet Data:");
         console.log(tweetData);
         setTweets(tweetData);
       } catch (error) {
@@ -39,6 +38,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     const fetchData = async () => {
       try {
         const usersData = await fetchUsers();
+        console.log("Users Data:");
         console.log(usersData);
         setUsers(usersData as any[]); // Add type assertion here
 
@@ -120,11 +120,15 @@ const HomePage: React.FC<HomePageProps> = () => {
             > */}
           <CreateTweet></CreateTweet>
           {tweets?.map(tweet => {
+            console.log("Tweet:");
+            console.log(tweet);
+            console.log("Users:");
+            console.log(users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-            const saves = 0;//savesCount[tweet.Tweet_Id] || 0 ;
-            const comments = 0;//commentsCount[tweet.Tweet_Id] || 0;
-            const likes = 0;//likesCount[tweet.Tweet_Id] || 0;
-            const retweets = 0;//retweetsCount[tweet.Tweet_Id] || 0;
+            const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
+            const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
+            const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
+            const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
             return (
               <Tweet
                 key={tweet.Tweet_Id}
