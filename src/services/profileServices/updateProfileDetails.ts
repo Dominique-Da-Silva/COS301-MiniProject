@@ -67,7 +67,6 @@ export const insertProfileDetails = async(user_data:  {
             Bio: user_data.Bio,
             Img_Url: user_data.Img_Url,
             Location: user_data.Location,
-            Profile_Id: undefined,
             Profile_Type: user_data.Profile_Type,
             Theme: user_data.Theme,
             User_Id: id.data[0].User_Id,

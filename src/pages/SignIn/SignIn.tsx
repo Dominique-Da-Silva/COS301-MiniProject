@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate hook
 import { Button, Input, Card, Divider} from '@nextui-org/react';
 import { github, google, twitterLogo} from '@assets/index';
-import { isUserLoggedIn, signInWithGithub, signInWithGoogle, signInUser, signOut } from '@services/index';
+import { isUserLoggedIn, signInWithGithub, signInWithGoogle, signInUser } from '@services/index';
 
 const SignIn = () => {
   const [form, setForm] = useState({ email: '', password: '' });
