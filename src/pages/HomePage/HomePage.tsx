@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { isUserLoggedIn } from "@services/auth/auth";
+import { fetchAllProfiles } from "@services/profileServices/getProfile";
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
@@ -12,6 +13,7 @@ const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [currentUser, setCurrentUser] = useState<any>(false);
+  const [profiles, setProfiles] = useState<any[]>([]);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
@@ -57,10 +59,22 @@ const HomePage: React.FC<HomePageProps> = () => {
         console.error('Error fetching current user:', error);
       }
     };
+
+    const getAllProfiles = async () => {
+      try {
+        const profilesData = await fetchAllProfiles();
+        console.log("Profiles Data:");
+        console.log(profilesData);
+        setProfiles(profilesData as any); // Update the type of the state variable
+      } catch (error) {
+        console.error('Error fetching profiles:', error);
+      }
+    };
     // // Call both fetch functions when the component mounts
     fetchTweetData();
     fetchData();
     getCurrentUser();
+    getAllProfiles();
   }, []);
 
   //testing
@@ -141,18 +155,21 @@ const HomePage: React.FC<HomePageProps> = () => {
             const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
             const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
             const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
+            const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+            console.log("Image URL:", image_url);
             return (
               <Tweet
                 key={tweet.Tweet_Id}
                 name={user ? user.Name : "Unknown User"}
                 username={user ? `@${user.Username}` : ""}
                 text={tweet.Content}
-                imageUrl={tweet.Img_Url}
+                //imageUrl={tweet.Img_Url}
                 timeDisplay={getTimeDisplay(tweet.Created_at)}
                 likes={formatCount(likes)}
                 retweets={formatCount(retweets)}
                 saves={formatCount(saves)}
                 comments={formatCount(comments)}
+                imageUrl={image_url}
               />
             );
           })}
