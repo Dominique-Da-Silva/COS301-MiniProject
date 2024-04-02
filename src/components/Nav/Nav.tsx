@@ -97,7 +97,7 @@ const Nav = () => {
       <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onPress={onOpen}>
         Post
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {() => (
             <>
