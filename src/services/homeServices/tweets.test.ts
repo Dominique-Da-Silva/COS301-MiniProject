@@ -1,12 +1,13 @@
 import { test, expect } from 'vitest';
 import { addTweet } from './getTweets'; 
 import { supabase } from '@config/supabase';
+import testImage from '../../assets/test.jpeg';
 
 test('addTweet inserts a tweet successfully', async () => {
   const tweetData = {
     User_Id: 13,
     Content: 'Hello, world!',
-    Img_Url: 'https://example.com/image.jpg',
+    Img_Url: testImage,
   };
 
   // Mock the supabase.functions.invoke method
@@ -14,7 +15,7 @@ test('addTweet inserts a tweet successfully', async () => {
   // Save the original implementation of supabase.functions.invoke
   const originalInvoke = supabase.functions.invoke;
   // Replace supabase.functions.invoke with the mock function
-  supabase.functions.invoke = mockInvoke;
+  //supabase.functions.invoke = mockInvoke;
 
   // Call the addTweet function
   const result = await addTweet(tweetData);
