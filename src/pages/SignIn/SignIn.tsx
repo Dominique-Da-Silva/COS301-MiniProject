@@ -2,15 +2,18 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate hook
 import { Button, Input, Card, Divider} from '@nextui-org/react';
 import { github, google, twitterLogo} from '@assets/index';
-import { isUserLoggedIn, signInWithGithub, signInWithGoogle, signInUser } from '@services/index';
+import { isUserLoggedIn, signInWithGithub, signInWithGoogle, signInUser, signOut } from '@services/index';
 
 const SignIn = () => {
   const [form, setForm] = useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false); // Initialize isLoading state to false
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     await signInUser(form.email, form.password);
+    setIsLoading(false);
     navigate('/home');
   };
 
@@ -78,7 +81,16 @@ const SignIn = () => {
               required
             />
           </div>
-          <Button radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>SignIn</Button>
+          {
+            isLoading ?
+            <Button radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white' isLoading>
+              SignIn
+            </Button>
+            :
+            <Button radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>
+              SignIn
+            </Button>
+          }
         </form>
         <div className="text-center mt-6 flex justify-between">
             <div className="text-blue-500 hover:underline">Forgot Password?</div>
