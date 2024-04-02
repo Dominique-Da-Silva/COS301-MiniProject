@@ -2,6 +2,7 @@ import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet } from "@c
 import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 import { fetchTweets, fetchUsers } from "@services/index";
+import { isUserLoggedIn } from "@services/auth/auth";
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
@@ -10,7 +11,7 @@ interface HomePageProps { }
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-
+  const [currentUser, setCurrentUser] = useState<any>(false);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
@@ -45,9 +46,21 @@ const HomePage: React.FC<HomePageProps> = () => {
         console.error('Error fetching users:', error);
       }
     };
+
+    const getCurrentUser = async () => {
+      try {
+        const user = await isUserLoggedIn();
+         console.log("Current User:");
+         console.log(user);
+        setCurrentUser(user);
+      } catch (error) {
+        console.error('Error fetching current user:', error);
+      }
+    };
     // // Call both fetch functions when the component mounts
     fetchTweetData();
     fetchData();
+    getCurrentUser();
   }, []);
 
   //testing
@@ -117,7 +130,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-          <CreateTweet></CreateTweet>
+            {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
           {tweets?.map(tweet => {
             // console.log("Tweet:");
             // console.log(tweet);
