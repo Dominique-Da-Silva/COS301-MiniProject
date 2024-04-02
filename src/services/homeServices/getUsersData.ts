@@ -2,7 +2,7 @@ import {supabase} from '@config/supabase';
 // FETCHING THE USERS FROM THE USER TABLE
 const fetchUsers = async () => {
     try {
-        const { data: usersData, error } = await supabase.from('User').select('Username, Name, Surname');
+        const { data: usersData, error } = await supabase.from('User').select('User_Id,Username, Name, Surname');
        if (error) {
          throw error;
        }
@@ -13,4 +13,4 @@ const fetchUsers = async () => {
     }
    };
 
-   export {fetchUsers};
+export {fetchUsers};
