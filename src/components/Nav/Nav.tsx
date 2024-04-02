@@ -1,4 +1,4 @@
-import { FaTwitter } from "react-icons/fa";
+import { FaTwitter} from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { FiSettings } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
@@ -6,11 +6,14 @@ import { PiBellBold } from "react-icons/pi";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Button } from '@nextui-org/button';
+import {Modal, ModalContent, useDisclosure, ModalHeader, ModalBody} from '@nextui-org/react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { CreateTweet } from "..";
 
 
 const Nav = () => {
   const location = useLocation();
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   return (
     <div className="sidebar mt-0 mr-0 pl-12 border-r-0 font-semibold fixed h-full bg-white">
@@ -91,9 +94,23 @@ const Nav = () => {
       </NavLink>
 
       {/* Post Button */}
-      <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
+      <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onPress={onOpen}>
         Post
       </Button>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {() => (
+            <>
+              <ModalHeader>
+                {/* <Button endContent={<FaXmark />} onPress={onClose}></Button> */}
+              </ModalHeader>
+              <ModalBody>
+                <CreateTweet/>
+              </ModalBody>
+            </>
+        )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
