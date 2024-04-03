@@ -388,13 +388,30 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
 const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
+  const [error, setError] = useState<string>("");
+
+  const generateUsernameSuggestions = () => {
+    // Use userData to generate suggestions (Example: combining name and email)
+    const suggestions: string[] = [
+      formData.name.toLowerCase().replace(/\s+/g, '_') + Math.floor(Math.random() * 1000).toString(),
+      formData.email.split('@')[0].toLowerCase() + Math.floor(Math.random() * 1000).toString(),
+    ];
+    setUsernameSuggestions(suggestions);
+  };
 
   const handleNextPressed = async() => {
     if(formData.username === "") return;
     setIsLoading(true);
-    await updateUsername(formData.username);
-    setIsLoading(false);
-    setFlowPage(6);
+    const res = await updateUsername(formData.username);
+    if(res === "Username updated successfully"){
+      setIsLoading(false);
+      setFlowPage(6);
+    }
+    else{
+      setIsLoading(false);
+      setError(res);
+    }
   }
 
   return (
@@ -416,6 +433,27 @@ const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
             onChange={e => setFormData({ ...formData, username: e.target.value })}
             required
           />
+          <div className="flex mt-2 flex-wrap">
+            <a className="text-blue-500 cursor-pointer" onClick={() => setFormData({ ...formData, username: formData.name.toLowerCase().replace(/\s+/g, '_') })}>
+              @{formData.name.toLowerCase().replace(/\s+/g, '_')},
+            </a>
+            &nbsp;
+            <a className="text-blue-500 cursor-pointer" onClick={() => setFormData({ ...formData, username: formData.email.split('@')[0].toLowerCase() })}>
+              @{formData.email.split('@')[0].toLowerCase()},
+            </a>
+            {
+              usernameSuggestions.map((suggestion, index) => (
+                <a key={index} className="text-blue-500 cursor-pointer" onClick={() => setFormData({ ...formData, username: suggestion })}>
+                  &nbsp;@{suggestion},
+                </a>
+              ))
+            }
+          </div>
+          {usernameSuggestions.length === 0 && 
+            <a className="text-blue-500 cursor-pointer" onClick={generateUsernameSuggestions}>show more</a>}
+          {
+            error !== "" && <p className="text-red-500 text-xs mt-2">{error}</p>
+          }
         </div>
         {
           isLoading ? (
