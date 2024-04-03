@@ -924,6 +924,7 @@ const ProfileDetails = () => {
                       Likes
                     </button>
                   </div>
+                  
                   {activeTab === "tweets" && (
                     <div>
                       {userTweets.length === 0 ? (
@@ -996,6 +997,7 @@ const ProfileDetails = () => {
                     </div>
                   )}
                 </div>
+
                 {activeTab === "likes" && (
                   <div>
                     {likedTweets.length === 0 ? (

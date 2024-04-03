@@ -27,8 +27,8 @@ const Nav = () => {
       {/* Home */}
       <NavLink
         to="/home"
-        className={`sidebar-item font-medium cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/home' ? 'bg-gray-200 active-tab' : ''
+        className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
+          location.pathname === '/home' ? 'bg-gray-200 active-tab font-semibold' : ''
         }`}
       >
         <GoHomeFill size={28} className="mr-5" />
@@ -39,7 +39,7 @@ const Nav = () => {
       <NavLink
         to="/explore"
         className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/explore' ? 'bg-gray-200 active-tab' : ''
+          location.pathname === '/explore' ? 'bg-gray-200 active-tab font-semibold' : ''
         }`}
       >
         <IoSearch size={28} className="mr-5" />
@@ -50,7 +50,7 @@ const Nav = () => {
       <NavLink
         to="/notifications"
         className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
+          location.pathname === '/notifications' ? 'bg-gray-200 active-tab font-semibold' : ''
         }`}
       >
         <PiBellBold size={28} className="mr-5" />
@@ -61,7 +61,7 @@ const Nav = () => {
       <NavLink
         to="/bookmarks"
         className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+          location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab font-semibold' : ''
         }`}
       >
         <FaRegBookmark size={28} className="mr-5" />
@@ -72,7 +72,7 @@ const Nav = () => {
       <NavLink
         to="/profile"
         className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
+          location.pathname === '/profile' ? 'bg-gray-200 active-tab font-semibold' : ''
         }`}
       >
         <FaRegUserCircle size={28} className="mr-5" />
@@ -83,7 +83,7 @@ const Nav = () => {
       <NavLink
         to="/settings"
         className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${
-          location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
+          location.pathname === '/settings' ? 'bg-gray-200 active-tab font-semibold' : ''
         }`}
       >
         <FiSettings size={28} className="mr-5" />

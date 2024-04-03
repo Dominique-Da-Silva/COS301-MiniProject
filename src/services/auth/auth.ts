@@ -1,4 +1,6 @@
 import { supabase } from "@config/supabase";
+import { extractUsername } from "@utils/index";
+import { insertProfileDetails } from "..";
 
 export async function signInWithGoogle(): Promise<"success" | "error">{
   const { error } = await supabase.auth.signInWithOAuth({
@@ -15,9 +17,7 @@ export async function signInWithGoogle(): Promise<"success" | "error">{
     return "error";
   } else {
     //add user to database if not already there
-    const result = await addUserToDatabase();
-    if (result === "error") await signOut();
-    return result;
+    return "success";
   }
 }
 
@@ -30,9 +30,7 @@ export async function signInWithGithub(): Promise<"success" | "error">{
     return "error";
   } else {
     //add user to database if not already there
-    const result = await addUserToDatabase();
-    if (result === "error") await signOut();
-    return result;
+    return "success";
   }
 }
 
@@ -58,6 +56,9 @@ export async function signUpNewUser(user_data: {
     options: {
       data: {
         dob: user_data.dob,
+        full_name: user_data.name,
+        surname: "",
+        user_name: extractUsername(user_data.email),
       }
     }
   })
@@ -65,27 +66,6 @@ export async function signUpNewUser(user_data: {
   if (error) {
     return "error";
   } else {
-    //add user to database if not already there
-    const logged_user = await supabase.auth.getUser();
-    if (!logged_user.data.user) return "error";
-
-    //add user to database
-    const user = {
-      auth_id: logged_user.data.user.id,
-      Created_at: new Date().toISOString(),
-      Email: user_data.email,
-      Name: user_data.name,
-      Surname: "",
-      User_Id: undefined,
-      Username: "",
-    };
-  
-    const result = await supabase.from('User').insert(user);
-    if (result.error){ 
-      await signOut();
-      return "error";
-    }
-
     return "success";
   }
 }
@@ -106,13 +86,6 @@ export async function signInUser(email: string, password: string): Promise<"succ
 
 export async function isUserLoggedIn(): Promise<boolean>{
   const { data } = await supabase.auth.getSession();
-  if(data.session === null)return false;
-  else{
-    const res = await addUserToDatabase();
-    if(res === "error"){
-      await signOut();
-    }
-  } 
   return data.session !== null;
 }
 
@@ -126,7 +99,7 @@ export async function doesLoggedUserExistInDatabase() : Promise<boolean>{
   return count > 0;
 }
 
-async function addUserToDatabase(){
+export async function addUserToDatabase(){
   //add user to database if not already there
   const logged_user = await supabase.auth.getUser();
   if (!logged_user.data.user) return "error";
@@ -142,12 +115,17 @@ async function addUserToDatabase(){
     Name: logged_user.data.user.user_metadata.full_name ? logged_user.data.user.user_metadata.full_name : "",
     Surname: logged_user.data.user.user_metadata.surname ? logged_user.data.user.user_metadata.surname : "",
     User_Id: undefined,
-    Username: logged_user.data.user.user_metadata.full_name ? logged_user.data.user.user_metadata.full_name : "",
+    Username: logged_user.data.user.user_metadata.user_name ? 
+      logged_user.data.user.user_metadata.user_name : 
+      extractUsername(logged_user.data.user.email),
   };
 
   const res = await supabase.from('User').insert(user);
-
-  if (res.error) return "error";
+  
+  if (res.error) return "error"; 
+  await insertProfileDetails({
+    Img_Url: logged_user.data.user.user_metadata.avatar_url ? logged_user.data.user.user_metadata.avatar_url : "",
+  });
 
   return "success";
 }
