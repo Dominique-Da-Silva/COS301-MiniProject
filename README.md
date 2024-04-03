@@ -81,7 +81,7 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 # Here are the links to our Documentation
 
 <p align="center">
-<a href="https://drive.google.com/drive/u/2/folders/12w9AqPrPh--GmyGXWzAQYP414YTrQfHA">Google Drive( For Dev purposes</a><br>
+<a href="https://drive.google.com/drive/u/2/folders/12w9AqPrPh--GmyGXWzAQYP414YTrQfHA">Google Drive (For Dev purposes)</a><br>
 <a href="https://docs.google.com/document/d/13-FlGpf09eMM-dNkEyX95V4DfcYBMRBgIdHgMGPqi2o/edit?usp=sharing">System Requirements (SRS)</a><br>
 <a href ="https://docs.google.com/document/d/1F4WdKmrvO_eCkr2DajvDOus36bxUpxkydDistqnIFjY/edit?usp=sharing">System Architecture Design</a><br>
 <a href="https://docs.google.com/document/d/15hG2OY6oi2Lvb1nx3eZkLjZcsis7eU1H7L7xb3rV1OU/edit?usp=sharing">Project Plan</a><br>
