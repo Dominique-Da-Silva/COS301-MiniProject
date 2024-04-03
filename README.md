@@ -84,9 +84,8 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
  <a href ="https://docs.google.com/document/d/11aLnvSpC1LST7BpA-j2aYu5DllywdCPte29lN52R7SM/edit?usp=sharing">Github Strategy</a><br>
  <a href ="https://docs.google.com/document/d/1NaAGZrMSGhZlp4n6qhYUH5sP8S-cm-749Gra2NR-TLQ/edit?usp=sharing">Coding Development Guidelines</a><br>
  <a href ="https://docs.google.com/document/d/10wjOA4YQwbv8rrY7VAZbGI7kNGU068dD_kCcFyz7TNM/edit?usp=sharing">Database Requirements</a><br>
-  <a href ="https://docs.google.com/document/d/1R5fICIDYA8TkIrFAnCYR8_PVsOKKgwAQrLYV2wUhZnc/edit?usp=sharing">Design Specification</a>
+  <a href ="https://docs.google.com/document/d/1R5fICIDYA8TkIrFAnCYR8_PVsOKKgwAQrLYV2wUhZnc/edit?usp=sharing">Design Specification</a><br>
  <a href="https://www.figma.com/file/w0aRTpe5SPT38VwPLuGaFK/COS301-MP-13?type=design&node-id=333%3A2&mode=design&t=Zq1dr1WePO4TwN30-1">Figma designs</a><br>
-
  <a href="https://github.com/orgs/COS301-SE-2024/projects/37">GitHub Project Board</a><br>
 </p>
 
