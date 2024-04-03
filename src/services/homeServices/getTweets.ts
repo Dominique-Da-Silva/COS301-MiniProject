@@ -24,7 +24,7 @@ const fetchTweets = async () => {
    export {fetchTweets};
 
   const addTweet = async (tweetData: any) => {
-  try {
+  try {/*
     console.log(JSON.stringify(tweetData));
     const { data, error } = await supabase.functions.invoke('addTweet', {
       body: JSON.stringify(tweetData)
@@ -32,7 +32,36 @@ const fetchTweets = async () => {
     if (error) {
       throw error;
     }
-    return data;
+    return data;*/
+    //instantiate a variable for a file and pass it to upload
+    const { data: uploadedImage, error: imageError } = await supabase.storage
+      .from('media')
+      .upload(`tweet_images/${tweetData.Img_filename}`, tweetData.Img_file, { upsert: false,
+        contentType: 'image/jpg', // Set the content type of the image
+      });
+
+    if (imageError) {
+      console.log(imageError);
+      throw imageError;
+    }
+    
+    //console.log("uploaded in media");
+
+    const tweet = {
+      User_Id:tweetData.User_Id,
+      Content:tweetData.Content,
+      Img_Url: uploadedImage.path
+    };
+    // Insert tweet data into the database
+    const { data: insertedTweet, error: tweetError } = await supabase
+      .from('Tweets')
+      .insert([tweet])
+      .select();
+
+    if (tweetError) {
+      throw tweetError;
+    }
+    return insertedTweet;
   } catch (error) {
     if (error instanceof FunctionsHttpError) {
       const errorMessage = await error.context.json()

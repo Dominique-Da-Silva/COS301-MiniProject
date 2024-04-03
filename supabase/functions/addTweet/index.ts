@@ -8,48 +8,6 @@ const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") as string;
 
 // Create Supabase client
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {});
-
-/*Deno.serve(async (req) => {
-  // This is needed because we are planning to invoke this function from a browser.
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
-  }
-
-  try {
-
-    // Extract data from the request body
-    const { User_Id, Content, Img_Url } = await req.json(); // Parse the entire request body once
-    console.log('User_Id:', User_Id);
-    console.log('Content:', Content);
-    console.log('Img_Url:', Img_Url);
-
-
-    // Insert the extracted data into the database
-    const { data: insertedTweet, error } = await supabase
-      .from('Tweets')
-      .insert([{ User_Id, Content, Img_Url }])
-      .select();
-
-    if (error) {
-      throw error;
-    }
-
-    console.log('Tweet inserted successfully:', insertedTweet);
-
-    // Return the inserted tweet as response
-    return new Response(JSON.stringify(insertedTweet), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200,
-    });
-  } catch (error) {
-    console.error('Error posting tweet:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 400,
-    });
-  }
-});*/
-
 Deno.serve(async (req) => {
   // This is needed because we are planning to invoke this function from a browser.
   if (req.method === 'OPTIONS') {
@@ -58,17 +16,15 @@ Deno.serve(async (req) => {
 
   try {
 
-    // Extract data from the request body
-    const { User_Id, Content, Image } = await req.json(); // Assuming 'Image' is the field containing the image file
-    console.log('User_Id:', User_Id);
-    console.log('Content:', Content);
-    console.log('Image:', Image);
-
-    // Upload image to storage bucket
-     
+    const requestBody = await req.json();
+    const User_Id = requestBody.User_Id;
+    const Content = requestBody.Content;
+    //instantiate a variable for a file and pass it to upload
     const { data: uploadedImage, error: imageError } = await supabase.storage
       .from('media')
-      .upload(`tweet_images/${User_Id}`, Image, { upsert: false});
+      .upload(`tweet_images/${requestBody.Img_filename}`, requestBody.Img_file, { upsert: false,
+        contentType: 'image/jpg', // Set the content type of the image
+      });
 
     if (imageError) {
       console.log(imageError);
@@ -77,14 +33,15 @@ Deno.serve(async (req) => {
     
     console.log("uploaded in media");
 
-    const { data: publicURL } = await supabase.storage
-    .from("media")
-    .getPublicUrl(uploadedImage?.path);
-    
+    const tweetData = {
+      User_Id,
+      Content,
+      Img_Url: uploadedImage.fullPath
+    };
     // Insert tweet data into the database
     const { data: insertedTweet, error: tweetError } = await supabase
       .from('Tweets')
-      .insert([{ User_Id, Content, publicURL }])
+      .insert([tweetData])
       .select();
 
     if (tweetError) {
