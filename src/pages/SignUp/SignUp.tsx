@@ -220,14 +220,20 @@ const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
 }
 
 const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleNextPressed = async(e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     if(formData.password === "") return;
     const status = await signUpNewUser(formData);
     if(status === "error"){ 
+      setIsLoading(false);
       console.log("Error signing up user");
       return;
     }
+    setIsLoading(false);
     setFlowPage(4);
   }
 
@@ -264,7 +270,17 @@ const Flow3 = ({formData, setFormData, setFlowPage}:any) => {
               </a>
             </span>
           </p>
-          <Button onClick={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
+          {
+            isLoading ? (
+              <Button onClick={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white' isLoading>
+                Next
+              </Button>
+            )
+            :
+            <Button onClick={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>
+              Next
+            </Button>
+          }
         </form>
       </Card>
   )
@@ -274,9 +290,11 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
 
   const [avatar, setAvatar] = useState<File | null>(null);
   const [avatarURL, setAvatarURL] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   function captureImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files === null) return;
+    setIsLoading(true);
     const selectedFile = e.target.files[0];
     setAvatar(selectedFile);
 
@@ -288,13 +306,16 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
     reader.readAsDataURL(selectedFile);
 
     setFormData({ ...formData, avatar: selectedFile});
+    setIsLoading(false);
   }
 
   const handleNextPressed = async(e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     if(avatar !== null){
       await uploadProfile(avatar);
     }
+    setIsLoading(false);
     setFlowPage(5);
   }
 
@@ -336,14 +357,29 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
             className="hidden"
           />
         </label>
-        <Button
-          onClick={handleNextPressed}
-          radius="full"
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white"
-        >
-          Next
-        </Button>
+        {
+          isLoading ? (
+            <Button
+              onClick={handleNextPressed}
+              radius="full"
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white"
+              isLoading
+            >
+              Next
+            </Button>
+          )
+          :
+          <Button
+            onClick={handleNextPressed}
+            radius="full"
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            Next
+          </Button>
+
+        }
       </form>
     </Card>
   )
@@ -351,9 +387,13 @@ const Flow4 = ({formData, setFormData, setFlowPage}:any) => {
 
 const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleNextPressed = async() => {
     if(formData.username === "") return;
+    setIsLoading(true);
     await updateUsername(formData.username);
+    setIsLoading(false);
     setFlowPage(6);
   }
 
@@ -377,14 +417,27 @@ const Flow5 = ({formData, setFormData, setFlowPage}:any) => {
             required
           />
         </div>
-        <Button
-          onClick={handleNextPressed}
-          radius="full"
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white mt-12"
-        >
-          Next
-        </Button>
+        {
+          isLoading ? (
+            <Button
+              onClick={handleNextPressed}
+              radius="full"
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white mt-12"
+              isLoading
+            >
+              Next
+            </Button>
+          )
+          :
+          <Button
+              onClick={handleNextPressed}
+              radius="full"
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white mt-12"
+            >Next
+          </Button>
+        }
       </form>
     </Card>
   )
@@ -422,8 +475,8 @@ const Flow6 = () => {
               <img src={user.profilePic} alt="profile-pic" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h3 className="text-base font-semibold -mb-3">{user.name}</h3>
-              <p className="text-gray-600 -mb-3">{user.username}</p>
+              <h3 className="text-base font-semibold mb-3">{user.name}</h3>
+              <p className="text-gray-600 mb-3">{user.username}</p>
               <p className="text-gray-600 text-xs">{user.bio}</p>
             </div>
             <Button 
