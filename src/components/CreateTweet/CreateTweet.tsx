@@ -67,14 +67,14 @@ const CreateTweet = () => {
     // Handle Schedule click
   };
 
-  const handlePostTweet = (event: any) => {
-    event.preventDefault();
-    // Handle Post Tweet click
-    console.log("Post Tweet clicked");
-    console.log("Tweet text:", tweetText);
-    console.log("Selected Image:", selectedImage);
+  // const handlePostTweet = (event: any) => {
+  //   event.preventDefault();
+  //   // Handle Post Tweet click
+  //   console.log("Post Tweet clicked");
+  //   console.log("Tweet text:", tweetText);
+  //   console.log("Selected Image:", selectedImage);
 
-  };
+  // };
 
   const postTweet = async () => {
     console.log("Post Tweet clicked");

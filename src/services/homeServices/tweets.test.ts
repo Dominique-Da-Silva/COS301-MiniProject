@@ -10,7 +10,7 @@ test('addTweet inserts a tweet successfully', async () => {
   };
 
   // Mock the supabase.functions.invoke method
-  const mockInvoke = () => ({ data: 'Tweet inserted successfully' });
+  // const mockInvoke = () => ({ data: 'Tweet inserted successfully' });
   // Save the original implementation of supabase.functions.invoke
   const originalInvoke = supabase.functions.invoke;
   // Replace supabase.functions.invoke with the mock function
