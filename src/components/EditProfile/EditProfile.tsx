@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/index";
 import { fetchProfileDetails } from "@services/index";
+import { updateProfileDetails, insertProfileDetails } from "@services/index";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
   // const [isEditing, setIsEditing] = useState(false);
   const [profileDetails, setProfileDetails] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
+  const [editedProfile, setEditedProfile] = useState(profileDetails);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,8 +36,9 @@ const EditProfile: React.FC = () => {
       }
     } 
     profileSub();
+    setEditedProfile(profileDetails);
   }
-  ,[])
+  ,[profileDetails])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");
@@ -215,6 +218,8 @@ const EditProfile: React.FC = () => {
           id="name"
           placeholder={userData.Name ? userData.Name : "Enter your name"}
           //  onChange={(e) => setEditedName(e.target.value)}
+          onChange={(e) => setEditedProfile({...editedProfile, Name: e.target.value})}
+
           className="mb-4"
         />
         <label htmlFor="username" className="block mb-2 font-semibold">
@@ -223,7 +228,9 @@ const EditProfile: React.FC = () => {
         <Input
           id="username"
           placeholder={userData.Username ? userData.Username : "Enter your Username"}
-         // onChange={(e) => setEditedName(e.target.value)}
+          // onChange={(e) => setEditedName(e.target.value)}
+          onChange={(e) => setEditedProfile({...editedProfile, Username: e.target.value})}
+
           className="mb-4"
         />
         <label htmlFor="bio" className="block mb-2 font-semibold">
@@ -233,7 +240,8 @@ const EditProfile: React.FC = () => {
           id="bio"
           placeholder={profileDetails.Bio ? profileDetails.Bio : "Enter your bio"}
           className="mb-4"
-         // onChange={(e) => setEditedBio(e.target.value)}
+          // onChange={(e) => setEditedBio(e.target.value)}
+          onChange={(e) => setEditedProfile({...editedProfile, Bio: e.target.value})}
         />
         <label htmlFor="location" className="block mb-2 font semibold">
           Location
@@ -242,7 +250,9 @@ const EditProfile: React.FC = () => {
           id="location"
           placeholder={profileDetails.Location ? profileDetails.Location : "Enter your location"}
           className="mb-4"
-        //  onChange={(e) => setEditedLocation(e.target.value)}
+          //  onChange={(e) => setEditedLocation(e.target.value)}
+          onChange={(e) => setEditedProfile({...editedProfile, Location: e.target.value})}
+
         />
         <label htmlFor="website" className="block mb-2 font-semibold">
           Website
@@ -253,7 +263,7 @@ const EditProfile: React.FC = () => {
           className="mb-4"
         //  onChange={(e) => setEditedWebsite(e.target.value)}
         />
-        <Button size="lg" className="w-full" >
+        <Button size="lg" className="w-full" onClick={() => updateProfileDetails(editedProfile)}>
           Save
         </Button>
       </div>

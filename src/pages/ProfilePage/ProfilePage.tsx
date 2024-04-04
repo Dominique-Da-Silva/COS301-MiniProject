@@ -127,7 +127,7 @@ const ProfileDetails = () => {
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<any>();
   const [userFollowers, setUserFollowers] = useState<any>(null);
   const [userFollowing, setUserFollowing] = useState<any>(null);
   const [createdAt] = useState<any>(
@@ -156,27 +156,23 @@ const ProfileDetails = () => {
   const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
   // const [replies, setReplies] = useState<TweetProps[]>([]);
 
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const userDataX = await fetchUserData();
+      setUserData(userDataX);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+  fetchData();
+}, []);
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         //const { data: { user } } = {};
         // if (user) {
-        
-        const fetchData = async () => {
-          try {
-            const userDataX = await fetchUserData();
-            //setUserData()
-            console.log(userDataX);
-          //   const followingCount = await countFollowing(userData.id);
-          //   const followerCount = await countFollowers(userData.id);
-            // console.log(followingCount); 
-            setUserData(userDataX);
-          
-          } catch (error) {
-              console.error("Error fetching data: ", error);
-          }
-        } 
-        fetchData();
 
         console.log(userData.User_Id);
 
