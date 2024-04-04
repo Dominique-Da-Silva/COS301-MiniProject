@@ -10,12 +10,17 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
-
+import { FaTimes } from 'react-icons/fa';
 
 
 const Nav = () => {
   const location = useLocation();
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleLogout = () => {
+    console.log('Logout clicked');
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -105,16 +110,30 @@ const Nav = () => {
           <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
             Post
           </Button>
-          <div className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto">
-            <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-              {/* User icon (e.g., an icon component or an image) */}
-              <FaUser size={20} color="#FFFFFF" />
-            </div>
-            <div className="user-info">
-              <p className="text-sm font-semibold mb-1">Maybach Music</p>
-              <p className="text-xs">@thebiggest</p>
-            </div>
+          <div
+      className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto relative cursor-pointer"
+      onClick={() => setShowPopup(!showPopup)}
+    >
+      <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+        <FaUser size={20} color="#FFFFFF" />
+      </div>
+      <div className="user-info">
+        <p className="text-sm font-semibold mb-1">Maybach Music</p>
+        <p className="text-xs">@thebiggest</p>
+      </div>
+
+      {showPopup && (
+        <div className="speech-bubble absolute bg-white border border-gray-300 rounded-lg p-2 mt-2">
+          <div className="flex justify-between items-center mb-2">
+            <p className="text-sm">Are you sure you want to log out?</p>
+            <FaTimes className="cursor-pointer" onClick={() => setShowPopup(false)} />
           </div>
+          <button className="logout-button bg-white text-black px-3 py-1 rounded-md font-bold" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
         </>
       )}
 
@@ -181,12 +200,26 @@ const Nav = () => {
           >
             <BiPlusCircle size={28} color="#FFFFFF" />
           </NavLink>
-          <div className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto">
-            <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-              {/* User icon (e.g., an icon component or an image) */}
-              <FaUser size={20} color="#FFFFFF" />
-            </div>
+          <div
+      className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto relative cursor-pointer"
+      onClick={() => setShowPopup(!showPopup)}
+    >
+      <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+        <FaUser size={20} color="#FFFFFF" />
+      </div>
+
+      {showPopup && (
+        <div className="speech-bubble absolute bg-white border border-gray-300 rounded-lg p-2 mt-2">
+          <div className="flex justify-between items-center mb-2">
+            <p className="text-sm">Are you sure you want to log out?</p>
+            <FaTimes className="cursor-pointer" onClick={() => setShowPopup(false)} />
           </div>
+          <button className="logout-button bg-white text-black px-3 py-1 rounded-md font-bold" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
         </>
       )}
     </div>
