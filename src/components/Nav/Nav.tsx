@@ -11,12 +11,16 @@ import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
+import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
 
 
 const Nav = () => {
   const location = useLocation();
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
   const [showPopup, setShowPopup] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userUsername, setUserUsername] = useState('');
+  const [profileDetails, setProfileDetails] = useState<any>(null);
 
   const handleLogout = () => {
     console.log('Logout clicked');
@@ -32,6 +36,29 @@ const Nav = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = await getLoggedUserId();
+      if (userId) {
+        const userData = await fetchUsers();
+        if (userData) {
+          setUserName(`${userData.Name} ${userData.Surname}`);
+          setUserUsername(`@${userData.Username}`);
+        }
+
+        try {
+          // Fetch profile details by username
+          const profileData = await fetchProfileDetails(userId);
+          setProfileDetails(profileData);
+        } catch (error) {
+          console.error("Error fetching profile details:", error);
+        }
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   return (
@@ -115,11 +142,14 @@ const Nav = () => {
       onClick={() => setShowPopup(!showPopup)}
     >
       <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-        <FaUser size={20} color="#FFFFFF" />
+        {/*<FaUser size={20} color="#FFFFFF" />*/}
+        {profileDetails?.Img_Url ? (<img src={profileDetails.Img_Url} alt="Profile" />) : (<FaUser size={20} color="#FFFFFF" />)}
       </div>
       <div className="user-info">
-        <p className="text-sm font-semibold mb-1">Maybach Music</p>
-        <p className="text-xs">@thebiggest</p>
+        {/*<p className="text-sm font-semibold mb-1">Maybach Music</p> 
+        <p className="text-xs">@thebiggest</p>*/}
+        <p className="text-sm font-semibold mb-1">{userName}</p> 
+        <p className="text-xs">{userUsername}</p>
       </div>
 
       {showPopup && (

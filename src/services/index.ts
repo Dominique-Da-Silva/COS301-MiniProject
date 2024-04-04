@@ -14,10 +14,11 @@ import {countFollowing} from "./profileServices/countFollowing.ts";
 import {fetchProfileDetails} from "./profileServices/getProfile.ts";
 import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
 import {checkIfFollowing} from "./usersProfileServices/checkIfFollowing.ts";
+import {getLoggedUserId} from "./usersProfileServices/getLoggedUserId.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
     fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
-    uploadImageAndGetURL,checkIfFollowing};
+    uploadImageAndGetURL,checkIfFollowing, getLoggedUserId};
