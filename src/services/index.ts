@@ -13,7 +13,7 @@ import {countFollowers} from "./profileServices/countFollowers.ts";
 import {countFollowing} from "./profileServices/countFollowing.ts";
 import {fetchProfileDetails} from "./profileServices/getProfile.ts";
 import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
-import {checkIfFollowing} from "./profileServices/checkIfFollowing.ts";
+import {checkIfFollowing} from "./usersProfileServices/checkIfFollowing.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
