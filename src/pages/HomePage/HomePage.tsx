@@ -121,52 +121,6 @@ const HomePage: React.FC<HomePageProps> = () => {
 
   return (
     <div className="container flex">
-      {/* Navbar */}
-      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
-        <Nav />
-      </div>
-
-      {/* Main Content */}
-      <div className="main-content flex w-2/5 m-0 p-0 border">
-        <div className="flex flex-col m-0 p-0 justify-center">
-          <CreateTweet />
-          {tweets.map(tweet => {
-            const user = users.find(u => u.User_Id === tweet.User_Id);
-            const saves = savesCount[tweet.Tweet_Id] || 0 ;
-            const comments = commentsCount[tweet.Tweet_Id] || 0;
-            const likes = likesCount[tweet.Tweet_Id] || 0;
-            const retweets = retweetsCount[tweet.Tweet_Id] || 0;
-            return (
-              <Tweet
-                key={tweet.Tweet_Id}
-                name={user ? user.Name : "Unknown User"}
-                username={user ? `@${user.Username}` : ""}
-                text={tweet.Content}
-                imageUrl={tweet.Img_Url}
-                timeDisplay={getTimeDisplay(tweet.Created_at)}
-                likes={formatCount(likes)}
-                retweets={formatCount(retweets)}
-                saves={formatCount(saves)}
-                comments={formatCount(comments)}
-              />
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Sidebar */}
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
-        </div>
-        <TrendingTopics />
-        <WhoToFollow users={[]} />
-      </div>
-    </div>
-  );
-
-  /*return (
-    <div className="container flex">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>
@@ -220,30 +174,6 @@ const HomePage: React.FC<HomePageProps> = () => {
             );
           })}
           {/* </Tab>
-            > }
-              <CreateTweet></CreateTweet>
-               {tweets.map(tweet => {
-                const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-                const saves = savesCount[tweet.Tweet_Id] || 0 ;
-                const comments = commentsCount[tweet.Tweet_Id] || 0;
-                const likes = likesCount[tweet.Tweet_Id] || 0;
-                const retweets = retweetsCount[tweet.Tweet_Id] || 0;
-                return (
-                  <Tweet
-                    key={tweet.Tweet_Id}
-                    name={user ? user.Name : "Unknown User"}
-                    username={user ? `@${user.Username}` : ""}
-                    text={tweet.Content}
-                    imageUrl={tweet.Img_Url}
-                    timeDisplay={getTimeDisplay(tweet.Created_at)}
-                    likes={formatCount(likes)}
-                    retweets={formatCount(retweets)}
-                    saves={formatCount(saves)}
-                    comments={formatCount(comments)}
-                  />
-                );
-              })}
-            {/* </Tab>
             <Tab
               title={
                 <div className="flex items-center space-x-2">
@@ -256,8 +186,6 @@ const HomePage: React.FC<HomePageProps> = () => {
             </Tab>
           </Tabs> */}
         </div>
-          </Tabs> }
-        </div>  
       </div>
       <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
         <div className="mb-3">
@@ -267,7 +195,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         <WhoToFollow users={[]} />
       </div>
     </div>
-  ); */
+  );
 };
 
 export default HomePage;
