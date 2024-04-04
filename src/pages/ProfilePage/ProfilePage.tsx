@@ -6,7 +6,6 @@ import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
 import { fetchUserData } from "@services/index";
-import { getProfile } from "@services/profileServices";
 // import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
@@ -127,7 +126,7 @@ const ProfileDetails = () => {
 
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
-  const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
   const [userData, setUserData] = useState<any>(null);
   const [userFollowers, setUserFollowers] = useState<any>(null);
   const [userFollowing, setUserFollowing] = useState<any>(null);
@@ -162,18 +161,7 @@ const ProfileDetails = () => {
       try {
         //const { data: { user } } = {};
         // if (user) {
-          const profileSub = async () => {
-            try {
-              const profileTemp = await fetchProfileDetails(userData.User_Id);
-              console.log(profileTemp);
-              setProfileDetails(profileTemp);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
-          } 
-          profileSub();
-
-
+        
         const fetchData = async () => {
           try {
             const userDataX = await fetchUserData();
@@ -189,11 +177,13 @@ const ProfileDetails = () => {
           }
         } 
         fetchData();
+
         console.log(userData.User_Id);
+
         const fetchFollData = async () => {
           try {
             const followerTemp = await countFollowers(userData.User_Id);
-            const followingTemp= await countFollowers(userData.User_Id);
+            const followingTemp= await countFollowing(userData.User_Id);
             //setUserData()
             console.log(followerTemp);
             console.log(followingTemp);
@@ -207,6 +197,17 @@ const ProfileDetails = () => {
           }
         } 
         fetchFollData();
+
+        const profileSub = async () => {
+          try {
+            const profileTemp = await fetchProfileDetails(userData.User_Id);
+            console.log(profileTemp);
+            setProfileDetails(profileTemp);
+          } catch (error) {
+              console.error("Error fetching data: ", error);
+          }
+        } 
+        profileSub();
 
         const mockTweets: TweetProps[] = [
           {
@@ -860,7 +861,7 @@ const ProfileDetails = () => {
   // };
 
   if (!profileDetails || !userProfile) {
-    return <div>Loading...</div>; // Render loading indicator until data is fetched
+    return <div>Loading...</div>;
   }
 
   // const [isEditingProfileOpen, setIsEditingProfileOpen] = useState(false);
@@ -893,7 +894,7 @@ const ProfileDetails = () => {
                 <div className="profile flex min-w-full flex-1 justify-between items-center">
                   <Avatar
                     src={profileDetails.Img_Url}
-                    alt={userProfile.Name}
+                    alt={userData.Name}
                     size="lg"
                   />
                   <NavLink to="/editProfile">
@@ -904,10 +905,10 @@ const ProfileDetails = () => {
                 </div>
                 <h2 className="font-bold text-xl">
                   
-                  {userProfile.Name}
+                  {userData.Name}
                 </h2>
 
-                <p className="text-gray-500 mb-5">@{userProfile.Username}</p>
+                <p className="text-gray-500 mb-5">@{userData.Username}</p>
                 <p className="mb-2">{profileDetails.Bio}</p>
                 <p className="text-gray-500 flex items-center">
                   <BiCalendar className="mr-1" />

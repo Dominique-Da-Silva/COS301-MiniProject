@@ -1,13 +1,41 @@
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { IoMdArrowBack } from "react-icons/io";
 // import { supabase } from "@config/supabase";
-// import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { fetchUserData } from "@services/index";
+import { fetchProfileDetails } from "@services/index";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
   // const [isEditing, setIsEditing] = useState(false);
-  // const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userDataX = await fetchUserData();
+        console.log(userDataX);
+        setUserData(userDataX);
+      } catch (error) {
+          console.error("Error fetching data: ", error);
+      }
+    } 
+    fetchData();
+    console.log(userData);
+    const profileSub = async () => {
+      try {
+        const profileTemp = await fetchProfileDetails(userData.User_Id);
+        console.log(profileTemp);
+        setProfileDetails(profileTemp);
+      } catch (error) {
+          console.error("Error fetching data: ", error);
+      }
+    } 
+    profileSub();
+  }
+  ,[])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");
@@ -185,8 +213,8 @@ const EditProfile: React.FC = () => {
         </label>
         <Input
           id="name"
-          placeholder="Enter your name"
-        //  onChange={(e) => setEditedName(e.target.value)}
+          placeholder={userData.Name ? userData.Name : "Enter your name"}
+          //  onChange={(e) => setEditedName(e.target.value)}
           className="mb-4"
         />
         <label htmlFor="username" className="block mb-2 font-semibold">
@@ -194,7 +222,7 @@ const EditProfile: React.FC = () => {
         </label>
         <Input
           id="username"
-          placeholder="Enter your username"
+          placeholder={userData.Username ? userData.Username : "Enter your Username"}
          // onChange={(e) => setEditedName(e.target.value)}
           className="mb-4"
         />
@@ -203,7 +231,7 @@ const EditProfile: React.FC = () => {
         </label>
         <Textarea
           id="bio"
-          placeholder="Enter your bio"
+          placeholder={profileDetails.Bio ? profileDetails.Bio : "Enter your bio"}
           className="mb-4"
          // onChange={(e) => setEditedBio(e.target.value)}
         />
@@ -212,7 +240,7 @@ const EditProfile: React.FC = () => {
         </label>
         <Textarea
           id="location"
-          placeholder="Enter your location"
+          placeholder={profileDetails.Location ? profileDetails.Location : "Enter your location"}
           className="mb-4"
         //  onChange={(e) => setEditedLocation(e.target.value)}
         />
@@ -221,7 +249,7 @@ const EditProfile: React.FC = () => {
         </label>
         <Textarea
           id="website"
-          placeholder="Enter your website"
+          placeholder={profileDetails.Website? profileDetails.Website : "Enter your website"}
           className="mb-4"
         //  onChange={(e) => setEditedWebsite(e.target.value)}
         />
