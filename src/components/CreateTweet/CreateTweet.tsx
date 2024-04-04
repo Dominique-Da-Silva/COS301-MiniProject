@@ -100,6 +100,11 @@ const CreateTweet = () => {
     }
   };
 
+  const removeImage = () => {
+    const file = undefined;
+    setSelectedImage(file);
+  }
+
   return (
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
@@ -122,7 +127,9 @@ const CreateTweet = () => {
         {selectedImage && (
           <div className="mt-4 mx-auto">
             <img src={URL.createObjectURL(selectedImage)} alt="Selected Image" className="max-w-full" />
+            <Button onClick={removeImage}>X</Button>
           </div>
+          
         )}
       </div>
       <div className="flex justify-between items-center mt-2 mx-12">
