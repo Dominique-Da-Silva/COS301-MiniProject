@@ -163,13 +163,13 @@ const HomePage: React.FC<HomePageProps> = () => {
                 name={user ? user.Name : "Unknown User"}
                 username={user ? `@${user.Username}` : ""}
                 text={tweet.Content}
-                //imageUrl={tweet.Img_Url}
+                imageUrl={tweet.Img_Url}
                 timeDisplay={getTimeDisplay(tweet.Created_at)}
                 likes={formatCount(likes)}
                 retweets={formatCount(retweets)}
                 saves={formatCount(saves)}
                 comments={formatCount(comments)}
-                imageUrl={image_url}
+                profileimageurl={image_url}
               />
             );
           })}

@@ -17,9 +17,7 @@ export async function signInWithGoogle(): Promise<"success" | "error"> {
     return "error";
   } else {
     //add user to database if not already there
-    const result = await addUserToDatabase();
-    if (result === "error") await signOut();
-    return result;
+    return "success";
   }
 }
 
@@ -55,9 +53,7 @@ export async function signInWithGithub(): Promise<"success" | "error"> {
     return "error";
   } else {
     //add user to database if not already there
-    const result = await addUserToDatabase();
-    if (result === "error") await signOut();
-    return result;
+    return "success";
   }
 }
 
@@ -83,6 +79,9 @@ export async function signUpNewUser(user_data: {
     options: {
       data: {
         dob: user_data.dob,
+        full_name: user_data.name,
+        surname: "",
+        user_name: extractUsername(user_data.email),
       }
     }
   })
@@ -114,7 +113,6 @@ export async function signUpNewUser(user_data: {
     await insertProfileDetails({
       Img_Url: logged_user.data.user.user_metadata.avatar_url ? logged_user.data.user.user_metadata.avatar_url : "",
     });
-
     return "success";
   }
 }

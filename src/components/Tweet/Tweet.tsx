@@ -12,6 +12,7 @@ interface TweetProps {
   username: string;
   text: string;
   imageUrl?: string;
+  profileimageurl?: string;
   timeDisplay: string;
   likes?: number | string;
   retweets?: number | string;
@@ -19,12 +20,12 @@ interface TweetProps {
   saves?: number | string;
 }
 
-const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, timeDisplay, likes, retweets, comments, saves, }) => {
+const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, }) => {
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4">
       <div className="avatar">
         <Avatar
-          src={imageUrl} // profile image url to be replaced
+          src={profileimageurl} // profile image url to be replaced
           alt="User Avatar"
           className="user-avatar min-w-12 min-h-12"
         // style={{ minWidth: '48px', minHeight: '48px' }}
