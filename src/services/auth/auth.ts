@@ -164,5 +164,6 @@ export async function getUserData(){
     await addUserIdMetadata();
   }
 
-  return !logged_user.data.user ? null : logged_user.data.user;
+  const user = await supabase.auth.getUser();
+  return !user.data.user ? null : user.data.user;
 }
