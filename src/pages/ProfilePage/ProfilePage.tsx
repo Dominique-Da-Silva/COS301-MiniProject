@@ -3,7 +3,10 @@ import { useState, Suspense, useEffect } from "react";
 import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 //import { supabase } from "@config/supabase"; // Import supabase client
 import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
-
+import { countFollowing, fetchProfileDetails } from "@services/index";
+import { countFollowers } from "@services/index";
+import { fetchUserData } from "@services/index";
+import { getProfile } from "@services/profileServices";
 // import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
@@ -121,9 +124,13 @@ const getTimeDisplay = (timestamp: string) => {
 // };
 
 const ProfileDetails = () => {
+
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
-  const [profileDetails] = useState<any>(mockProfileDetails);
+  const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
+  const [userFollowers, setUserFollowers] = useState<any>(null);
+  const [userFollowing, setUserFollowing] = useState<any>(null);
   const [createdAt] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
@@ -155,6 +162,52 @@ const ProfileDetails = () => {
       try {
         //const { data: { user } } = {};
         // if (user) {
+          const profileSub = async () => {
+            try {
+              const profileTemp = await fetchProfileDetails(userData.User_Id);
+              console.log(profileTemp);
+              setProfileDetails(profileTemp);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+          } 
+          profileSub();
+
+
+        const fetchData = async () => {
+          try {
+            const userDataX = await fetchUserData();
+            //setUserData()
+            console.log(userDataX);
+          //   const followingCount = await countFollowing(userData.id);
+          //   const followerCount = await countFollowers(userData.id);
+            // console.log(followingCount); 
+            setUserData(userDataX);
+          
+          } catch (error) {
+              console.error("Error fetching data: ", error);
+          }
+        } 
+        fetchData();
+        console.log(userData.User_Id);
+        const fetchFollData = async () => {
+          try {
+            const followerTemp = await countFollowers(userData.User_Id);
+            const followingTemp= await countFollowers(userData.User_Id);
+            //setUserData()
+            console.log(followerTemp);
+            console.log(followingTemp);
+            //   const followingCount = await countFollowing(userData.id);
+          //   const followerCount = await countFollowers(userData.id);
+            // console.log(followingCount); 
+            setUserFollowers(followerTemp);
+            setUserFollowing(followingTemp);
+          } catch (error) {
+              console.error("Error fetching data: ", error);
+          }
+        } 
+        fetchFollData();
+
         const mockTweets: TweetProps[] = [
           {
             id: 1,
@@ -279,13 +332,13 @@ const ProfileDetails = () => {
         ];
         setUserTweets(mockTweets);
 
-        const userData = {
-          following: 10, // mock following count
-          followers: 20, // mock followers count
-          Created_at: "2020-01-01T00:00:00Z",
-          User_Id: 1,
-          Username: "rickgrimes",
-        };
+        // const userData = {
+        //   following: 10, // mock following count
+        //   followers: 20, // mock followers count
+        //   Created_at: "2020-01-01T00:00:00Z",
+        //   User_Id: 1,
+        //   Username: "rickgrimes",
+        // };
         //setUserProfile(userData);
 
         const mockLikedTweets: TweetProps[] = [
@@ -496,7 +549,7 @@ const ProfileDetails = () => {
         // });
         // setCreatedAt(formattedDate);
 
-        if (userData?.User_Id) {
+        // if (userData?.User_Id) {
           // const profileData = {
           //   Profile_Type: "Public", // mock profile type
           //   Bio: "This is a mock bio.", // mock bio
@@ -537,9 +590,9 @@ const ProfileDetails = () => {
           //   followers: followerCount,
           //   following: followingCount,
           // }));
-        } else {
-          console.error("User data ID is undefined");
-        }
+        // } else {
+        //   console.error("User data ID is undefined");
+        // }
       } catch (error) {
         console.error("Error fetching user profile:");
       }
@@ -870,11 +923,11 @@ const ProfileDetails = () => {
                       <p className="text-gray-500">0</p>
                     </div> */}
                     <div className="flex">
-                      <p className="font-semibold">{userProfile.following}&nbsp;</p>
+                      <p className="font-semibold">{userFollowing}&nbsp;</p>
                       <h3 className="text-base text-gray-500">Following</h3>
                     </div>
                     <div className="flex">
-                      <p className="font-semibold">{userProfile.followers}&nbsp;</p>
+                      <p className="font-semibold">{userFollowers}&nbsp;</p>
                       <h3 className="text-base text-gray-500">Followers</h3>
                     </div>
                   </div>
