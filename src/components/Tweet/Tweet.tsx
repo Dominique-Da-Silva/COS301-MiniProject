@@ -36,7 +36,7 @@ const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,li
         <NavLink
           to={{ 
             pathname: `/profile/${username.substring(1)}`, //sets the url path
-            state: { username: username.substring(1) } 
+            //state: { username: username.substring(1) } 
             /*const { username } = useParams<{ username: string }>(); 
             get the username from the URL: import { useParams } from "react-router-dom";*/
           }}
@@ -47,7 +47,7 @@ const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,li
         <NavLink
           to={{ 
             pathname: `/profile/${username.substring(1)}`,
-            state: { username: username.substring(1) }
+            //state: { username: username.substring(1) }
           }}
           className="text-slate-700 p-0 m-0"
         >
