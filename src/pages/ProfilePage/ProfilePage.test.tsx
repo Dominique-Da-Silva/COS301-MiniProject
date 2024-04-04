@@ -1,53 +1,12 @@
-//import { render } from '@testing-library/react';
-//import ProfilePage from './ProfilePage';
+import { render } from '@testing-library/react';
+import ProfilePage from './ProfilePage';
 
 // Importing the supabase module to mock it
-//import { supabase } from '@config/supabase';
+import { supabase } from '@config/supabase';
 
 test('renders without crashing', () => {
     //render(<ProfilePage />);
 });
-
-/* All tests in this file are failing, please verify the code and fix the tests
-//ReferenceError: jest is not defined
-// Mocking the supabase module to avoid actual API calls during testing
-jest.mock('@config/supabase', () => ({
-    // Mocking the supabase client object
-    supabase: {
-        // Mocking the auth object of the supabase client
-        auth: {
-            getUser: jest.fn().mockResolvedValue({ data: { user: { id: 1 } } }) as jest.Mock,
-            
-        },
-
-        from: () => ({
-            // Mocking the Select method to simulate a Select query 
-            select: () => ({
-                eq: () => ({ 
-                    single: () => Promise.resolve({ data: {} })
-                })
-            }),
-
-            // Mocking the update method to simulate an update query
-            update: () => ({
-                eq: () => ({
-                    single: () => Promise.resolve({ data: {} })
-                })
-            }),
-
-            // Mocking the storage object of supabase to simulate storage operations
-            storage: {
-                from: () => ({
-                    upload: () => Promise.resolve({ data: { path: 'mock/path' } }),
-                    getPublicUrl: () => Promise.resolve({ data: { publicUrl: 'mock/url' } })
-                })
-            }
-        })
-    }
-}));
-
-console.error = jest.fn();
-
 
 describe('fetchUserProfile', () => {
     test('fetches user profile data successfully', async () => {
@@ -79,5 +38,3 @@ describe('fetchUserProfile', () => {
         expect(console.error).toHaveBeenCalledWith('Error fetching user profile:', 'getUser error');
     });
 });
-
-*/
