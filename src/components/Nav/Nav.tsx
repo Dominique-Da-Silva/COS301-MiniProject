@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
-import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
+import { getLoggedUserId, fetchUsers, fetchProfileDetails, signOut } from "@services/index";
 //import { fetchUsers, fetchProfileDetails, getUserData, signOut } from "@services/index";
 
 
@@ -28,7 +28,7 @@ const Nav = () => {
     signOut().then(result => {
       if (result === "success") {
         console.log("User logged out successfully.");
-        window.location.href = '/signin';
+        window.location.href = '/';
       } else {
         console.error("Error logging out user.");
       }
