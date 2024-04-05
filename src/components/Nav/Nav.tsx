@@ -11,8 +11,8 @@ import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
-//import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
-import { fetchUsers, fetchProfileDetails, getUserData, signOut } from "@services/index";
+import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
+//import { fetchUsers, fetchProfileDetails, getUserData, signOut } from "@services/index";
 
 
 const Nav = () => {
@@ -52,13 +52,14 @@ const Nav = () => {
   useEffect(() => {
     const fetchUserData = async () => {
 
-      const fetchMeta = await getUserData();
+      /*const fetchMeta = await getUserData();
       const userId = fetchMeta?.user_metadata.User_Id;
-      if(userId)
-      {
+      console.log('Getting User Id',userId);
+
         const userData = await fetchUsers();
         if (userData) {
           setUserName(`${userData.Name} ${userData.Surname}`);
+          console.log('Getting user data: ',userData);
           setUserUsername(`@${userData.Username}`);
         }
   
@@ -68,13 +69,13 @@ const Nav = () => {
           setProfileDetails(profileData);
         } catch (error) {
           console.error("Error fetching profile details:", error);
-        }
-      }
+        }*/
       
-      /*const userId = await getLoggedUserId();
+      console.log('Fetching ID');
+      const userId = await getLoggedUserId();
       if (userId) {
         const userData = await fetchUsers();
-        if (userData) {
+        if (userData.User_Id === userId) {
           setUserName(`${userData.Name} ${userData.Surname}`);
           setUserUsername(`@${userData.Username}`);
         }
@@ -86,7 +87,7 @@ const Nav = () => {
         } catch (error) {
           console.error("Error fetching profile details:", error);
         }
-      }*/
+      }
     };
 
     fetchUserData();
