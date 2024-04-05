@@ -1,11 +1,12 @@
 import { supabase } from '@config/supabase'
+import { updateProfileDetails } from '@services/index';
 
 export async function uploadProfile(file: File) {
     //get current users id
     const user = await supabase.auth.getUser();
-    if (!user.data.user) return;
+    if (!user.data.user) return "error";
 
-    const { error } = await supabase.storage.
+    const { error, data } = await supabase.storage.
         from("media").upload(`profile_images/${user.data.user.id}`, file, {
             upsert: true,
         });
@@ -13,6 +14,9 @@ export async function uploadProfile(file: File) {
     if (error) {
         return "error";
     } else {
-        return "success";
+        const res = await updateProfileDetails({ 
+            Img_Url: import.meta.env.VITE_SUPABASE_URL + "/storage/v1/object/public/media/" + data.path 
+        });
+        return res === "error" ? "error" : "success";
     }
 }

@@ -1,4 +1,5 @@
-import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn } from "./auth/auth.ts";
+import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, 
+    signOut, isUserLoggedIn, addUserToDatabase, getUserData  } from "./auth/auth.ts";
 import { uploadProfile } from "./storage/storage.ts";
 import { updateUsername } from './profileServices/updateUsername.ts';
 import {fetchUsers} from "./homeServices/getUsersData.ts"
@@ -6,8 +7,12 @@ import {fetchTweets}  from "./homeServices/getTweets.ts"
 import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts"
 import {followUser}  from "./usersProfileServices/followUser.ts"
 import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts"
+import { insertProfileDetails, updateProfileDetails } from "./profileServices/updateProfileDetails";
+import { addTweet } from "./homeServices/getTweets";
+import { getTrendingTopics } from "./homeServices/getTweets.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
-    fetchUsers, fetchTweets, fetchUserByUsername,
-    followUser, unfollowUser};
+    fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
+    followUser, unfollowUser, insertProfileDetails, updateProfileDetails, 
+    addUserToDatabase, getUserData, getTrendingTopics};

@@ -36,7 +36,7 @@ const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,li
         <NavLink
           to={{ 
             pathname: `/profile/${username.substring(1)}`, //sets the url path
-            state: { username: username.substring(1) } //passes the state
+            //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
             /*
             To retrieve this data when navigating to the next page:
             import { useLocation } from 'react-router-dom';
@@ -55,7 +55,7 @@ const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,li
         <NavLink
           to={{ 
             pathname: `/profile/${username.substring(1)}`,
-            state: { username: username.substring(1) } 
+            //state: { username: username.substring(1) } -> is this valid, please verify
           }}
           className="text-slate-700 p-0 m-0"
         >

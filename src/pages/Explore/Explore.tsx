@@ -20,7 +20,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [showTabs, setShowTabs] = useState(false); // State to track if tabs should be shown
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: any) => {
     setSearchValue(event.target.value);
   };
 
@@ -69,7 +69,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
     setIsFocused(false);
   };
 
-  const handleSearchKeyPress = (event) => {
+  const handleSearchKeyPress = (event: any) => {
     if (event.key === 'Enter') {
       setShowTabs(true);
     }
