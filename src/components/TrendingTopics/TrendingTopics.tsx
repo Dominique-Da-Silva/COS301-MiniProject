@@ -1,15 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 // import { supabase } from "@config/supabase";
-import {Card, CardHeader, CardBody, CardFooter, Divider} from "@nextui-org/react";
-import { mockTopics } from '../../mockData/mockData';
+import {Card, CardHeader, CardFooter} from "@nextui-org/react";
 import TrendingList from "@components/TrendingList/TrendingList";
 
-interface Topic {
-  name: string;
-  description: string;
-  timePosted: string;
-  avatarUrl: string;
-}
 interface TrendingTopicsProps {}
 
 const TrendingTopics: React.FC<TrendingTopicsProps> = () => {

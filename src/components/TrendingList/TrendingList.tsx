@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { mockTrending } from '../../mockData/mockData';
 import { MdOutlineMoreHoriz } from "react-icons/md";
+// import { useEffect } from 'react';
+// import { getTrendingTopics } from '@services/index';
 
 
 interface Topic {
@@ -13,19 +15,37 @@ interface Topic {
 
 
 const formatCount = (count: number): string | number => {
-if (count < 1000) {
-    return count; // Return as it is if less than 1000
-} else if (count < 1000000) {
-    // Convert to K format
-    return (count / 1000).toFixed(1) + "K";
-} else {
-    // Convert to M format
-    return (count / 1000000).toFixed(1) + "M";
-}
+  if (count < 1000) {
+  return count; // Return as it is if less than 1000
+  } else if (count < 1000000) {
+  // Convert to K format
+  return (count / 1000).toFixed(1) + "K";
+  } else {
+  // Convert to M format
+  return (count / 1000000).toFixed(1) + "M";
+  }
 };
+
+
     
 const TrendingList: React.FC<ExploreProps> = () => {
-    const [topics] = useState<any>(mockTrending);
+  const [topics] = useState<any>(mockTrending);
+//   const [Tags, setTags] = useState<any[]>([]);
+
+//   useEffect(() => {
+//     const fetchTopics = async () => {
+//       try {
+//         const tagsData = await getTrendingTopics();
+//         setTags(tagsData);
+//         // console.log(tagsData);
+//       } catch (error) {
+//         console.error('Error fetching tags:', error);
+//       }
+//     }
+
+//     fetchTopics();
+//   },[]);
+//     console.log(Tags);
 
     return (
         <div>
