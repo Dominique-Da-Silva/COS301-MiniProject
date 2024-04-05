@@ -6,8 +6,13 @@ import {
   ScheduleIcon,
   StickersIcon,
 } from "@assets/index";
+import { useEffect, useState } from "react";
+import { isUserLoggedIn } from "@services/index";
 
 const CreateTweet = () => {
+
+  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
+
   const handleGalleryClick = (event: any) => {
     event.preventDefault();
     // Handle Gallery click
@@ -32,6 +37,18 @@ const CreateTweet = () => {
     event.preventDefault();
     // Handle Schedule click
   };
+  
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      setUserAuthStatus(result);
+    }
+    
+    // Call the async function
+    checkUser();
+  }, []);
 
   return (
     <div className="py-2 px-4">
@@ -190,12 +207,23 @@ const CreateTweet = () => {
           </Tooltip>
         </div>
         <div className="-mx-9">
-          <Button
-            radius="full"
-            className="rounded-full bg-sky-500 text-white border-none font-bold"
-          >
-            Post
-          </Button>
+          {
+            userAuthStatus ?
+              <Button
+                radius="full"
+                className="rounded-full bg-sky-500 text-white border-none font-bold"
+              >
+                Post
+              </Button>
+              :
+              <Button
+                radius="full"
+                className="rounded-full bg-sky-500 text-white border-none font-bold"
+                isDisabled
+              >
+                Post
+              </Button>
+          }
         </div>
       </div>
     </div>

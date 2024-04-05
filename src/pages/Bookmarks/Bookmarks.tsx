@@ -1,6 +1,25 @@
 import { Nav } from '@components/index';
+import { isUserLoggedIn } from '@services/index';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Bookmarks = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+  
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (!result) {
+        navigate("/home"); // Redirect to home page if user is not logged in
+      }
+    }
+    
+    // Call the async function
+    checkUser();
+  }, [navigate]);
+  
   return (
     <div className="bookmark-page flex">
       < Nav />
