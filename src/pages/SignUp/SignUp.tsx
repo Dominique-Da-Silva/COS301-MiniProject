@@ -8,54 +8,79 @@ import { createDateObject } from '@utils/index';
 
 
 //The Name, Email and Date Capture
-const Flow1 = ({formData, setFormData, setFlowPage}: any) => {
-
+const Flow1 = ({ formData, setFormData, setFlowPage }: any) => {
   const [selectedMonth, setSelectedMonth] = useState("Month");
   const [selectedDay, setSelectedDay] = useState("Day");
   const [selectedYear, setSelectedYear] = useState("Year");
 
   const handleNextPressed = (e: any) => {
     e.preventDefault();
-    if(formData.name === "" || formData.email === "") return;
-    if(selectedDay === "Day" || selectedMonth === "Month" || selectedYear === "Year") return;
-    setFormData({...formData, dob: createDateObject(selectedDay, selectedMonth, selectedYear) });
-    setFlowPage(3);//we are skipping capturing the code for now
-  }
-  
+    if (formData.name === "" || formData.email === "") return;
+    if (selectedDay === "Day" || selectedMonth === "Month" || selectedYear === "Year") return;
+    setFormData({ ...formData, dob: createDateObject(selectedDay, selectedMonth, selectedYear) });
+    setFlowPage(3); // Skip capturing the code for now
+  };
+
   const yearItems = [];
   for (let year = 1904; year <= 2024; year++) {
     yearItems.push(
-    <DropdownItem 
-      key={year.toString()}
-      onClick={() => setSelectedYear(year.toString())}>
+      <DropdownItem
+        key={year.toString()}
+        onClick={() => setSelectedYear(year.toString())}
+      >
         {year.toString()}
-      </DropdownItem>);
+      </DropdownItem>
+    );
   }
+
+  const [monthItems] = useState([
+    { key: "January", label: "January", days: 31 },
+    { key: "February", label: "February", days: 28 }, // Default days for February
+    { key: "March", label: "March", days: 31 },
+    { key: "April", label: "April", days: 30 },
+    { key: "May", label: "May", days: 31 },
+    { key: "June", label: "June", days: 30 },
+    { key: "July", label: "July", days: 31 },
+    { key: "August", label: "August", days: 31 },
+    { key: "September", label: "September", days: 30 },
+    { key: "October", label: "October", days: 31 },
+    { key: "November", label: "November", days: 30 },
+    { key: "December", label: "December", days: 31 },
+  ]);
+  
 
   const dayItems = [];
-  for (let day = 1; day <= 31; day++) {
-    dayItems.push(
-    <DropdownItem 
-    key={day.toString().padStart(2, '0')}
-    onClick={() => setSelectedDay(day.toString())}>
-      {day.toString().padStart(2, '0')}
-    </DropdownItem>);
-  }
+  
 
-  const monthItems = [
-    { key: "January", label: "January" },
-    { key: "February", label: "February" },
-    { key: "March", label: "March" },
-    { key: "April", label: "April" },
-    { key: "May", label: "May" },
-    { key: "June", label: "June" },
-    { key: "July", label: "July" },
-    { key: "August", label: "August" },
-    { key: "September", label: "September" },
-    { key: "October", label: "October" },
-    { key: "November", label: "November" },
-    { key: "December", label: "December" },
-  ];
+  const daysInMonth = (() => {
+    const selectedMonthItem = monthItems.find(item => item.key === selectedMonth);
+    if (selectedMonthItem) {
+      if (selectedMonthItem.key === "February") {
+        // Check if it's a leap year
+        const isLeapYear = (year: number) => (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+        const yearNumber = parseInt(selectedYear, 10)
+        return isLeapYear(yearNumber) ? 29 : 28;
+      } else {
+        return selectedMonthItem.days;
+      }
+    }
+    return 31; // Default to 31 days if month not found (this should never happen ideally)
+  })();
+  for (let day = 1; day <= daysInMonth; day++) {
+    dayItems.push(
+      <DropdownItem
+        key={day.toString().padStart(2, '0')}
+        onClick={() => setSelectedDay(day.toString().padStart(2, '0'))}
+      >
+        {day.toString().padStart(2, '0')}
+      </DropdownItem>
+    );
+  }
+  useEffect(() => {
+    setSelectedDay("Day");
+  }, [selectedMonth, selectedYear]);
+  
+
 
   return (
     <Card shadow="sm" className="w-[400px] p-10">

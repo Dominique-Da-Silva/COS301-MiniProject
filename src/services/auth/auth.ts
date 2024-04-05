@@ -127,5 +127,43 @@ export async function addUserToDatabase(){
     Img_Url: logged_user.data.user.user_metadata.avatar_url ? logged_user.data.user.user_metadata.avatar_url : "",
   });
 
+  await addUserIdMetadata();
+
   return "success";
+}
+
+async function addUserIdMetadata(){
+  const logged_user = await supabase.auth.getUser();
+  if (!logged_user.data.user) return "error";
+
+  //get User_Id from database
+  const { data, error } = await supabase.from('User').select('User_Id').eq('auth_id', logged_user.data.user.id);
+
+  if (error || !data) return "error";
+  const user_id = data[0].User_Id;
+
+  const updated_user = await supabase.auth.updateUser(
+    {
+      data: {
+        user_id: user_id,
+      },
+    }
+  )
+
+  //check if updated user metadata hase user_id property
+  if (updated_user.error || !updated_user.data.user.user_metadata.user_id) return "error";
+
+  return "success";
+}
+
+export async function getUserData(){
+  const logged_user = await supabase.auth.getUser();
+  if (!logged_user.data.user) return null;
+
+  if(!logged_user.data.user.user_metadata.user_id){
+    await addUserIdMetadata();
+  }
+
+  const user = await supabase.auth.getUser();
+  return !user.data.user ? null : user.data.user;
 }
