@@ -127,6 +127,8 @@ export async function addUserToDatabase(){
     Img_Url: logged_user.data.user.user_metadata.avatar_url ? logged_user.data.user.user_metadata.avatar_url : "",
   });
 
+  await addUserIdMetadata();
+
   return "success";
 }
 

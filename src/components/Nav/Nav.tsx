@@ -1,4 +1,4 @@
-import { FaTwitter } from "react-icons/fa";
+import { FaTwitter} from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { FiSettings } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
@@ -6,7 +6,9 @@ import { PiBellBold } from "react-icons/pi";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Button } from '@nextui-org/button';
+import {Modal, ModalContent, useDisclosure, ModalHeader, ModalBody} from '@nextui-org/react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { CreateTweet } from "..";
 import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
@@ -17,6 +19,7 @@ import { getLoggedUserId, fetchUsers, fetchProfileDetails, signOut } from "@serv
 
 const Nav = () => {
   const location = useLocation();
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
   const [showPopup, setShowPopup] = useState(false);
   const [userName, setUserName] = useState('');
@@ -199,6 +202,24 @@ const Nav = () => {
         </>
       )}
 
+      {/* Post Button */}
+      <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onPress={onOpen}>
+        Post
+      </Button>
+      <Modal size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {() => (
+            <>
+              <ModalHeader>
+                {/* <Button endContent={<FaXmark />} onPress={onClose}></Button> */}
+              </ModalHeader>
+              <ModalBody>
+                <CreateTweet/>
+              </ModalBody>
+            </>
+        )}
+        </ModalContent>
+      </Modal>
 
       {!isLargeScreen && (
         <>
