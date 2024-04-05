@@ -9,11 +9,15 @@ import { Button } from '@nextui-org/button';
 import {Modal, ModalContent, useDisclosure, ModalHeader, ModalBody} from '@nextui-org/react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { CreateTweet } from "..";
+import { useState, useEffect } from 'react';
+import { BiPlusCircle } from 'react-icons/bi';
+import { FaUser } from 'react-icons/fa';
 
 
 const Nav = () => {
   const location = useLocation();
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
 
   return (
     <div className="sidebar mt-0 mr-0 pl-12 border-r-0 font-semibold fixed h-full bg-white">
@@ -111,6 +115,77 @@ const Nav = () => {
         )}
         </ModalContent>
       </Modal>
+
+      {!isLargeScreen && (
+        <>
+          {/* Home */}
+          <NavLink
+            to="/home"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/home' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <GoHomeFill size={28} />
+          </NavLink>
+
+          {/* Explore */}
+          <NavLink
+            to="/explore"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/explore' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <IoSearch size={28} />
+          </NavLink>
+
+          {/* Notifications */}
+          <NavLink
+            to="/notifications"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <PiBellBold size={28} />
+          </NavLink>
+
+          {/* Bookmarks */}
+          <NavLink
+            to="/bookmarks"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FaRegBookmark size={28} />
+          </NavLink>
+
+          {/* Profile */}
+          <NavLink
+            to="/profile"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FaRegUserCircle size={28} />
+          </NavLink>
+
+          {/* Settings */}
+          <NavLink
+            to="/settings"
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
+              }`}
+          >
+            <FiSettings size={28} />
+          </NavLink>
+          {/* Post */}
+          <NavLink
+            to="/" //will route to create a tweet component
+            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
+          >
+            <BiPlusCircle size={28} color="#FFFFFF" />
+          </NavLink>
+          <div className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto">
+            <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+              {/* User icon (e.g., an icon component or an image) */}
+              <FaUser size={20} color="#FFFFFF" />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
