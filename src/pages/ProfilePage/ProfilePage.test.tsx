@@ -5,7 +5,7 @@ import ProfilePage from './ProfilePage';
 import { supabase } from '@config/supabase';
 
 test('renders without crashing', () => {
-    //render(<ProfilePage />);
+    render(<ProfilePage />);
 });
 
 describe('fetchUserProfile', () => {
