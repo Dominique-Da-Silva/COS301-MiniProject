@@ -11,7 +11,8 @@ import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
-import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
+//import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
+import { fetchUsers, fetchProfileDetails, getUserData } from "@services/index";
 
 
 const Nav = () => {
@@ -40,7 +41,27 @@ const Nav = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userId = await getLoggedUserId();
+
+      const fetchMeta = await getUserData();
+      const userId = fetchMeta?.user_metadata.User_Id;
+      if(userId)
+      {
+        const userData = await fetchUsers();
+        if (userData) {
+          setUserName(`${userData.Name} ${userData.Surname}`);
+          setUserUsername(`@${userData.Username}`);
+        }
+  
+        try {
+          // Fetch profile details by username
+          const profileData = await fetchProfileDetails(userId);
+          setProfileDetails(profileData);
+        } catch (error) {
+          console.error("Error fetching profile details:", error);
+        }
+      }
+      
+      /*const userId = await getLoggedUserId();
       if (userId) {
         const userData = await fetchUsers();
         if (userData) {
@@ -55,7 +76,7 @@ const Nav = () => {
         } catch (error) {
           console.error("Error fetching profile details:", error);
         }
-      }
+      }*/
     };
 
     fetchUserData();
