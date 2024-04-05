@@ -555,6 +555,20 @@ const ProfileDetails = () => {
     fetchUserProfile();
   }, [activeTab]);
 
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (!result) {
+        navigate("/home"); // Redirect to home page if user is not logged in
+      }
+    }
+    
+    // Call the async function
+    checkUser();
+  }, [navigate]);
+
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
@@ -832,20 +846,6 @@ const ProfileDetails = () => {
   const handleButtonClick = () => {
     setFollowing(!following);
   }
-
-  useEffect(() => {
-    // this is necessary for checking if the user is signed in
-    const checkUser = async () => {
-      // Check if user is already logged in
-      const result = await isUserLoggedIn();
-      if (!result) {
-        navigate("/home"); // Redirect to home page if user is not logged in
-      }
-    }
-    
-    // Call the async function
-    checkUser();
-  }, [navigate]);
 
   return (
     <div className="container flex">
