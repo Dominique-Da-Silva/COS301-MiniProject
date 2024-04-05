@@ -12,7 +12,7 @@ import { BiPlusCircle } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
 //import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
-import { fetchUsers, fetchProfileDetails, getUserData } from "@services/index";
+import { fetchUsers, fetchProfileDetails, getUserData, signOut } from "@services/index";
 
 
 const Nav = () => {
@@ -25,6 +25,16 @@ const Nav = () => {
 
   const handleLogout = () => {
     console.log('Logout clicked');
+    signOut().then(result => {
+      if (result === "success") {
+        console.log("User logged out successfully.");
+        window.location.href = '/signin';
+      } else {
+        console.error("Error logging out user.");
+      }
+    }).catch(error => {
+      console.error("Error logging out user:", error);
+    });
   };
 
   useEffect(() => {
