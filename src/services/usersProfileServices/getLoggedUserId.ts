@@ -28,4 +28,4 @@ export async function getLoggedUserId(): Promise<number | null> {
     } catch (error) {
         console.error('Error fetching session:', error.message);
     }
-};
+}

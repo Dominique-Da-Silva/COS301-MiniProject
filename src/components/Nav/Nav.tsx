@@ -21,7 +21,7 @@ import { CiLogin } from "react-icons/ci";
 
 const Nav = () => {
   const location = useLocation();
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const {isOpen, onOpenChange} = useDisclosure();
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
   const [showPopup, setShowPopup] = useState(false);
