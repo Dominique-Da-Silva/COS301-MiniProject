@@ -2,11 +2,9 @@ import { supabase } from "@config/supabase";
 
 // Function to fetch user profile data that is authorised
 export const fetchUserData = async (): Promise<any> => {
-  try {
-        console.log(":pre")
+    try {
         const { data: { user } } = await supabase.auth.getUser();
-        console.log(":post")
-
+        
         //console.log(user);
         if (!user) {
           return "User is not authenticated.";

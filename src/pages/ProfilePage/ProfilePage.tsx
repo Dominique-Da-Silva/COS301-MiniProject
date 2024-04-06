@@ -163,7 +163,12 @@ const ProfileDetails = () => {
   // const [replies, setReplies] = useState<TweetProps[]>([]);
 
   useEffect(() => {
-const fetchData = async () => {
+    const fetchUserProfile = async () => {
+      try {
+        //const { data: { user } } = {};
+        // if (user) {
+        
+        const fetchData = async () => {
           try {
             const userDataX = await fetchUserData();
             //setUserData()
@@ -178,11 +183,6 @@ const fetchData = async () => {
           }
         } 
         fetchData();
-
-    const fetchUserProfile = async () => {
-      try {
-        //const { data: { user } } = {};
-        // if (user) {
 
         console.log(userData.User_Id);
 
