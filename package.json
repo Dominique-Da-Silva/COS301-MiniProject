@@ -1,7 +1,7 @@
 {
   "name": "twitter",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@testing-library/react": "^14.2.1",
-    "@types/jest": "^29.5.12",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",

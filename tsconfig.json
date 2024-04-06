@@ -33,6 +33,6 @@
       "@utils/*": ["utils/*"],
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/services/homeServices/tweets.test.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

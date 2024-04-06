@@ -1,5 +1,5 @@
 import { Nav } from "@components/index";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TrendingTopics,
   WhoToFollow,
@@ -15,12 +15,15 @@ import {
   mockLikedNotifications,
   mockMentions,
 } from "mockData/mockData";
+import { useNavigate } from "react-router-dom";
+import { isUserLoggedIn } from "@services/index";
 
 interface NotificationsProps {}
 const Notifications: React.FC<NotificationsProps> = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [postnotifications] = useState<any[]>(mockNotifications);
   const [likedNotfications] = useState<any[]>(mockLikedNotifications);
+  const navigate = useNavigate(); // Initialize useNavigate hook
   const [mentions] = useState<any[]>(mockMentions);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -50,6 +53,21 @@ const Notifications: React.FC<NotificationsProps> = () => {
 
     return timeDisplay;
   };
+
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (!result) {
+        navigate("/home"); // Redirect to home page if user is not logged in
+      }
+    }
+    
+    // Call the async function
+    checkUser();
+  }, [navigate]);
+  
   return (
     <div className="container flex">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">

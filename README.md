@@ -73,20 +73,26 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 </details>
 
 # Demo Video
+<p align="center">
+<a href="">Demo 1</a><br>
+<a href="">Demo 2</a><br>
+</p>
 
 # Here are the links to our Documentation
 
 <p align="center">
-  <a href="https://drive.google.com/drive/u/2/folders/12w9AqPrPh--GmyGXWzAQYP414YTrQfHA">Google Drive( For Dev purposes</a><br>
- <a href="https://docs.google.com/document/d/13-FlGpf09eMM-dNkEyX95V4DfcYBMRBgIdHgMGPqi2o/edit?usp=sharing">System Requirements (SRS)</a><br>
- <a href ="https://docs.google.com/document/d/1F4WdKmrvO_eCkr2DajvDOus36bxUpxkydDistqnIFjY/edit?usp=sharing">System Architecture Design</a><br>
- <a href ="https://docs.google.com/document/d/11aLnvSpC1LST7BpA-j2aYu5DllywdCPte29lN52R7SM/edit?usp=sharing">Github Strategy</a><br>
- <a href ="https://docs.google.com/document/d/1NaAGZrMSGhZlp4n6qhYUH5sP8S-cm-749Gra2NR-TLQ/edit?usp=sharing">Coding Development Guidelines</a><br>
- <a href ="https://docs.google.com/document/d/10wjOA4YQwbv8rrY7VAZbGI7kNGU068dD_kCcFyz7TNM/edit?usp=sharing">Database Requirements</a><br>
-  <a href ="https://docs.google.com/document/d/1R5fICIDYA8TkIrFAnCYR8_PVsOKKgwAQrLYV2wUhZnc/edit?usp=sharing">Design Specification</a>
- <a href="https://www.figma.com/file/w0aRTpe5SPT38VwPLuGaFK/COS301-MP-13?type=design&node-id=333%3A2&mode=design&t=Zq1dr1WePO4TwN30-1">Figma designs</a><br>
-  <a href="https://github.com/u22633601/MP-13/wiki/Project-Plan">Project Plan</a><br>
- <a href="https://github.com/orgs/COS301-SE-2024/projects/37">GitHub Project Board</a><br>
+<a href="https://drive.google.com/drive/u/2/folders/12w9AqPrPh--GmyGXWzAQYP414YTrQfHA">Google Drive (For Dev purposes)</a><br>
+<a href="https://docs.google.com/document/d/13-FlGpf09eMM-dNkEyX95V4DfcYBMRBgIdHgMGPqi2o/edit?usp=sharing">System Requirements (SRS)</a><br>
+<a href ="https://docs.google.com/document/d/1G1Gdibt_B2mFnmy8S8u-i7FS6X7fMDLiE49PROLf4pY/edit?usp=sharing">System Architecture Design</a><br>
+<a href="https://docs.google.com/document/d/15hG2OY6oi2Lvb1nx3eZkLjZcsis7eU1H7L7xb3rV1OU/edit?usp=sharing">Project Plan</a><br>
+<a href ="https://docs.google.com/document/d/11aLnvSpC1LST7BpA-j2aYu5DllywdCPte29lN52R7SM/edit?usp=sharing">Github Strategy</a><br>
+<a href ="https://docs.google.com/document/d/1pjID6P7Bm5cW-CHl8nykfEDVZW__pZilfMokT4Z0OtE/edit?usp=sharing">Coding Development Guidelines</a><br>
+<a href ="https://docs.google.com/document/d/10wjOA4YQwbv8rrY7VAZbGI7kNGU068dD_kCcFyz7TNM/edit?usp=sharing">Database Requirements</a><br>
+<a href ="https://docs.google.com/document/d/1kqSZR3lpSLi-COQGo9uN9eQ1im35OKx1a0JLmobBb-M/edit?usp=sharing">Design Specification</a><br>
+<a href="https://www.figma.com/file/w0aRTpe5SPT38VwPLuGaFK/COS301-MP-13?type=design&node-id=333%3A2&mode=design&t=Zq1dr1WePO4TwN30-1">Figma designs</a><br>
+<a href="https://github.com/orgs/COS301-SE-2024/projects/37">GitHub Project Board</a><br>
+<a href ="https://docs.google.com/document/d/1WYdSNm-hKXVSyh9Hql8k3S-u84HcQ3ZX87PrBBWfE_o/edit?usp=sharing">Architecture Plan</a><br>
+<a href="https://docs.google.com/document/d/1VsK2jxQTtA9ZZIZX_dhPFOpS2-zdkvMv/edit?usp=sharing&ouid=101397220993474127366&rtpof=true&sd=true">Testing Guidelines</a><br>
 </p>
 
 # Our Tech stack

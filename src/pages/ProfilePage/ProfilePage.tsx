@@ -8,8 +8,9 @@ import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Search } from "@components/index";
+import { isUserLoggedIn } from "@services/index";
 // import {
 //   mockTweets,
 //   mockUsers,
@@ -124,12 +125,18 @@ const ProfileDetails = () => {
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails] = useState<any>(mockProfileDetails);
+  const navigate = useNavigate(); // Initialize useNavigate hook
   const [createdAt] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
       year: "numeric",
     })
   );
+  //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
+  //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
+  const [external] = useState(true);
+
+  const [following, setFollowing] = useState(false);
   // const [isEditing, setIsEditing] = useState(false);
   // const [editedName, setEditedName] = useState(mockUserProfile.Name);
   // const [editedBio, setEditedBio] = useState(mockProfileDetails.Bio);
@@ -548,6 +555,20 @@ const ProfileDetails = () => {
     fetchUserProfile();
   }, [activeTab]);
 
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (!result) {
+        navigate("/home"); // Redirect to home page if user is not logged in
+      }
+    }
+    
+    // Call the async function
+    checkUser();
+  }, [navigate]);
+
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
@@ -819,6 +840,13 @@ const ProfileDetails = () => {
   // const handleEditProfileOpen = () => {
   //   setIsEditingProfileOpen(true);
   // };
+  
+  
+
+  const handleButtonClick = () => {
+    setFollowing(!following);
+  }
+
   return (
     <div className="container flex">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
@@ -843,11 +871,24 @@ const ProfileDetails = () => {
                     alt={userProfile.Name}
                     size="lg"
                   />
-                  <NavLink to="/editProfile">
-                    <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
-                      <IoMdSettings className="mr-1 "></IoMdSettings>Edit profile
+                  {external ? (
+                    <Button
+                    className={`ml-auto text-base font-semibold rounded-full border ${
+                      following ? 'bg-blue-400 text-white border-blue-400' : 'bg-white border-gray-300 text-blue-400'
+                    } h-9 items-center`}
+                    style={{ borderColor: following ? '#1DA1F2' : '#DADADA', color: following ? '#FFFFFF' : '#1DA1F2' }}
+                    onClick={handleButtonClick}
+                    >
+                      {following ? 'Following' : 'Follow'}
                     </Button>
-                  </NavLink>
+                  ) : (
+                    <NavLink to="/editProfile">
+                      <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
+                        <IoMdSettings className="mr-1" />
+                        Edit profile
+                      </Button>
+                    </NavLink>
+                  )}
                 </div>
                 <h2 className="font-bold text-xl">
                   
