@@ -25,4 +25,4 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
     getTrendingTopics,
-    uploadImageAndGetURL, getUserData, getTrendingTopics};
+    };
