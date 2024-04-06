@@ -1,3 +1,6 @@
+import { isUserLoggedIn } from '@services/index';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Nav, Tweet, TrendingTopics , WhoToFollow, Search} from '@components/index';
 import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 import React,{useState} from "react";
@@ -10,6 +13,7 @@ const Bookmarks = () => {
   const [commentsCount] = useState<any>(mockCommentsCount);
   const [retweetsCount] = useState<any>(mockRetweetsCount);
   const [likesCount] = useState<any>(mockLikesCount);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
@@ -47,7 +51,21 @@ const Bookmarks = () => {
       return (count / 1000000).toFixed(1) + "M";
     }
   };
-
+  
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (!result) {
+        navigate("/home"); // Redirect to home page if user is not logged in
+      }
+    }
+    
+    // Call the async function
+    checkUser();
+  }, [navigate]);
+  
   return (
     <div className="conatiner flex">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
