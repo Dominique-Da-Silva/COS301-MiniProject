@@ -2,12 +2,12 @@ import { supabase } from "@config/supabase";
 
 //This function is potentially being replaced.
 
-export async function getLoggedUserId(): Promise<number | null> {
+export async function getLoggedUserId() {
     try {
         const { data } = await supabase.auth.getSession();
 
         if (data.session !== null) {
-            const userId = data.user?.id;
+            const userId = data.session.user.id;
 
             if (userId) {
                 const { data: userData, error } = await supabase.from('User')
@@ -25,7 +25,7 @@ export async function getLoggedUserId(): Promise<number | null> {
         }
 
         return null;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching session:', error.message);
     }
 }
