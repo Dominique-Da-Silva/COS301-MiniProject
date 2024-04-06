@@ -13,7 +13,7 @@ describe('SignIn component', () => {
       </Router>);
   })
 
-/*
+
   test('renders a Sign In Page heading', () => {
     const { getByText } = render(<SignIn />);
     expect(getByText('Sign In Page')).toBeInTheDocument();
@@ -43,5 +43,4 @@ describe('SignIn component', () => {
     const { getByText } = render(<SignIn />);
     expect(getByText('Login')).toHaveAttribute('href', '/login');
   });
-  */
 });
