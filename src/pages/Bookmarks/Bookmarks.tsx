@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Nav, Tweet, TrendingTopics , WhoToFollow, Search} from '@components/index';
 import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
-import React,{useState} from "react";
+import {useState} from "react";
   
 const Bookmarks = () => {
 
