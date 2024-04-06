@@ -2,7 +2,7 @@ import React from "react";
 import { FaRegComment } from "react-icons/fa";
 import { PiHeartBold } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
-import { FaRegBookmark } from "react-icons/fa6";
+import { FaBookmark , FaRegBookmark} from "react-icons/fa6";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
@@ -17,9 +17,10 @@ interface TweetProps {
   retweets?: number | string;
   comments?: number | string;
   saves?: number | string;
+  bookmarked?: boolean;
 }
 
-const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,likes,retweets,comments,saves,}) => {
+const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,likes,retweets,comments,saves,bookmarked,}) => {
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4">
       <div className="avatar">
@@ -70,7 +71,7 @@ const Tweet: React.FC<TweetProps> = ({name,username,text,imageUrl,timeDisplay,li
           <span className="action flex items-center cursor-pointer hover:text-blue-500 "><FaRegComment className="w-4 h-4" /> &nbsp;{comments}{" "}</span>
           <span className="action flex items-center cursor-pointer hover:text-green-500"><LuRepeat2 className="w-4 h-4" /> &nbsp;{retweets}{" "}</span>
           <span className="action flex items-center cursor-pointer hover:text-red-500"><PiHeartBold className="w-4 h-4" />&nbsp;{likes}{" "}</span>
-          <span className="action flex items-center cursor-pointer hover:text-blue-500"><FaRegBookmark className="w-4 h-4" /> &nbsp;{saves}{" "}</span>
+          <span className="action flex items-center cursor-pointer hover:text-blue-500">{bookmarked ? <FaBookmark className="w-4 h-4" />: <FaRegBookmark className="w-4 h-4" />} &nbsp;{saves}{" "}</span>
         </div>
       </div>
     </div>

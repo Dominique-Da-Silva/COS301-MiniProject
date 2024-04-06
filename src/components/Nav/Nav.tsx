@@ -16,12 +16,14 @@ import { FaTimes } from 'react-icons/fa';
 import {signOut} from "@services/index";
 //import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
 //import { fetchUsers, fetchProfileDetails, getUserData } from "@services/index"; //option 2
-
+import { isUserLoggedIn } from "@services/index";
+import { CiLogin } from "react-icons/ci";
 
 const Nav = () => {
   const location = useLocation();
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
+  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
   const [showPopup, setShowPopup] = useState(false);
   //const [userName, setUserName] = useState('');
   //const [userUsername, setUserUsername] = useState('');
@@ -56,6 +58,7 @@ const Nav = () => {
   /*useEffect(() => {
     const fetchUserData = async () => {*/
       //option 1
+      //if(userAuthStatus) then the users auth status is valid
       /*const fetchMeta = await getUserData();
       const userId = fetchMeta.user_metadata.User_Id;
       console.log('Getting User Id',userId);
@@ -97,7 +100,19 @@ const Nav = () => {
     };
 
     fetchUserData();
-  }, []);*/
+  }, [userAuthStatus]);*/
+        
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      setUserAuthStatus(result);
+    }
+    
+    // Call the async function
+    checkUser();
+  }, []);
 
   return (
     <div className="sidebar left-0 top-0 h-full bg-white p-12">
@@ -132,76 +147,99 @@ const Nav = () => {
           </NavLink>
 
           {/* Notifications */}
-          <NavLink
-            to="/notifications"
-            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
-              }`}
-          >
-            <PiBellBold size={28} className="mr-5" />
-            Notifications
-          </NavLink>
+          { userAuthStatus &&
+              <NavLink
+                to="/notifications"
+                className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
+                  }`}
+              >
+                <PiBellBold size={28} className="mr-5" />
+                Notifications
+              </NavLink>
+          }
 
           {/* Bookmarks */}
-          <NavLink
-            to="/bookmarks"
-            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
-              }`}
-          >
-            <FaRegBookmark size={28} className="mr-5" />
-            Bookmarks
-          </NavLink>
+          { userAuthStatus &&
+              <NavLink
+                to="/bookmarks"
+                className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+                  }`}
+              >
+                <FaRegBookmark size={28} className="mr-5" />
+                Bookmarks
+              </NavLink>
+          }
 
           {/* Profile */}
-          <NavLink
-            to="/profile"
-            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
-              }`}
-          >
-            <FaRegUserCircle size={28} className="mr-5" />
-            Profile
-          </NavLink>
+          { userAuthStatus &&
+              <NavLink
+                to="/profile"
+                className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
+                  }`}
+              >
+                <FaRegUserCircle size={28} className="mr-5" />
+                Profile
+              </NavLink>
+          }
 
           {/* Settings */}
-          <NavLink
-            to="/settings"
-            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
-              }`}
-          >
-            <FiSettings size={28} className="mr-5" />
-            Settings
-          </NavLink>
+          { userAuthStatus &&
+              <NavLink
+                to="/settings"
+                className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
+                  }`}
+              >
+                <FiSettings size={28} className="mr-5" />
+                Settings
+              </NavLink>
+          }
 
           {/* Post Button - will route to create tweet component */}
-          <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
-            Post
-          </Button>
-          <div
-      className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto relative cursor-pointer"
-      onClick={() => setShowPopup(!showPopup)}
-    >
-      <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-        {<FaUser size={20} color="#FFFFFF" />}
-        {/*profileDetails?.Img_Url ? (<img src={profileDetails.Img_Url} alt="Profile" />) : (<FaUser size={20} color="#FFFFFF" />)*/}
-      </div>
-      <div className="user-info">
-        <p className="text-sm font-semibold mb-1">Maybach Music</p> 
-        <p className="text-xs">@thebiggest</p>
-        {/*<p className="text-sm font-semibold mb-1">{userName}</p> 
-        <p className="text-xs">{userUsername}</p>*/}
-      </div>
+          {
+            userAuthStatus ?
+              <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
+                Post
+              </Button>
+              :
+              <div className="my-7">
+                <NavLink
+                  to="/"
+                  className={`post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4`}
+                >
+                  SignIn/Signup
+                </NavLink>
+              </div>
+          }
+          {
+            userAuthStatus && 
+                  <div
+              className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto relative cursor-pointer"
+              onClick={() => setShowPopup(!showPopup)}
+            >
+                  <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+                    {<FaUser size={20} color="#FFFFFF" />}
+                    {/*profileDetails?.Img_Url ? (<img src={profileDetails.Img_Url} alt="Profile" />) : (<FaUser size={20} color="#FFFFFF" />)*/}
+                  </div>
+                  <div className="user-info">
+                    <p className="text-sm font-semibold mb-1">Maybach Music</p> 
+                    <p className="text-xs">@thebiggest</p>
+                    {/*<p className="text-sm font-semibold mb-1">{userName}</p> 
+                    <p className="text-xs">{userUsername}</p>*/}
+                  </div>
+                </div>
+            }
 
-      {showPopup && (
-        <div className="speech-bubble absolute bg-white border border-gray-300 rounded-lg p-2 mt-2">
-          <div className="flex justify-between items-center mb-2">
-            <p className="text-sm">Are you sure you want to log out?</p>
-            <FaTimes className="cursor-pointer" onClick={() => setShowPopup(false)} />
-          </div>
-          <button className="logout-button bg-white text-black px-3 py-1 rounded-md font-bold" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      )}
-    </div>
+            {showPopup && (
+              <div className="speech-bubble absolute bg-white border border-gray-300 rounded-lg p-2 mt-2">
+                <div className="flex justify-between items-center mb-2">
+                  <p className="text-sm">Are you sure you want to log out?</p>
+                  <FaTimes className="cursor-pointer" onClick={() => setShowPopup(false)} />
+                </div>
+                <button className="logout-button bg-white text-black px-3 py-1 rounded-md font-bold" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
         </>
       )}
 
@@ -245,67 +283,90 @@ const Nav = () => {
           </NavLink>
 
           {/* Notifications */}
-          <NavLink
-            to="/notifications"
-            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
-              }`}
-          >
-            <PiBellBold size={28} />
-          </NavLink>
+          { userAuthStatus &&
+              <NavLink
+                to="/notifications"
+                className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
+                  }`}
+              >
+                <PiBellBold size={28} />
+              </NavLink>
+          }
 
           {/* Bookmarks */}
-          <NavLink
-            to="/bookmarks"
-            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
-              }`}
-          >
-            <FaRegBookmark size={28} />
-          </NavLink>
+          { userAuthStatus &&
+              <NavLink
+                to="/bookmarks"
+                className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+                  }`}
+              >
+                <FaRegBookmark size={28} />
+              </NavLink>
+          }
 
           {/* Profile */}
-          <NavLink
-            to="/profile"
-            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
-              }`}
-          >
-            <FaRegUserCircle size={28} />
-          </NavLink>
+          { userAuthStatus &&
+              <NavLink
+                to="/profile"
+                className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
+                  }`}
+              >
+                <FaRegUserCircle size={28} />
+              </NavLink>
+          }
 
           {/* Settings */}
-          <NavLink
-            to="/settings"
-            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
-              }`}
-          >
-            <FiSettings size={28} />
-          </NavLink>
-          {/* Post */}
-          <NavLink
-            to="/" //will route to create a tweet component
-            className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
-          >
-            <BiPlusCircle size={28} color="#FFFFFF" />
-          </NavLink>
-          <div
-      className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto relative cursor-pointer"
-      onClick={() => setShowPopup(!showPopup)}
-    >
-      <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-        <FaUser size={20} color="#FFFFFF" />
-      </div>
+          { userAuthStatus &&
+              <NavLink
+                to="/settings"
+                className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
+                  }`}
+              >
+                <FiSettings size={28} />
+              </NavLink>
+          }
 
-      {showPopup && (
-        <div className="speech-bubble absolute bg-white border border-gray-300 rounded-lg p-2 mt-2">
-          <div className="flex justify-between items-center mb-2">
-            <p className="text-sm">Are you sure you want to log out?</p>
-            <FaTimes className="cursor-pointer" onClick={() => setShowPopup(false)} />
-          </div>
-          <button className="logout-button bg-white text-black px-3 py-1 rounded-md font-bold" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      )}
-    </div>
+          {/* Post */}
+          {
+            userAuthStatus ?
+              <NavLink
+                to="/home" //will route to create a tweet component
+                className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
+              >
+                <BiPlusCircle size={28} color="#FFFFFF" />
+              </NavLink>
+            :
+            <NavLink
+                to="/home" //will route to create a tweet component
+                className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
+              >
+                <CiLogin size={28} color="#FFFFFF" />
+              </NavLink>
+          }
+        
+        {
+            userAuthStatus && 
+                    <div
+                        className="active-user-tab flex items-center justify-center w-full h-16 border-t border-gray-200 mt-auto relative cursor-pointer"
+                        onClick={() => setShowPopup(!showPopup)}
+                      >
+                        <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+                          <FaUser size={20} color="#FFFFFF" />
+                        </div>
+
+                        {showPopup && (
+                          <div className="speech-bubble absolute bg-white border border-gray-300 rounded-lg p-2 mt-2">
+                            <div className="flex justify-between items-center mb-2">
+                              <p className="text-sm">Are you sure you want to log out?</p>
+                              <FaTimes className="cursor-pointer" onClick={() => setShowPopup(false)} />
+                            </div>
+                            <button className="logout-button bg-white text-black px-3 py-1 rounded-md font-bold" onClick={handleLogout}>
+                              Logout
+                            </button>
+                          </div>
+                        )}
+                      </div>
+              }
         </>
       )}
     </div>
