@@ -13,4 +13,4 @@ const fetchUsers = async () => {
     }
    };
 
-   export {fetchUsers};
+export {fetchUsers};

@@ -15,7 +15,7 @@ export const fetchProfileDetails = async (userId: number): Promise<any> => {
     } catch (error) {
       return "Error fetching profile details.";
     }
-};
+}
 
 
 // Gets all user profiles

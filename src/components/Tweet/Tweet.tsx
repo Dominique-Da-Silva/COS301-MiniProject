@@ -33,7 +33,6 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
         />
       </div>
       <div className="post flex-col w-full pl-2">
-
         <div className="user-info flex">
           <NavLink
             to={{
