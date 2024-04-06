@@ -13,8 +13,9 @@ import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
-import { getLoggedUserId, fetchUsers, fetchProfileDetails, signOut } from "@services/index";
-//import { fetchUsers, fetchProfileDetails, getUserData, signOut } from "@services/index";
+import {signOut} from "@services/index";
+//import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
+//import { fetchUsers, fetchProfileDetails, getUserData } from "@services/index"; //option 2
 
 
 const Nav = () => {
@@ -22,9 +23,9 @@ const Nav = () => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
   const [showPopup, setShowPopup] = useState(false);
-  const [userName, setUserName] = useState('');
-  const [userUsername, setUserUsername] = useState('');
-  const [profileDetails, setProfileDetails] = useState<any>(null);
+  //const [userName, setUserName] = useState('');
+  //const [userUsername, setUserUsername] = useState('');
+  //const [profileDetails, setProfileDetails] = useState<any>(null);
 
   const handleLogout = () => {
     console.log('Logout clicked');
@@ -52,15 +53,15 @@ const Nav = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-
+  /*useEffect(() => {
+    const fetchUserData = async () => {*/
+      //option 1
       /*const fetchMeta = await getUserData();
-      const userId = fetchMeta?.user_metadata.User_Id;
+      const userId = fetchMeta.user_metadata.User_Id;
       console.log('Getting User Id',userId);
 
         const userData = await fetchUsers();
-        if (userData) {
+        if (userData.User_Id === userId) {
           setUserName(`${userData.Name} ${userData.Surname}`);
           console.log('Getting user data: ',userData);
           setUserUsername(`@${userData.Username}`);
@@ -74,8 +75,10 @@ const Nav = () => {
           console.error("Error fetching profile details:", error);
         }*/
       
-      console.log('Fetching ID');
+      //option 2
+      /*console.log('Fetching ID');
       const userId = await getLoggedUserId();
+      console.log('ID: ', userId);
       if (userId) {
         const userData = await fetchUsers();
         if (userData.User_Id === userId) {
@@ -94,7 +97,7 @@ const Nav = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, []);*/
 
   return (
     <div className="sidebar left-0 top-0 h-full bg-white p-12">
@@ -177,14 +180,14 @@ const Nav = () => {
       onClick={() => setShowPopup(!showPopup)}
     >
       <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-        {/*<FaUser size={20} color="#FFFFFF" />*/}
-        {profileDetails?.Img_Url ? (<img src={profileDetails.Img_Url} alt="Profile" />) : (<FaUser size={20} color="#FFFFFF" />)}
+        {<FaUser size={20} color="#FFFFFF" />}
+        {/*profileDetails?.Img_Url ? (<img src={profileDetails.Img_Url} alt="Profile" />) : (<FaUser size={20} color="#FFFFFF" />)*/}
       </div>
       <div className="user-info">
-        {/*<p className="text-sm font-semibold mb-1">Maybach Music</p> 
-        <p className="text-xs">@thebiggest</p>*/}
-        <p className="text-sm font-semibold mb-1">{userName}</p> 
-        <p className="text-xs">{userUsername}</p>
+        <p className="text-sm font-semibold mb-1">Maybach Music</p> 
+        <p className="text-xs">@thebiggest</p>
+        {/*<p className="text-sm font-semibold mb-1">{userName}</p> 
+        <p className="text-xs">{userUsername}</p>*/}
       </div>
 
       {showPopup && (
@@ -202,10 +205,10 @@ const Nav = () => {
         </>
       )}
 
-      {/* Post Button */}
-      <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onPress={onOpen}>
+      {/* Post Button --> second POST button after merge with dev? */}
+      {/*<Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onPress={onOpen}>
         Post
-      </Button>
+    </Button>*/}
       <Modal size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {() => (

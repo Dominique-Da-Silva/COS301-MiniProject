@@ -23,5 +23,5 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
-    uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData
-    getUserData, getTrendingTopics};
+    uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
+    getTrendingTopics};
