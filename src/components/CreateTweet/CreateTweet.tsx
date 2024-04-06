@@ -23,6 +23,12 @@ import {
 import { addTweet } from "@services/index";
 import { getCurrentUser } from "@services/auth/auth";
 
+import { GrGallery } from "react-icons/gr";
+import { MdOutlineGifBox } from "react-icons/md";
+import { LiaPollHSolid } from "react-icons/lia";
+import { FaRegFaceSmile } from "react-icons/fa6";
+import { TbCalendarSearch } from "react-icons/tb";
+
 // interface CreateTweetProps {
 //   User_Id: any,
 //   Content: string,
