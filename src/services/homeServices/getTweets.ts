@@ -24,27 +24,68 @@ const fetchTweets = async () => {
 
    export {fetchTweets};
 
-  const addTweet = async (tweetData: any) => {
-  try {
-    //console.log(JSON.stringify(tweetData));
-    const { data, error } = await supabase.functions.invoke('addTweet', {
-      body: JSON.stringify(tweetData)
-    });
-    if (error) {
-      throw error;
-    }
-    return data;
-  } catch (error) {
-    if (error instanceof FunctionsHttpError) {
-      const errorMessage = await error.context.json()
-      console.log('Function returned an error', errorMessage)
-    } else if (error instanceof FunctionsRelayError) {
-      console.log('Relay error:', error.message)
-    } else if (error instanceof FunctionsFetchError) {
-      console.log('Fetch error:', error.message)
-    }
-    throw error; // Re-throw the error to handle it in the calling code if needed
-  }
-};
+   const addTweet = async (tweetData: any) => {
+    try {
+      //console.log(tweetData);
+      const user = await supabase.auth.getUser();
+      if (!user.data.user) return "error";
 
-export { addTweet };
+      if(tweetData.Img_file)
+      {
+        //const file = new File([blob], fileName, { type: 'text/plain' });
+        const { data: uploadedImage, error: imageError } = await supabase.storage
+        .from('media')
+        .upload(`tweet_images/${tweetData.Img_file.name}`, tweetData.Img_file, { upsert: false});
+  
+      if (imageError) {
+        console.log(imageError);
+        throw imageError;
+      }
+      
+      //console.log("uploaded in media");
+      
+      const tweet = {
+        User_Id:tweetData.User_Id,
+        Content:tweetData.Content,
+        Img_Url: import.meta.env.VITE_SUPABASE_URL + "/storage/v1/object/public/media/" + uploadedImage.path 
+      };
+      // Insert tweet data into the database
+      const { data: insertedTweet, error: tweetError } = await supabase
+        .from('Tweets')
+        .insert([tweet])
+  
+      if (tweetError) {
+        throw tweetError;
+      }
+      return insertedTweet;
+    }
+    else{
+      const tweet = {
+        User_Id:tweetData.User_Id,
+        Content:tweetData.Content,
+        Img_Url: null
+      };
+      // Insert tweet data into the database
+      const { data: insertedTweet, error: tweetError } = await supabase
+        .from('Tweets')
+        .insert([tweet])
+  
+      if (tweetError) {
+        throw tweetError;
+      }
+      return insertedTweet;
+    }
+    } catch (error) {
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+        console.log('Function returned an error', errorMessage)
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+      }
+      throw error; // Re-throw the error to handle it in the calling code if needed
+    }
+  };
+  
+  export { addTweet };
