@@ -1,11 +1,4 @@
 import { Avatar, Button, Textarea, Tooltip } from "@nextui-org/react";
-import {
-  GalleryIcon,
-  GIFIcon,
-  PollsIcon,
-  ScheduleIcon,
-  StickersIcon,
-} from "@assets/index";
 import { GrGallery } from "react-icons/gr";
 import { MdOutlineGifBox } from "react-icons/md";
 import { LiaPollHSolid } from "react-icons/lia";
