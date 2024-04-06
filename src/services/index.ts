@@ -1,4 +1,5 @@
-import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn, addUserToDatabase  } from "./auth/auth.ts";
+import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, 
+    signOut, isUserLoggedIn, addUserToDatabase, getUserData  } from "./auth/auth.ts";
 import { uploadProfile } from "./storage/storage.ts";
 import { updateUsername } from './profileServices/updateUsername.ts';
 import {fetchUsers} from "./homeServices/getUsersData.ts"
@@ -13,10 +14,11 @@ import {countFollowers} from "./profileServices/countFollowers.ts";
 import {countFollowing} from "./profileServices/countFollowing.ts";
 import {fetchProfileDetails} from "./profileServices/getProfile.ts";
 import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
+import { getTrendingTopics } from "./homeServices/getTweets.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
     fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
-    uploadImageAndGetURL};
+    uploadImageAndGetURL, getUserData, getTrendingTopics};

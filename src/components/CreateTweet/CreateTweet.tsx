@@ -132,8 +132,8 @@ const CreateTweet = () => {
           
         )}
       </div>
-      <div className="flex justify-between items-center mt-2 mx-12">
-        <div className="flex">
+      <div className="flex justify-between items-center mt-2 mx-12 gap-1">
+        <div className="flex gap-1">
           <Tooltip
             content="Media"
             placement="bottom"
@@ -211,8 +211,8 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button isIconOnly onClick={handleGIFClick} variant="light">
-              <img src={GIFIcon} alt="GIF" className="w-6 h-5" />
+            <Button size='lg' isIconOnly onClick={handleGIFClick} variant="light" className="text-cyan-400">
+              <MdOutlineGifBox/>
             </Button>
           </Tooltip>
           <Tooltip
@@ -238,8 +238,8 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button isIconOnly onClick={handlePollsClick} variant="light">
-              <img src={PollsIcon} alt="Polls" className="w-5 h-6" />
+            <Button size='lg' isIconOnly onClick={handlePollsClick} variant="light" className="text-cyan-400">
+              <LiaPollHSolid/>
             </Button>
           </Tooltip>
           <Tooltip
@@ -265,8 +265,8 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button isIconOnly onClick={handleStickersClick} variant="light">
-              <img src={StickersIcon} alt="Emoji" className="w-5 h-5" />
+            <Button size='lg' isIconOnly onClick={handleStickersClick} variant="light" className="text-cyan-400">
+              <FaRegFaceSmile/>
             </Button>
           </Tooltip>
           <Tooltip
@@ -292,8 +292,8 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button isIconOnly onClick={handleScheduleClick} variant="light">
-              <img src={ScheduleIcon} alt="Schedule" className="w-5 h-5" />
+            <Button size='lg' isIconOnly onClick={handleScheduleClick} variant="light" className="text-cyan-400">
+              <TbCalendarSearch/>
             </Button>
           </Tooltip>
         </div>
