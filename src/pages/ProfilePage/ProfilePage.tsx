@@ -156,19 +156,23 @@ const ProfileDetails = () => {
   const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
   // const [replies, setReplies] = useState<TweetProps[]>([]);
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const userDataX = await fetchUserData();
-      setUserData(userDataX);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
-  }
-  fetchData();
-}, []);
-
   useEffect(() => {
+const fetchData = async () => {
+          try {
+            const userDataX = await fetchUserData();
+            //setUserData()
+            console.log(userDataX);
+          //   const followingCount = await countFollowing(userData.id);
+          //   const followerCount = await countFollowers(userData.id);
+            // console.log(followingCount); 
+            setUserData(userDataX);
+          
+          } catch (error) {
+              console.error("Error fetching data: ", error);
+          }
+        } 
+        fetchData();
+
     const fetchUserProfile = async () => {
       try {
         //const { data: { user } } = {};
