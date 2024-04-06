@@ -1,14 +1,18 @@
-import SignUp from "./SignUp/SignUp";
-import SignIn from "./SignIn/SignIn";
-import Login from "./Login/Login";
-import HomePage from "./HomePage/HomePage";
-import ProfilePage from "./ProfilePage/ProfilePage"
-import Explore from "./Explore/Explore";
-import Notifications from "./Notifications/Notifications";
-import Bookmarks from "./Bookmarks/Bookmarks";
-import Settings from "./Settings/Settings";
+import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, 
+    signOut, isUserLoggedIn, addUserToDatabase, getUserData  } from "./auth/auth.ts";
+import { uploadProfile } from "./storage/storage.ts";
+import { updateUsername } from './profileServices/updateUsername.ts';
+import {fetchUsers} from "./homeServices/getUsersData.ts"
+import {fetchTweets}  from "./homeServices/getTweets.ts"
+import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts"
+import {followUser}  from "./usersProfileServices/followUser.ts"
+import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts"
+import { insertProfileDetails, updateProfileDetails } from "./profileServices/updateProfileDetails";
+import { addTweet } from "./homeServices/getTweets";
+import { getTrendingTopics } from "./homeServices/getTweets.ts";
 
-
-export {
-    SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings
-}
+export { signInWithGithub, signInWithGoogle, signOut, signInUser,
+    signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
+    fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
+    followUser, unfollowUser, insertProfileDetails, updateProfileDetails, 
+    addUserToDatabase, getUserData, getTrendingTopics};

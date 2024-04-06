@@ -32,7 +32,13 @@ export const updateProfileDetails = async(user_data:  {
         })
         .eq('User_Id', id.data[0].User_Id);
 
-    return error ? "error" : "success";
+    if(error){
+        const res = await insertProfileDetails(user_data);
+        if(res === "error")return "error";
+    }
+    else{
+        return "success";
+    }
 }
 
 export const insertProfileDetails = async(user_data:  {
@@ -61,7 +67,6 @@ export const insertProfileDetails = async(user_data:  {
             Bio: user_data.Bio,
             Img_Url: user_data.Img_Url,
             Location: user_data.Location,
-            Profile_Id: undefined,
             Profile_Type: user_data.Profile_Type,
             Theme: user_data.Theme,
             User_Id: id.data[0].User_Id,

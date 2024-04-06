@@ -48,4 +48,57 @@ This is a server or service that acts as an intermediary between clients (such a
     \item \textbf{Load Balancing and High Availability:} The API Gateway can distribute incoming requests across multiple instances of backend services to ensure scalability, fault tolerance, and high availability. It may support various load balancing algorithms (e.g., round-robin, least connections, or weighted distribution) to optimize resource utilization and distribute traffic evenly.
 \end{itemize}
 
+\section*{Quality Attributes and Architecture Strategies:}
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Performance:}
+    \begin{itemize}
+        \item Edge functions contribute to performance, for example, database querying functions will be optimized and used throughout the application, thus ensuring efficient functions are used consistently.
+        \item Service functions will be optimized to prevent any unnecessary transactions on the database.
+    \end{itemize}
+
+    \item \textbf{Scalability:}
+    \begin{itemize}
+        \item The usage of the reports feature can ensure that the backend can be prepared to handle any changes in traffic and usage.
+    \end{itemize}
+
+    \item \textbf{Reliability:}
+    \begin{itemize}
+        \item The backend can be monitored, using the report feature, to ensure that component and service usage is within a safe range, and that the system will not allow any further action if it could be compromised.
+    \end{itemize}
+
+    \item \textbf{Security:}
+    \begin{itemize}
+        \item Authorization IDs will be used to verify user sessions before data can be retrieved.
+    \end{itemize}
+
+    \item \textbf{Usability:}
+    \begin{itemize}
+        \item Features will be grouped by pages ensuring the navigation follows a logical flow.
+        \item Users will be able to customize the interface and level of interaction with the app.
+    \end{itemize}
+
+    \item \textbf{Availability:}
+    \begin{itemize}
+        \item User sessions will be cached to ensure that users are able to return to their session within a reasonable time window.
+        \item The use of asynchronous functionality will ensure that the user experience is not halted.
+    \end{itemize}
+
+    \item \textbf{Maintainability:}
+    \begin{itemize}
+        \item Each edge function will be planned, written, and tested, and then used across multiple pages. This ensures code reusability and simplifies the task of maintainability.
+        \item The use of a linter will ensure that coding standards are adhered to.
+    \end{itemize}
+
+    \item \textbf{Extensibility:}
+    \begin{itemize}
+        \item The use of services provides a single entry point for changes to be made to accommodate new features and updates.
+        \item Databases can be updated on Supabase to cater for new attributes, functionality (edge functions and services) can be updated accordingly along with the tables.
+    \end{itemize}
+
+    \item \textbf{Cost-effectiveness:}
+    \begin{itemize}
+        \item The use of edge functions which can individually be used for a multitude of tasks contribute to cost-effectiveness by reducing the number of functions that will need to be stored, tested, and deployed.
+    \end{itemize}
+\end{enumerate}
 \end{document}
