@@ -3,8 +3,8 @@ import { IoMdArrowBack } from "react-icons/io";
 // import { supabase } from "@config/supabase";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { fetchUserData } from "@services/index";
-import { fetchProfileDetails } from "@services/index";
+import { fetchUserData } from "@services/profileServices/getAuthUser";
+import { fetchProfileDetails } from "@services/profileServices/getProfile";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);

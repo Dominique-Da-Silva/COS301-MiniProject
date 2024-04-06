@@ -1,22 +1,14 @@
-import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn, addUserToDatabase  } from "./auth/auth.ts";
-import { uploadProfile } from "./storage/storage.ts";
-import { updateUsername } from './profileServices/updateUsername.ts';
-import {fetchUsers} from "./homeServices/getUsersData.ts"
-import {fetchTweets}  from "./homeServices/getTweets.ts"
-import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts"
-import {followUser}  from "./usersProfileServices/followUser.ts"
-import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts"
-import { insertProfileDetails, updateProfileDetails } from "./profileServices/updateProfileDetails";
-import { addTweet } from "./homeServices/getTweets";
-import {fetchUserData} from "./profileServices/getAuthUser.ts";
-import {countFollowers} from "./profileServices/countFollowers.ts";
-import {countFollowing} from "./profileServices/countFollowing.ts";
-import {fetchProfileDetails} from "./profileServices/getProfile.ts";
-import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
+import SignUp from "./SignUp/SignUp";
+import SignIn from "./SignIn/SignIn";
+import Login from "./Login/Login";
+import HomePage from "./HomePage/HomePage";
+import ProfilePage from "./ProfilePage/ProfilePage"
+import Explore from "./Explore/Explore";
+import Notifications from "./Notifications/Notifications";
+import Bookmarks from "./Bookmarks/Bookmarks";
+import Settings from "./Settings/Settings";
 
-export { signInWithGithub, signInWithGoogle, signOut, signInUser,
-    signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
-    fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
-    followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
-    fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
-    uploadImageAndGetURL};
+
+export {
+    SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings
+}

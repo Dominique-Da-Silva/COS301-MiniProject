@@ -6,7 +6,7 @@ import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
 import { fetchUserData } from "@services/index";
-import { getUserData } from "@services/auth/auth";
+//import { getUserData } from "@services/auth/auth";
 // import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
@@ -128,7 +128,7 @@ const ProfileDetails = () => {
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(mockUserProfile);
   const [userFollowers, setUserFollowers] = useState<any>(null);
   const [userFollowing, setUserFollowing] = useState<any>(null);
   const [createdAt] = useState<any>(
@@ -930,7 +930,6 @@ const ProfileDetails = () => {
                   )}
                 </div>
                 <h2 className="font-bold text-xl">
-                  
                   {userData.Name}
                 </h2>
 
