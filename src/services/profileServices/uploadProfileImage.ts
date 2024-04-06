@@ -15,9 +15,7 @@ export const uploadImageAndGetURL = async (image: File, folder: string) => {
       }
   
       return null;
-  
     } catch (error: any) {
       console.error(`Error uploading ${folder === 'profile_images' ? 'image' : 'banner'}:`, error.message);
     }
   };
-  

@@ -63,7 +63,6 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
             @{username.substring(1)} &nbsp;· {timeDisplay}
           </NavLink>
         </div>
-
         <div>
           <p className="p-0 m-0">{text}</p>
           {imageUrl && (
