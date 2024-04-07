@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Button } from "@nextui-org/react";
 // import { IoMdPersonAdd } from "react-icons/io";
 // import { supabase } from "@config/supabase";
 import {Card, CardHeader, CardBody, CardFooter} from "@nextui-org/react";
 import { mockFollowSuggestions } from '../../mockData/mockData';
+import { isUserLoggedIn } from "@services/index";
 
 interface User {
   user_id: number;
@@ -17,6 +18,7 @@ interface WhoToFollowProps {
 }
 const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   const [users] = useState<any[]>(mockFollowSuggestions);
+  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
 
   // const [users, setUsers] = useState<any[]>([]);
   // // Function is not fetching the users from the User table
@@ -41,6 +43,19 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   // };
 
   // fetchUsers();
+
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      setUserAuthStatus(result);
+    }
+    
+    // Call the async function
+    checkUser();
+  }, []);
+  
   return (
     <div>
       <Card className="bg-gray-50 shadow-none mt-8 w-11/12">
@@ -57,9 +72,16 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
                   <h3 className="text-base font-medium p-0 m-0">{user.name}</h3>
                   <p className="text-gray-500 p-0 m-0">@{user.username}</p>
                 </div>
-                <Button className="ml-auto font-bold text-white bg-black h-7" radius="full">
-                  Follow
-                </Button>
+                {
+                  userAuthStatus ?
+                    <Button className="ml-auto font-bold text-white bg-black h-7" radius="full">
+                      Follow
+                    </Button>
+                    :
+                    <Button className="ml-auto font-bold text-white bg-black h-7" radius="full" isDisabled>
+                      Follow
+                    </Button>
+                }
             </div>
           ))}
           </div>
