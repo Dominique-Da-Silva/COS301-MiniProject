@@ -14,8 +14,10 @@ export async function uploadProfile(file: File) {
     if (error) {
         return "error";
     } else {
+        const { data: publicURL } = supabase.storage.from('media').getPublicUrl(data.path);
+
         const res = await updateProfileDetails({ 
-            Img_Url: import.meta.env.VITE_SUPABASE_URL + "/storage/v1/object/public/media/" + data.path 
+            Img_Url: publicURL.publicUrl 
         });
         return res === "error" ? "error" : "success";
     }

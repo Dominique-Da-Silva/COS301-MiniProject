@@ -1,9 +1,12 @@
 import { Nav, AccountInfo, NotificationSettings,DisplaySettings,ChangePassword } from "@components/index";
-import  { useState } from "react";
+import  { useEffect, useState } from "react";
 import { Link} from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import { isUserLoggedIn } from "@services/index";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("account");
+  const navigate = useNavigate(); // Initialize useNavigate hook
   const renderSettingsContent = () => {
     switch (activeTab) {
       case "account":
@@ -18,6 +21,20 @@ const Settings = () => {
         return null;
     }
   };
+
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (!result) {
+        navigate("/home"); // Redirect to home page if user is not logged in
+      }
+    }
+    
+    // Call the async function
+    checkUser();
+  }, [navigate]);
 
   return (
     <div className="container flex">
