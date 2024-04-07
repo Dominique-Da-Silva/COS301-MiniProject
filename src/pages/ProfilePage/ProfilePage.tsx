@@ -172,10 +172,11 @@ const ProfileDetails = () => {
           try {
             const userDataX = await fetchUserData();
             //setUserData()
-            console.log(userDataX);
+            //console.log(userDataX);
           //   const followingCount = await countFollowing(userData.id);
           //   const followerCount = await countFollowers(userData.id);
             // console.log(followingCount); 
+            setUserData(null);
             setUserData(userDataX);
           
           } catch (error) {
@@ -184,15 +185,15 @@ const ProfileDetails = () => {
         } 
         fetchData();
 
-        console.log(userData.User_Id);
+        //console.log(userData.User_Id);
 
         const fetchFollData = async () => {
           try {
             const followerTemp = await countFollowers(userData.User_Id);
             const followingTemp= await countFollowing(userData.User_Id);
             //setUserData()
-            console.log(followerTemp);
-            console.log(followingTemp);
+            //console.log(followerTemp);
+            //console.log(followingTemp);
             //   const followingCount = await countFollowing(userData.id);
           //   const followerCount = await countFollowers(userData.id);
             // console.log(followingCount); 
@@ -207,7 +208,7 @@ const ProfileDetails = () => {
         const profileSub = async () => {
           try {
             const profileTemp = await fetchProfileDetails(userData.User_Id);
-            console.log(profileTemp);
+            //console.log(profileTemp);
             setProfileDetails(profileTemp);
           } catch (error) {
               console.error("Error fetching data: ", error);
