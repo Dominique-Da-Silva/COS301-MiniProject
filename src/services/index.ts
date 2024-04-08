@@ -14,10 +14,11 @@ import {countFollowing} from "./profileServices/countFollowing.ts";
 import {fetchProfileDetails} from "./profileServices/getProfile.ts";
 import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
 import {fetchLikedPosts} from "./profileServices/getLikedPosts.ts";
+import {fetchUserMedia} from "./profileServices/getUserMedia.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
     fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
-    uploadImageAndGetURL, fetchLikedPosts};
+    uploadImageAndGetURL, fetchLikedPosts, fetchUserMedia};
