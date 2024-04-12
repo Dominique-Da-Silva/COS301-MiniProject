@@ -44,7 +44,7 @@ const App = () => {
           await signOut();
         }
         else{
-          toast.success('Sign in successfully!', { duration: 2000, position: 'top-center',});
+          toast.success('Signed in successfully!', { duration: 2000, position: 'top-center',});
         }
       }
     }
