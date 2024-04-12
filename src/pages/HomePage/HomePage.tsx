@@ -12,7 +12,7 @@ interface HomePageProps { }
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [currentUser, setCurrentUser] = useState<any>(false);
+  const [_, setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
