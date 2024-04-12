@@ -38,7 +38,8 @@ const App = () => {
     const checkUserAuthState = async () => {
       if(auth_state === 'SIGNED_IN') {
         const res = await addUserToDatabase();
-        if(res === "error") {
+        if(res !== "success") {
+          //alert user of error using toast component
           await signOut();
         }
       }

@@ -144,7 +144,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-            {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
+          <CreateTweet/>
           {tweets?.map(tweet => {
             // console.log("Tweet:");
             // console.log(tweet);

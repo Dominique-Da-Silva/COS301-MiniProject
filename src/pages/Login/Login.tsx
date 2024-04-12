@@ -11,10 +11,8 @@ const Login = () => {
   const signInWithProvider = async (provider: 'google' | 'github') => {
     if (provider === 'google') {
         await signInWithGoogle();
-        navigate('/home');
     } else {
         await signInWithGithub();
-        navigate('/home');
     }
   }
 

@@ -8,22 +8,26 @@ const SignIn = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false); // Initialize isLoading state to false
   const navigate = useNavigate(); // Initialize useNavigate hook
+  const [error, setError] = useState(''); // Initialize error state to an empty string
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    await signInUser(form.email, form.password);
+    const res = await signInUser(form.email, form.password);
     setIsLoading(false);
-    navigate('/home');
+
+    if (res === 'success') {
+      navigate('/home');
+    } else {
+      setError(res);
+    }
   };
 
   const signInWithProvider = async (provider: 'google' | 'github') => {
     if (provider === 'google') {
         await signInWithGoogle();
-        navigate('/home');
     } else {
         await signInWithGithub();
-        navigate('/home');
     }
   }
 
@@ -90,6 +94,9 @@ const SignIn = () => {
             <Button radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>
               SignIn
             </Button>
+          }
+          {
+            error !== "" && <p className="text-red-500 text-xs mt-2">{error}</p>
           }
         </form>
         <div className="text-center mt-6 flex justify-between">
