@@ -12,8 +12,8 @@ const PostNotification: React.FC<PostNotificationProp> = ({
   avatarUrl,
 }) => {
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4">
-      <div className="flex-col w-auto">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
+      <div className="flex-col w-auto dark:text-white">
         <PiBellFill />
       </div>
       <div className="avatar">
@@ -23,9 +23,9 @@ const PostNotification: React.FC<PostNotificationProp> = ({
           className="user-avatar min-w-12 min-h-12"
         />
       </div>
-      <div className="post flex-col w-auto pl-2">
+      <div className="post flex-col w-auto pl-2 dark:text-white">
         <div className="user-info flex">
-          <p className="font-semibold p-0 m-0">{description}</p>
+          <p className="font-semibold p-0 m-0 dark:text-white">{description}</p>
         </div>
       </div>
     </div>

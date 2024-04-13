@@ -32,7 +32,7 @@ const Mention: React.FC<MentionProp> = ({
   replyToUsername,
 }) => {
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
       <div className="avatar">
         <Avatar
           // src={imageUrl} // profile image url to be replaced
@@ -42,17 +42,17 @@ const Mention: React.FC<MentionProp> = ({
         />
       </div>
       <div className="post flex-col w-auto pl-2">
-        <div className="user-info flex">
+        <div className="user-info flex dark:text-white">
           <p className="font-semibold p-0 m-0">{name}&nbsp;</p>
-          <p className="text-slate-700 p-0 m-0">
+          <p className="text-slate-700 p-0 m-0 dark:text-neutral-600">
             @{username} · {timeDisplay}
           </p>
         </div>
         <div>
-          <p className="p-0 m-0 text-blue-500">Replying to @{replyToUsername}</p>
+          <p className="p-0 m-0 text-blue-500 dark:text-white">Replying to<span className="dark:text-blue-500 cursor-pointer"> @{replyToUsername}</span></p>
         </div>
         <div>
-          <p className="p-0 m-0">{text}</p>
+          <p className="p-0 m-0 dark:text-white">{text}</p>
           {imageUrl && (
             <Image
               isZoomed
@@ -63,7 +63,7 @@ const Mention: React.FC<MentionProp> = ({
             />
           )}
         </div>
-        <div className="tweet-actions flex flex-row justify-around col text-slate-700">
+        <div className="tweet-actions flex flex-row justify-around col dark:text-white text-slate-700">
           <span className="action flex items-center cursor-pointer hover:text-blue-500 ">
             <FaRegComment className="w-4 h-4" /> &nbsp;{comments}{" "}
           </span>
