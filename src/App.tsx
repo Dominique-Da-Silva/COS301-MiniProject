@@ -6,6 +6,7 @@ import { useEffect, useRef, useState  } from 'react';
 import { supabase } from '@config/index';
 import { addUserToDatabase, signOut } from '@services/index';
 import { AuthChangeEvent, Session } from '@supabase/supabase-js';
+import toast, { Toaster } from 'react-hot-toast';
 
 const App = () => {
   const isMountedRef = useRef(true); // Flag to track component mount status
@@ -39,7 +40,11 @@ const App = () => {
       if(auth_state === 'SIGNED_IN') {
         const res = await addUserToDatabase();
         if(res === "error") {
+          toast.error('Failed to sign in!', { duration: 2000, position: 'top-center',});
           await signOut();
+        }
+        else{
+          toast.success('Signed in successfully!', { duration: 2000, position: 'top-center',});
         }
       }
     }
@@ -48,6 +53,7 @@ const App = () => {
   }, [auth_state])
 
   return (
+    <>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -63,6 +69,8 @@ const App = () => {
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>
+    <Toaster />
+    </>
   );
 };
 
