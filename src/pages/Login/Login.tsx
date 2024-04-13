@@ -52,15 +52,15 @@ const Login = () => {
           <div className="flex items-center justify-center pb-2 md:pb-4">
             <span className="text-gray-500">OR</span>
           </div>
-          <Button radius="full" className="border flex items-center justify-center mb-2 w-full md:w-[300px] h-[50px] bg-blue-500 text-white">
+          <Button radius="full" className="border flex items-center justify-center mb-2 w-full md:w-[300px] h-[50px] bg-[#1DA1F2] text-white">
             <Link to="/signup">Sign up with phone or email</Link>
           </Button>
           <p className='text-sm mb-6 md:mb-10 text-center'>
             By signing up, you agree to 
-            the <a href='https://twitter.com/en/tos' className='text-blue-500'>Terms of Service</a> and <a href='https://twitter.com/en/privacy' className='text-blue-500'>Privacy Policy</a>, including <a href='https://help.twitter.com/en/rules-and-policies/x-cookies' className='text-blue-500'> Cookie Use</a>.
+            the <a href='https://twitter.com/en/tos' className='text-[#1DA1F2]'>Terms of Service</a> and <a href='https://twitter.com/en/privacy' className='text-[#1DA1F2]'>Privacy Policy</a>, including <a href='https://help.twitter.com/en/rules-and-policies/x-cookies' className='text-[#1DA1F2]'> Cookie Use</a>.
           </p>
           <p className='text-[16px]'>
-            Already have an account? <Link to="/signin" className='text-blue-500'>Log In</Link>
+            Already have an account? <Link to="/signin" className='text-[#1DA1F2]'>Log In</Link>
           </p>
       </div>
     </div>
