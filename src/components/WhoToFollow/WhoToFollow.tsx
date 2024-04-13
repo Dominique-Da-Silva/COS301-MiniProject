@@ -58,7 +58,7 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   
   return (
     <div>
-      <Card className="bg-gray-50 shadow-none mt-8 w-11/12">
+      <Card className="bg-gray-50 dark:bg-neutral-900 shadow-none mt-8 w-11/12">
         <CardHeader className="flex gap-1 pl-3 !pb-0">
           <h2 className="text-lg font-bold mb-4">Who to follow</h2>
         </CardHeader>
@@ -74,11 +74,11 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
                 </div>
                 {
                   userAuthStatus ?
-                    <Button className="ml-auto font-bold text-white bg-black h-7" radius="full">
+                    <Button className="ml-auto font-bold text-white bg-black dark:text-black dark:bg-white h-7" radius="full">
                       Follow
                     </Button>
                     :
-                    <Button className="ml-auto font-bold text-white bg-black h-7" radius="full" isDisabled>
+                    <Button className="ml-auto font-bold text-white bg-black dark:text-black dark:bg-white h-7" radius="full" isDisabled>
                       Follow
                     </Button>
                 }

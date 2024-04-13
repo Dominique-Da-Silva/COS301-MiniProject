@@ -23,7 +23,7 @@ interface TweetProps {
 
 const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked }) => {
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
       <div className="avatar">
         <Avatar
           src={profileimageurl} // profile image url to be replaced
@@ -49,7 +49,7 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
               };
               */
             }}
-            className="font-semibold p-0 m-0"
+            className="font-semibold p-0 m-0 dark:text-white"
           >
             {name}&nbsp;
           </NavLink>
@@ -58,13 +58,13 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
               pathname: `/profile/${username.substring(1)}`,
               //state: { username: username.substring(1) } -> is this valid, please verify
             }}
-            className="text-slate-700 p-0 m-0"
+            className="text-slate-700 p-0 m-0 dark:text-gray-400"
           >
             @{username.substring(1)} &nbsp;· {timeDisplay}
           </NavLink>
         </div>
         <div>
-          <p className="p-0 m-0">{text}</p>
+          <p className="p-0 m-0 dark:text-white">{text}</p>
           {imageUrl && (
             <Image
               src={imageUrl}
@@ -74,7 +74,7 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
             />
           )}
         </div>
-        <div className="tweet-actions flex flex-row justify-around col text-slate-700">
+        <div className="tweet-actions flex flex-row justify-around col text-slate-700 dark:text-neutral-600">
           <span className="action flex items-center cursor-pointer hover:text-blue-500 "><FaRegComment className="w-4 h-4" /> &nbsp;{comments}{" "}</span>
           <span className="action flex items-center cursor-pointer hover:text-green-500"><LuRepeat2 className="w-4 h-4" /> &nbsp;{retweets}{" "}</span>
           <span className="action flex items-center cursor-pointer hover:text-red-500"><PiHeartBold className="w-4 h-4" />&nbsp;{likes}{" "}</span>
