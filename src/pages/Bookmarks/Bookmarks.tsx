@@ -72,7 +72,7 @@ const Bookmarks = () => {
         <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
           <Nav />
         </div>
-        <div className="main-content flex w-2/5 m-0 p-0 border">
+        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
           <div className="flex flex-col m-0 p-0 justify-center">
             <h1 className="text-2xl font-bold p-4 dark:text-white">Bookmarks</h1>
             {/* <p className="p-4">This is the Bookmarks page content.</p>  */}
