@@ -6,7 +6,7 @@ import { isUserLoggedIn, signInWithGithub, signInWithGoogle } from '@services/in
 import { Button } from '@nextui-org/react';
 
 const Login = () => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
 
   const signInWithProvider = async (provider: 'google' | 'github') => {
     if (provider === 'google') {
@@ -19,25 +19,23 @@ const Login = () => {
   }
 
   useEffect(() => {
-    // Create a new async function
     const checkUser = async () => {
-      // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (result) {
         navigate('/home');
       }
     };
   
-    // Call the async function
     checkUser();
   }, [navigate]);
   
   return (
-    <div className='flex top-0 h-screen w-screen'>
-      <div className='flex top-0 w-[60vw]'>
+    <div className='flex flex-col md:flex-row h-screen w-screen'>
+      {/* Hide image section on smaller screens */}
+      <div className='hidden md:flex w-full md:w-1/2'>
         <HomeImage />
       </div>
-      <div className='flex flex-col items-center justify-center w-[40vw]'>
+      <div className='flex flex-col items-center justify-center w-full md:w-1/2'>
           <div className='w-full'>
             <img src={twitterLogo} alt="logo" className="w-14 ml-10" />
           </div>
