@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Nav, Search, Tweet, WhoToFollow } from '@components/index';
-import TrendingList from '@components/TrendingList/TrendingList';
+import TrendingListFull from '@components/TrendingListFull/TrendingListFull';
 import { FiSettings } from "react-icons/fi";
 import { FaArrowLeft } from "react-icons/fa";
 import { IoSearch } from 'react-icons/io5';
@@ -111,7 +111,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
             <>
               <p className='pl-3 mt-1 text-[21px] font-bold dark:text-white'>Trends for you</p>
               <div className="flex flex-col m-0 p-0 justify-center dark:text-white">
-                <TrendingList />
+                <TrendingListFull />
               </div>
             </>
           )}
