@@ -163,30 +163,26 @@ const ProfileDetails = () => {
   // const [replies, setReplies] = useState<TweetProps[]>([]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userDataX = await fetchUserData();
+        //setUserData()
+        //console.log(userDataX);
+      //   const followingCount = await countFollowing(userData.id);
+      //   const followerCount = await countFollowers(userData.id);
+        // console.log(followingCount); 
+        //setUserData(null);
+        setUserData(userDataX);
+      } catch (error) {
+          console.error("Error fetching data: ", error);
+      }
+    } 
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        //const { data: { user } } = {};
-        // if (user) {
-        
-        const fetchData = async () => {
-          try {
-            const userDataX = await fetchUserData();
-            //setUserData()
-            //console.log(userDataX);
-          //   const followingCount = await countFollowing(userData.id);
-          //   const followerCount = await countFollowers(userData.id);
-            // console.log(followingCount); 
-            setUserData(null);
-            setUserData(userDataX);
-          
-          } catch (error) {
-              console.error("Error fetching data: ", error);
-          }
-        } 
-        fetchData();
-
-        //console.log(userData.User_Id);
-
         const fetchFollData = async () => {
           try {
             const followerTemp = await countFollowers(userData.User_Id);
@@ -868,6 +864,7 @@ const ProfileDetails = () => {
   // };
 
   if (!profileDetails || !userProfile) {
+    console.log("Log");
     return <div>Loading...</div>;
   }
 
