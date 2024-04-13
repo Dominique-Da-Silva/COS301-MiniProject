@@ -77,7 +77,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+      <div className="sidebar-right w-1/3 ml-7 mt-2 pl-1 pr-2">
         {renderSettingsContent()}
       </div>
     </div>
