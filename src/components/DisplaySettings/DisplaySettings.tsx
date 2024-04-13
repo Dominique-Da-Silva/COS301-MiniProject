@@ -2,7 +2,7 @@
 import React from "react";
 import {RadioGroup, Radio, cn} from "@nextui-org/react";
 
-export const CustomRadio = (props) => {
+export const CustomRadio = (props: any) => {
   const {children, ...otherProps} = props;
 
   return (
@@ -65,13 +65,10 @@ const DisplaySettings = () => {
         <label className="block text-gray-700 font-semibold mb-2">Background</label>
         <RadioGroup orientation="horizontal">
           <CustomRadio value="free">
-            Free
+            Default
           </CustomRadio>
           <CustomRadio value="pro">
-            Pro
-          </CustomRadio>
-          <CustomRadio value="enterprise">
-            Enterprise
+            Dark
           </CustomRadio>
         </RadioGroup>
       </div>
