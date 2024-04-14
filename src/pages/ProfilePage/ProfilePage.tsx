@@ -183,52 +183,60 @@ const ProfileDetails = () => {
   // }, []);
 
   useEffect(() => {
+    const profileSub = async () => {
+      try {
+        const profileTemp = await fetchProfileDetails(userData.User_Id);
+        const followerTemp = await countFollowers(userData.User_Id);
+        const followingTemp = await countFollowing(userData.User_Id);
+        const userDataX = await fetchUserData();
+        setUserFollowers(followerTemp);
+        setUserFollowing(followingTemp);
+        setUserData(userDataX);
+        setProfileDetails(profileTemp);
+      } catch (error) {
+          console.error("Error fetching data: ", error);
+      }
+    } 
+    profileSub();
+    
     const fetchUserProfile = async () => {
       try {
-        const fetchData = async () => {
-          try {
-            const userDataX = await fetchUserData();
-            //setUserData()
-            //console.log(userDataX);
-          //   const followingCount = await countFollowing(userData.id);
-          //   const followerCount = await countFollowers(userData.id);
-            // console.log(followingCount); 
-            //setUserData(null);
-            setUserData(userDataX);
-          } catch (error) {
-              console.error("Error fetching data: ", error);
-          }
-        } 
-        fetchData();
+        // const fetchData = async () => {
+        //   try {
+        //     const userDataX = await fetchUserData();
+        //     //setUserData()
+        //     //console.log(userDataX);
+        //   //   const followingCount = await countFollowing(userData.id);
+        //   //   const followerCount = await countFollowers(userData.id);
+        //     // console.log(followingCount); 
+        //     //setUserData(null);
+        //     setUserData(userDataX);
+        //   } catch (error) {
+        //       console.error("Error fetching data: ", error);
+        //   }
+        // } 
+        // fetchData();
 
-        const fetchFollData = async () => {
-          try {
-            const followerTemp = await countFollowers(userData.User_Id);
-            const followingTemp= await countFollowing(userData.User_Id);
-            //setUserData()
-            //console.log(followerTemp);
-            //console.log(followingTemp);
-            //   const followingCount = await countFollowing(userData.id);
-          //   const followerCount = await countFollowers(userData.id);
-            // console.log(followingCount); 
-            setUserFollowers(followerTemp);
-            setUserFollowing(followingTemp);
-          } catch (error) {
-              console.error("Error fetching data: ", error);
-          }
-        } 
-        fetchFollData();
+        // const fetchFollData = async () => {
+        //   try {
+        //     const followerTemp = await countFollowers(userData.User_Id);
+        //     const followingTemp = await countFollowing(userData.User_Id);
+        //     const userDataX = await fetchUserData();
+        //     //setUserData()
+        //     //console.log(followerTemp);
+        //     //console.log(followingTemp);
+        //     //   const followingCount = await countFollowing(userData.id);
+        //   //   const followerCount = await countFollowers(userData.id);
+        //     // console.log(followingCount); 
+        //     setUserFollowers(followerTemp);
+        //     setUserFollowing(followingTemp);
+        //     setUserData(userDataX);
 
-        const profileSub = async () => {
-          try {
-            const profileTemp = await fetchProfileDetails(userData.User_Id);
-            //console.log(profileTemp);
-            setProfileDetails(profileTemp);
-          } catch (error) {
-              console.error("Error fetching data: ", error);
-          }
-        } 
-        profileSub();
+        //   } catch (error) {
+        //       console.error("Error fetching data: ", error);
+        //   }
+        // } 
+        // fetchFollData();
 
         const mockTweets: TweetProps[] = [
           {
@@ -621,7 +629,7 @@ const ProfileDetails = () => {
     };
 
     fetchUserProfile();
-  }, [activeTab]);
+  }, [activeTab, userData.User_Id]);
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
