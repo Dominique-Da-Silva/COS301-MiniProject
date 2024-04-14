@@ -26,7 +26,7 @@ const fetchTweets = async () => {
 
   const addTweet = async (tweetData: any) => {
   try {
-    //console.log(tweetData);
+    console.log(tweetData);
     if(tweetData.Img_file)
     {
       const { data: uploadedImage, error: imageError } = await supabase.storage
@@ -38,12 +38,16 @@ const fetchTweets = async () => {
       throw imageError;
     }
     
-    //console.log("uploaded in media");
+    console.log("uploaded in media");
+    console.log(uploadedImage);
+
+    const {data:image_url} = supabase.storage.from("media").getPublicUrl(uploadedImage.path);
+    console.log(image_url);
 
     const tweet = {
       User_Id:tweetData.User_Id,
       Content:tweetData.Content,
-      Img_Url: uploadedImage.path
+      Img_Url: image_url.publicUrl
     };
     // Insert tweet data into the database
     const { data: insertedTweet, error: tweetError } = await supabase

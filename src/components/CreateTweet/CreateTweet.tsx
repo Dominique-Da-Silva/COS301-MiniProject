@@ -84,11 +84,13 @@ const CreateTweet = () => {
       if (currentUser !== undefined) {
       const user = currentUser.auth_id;
       // console.log("User:", user);
-      const imgUrl = selectedImage ? URL.createObjectURL(selectedImage) : "";
-      const tweetData = { User_Id: user, Content: tweetText, Img_filename:currentUser.auth_id ,Img_file: imgUrl };
+      // const imgUrl = selectedImage ? URL.createObjectURL(selectedImage) : "";
+      const date = new Date();
+      const tweetData = { User_Id: user, Content: tweetText, Img_filename: user?.toString() + date?.toISOString().replace(/Z$/, '') + (selectedImage?.name || ""),Img_file: selectedImage };
       // console.log("Tweet data:", tweetData);
       const usersData = await addTweet(tweetData);
       console.log("Tweet posted successfully:", usersData);
+      window.location.reload();
       }
       else
       {
