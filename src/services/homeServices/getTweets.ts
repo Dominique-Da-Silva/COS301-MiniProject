@@ -34,7 +34,7 @@ const fetchTweets = async () => {
       //console.log("From add tweet: "+tweetData.Img_file);
       const { data: uploadedImage, error: imageError } = await supabase.storage
       .from('media')
-      .upload(`tweet_images/${tweetData.Img_file.name}`, tweetData.Img_file, { upsert: false});
+      .upload(`tweet_images/${tweetData.Img_filename}`, tweetData.Img_file, { upsert: false});
 
     if (imageError) {
       console.log(imageError);
@@ -43,9 +43,6 @@ const fetchTweets = async () => {
     const { data: publicURL } = await supabase.storage
     .from("media")
      .getPublicUrl(uploadedImage.path);
-     // Insert image reference into database table
-    //console.log("Public URL:", publicURL);
-    //console.log("uploaded in media");
 
     const tweet = {
       User_Id:tweetData.User_Id,
@@ -56,7 +53,8 @@ const fetchTweets = async () => {
     const { data: insertedTweet, error: tweetError } = await supabase
       .from('Tweets')
       .insert([tweet])
-
+      .select()
+      addTags(insertedTweet);
     if (tweetError) {
       throw tweetError;
     }
@@ -72,10 +70,12 @@ const fetchTweets = async () => {
     const { data: insertedTweet, error: tweetError } = await supabase
       .from('Tweets')
       .insert([tweet])
-
+      .select()
+      addTags(insertedTweet);
     if (tweetError) {
       throw tweetError;
     }
+    //console.log("From addTweet:"+insertedTweet);
     return insertedTweet;
   }
   } catch (error) {
@@ -118,5 +118,63 @@ const getTrendingTopics = async () => {
     throw error; // Re-throw the error to handle it in the calling code if needed
   }
 };
+async function addTags(tweetData: any) {
+  const regex = /#[^\s#]+/g; // Matches hashtags (#) followed by non-whitespace characters
+  const matches = tweetData[0].Content.match(regex);
+  if (matches && matches.length > 0) { // Found tags
+      for (const match of matches) {
+        //console.log(match);
+        // Trim the tag to remove the '#' character
+        const trimmedTag = match.substring(1);
+        //(trimmedTag);
+            const { data: storedTags, error } = await supabase
+            .from('Stored_Tags')
+            .select('Tag_Id, Tag_Name')
+            .eq('Tag_Name', trimmedTag);
+          if (error) {
+            throw error
+          } else {
+            //console.log('Stored tags:', storedTags);
+          }
+
+          if (storedTags && storedTags.length>0) { // Tag exists, insert into tweet tags directly
+              const { error } = await supabase
+                  .from('Tweet_Tags')
+                  .insert([
+                      { Tweet_Id: tweetData[0].Tweet_Id, Tag_Id: storedTags[0].Tag_Id },
+                  ])
+                  .select();
+                  //console.log("Inserted tags:"+tags);
+              if (error) throw error;
+          } else { // Store new tag and then insert into tweet tags
+              const { data: insertedTag, error: tagInsertError } = await supabase
+                  .from('Stored_Tags')
+                  .insert([{ Tag_Name: trimmedTag }])
+                  .select();
+
+              if (tagInsertError) throw tagInsertError;
+
+              const { error } = await supabase
+                  .from('Tweet_Tags')
+                  .insert([
+                      { Tweet_Id: tweetData[0].Tweet_Id, Tag_Id: insertedTag[0].Tag_Id },
+                  ])
+                  .select();
+                  //console.log("Inserted new tag: "+tags);
+              if (error) throw error;
+          }
+      }
+  } else {
+    console.log("Did not find tags");
+      return; // No tags found
+  }
+}
 
  export {getTrendingTopics};
+
+//  let { data: Stored_Tags, error } = await supabase
+//  .from('Stored_Tags')
+//  .select("*")
+
+//  // Filters
+//  .eq('Tag_Name', 'Equal to')
