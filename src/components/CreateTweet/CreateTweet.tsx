@@ -324,7 +324,7 @@ const CreateTweet = () => {
                 className="rounded-full bg-sky-500 text-white border-none font-bold"
                 isDisabled
               >
-                Post
+                Login to post
               </Button>
           }
         </div>
