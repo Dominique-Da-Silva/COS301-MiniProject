@@ -48,8 +48,9 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
     setIsFollowing(true);
   };
 
-  const unFollow = (user: User) => {
+  const unFollowUser = (user: User) => {
     console.log("Unfollowed", user);
+    setButtonText("Follow");
     setIsFollowing(false);
   };
 
@@ -105,7 +106,7 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
                   <Button
                     className="ml-auto font-bold text-white bg-black h-7"
                     radius="full"
-                    onClick={() => followUser(user)}
+                    onClick={isFollowing ? () => unFollowUser(user) : () => followUser(user)}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   >
