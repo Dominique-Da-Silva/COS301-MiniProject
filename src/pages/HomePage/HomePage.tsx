@@ -120,8 +120,8 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="dark">
-      <div className="container flex dark:bg-black">
+    // <div className="dark w-full flex justify-center align-middle">
+      <div className="container flex w-full justify-center dark:bg-black">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>
@@ -196,7 +196,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         <WhoToFollow users={[]} />
       </div>
     </div>
-    </div>
+    // </div>
     
   );
 };
