@@ -145,7 +145,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               className="text-md p-0"
             > */}
             {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
-          {tweets?.map(tweet => {
+          {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
             // console.log("Tweet:");
             // console.log(tweet);
             // console.log("Users:");
@@ -156,7 +156,7 @@ const HomePage: React.FC<HomePageProps> = () => {
             const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
             const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
             const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-            console.log("Image URL:", image_url);
+            //console.log("Image URL:", image_url);
             return (
               <Tweet
                 key={tweet.Tweet_Id}
