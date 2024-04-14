@@ -128,7 +128,7 @@ const ProfileDetails = () => {
 
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
-  const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
+  const [profileDetails, setProfileDetails] = useState<any>(null);
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(mockUserProfile);
   const [userFollowers, setUserFollowers] = useState<any>(null);
