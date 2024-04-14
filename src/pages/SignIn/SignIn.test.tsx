@@ -46,6 +46,6 @@ describe('Singin component', () => {
         expect(isUserLoggedIn).toHaveBeenCalled();
        
       });
-
   })
-});
+
+})
