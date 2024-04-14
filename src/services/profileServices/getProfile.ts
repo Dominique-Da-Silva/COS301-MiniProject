@@ -15,4 +15,21 @@ export const fetchProfileDetails = async (userId: number): Promise<any> => {
     } catch (error) {
       return "Error fetching profile details.";
     }
-};
+}
+
+
+// Gets all user profiles
+export const fetchAllProfiles = async (): Promise<any> => {
+    try {
+      const { data: allProfiles, error: allProfilesError } = await supabase.from('Profile').select('*');
+  
+      if (allProfilesError) {
+        throw allProfilesError;
+      }
+  
+      return allProfiles;
+      
+    } catch (error) {
+      return "Error fetching all profiles.";
+    }
+}

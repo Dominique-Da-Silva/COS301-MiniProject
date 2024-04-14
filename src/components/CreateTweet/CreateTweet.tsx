@@ -1,15 +1,49 @@
-import { Avatar, Button, Textarea, Tooltip } from "@nextui-org/react";
-import { GrGallery } from "react-icons/gr";
+import { useState } from "react";
+import {
+  Avatar,
+  Button,
+  Textarea,
+  Tooltip
+} from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure
+} from "@nextui-org/react";
+import {
+  GalleryIcon,
+} from "@assets/index";
+import { addTweet } from "@services/index";
+import { getCurrentUser } from "@services/auth/auth";
+
+// import { GrGallery } from "react-icons/gr";
 import { MdOutlineGifBox } from "react-icons/md";
 import { LiaPollHSolid } from "react-icons/lia";
 import { FaRegFaceSmile } from "react-icons/fa6";
 import { TbCalendarSearch } from "react-icons/tb";
-
+import { useEffect} from "react";
+import { isUserLoggedIn } from "@services/index";
 
 const CreateTweet = () => {
-  const handleGalleryClick = (event: any) => {
-    event.preventDefault();
-    // Handle Gallery click
+  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState(null || undefined);
+  const [tweetText, setTweetText] = useState("");
+
+
+  // const handleGalleryClick = (event: any) => {
+  //   event.preventDefault();
+  //   // Handle Gallery click
+  //   console.log("Gallery clicked");
+  // };
+
+  const handleImageChange = (event: any) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+    console.log(file);
   };
 
   const handleGIFClick = (event: any) => {
@@ -32,6 +66,56 @@ const CreateTweet = () => {
     // Handle Schedule click
   };
 
+  // const handlePostTweet = (event: any) => {
+  //   event.preventDefault();
+  //   // Handle Post Tweet click
+  //   console.log("Post Tweet clicked");
+  //   console.log("Tweet text:", tweetText);
+  //   console.log("Selected Image:", selectedImage);
+
+  // };
+
+  const postTweet = async () => {
+    console.log("Post Tweet clicked");
+    try {
+      const currentUser = await getCurrentUser();
+      // console.log("Current User:", currentUser);
+      // console.log("Current User Auth ID:", currentUser?.auth_id);
+      if (currentUser !== undefined) {
+      const user = currentUser.auth_id;
+      // console.log("User:", user);
+      const imgUrl = selectedImage ? URL.createObjectURL(selectedImage) : "";
+      const tweetData = { User_Id: user, Content: tweetText, Img_filename:currentUser.auth_id ,Img_file: imgUrl };
+      // console.log("Tweet data:", tweetData);
+      const usersData = await addTweet(tweetData);
+      console.log("Tweet posted successfully:", usersData);
+      }
+      else
+      {
+        console.log("User not found");
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  const removeImage = () => {
+    const file = undefined;
+    setSelectedImage(file);
+  }
+  
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      setUserAuthStatus(result);
+    }
+    
+    // Call the async function
+    checkUser();
+  }, []);
+
   return (
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
@@ -40,7 +124,7 @@ const CreateTweet = () => {
           // src={imageUrl} // profile image url to be replaced
           alt="User Avatar"
           className="user-avatar min-w-12 min-h-12"
-          // style={{ minWidth: '48px', minHeight: '48px' }}
+        // style={{ minWidth: '48px', minHeight: '48px' }}
         />
         {/* decide what variant is better suited later on  */}
         <Textarea
@@ -48,7 +132,16 @@ const CreateTweet = () => {
           placeholder="What is happening?!"
           className="p-2"
           style={{ width: "150px" }}
+          value={tweetText}
+          onChange={(event: any) => setTweetText(event.target.value)}
         />
+        {selectedImage && (
+          <div className="mt-4 mx-auto">
+            <img src={URL.createObjectURL(selectedImage)} alt="Selected Image" className="max-w-full" />
+            <Button onClick={removeImage}>X</Button>
+          </div>
+          
+        )}
       </div>
       <div className="flex justify-between items-center mt-2 mx-12 gap-1">
         <div className="flex gap-1">
@@ -75,10 +168,37 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button size='lg' isIconOnly onClick={handleGalleryClick} variant="light" className="text-cyan-400">
-              <GrGallery/>
+            <Button isIconOnly onPress={onOpen} variant="light">{//onClick={handleGalleryClick}}
+            }
+              <img src={GalleryIcon} alt="Gallery" className="w-6 h-6" />
             </Button>
           </Tooltip>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {(onClose: any) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                  <ModalBody>
+                    <p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                    </p>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="danger" variant="light" onPress={onClose}>
+                      Close
+                    </Button>
+                    <Button color="primary" onPress={onClose}>
+                      Action
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
           <Tooltip
             content="GIF"
             placement="bottom"
@@ -189,12 +309,24 @@ const CreateTweet = () => {
           </Tooltip>
         </div>
         <div className="-mx-9">
-          <Button
-            radius="full"
-            className="rounded-full bg-sky-500 text-white border-none font-bold"
-          >
-            Post
-          </Button>
+          {
+            userAuthStatus ?
+              <Button
+                radius="full"
+                className="rounded-full bg-sky-500 text-white border-none font-bold"
+                onClick={postTweet}
+              >
+                Post
+              </Button>
+              :
+              <Button
+                radius="full"
+                className="rounded-full bg-sky-500 text-white border-none font-bold"
+                isDisabled
+              >
+                Post
+              </Button>
+          }
         </div>
       </div>
     </div>

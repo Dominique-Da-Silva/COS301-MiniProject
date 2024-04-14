@@ -16,7 +16,7 @@
 
 </p>
 
-![image](images/Splash_Page_Screenshot.png)
+![image](images/SplashPage.png)
 
 # Table of contents
 
@@ -74,7 +74,7 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 
 # Demo Video
 <p align="center">
-<a href="">Demo 1</a><br>
+<a href="https://www.youtube.com/watch?v=_SxSVuEryPU">Demo 1</a><br>
 <a href="">Demo 2</a><br>
 </p>
 
@@ -91,7 +91,6 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 <a href ="https://docs.google.com/document/d/1kqSZR3lpSLi-COQGo9uN9eQ1im35OKx1a0JLmobBb-M/edit?usp=sharing">Design Specification</a><br>
 <a href="https://www.figma.com/file/w0aRTpe5SPT38VwPLuGaFK/COS301-MP-13?type=design&node-id=333%3A2&mode=design&t=Zq1dr1WePO4TwN30-1">Figma designs</a><br>
 <a href="https://github.com/orgs/COS301-SE-2024/projects/37">GitHub Project Board</a><br>
-<a href ="https://docs.google.com/document/d/1WYdSNm-hKXVSyh9Hql8k3S-u84HcQ3ZX87PrBBWfE_o/edit?usp=sharing">Architecture Plan</a><br>
 <a href="https://docs.google.com/document/d/1VsK2jxQTtA9ZZIZX_dhPFOpS2-zdkvMv/edit?usp=sharing&ouid=101397220993474127366&rtpof=true&sd=true">Testing Guidelines</a><br>
 </p>
 

@@ -11,8 +11,9 @@ import { fetchUserData } from "@services/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Search } from "@components/index";
+import { isUserLoggedIn } from "@services/index";
 // import {
 //   mockTweets,
 //   mockUsers,
@@ -128,6 +129,7 @@ const ProfileDetails = () => {
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
+  const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(mockUserProfile);
   const [userFollowers, setUserFollowers] = useState<any>(null);
   const [userFollowing, setUserFollowing] = useState<any>(null);
@@ -162,27 +164,43 @@ const ProfileDetails = () => {
   const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
   // const [replies, setReplies] = useState<TweetProps[]>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userDataX = await fetchUserData();
-        //setUserData()
-        //console.log(userDataX);
-      //   const followingCount = await countFollowing(userData.id);
-      //   const followerCount = await countFollowers(userData.id);
-        // console.log(followingCount); 
-        //setUserData(null);
-        setUserData(userDataX);
-      } catch (error) {
-          console.error("Error fetching data: ", error);
-      }
-    } 
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const userDataX = await fetchUserData();
+  //       //setUserData()
+  //       //console.log(userDataX);
+  //     //   const followingCount = await countFollowing(userData.id);
+  //     //   const followerCount = await countFollowers(userData.id);
+  //       // console.log(followingCount); 
+  //       //setUserData(null);
+  //       setUserData(userDataX);
+  //     } catch (error) {
+  //         console.error("Error fetching data: ", error);
+  //     }
+  //   } 
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
+        const fetchData = async () => {
+          try {
+            const userDataX = await fetchUserData();
+            //setUserData()
+            //console.log(userDataX);
+          //   const followingCount = await countFollowing(userData.id);
+          //   const followerCount = await countFollowers(userData.id);
+            // console.log(followingCount); 
+            //setUserData(null);
+            setUserData(userDataX);
+          } catch (error) {
+              console.error("Error fetching data: ", error);
+          }
+        } 
+        fetchData();
+
         const fetchFollData = async () => {
           try {
             const followerTemp = await countFollowers(userData.User_Id);
@@ -604,6 +622,20 @@ const ProfileDetails = () => {
 
     fetchUserProfile();
   }, [activeTab]);
+
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      if (!result) {
+        navigate("/home"); // Redirect to home page if user is not logged in
+      }
+    }
+    
+    // Call the async function
+    checkUser();
+  }, [navigate]);
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
