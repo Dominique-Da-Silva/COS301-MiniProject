@@ -90,6 +90,7 @@ const CreateTweet = () => {
       // console.log("Tweet data:", tweetData);
       const usersData = await addTweet(tweetData);
       console.log("Tweet posted successfully:", usersData);
+      window.location.reload();
       }
       else
       {
