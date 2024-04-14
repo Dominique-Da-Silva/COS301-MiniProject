@@ -217,13 +217,22 @@ fetchUserData();
               onClick={() => setShowPopup(!showPopup)}
             >
               <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <img src="images/IMG-20240312-WA0082.jpg"
-                  alt="Default Profile" className="rounded-full" />
-                {/*profileDetails?.Img_Url ? (<img src={profileDetails.Img_Url} alt="Profile" />) : (<FaUser size={20} color="#FFFFFF" />)*/}
+                <img
+                  src="images/IMG-20240312-WA0073.jpg"
+                  alt="Default Profile"
+                  className="rounded-full object-cover object-center"
+                  style={{ width: "100%", height: "100%" }}
+                />
+                {/*profileDetails?.Img_Url ? (
+    <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
+  ) : (
+    <FaUser size={20} color="#FFFFFF" />
+  )*/}
               </div>
+
               <div className="user-info">
-                <p className="text-sm font-semibold mb-1">Tessa Engelbrecht</p>
-                <p className="text-xs">@tessaengelbrecht</p>
+                <p className="text-sm font-semibold mb-1">Kyle Marshall</p>
+                <p className="text-xs">@dreamer</p>
                 {/*<p className="text-sm font-semibold mb-1">{userName}</p> 
                     <p className="text-xs">{userUsername}</p>*/}
               </div>
@@ -352,8 +361,19 @@ fetchUserData();
               onClick={() => setShowPopup(!showPopup)}
             >
               <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <FaUser size={20} color="#FFFFFF" />
+                <img
+                  src="images/IMG-20240312-WA0073.jpg"
+                  alt="Default Profile"
+                  className="rounded-full object-cover object-center"
+                  style={{ width: "100%", height: "100%" }}
+                />
+                {/*profileDetails?.Img_Url ? (
+    <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
+  ) : (
+    <FaUser size={20} color="#FFFFFF" />
+  )*/}
               </div>
+
 
               {showPopup && (
                 <div className="speech-bubble absolute bg-white border border-gray-300 rounded-lg p-2 mt-2">
