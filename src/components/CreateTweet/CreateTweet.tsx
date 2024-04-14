@@ -84,7 +84,7 @@ const CreateTweet = () => {
       if (currentUser !== undefined) {
       const user = currentUser.auth_id;
       // console.log("User:", user);
-      const imgUrl = selectedImage ? URL.createObjectURL(selectedImage) : "";
+      const imgUrl = selectedImage;
       const tweetData = { User_Id: user, Content: tweetText, Img_filename:currentUser.auth_id ,Img_file: imgUrl };
       // console.log("Tweet data:", tweetData);
       const usersData = await addTweet(tweetData);

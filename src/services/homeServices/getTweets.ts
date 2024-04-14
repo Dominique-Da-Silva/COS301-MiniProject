@@ -27,11 +27,14 @@ const fetchTweets = async () => {
   const addTweet = async (tweetData: any) => {
   try {
     //console.log(tweetData);
+    //const user = await supabase.auth.getUser();
+    //if (!user.data.user) return "error";
     if(tweetData.Img_file)
     {
+      //console.log("From add tweet: "+tweetData.Img_file);
       const { data: uploadedImage, error: imageError } = await supabase.storage
       .from('media')
-      .upload(`tweet_images/${tweetData.Img_filename}`, tweetData.Img_file, { upsert: false});
+      .upload(`tweet_images/${tweetData.Img_file.name}`, tweetData.Img_file, { upsert: false});
 
     if (imageError) {
       console.log(imageError);
