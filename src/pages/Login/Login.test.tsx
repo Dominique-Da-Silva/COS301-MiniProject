@@ -1,47 +1,51 @@
-import { render } from '@testing-library/react';
-import { describe, test } from 'vitest';
-import SignIn from './Login'; // Assuming the component is in a file named SignIn.js
+import { render, fireEvent,waitFor   } from '@testing-library/react';
+import { describe, test, vi } from 'vitest';
+import Login from './Login';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {  isUserLoggedIn, signInWithGithub, signInWithGoogle } from '@services/index';
 
-describe('SignIn component', () => {
+//using vi.fn() to mock the function to check if they are called correctly without calling them
+vi.mock('@services/index', () => ({
+  signInWithGithub: vi.fn(),
+  signInWithGoogle: vi.fn(),
+  isUserLoggedIn: vi.fn()
+}))
+
+
+//testing the login function
+describe('Login component', () => {
+  //test if the component renders correctly
   test("renders without crashing", () => {
     render(
       <Router>
           <Routes>
-            <Route path="/" element={<SignIn />} />
+            <Route path="/" element={<Login />} />
           </Routes>
       </Router>);
   })
 
-/*
-  test('renders a Sign In Page heading', () => {
-    const { getByText } = render(<SignIn />);
-    expect(getByText('Sign In Page')).toBeInTheDocument();
-  });
+  //testing if the sign in function works as expected(utility functions)
+  test("Sign in with provider", async ({expect}) => {
+    const {getByText} = render(
+      <Router>
+          <Routes>
+            <Route path="/" element={<Login />} />
+        </Routes>
+      </Router>);
 
-  test('renders a link to sign up page', () => {
-    const { getByText } = render(<SignIn />);
-    expect(getByText('Sign up with phone or email')).toHaveAttribute('href', '/signup');
-  });
+      const googleButt = getByText('Sign up with Google');
+      const githubButt = getByText('Sign up with Github');
 
-  test('renders Terms of Service link', () => {
-    const { getByText } = render(<SignIn />);
-    expect(getByText('Terms of Service')).toHaveAttribute('href', 'https://twitter.com/en/tos');
-  });
+      await waitFor(() => {
+        fireEvent.click(googleButt);
+        expect(signInWithGoogle).toHaveBeenCalled();
+        expect(isUserLoggedIn).toHaveBeenCalled();
+  
+        fireEvent.click(githubButt);
+        expect(signInWithGithub).toHaveBeenCalled();
+        expect(isUserLoggedIn).toHaveBeenCalled();
+       
+      });
 
-  test('renders Privacy Policy link', () => {
-    const { getByText } = render(<SignIn />);
-    expect(getByText('Privacy Policy')).toHaveAttribute('href', 'https://twitter.com/en/privacy');
-  });
-
-  test('renders Cookie Use link', () => {
-    const { getByText } = render(<SignIn />);
-    expect(getByText('Cookie Use')).toHaveAttribute('href', 'https://help.twitter.com/en/rules-and-policies/x-cookies');
-  });
-
-  test('renders a link to login page', () => {
-    const { getByText } = render(<SignIn />);
-    expect(getByText('Login')).toHaveAttribute('href', '/login');
-  });
-  */
+  })
 });
