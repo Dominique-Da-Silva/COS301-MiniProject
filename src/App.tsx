@@ -53,24 +53,24 @@ const App = () => {
   }, [auth_state])
 
   return (
-    <>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/:username" element={<ProfilePage />} />
-        <Route path="/editProfile" element={<EditProfile />} />
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
-    </Router>
-    <Toaster />
-    </>
+    <main className="w-full h-full">
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:username" element={<ProfilePage />} />
+          <Route path="/editProfile" element={<EditProfile />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/bookmarks" element={<Bookmarks />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </Router>
+      <Toaster />
+    </main>
   );
 };
 
