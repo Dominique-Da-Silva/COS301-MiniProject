@@ -28,45 +28,29 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-    const { data: tags, error: tagsError } = await supabase
-      .from('Stored_Tags')
-      .select(`
+    const{data: tags,error} = await supabase
+    .from('Stored_Tags')
+    .select(`
         *,
         Tweet_Tags (
-          created_at,
-          Tweets (*)
+         count()
         )
-      `)
-      // .count('Tweet_Tags(Tweet_Id)', { alias: 'tweet_count' })
-      .gte('Tweet_Tags.created_at', thirtyDaysAgo.toISOString()) // Filter tweets within the last 30 days
-      // .order('tweet_count', { ascending: false }); // Order by tweet count in descending order
-
-    if (tagsError) {
-      throw tagsError;
+      `);
+  
+    if(error)
+    {
+      throw error;
     }
-
-    // Count the number of tweets for each tag
-    const tagsWithTweetCounts = tags.map(tag => {
-      const tweetCount = tag.Tweet_Tags.length;
-      return {
-        ...tag,
-        tweet_count: tweetCount
-      };
-    });
-
-    console.log(JSON.stringify(tagsWithTweetCounts));
-    return new Response(JSON.stringify(tagsWithTweetCounts), {
+    console.log(JSON.stringify(tags));
+    return new Response(JSON.stringify(tags), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
-    });
+    })
   } catch (error) {
     console.log(error);
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 400,
-    });
+    })
   }
-});
+})

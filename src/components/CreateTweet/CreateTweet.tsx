@@ -83,6 +83,8 @@ const CreateTweet = () => {
       // console.log("Current User Auth ID:", currentUser?.auth_id);
       if (currentUser !== undefined) {
       const user = currentUser.auth_id;
+      // console.log("User:", user);
+      // const imgUrl = selectedImage ? URL.createObjectURL(selectedImage) : "";
       const date = new Date();
       const tweetData = { User_Id: user, Content: tweetText, Img_filename: user?.toString() + date?.toISOString().replace(/Z$/, '') + (selectedImage?.name || ""),Img_file: selectedImage };
       // console.log("Tweet data:", tweetData);
