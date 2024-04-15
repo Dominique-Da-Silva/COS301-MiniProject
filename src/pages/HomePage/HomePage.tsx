@@ -12,7 +12,7 @@ interface HomePageProps { }
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [_, setCurrentUser] = useState<any>(false);
+  const [currentUser, setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
@@ -120,13 +120,14 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="container flex">
-      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
-        <Nav />
-      </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border">
-        <div className="flex flex-col m-0 p-0 justify-center">
-          {/* <Tabs 
+    <div className="w-full flex justify-center align-middle">
+      <div className="container flex w-full justify-center dark:bg-black">
+        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
+          <Nav />
+        </div>
+        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
+          <div className="flex flex-col m-0 p-0 justify-center">
+            {/* <Tabs 
             aria-label="Options" 
             variant="underlined"
             classNames={{
@@ -185,16 +186,18 @@ const HomePage: React.FC<HomePageProps> = () => {
               <CreateTweet></CreateTweet>
             </Tab>
           </Tabs> */}
+          </div>
         </div>
-      </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
+        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+          <div className="mb-3">
+            <Search />
+          </div>
+          <TrendingTopics />
+          <WhoToFollow users={[]} />
         </div>
-        <TrendingTopics />
-        <WhoToFollow users={[]} />
       </div>
     </div>
+    
   );
 };
 

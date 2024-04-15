@@ -14,8 +14,8 @@ const LikeNotification: React.FC<LikeNotificationProp> = ({
   avatarUrl,
 }) => {
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4">
-      <div className="flex-col w-auto">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
+      <div className="flex-col w-auto dark:text-white">
         <RiHeart3Fill />
       </div>
       <div className="avatar">
@@ -25,12 +25,12 @@ const LikeNotification: React.FC<LikeNotificationProp> = ({
           className="user-avatar min-w-12 min-h-12"
         />
       </div>
-      <div className="post flex-col w-auto pl-2">
+      <div className="post flex-col w-auto pl-2 dark:text-white">
         <div className="user-info flex">
-          <p className="font-semibold p-0 m-0">{description}</p>
+          <p className="font-semibold p-0 m-0 dark:text-white">{description}</p>
         </div>
         <div className="p-0 m-0">
-          <p className="text-slate-700 p-0 m-0">{tweet}</p>
+          <p className="text-slate-700 p-0 m-0 dark:text-white">{tweet}</p>
         </div>
       </div>
     </div>

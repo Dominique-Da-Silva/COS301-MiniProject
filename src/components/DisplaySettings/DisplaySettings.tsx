@@ -1,4 +1,25 @@
 // import React from 'react';
+import {RadioGroup, Radio, cn} from "@nextui-org/react";
+
+export const CustomRadio = (props: any) => {
+  const {children, ...otherProps} = props;
+
+  return (
+    <Radio
+      {...otherProps}
+      classNames={{
+        base: cn(
+          "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
+          "flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent",
+          "data-[selected=true]:border-primary"
+        ),
+      }}
+    >
+      {children}
+    </Radio>
+  );
+};
+
 
 const DisplaySettings = () => {
   return (
@@ -41,20 +62,14 @@ const DisplaySettings = () => {
       </div>
       <div>
         <label className="block text-gray-700 font-semibold mb-2">Background</label>
-        <div className="flex items-center">
-          <button className="flex items-center mr-4 focus:outline-none">
-            <div className="w-6 h-6 rounded-full bg-white border border-gray-300"></div>
-            <span className="ml-2 text-gray-700">Default</span>
-          </button>
-          <button className="flex items-center mr-4 focus:outline-none">
-            <div className="w-6 h-6 rounded-full bg-gray-300"></div>
-            <span className="ml-2 text-gray-700">Dim</span>
-          </button>
-          <button className="flex items-center focus:outline-none">
-            <div className="w-6 h-6 rounded-full bg-black"></div>
-            <span className="ml-2 text-gray-700">Lights out</span>
-          </button>
-        </div>
+        <RadioGroup orientation="horizontal">
+          <CustomRadio value="free">
+            Default
+          </CustomRadio>
+          <CustomRadio value="pro">
+            Dark
+          </CustomRadio>
+        </RadioGroup>
       </div>
     </div>
   );
