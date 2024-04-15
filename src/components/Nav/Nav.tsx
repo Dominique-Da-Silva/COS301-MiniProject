@@ -115,7 +115,7 @@ fetchUserData();
   }, []);
 
   return (
-    <div className="sidebar left-0 top-0 h-full bg-white dark:bg-black p-12 dark:text-white">
+    <div className="sidebar h-full bg-white dark:bg-black py-12 dark:text-white fixed">
       {/* Logo */}
       <NavLink
         to="/home"
@@ -197,7 +197,7 @@ fetchUserData();
           {/* Post Button - will route to create tweet component */}
           {
             userAuthStatus ?
-              <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
+              <Button size="lg" className="post-button bg-sky-500 w-52 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
                 Post
               </Button>
               :

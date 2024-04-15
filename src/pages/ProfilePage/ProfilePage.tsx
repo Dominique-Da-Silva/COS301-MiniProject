@@ -848,9 +848,9 @@ const ProfileDetails = () => {
   }
 
   return (
-    <div className="dark w-full">
-      <div className="container flex dark:bg-black">
-        <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
+    <div className="w-full h-full flex justify-center align-middle">
+      <div className="container flex w-full justify-center dark:bg-black">
+        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
           <Nav />
         </div>
         <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
