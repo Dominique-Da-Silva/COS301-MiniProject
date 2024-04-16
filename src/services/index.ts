@@ -17,6 +17,7 @@ import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
 import {checkIfFollowing} from "./usersProfileServices/checkIfFollowing.ts";
 import {getLoggedUserId} from "./usersProfileServices/getLoggedUserId.ts";
 import { getTrendingTopics } from "./homeServices/getTweets.ts";
+import {changePassword} from "./auth/changePassword.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
@@ -24,5 +25,5 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
-    getTrendingTopics,
+    getTrendingTopics, changePassword
     };
