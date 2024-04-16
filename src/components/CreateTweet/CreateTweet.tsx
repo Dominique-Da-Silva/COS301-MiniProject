@@ -30,7 +30,7 @@ import { isUserLoggedIn } from "@services/index";
 const CreateTweet = () => {
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [selectedImage, setSelectedImage] = useState(null || undefined);
+  const [selectedImage, setSelectedImage] = useState<any>();
   const [tweetText, setTweetText] = useState("");
 
 
