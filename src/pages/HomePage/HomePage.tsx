@@ -145,7 +145,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-            {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
+          <CreateTweet />
           {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
             // console.log("Tweet:");
             // console.log(tweet);
