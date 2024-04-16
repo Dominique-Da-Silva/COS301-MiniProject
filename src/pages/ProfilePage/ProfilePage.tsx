@@ -848,132 +848,206 @@ const ProfileDetails = () => {
   }
 
   return (
-    <div className="container flex">
-      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
-        <Nav />
-      </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border">
-        <div className="flex flex-col w-full m-0 p-0 justify-center">
-          <div className="banner m-0">
-            <img
-              src={profileDetails.Banner_Url}
-              alt="Banner"
-              className="w-full h-48 m-0"
-            />
-          </div>
-          {/* Profile  Header} */}
-          <div className="profile-header bg-gray min-w-full p-0 flex items-center">
-            <div className="profile-info flex flex-col min-w-full m-0">
-              <div className="m-0 p-4">
-                <div className="profile flex min-w-full flex-1 justify-between items-center">
-                  <Avatar
-                    src={profileDetails.Img_Url}
-                    alt={userProfile.Name}
-                    size="lg"
-                  />
-                  {external ? (
-                    <Button
-                    className={`ml-auto text-base font-semibold rounded-full border ${
-                      following ? 'bg-blue-400 text-white border-blue-400' : 'bg-white border-gray-300 text-blue-400'
-                    } h-9 items-center`}
-                    style={{ borderColor: following ? '#1DA1F2' : '#DADADA', color: following ? '#FFFFFF' : '#1DA1F2' }}
-                    onClick={handleButtonClick}
-                    >
-                      {following ? 'Following' : 'Follow'}
-                    </Button>
-                  ) : (
-                    <NavLink to="/editProfile">
-                      <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
-                        <IoMdSettings className="mr-1" />
-                        Edit profile
+    <div className="w-full h-full flex justify-center align-middle">
+      <div className="container flex w-full justify-center dark:bg-black">
+        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
+          <Nav />
+        </div>
+        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
+          <div className="flex flex-col w-full m-0 p-0">
+            <div className="banner m-0">
+              <img
+                src={profileDetails.Banner_Url}
+                alt="Banner"
+                className="w-full h-48 m-0"
+              />
+            </div>
+            {/* Profile  Header} */}
+            <div className="profile-header bg-gray min-w-full p-0 flex items-center">
+              <div className="profile-info flex flex-col min-w-full m-0">
+                <div className="m-0 p-4">
+                  <div className="profile flex h-12 min-w-full flex-1 justify-between items-top">
+                    <Avatar
+                      src={profileDetails.Img_Url}
+                      alt={userProfile.Name}
+                      className="w-32 h-32 text-large -top-[86px]"
+                    />
+                    {external ? (
+                      <Button
+                      className={`ml-auto text-base font-semibold rounded-full border ${
+                        following ? 'bg-blue-400 text-white border-blue-400' : 'bg-white border-gray-300 text-blue-400'
+                      } h-9 items-center`}
+                      style={{ borderColor: following ? '#1DA1F2' : '#DADADA', color: following ? '#FFFFFF' : '#1DA1F2' }}
+                      onClick={handleButtonClick}
+                      >
+                        {following ? 'Following' : 'Follow'}
                       </Button>
-                    </NavLink>
-                  )}
-                </div>
-                <h2 className="font-bold text-xl">
-                  
-                  {userProfile.Name}
-                </h2>
-
-                <p className="text-gray-500 mb-5">@{userProfile.Username}</p>
-                <p className="mb-2">{profileDetails.Bio}</p>
-                <p className="text-gray-500 flex items-center">
-                  <BiCalendar className="mr-1" />
-                  Joined {createdAt}
-                </p>
-              </div>
-              {/* Profile Details */}
-              <div>
-                <div className="profile-details ">
-                  <div className="flex gap-6 items-center px-4 mb-6">
-                    {/* <div className="flex">
-                      <h3 className="font-bold text-lg">Tweets</h3>
-                      <p className="text-gray-500">0</p>
-                    </div> */}
-                    <div className="flex">
-                      <p className="font-semibold">{userProfile.following}&nbsp;</p>
-                      <h3 className="text-base text-gray-500">Following</h3>
-                    </div>
-                    <div className="flex">
-                      <p className="font-semibold">{userProfile.followers}&nbsp;</p>
-                      <h3 className="text-base text-gray-500">Followers</h3>
-                    </div>
+                    ) : (
+                      <NavLink to="/editProfile">
+                        <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
+                          <IoMdSettings className="mr-1" />
+                          Edit profile
+                        </Button>
+                      </NavLink>
+                    )}
                   </div>
+                  <h2 className="font-bold text-xl dark:text-white">
+                    
+                    {userProfile.Name}
+                  </h2>
+
+                  <p className="text-gray-500 mb-5">@{userProfile.Username}</p>
+                  <p className="mb-2 dark:text-white">{profileDetails.Bio}</p>
+                  <p className="text-gray-500 flex items-center">
+                    <BiCalendar className="mr-1" />
+                    Joined {createdAt}
+                  </p>
                 </div>
-              </div>
+                {/* Profile Details */}
                 <div>
-                  <div className="flex justify-around border-b border-gray-200">
-                    <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
-                        activeTab === "tweets"
-                          ? "text-black border-b-3 border-blue-500"
-                          : "text-gray-500"
-                      }`}
-                      onClick={() => handleTabClick("tweets")}
-                    >
-                      Tweets
-                    </button>
-
-                    <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
-                        activeTab === "replies"
-                          ? "text-black border-b-3 border-blue-500"
-                          : "text-gray-500"
-                      }`}
-                      onClick={() => handleTabClick("replies")}
-                    >
-                      Replies
-                    </button>
-                    <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
-                        activeTab === "media"
-                          ? "text-black border-b-3 border-blue-500"
-                          : "text-gray-500"
-                      }`}
-                      onClick={() => handleTabClick("media")}
-                    >
-                      Media
-                    </button>
-                    <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
-                        activeTab === "likes"
-                          ? "text-black border-b-3 border-blue-500"
-                          : "text-gray-500"
-                      }`}
-                      onClick={() => handleTabClick("likes")}
-                    >
-                      Likes
-                    </button>
+                  <div className="profile-details ">
+                    <div className="flex gap-6 items-center px-4 mb-6">
+                      {/* <div className="flex">
+                        <h3 className="font-bold text-lg">Tweets</h3>
+                        <p className="text-gray-500">0</p>
+                      </div> */}
+                      <div className="flex">
+                        <p className="font-semibold dark:text-white">{userProfile.following}&nbsp;</p>
+                        <h3 className="text-base text-gray-500">Following</h3>
+                      </div>
+                      <div className="flex">
+                        <p className="font-semibold dark:text-white">{userProfile.followers}&nbsp;</p>
+                        <h3 className="text-base text-gray-500">Followers</h3>
+                      </div>
+                    </div>
                   </div>
-                  
-                  {activeTab === "tweets" && (
+                </div>
+                  <div>
+                    <div className="flex justify-around border-b border-gray-200 dark:border-neutral-800">
+                      <button
+                        className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                          activeTab === "tweets"
+                            ? "text-black border-b-3 dark:text-white border-blue-500"
+                            : "text-gray-500"
+                        }`}
+                        onClick={() => handleTabClick("tweets")}
+                      >
+                        Tweets
+                      </button>
+
+                      <button
+                        className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                          activeTab === "replies"
+                            ? "text-black border-b-3 dark:text-white border-blue-500"
+                            : "text-gray-500"
+                        }`}
+                        onClick={() => handleTabClick("replies")}
+                      >
+                        Replies
+                      </button>
+                      <button
+                        className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                          activeTab === "media"
+                            ? "text-black border-b-3 dark:text-white border-blue-500"
+                            : "text-gray-500"
+                        }`}
+                        onClick={() => handleTabClick("media")}
+                      >
+                        Media
+                      </button>
+                      <button
+                        className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                          activeTab === "likes"
+                            ? "text-black border-b-3 dark:text-white border-blue-500"
+                            : "text-gray-500"
+                        }`}
+                        onClick={() => handleTabClick("likes")}
+                      >
+                        Likes
+                      </button>
+                    </div>
+                    
+                    {activeTab === "tweets" && (
+                      <div>
+                        {userTweets.length === 0 ? (
+                          <p className="text-center text-gray-500">
+                            User hasn't tweeted yet
+                          </p>
+                        ) : (
+                          userTweets.map((tweet, index) => (
+                            <Tweet
+                              key={index}
+                              name={tweet.name}
+                              username={tweet.username}
+                              text={tweet.text}
+                              imageUrl={tweet.image_url}
+                              likes={tweet.likes}
+                              retweets={tweet.retweets}
+                              comments={1000}
+                              saves={1000}
+                              timeDisplay={getTimeDisplay(tweet.createdAt)}
+                            />
+                          ))
+                        )}
+                      </div>
+                    )}
+                    {activeTab === "media" && (
+                      <div className="grid grid-cols-3 gap-1">
+                        {userTweets.filter((tweet) => tweet.image_url !== "")
+                          .length === 0 ? (
+                          <p className="text-center text-gray-500">
+                            No media to display
+                          </p>
+                        ) : (
+                          userTweets
+                            .filter((tweet) => tweet.image_url !== "")
+                            .map((tweet, index) => (
+                              <div key={index}>
+                                <img
+                                  src={tweet.image_url}
+                                  alt="Tweet"
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                            ))
+                        )}
+                      </div>
+                    )}
+
+                    {activeTab === "replies" && (
+                      <div>
+                        {userReplies.length === 0 ? (
+                          <p className="text-center text-gray-500">
+                            No replies to display
+                          </p>
+                        ) : (
+                          userReplies.map((reply, index) => (
+                            <Tweet
+                              key={index}
+                              name={reply.name}
+                              username={reply.username}
+                              text={reply.text}
+                              imageUrl={reply.image_url}
+                              likes={reply.likes}
+                              retweets={reply.retweets}
+                              comments={1000}
+                              saves={1000}
+                              timeDisplay={getTimeDisplay(reply.createdAt)}
+                            />
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {activeTab === "likes" && (
                     <div>
-                      {userTweets.length === 0 ? (
+                      {likedTweets.length === 0 ? (
                         <p className="text-center text-gray-500">
-                          User hasn't tweeted yet
+                          No liked Tweets to display
                         </p>
                       ) : (
-                        userTweets.map((tweet, index) => (
+                        likedTweets.map((tweet, index) => (
                           <Tweet
                             key={index}
                             name={tweet.name}
@@ -990,91 +1064,20 @@ const ProfileDetails = () => {
                       )}
                     </div>
                   )}
-                  {activeTab === "media" && (
-                    <div className="grid grid-cols-3 gap-1">
-                      {userTweets.filter((tweet) => tweet.image_url !== "")
-                        .length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          No media to display
-                        </p>
-                      ) : (
-                        userTweets
-                          .filter((tweet) => tweet.image_url !== "")
-                          .map((tweet, index) => (
-                            <div key={index}>
-                              <img
-                                src={tweet.image_url}
-                                alt="Tweet"
-                                className="object-cover w-full h-full"
-                              />
-                            </div>
-                          ))
-                      )}
-                    </div>
-                  )}
-
-                  {activeTab === "replies" && (
-                    <div>
-                      {userReplies.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          No replies to display
-                        </p>
-                      ) : (
-                        userReplies.map((reply, index) => (
-                          <Tweet
-                            key={index}
-                            name={reply.name}
-                            username={reply.username}
-                            text={reply.text}
-                            imageUrl={reply.image_url}
-                            likes={reply.likes}
-                            retweets={reply.retweets}
-                            comments={1000}
-                            saves={1000}
-                            timeDisplay={getTimeDisplay(reply.createdAt)}
-                          />
-                        ))
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {activeTab === "likes" && (
-                  <div>
-                    {likedTweets.length === 0 ? (
-                      <p className="text-center text-gray-500">
-                        No liked Tweets to display
-                      </p>
-                    ) : (
-                      likedTweets.map((tweet, index) => (
-                        <Tweet
-                          key={index}
-                          name={tweet.name}
-                          username={tweet.username}
-                          text={tweet.text}
-                          imageUrl={tweet.image_url}
-                          likes={tweet.likes}
-                          retweets={tweet.retweets}
-                          comments={1000}
-                          saves={1000}
-                          timeDisplay={getTimeDisplay(tweet.createdAt)}
-                        />
-                      ))
-                    )}
-                  </div>
-                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
+        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+          <div className="mb-3">
+            <Search />
+          </div>
+          <TrendingTopics />
+          <WhoToFollow users={[]} />
         </div>
-        <TrendingTopics />
-        <WhoToFollow users={[]} />
       </div>
     </div>
+    
   ); 
 };
 

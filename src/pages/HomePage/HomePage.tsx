@@ -120,13 +120,14 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="container flex">
-      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
-        <Nav />
-      </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border">
-        <div className="flex flex-col m-0 p-0 justify-center">
-          {/* <Tabs 
+    <div className="w-full flex justify-center align-middle">
+      <div className="container flex w-full justify-center dark:bg-black">
+        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
+          <Nav />
+        </div>
+        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
+          <div className="flex flex-col m-0 p-0 justify-center">
+            {/* <Tabs 
             aria-label="Options" 
             variant="underlined"
             classNames={{
@@ -145,7 +146,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               className="text-md p-0"
             > */}
             {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
-          {tweets?.map(tweet => {
+          {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
             // console.log("Tweet:");
             // console.log(tweet);
             // console.log("Users:");
@@ -156,7 +157,7 @@ const HomePage: React.FC<HomePageProps> = () => {
             const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
             const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
             const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-            console.log("Image URL:", image_url);
+            //console.log("Image URL:", image_url);
             return (
               <Tweet
                 key={tweet.Tweet_Id}
@@ -185,16 +186,18 @@ const HomePage: React.FC<HomePageProps> = () => {
               <CreateTweet></CreateTweet>
             </Tab>
           </Tabs> */}
+          </div>
         </div>
-      </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
+        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+          <div className="mb-3">
+            <Search />
+          </div>
+          <TrendingTopics />
+          <WhoToFollow users={[]} />
         </div>
-        <TrendingTopics />
-        <WhoToFollow users={[]} />
       </div>
     </div>
+    
   );
 };
 

@@ -12,11 +12,30 @@ const Flow1 = ({ formData, setFormData, setFlowPage }: any) => {
   const [selectedMonth, setSelectedMonth] = useState("Month");
   const [selectedDay, setSelectedDay] = useState("Day");
   const [selectedYear, setSelectedYear] = useState("Year");
+  const [error, setError] = useState<string>("");
 
   const handleNextPressed = (e: any) => {
     e.preventDefault();
-    if (formData.name === "" || formData.email === "") return;
-    if (selectedDay === "Day" || selectedMonth === "Month" || selectedYear === "Year") return;
+    if (formData.name === ""){ 
+      setError("Name is required");
+      return;
+    }
+    if (formData.email === ""){
+      setError("Email is required");
+      return;
+    }
+    if (selectedDay === "Day"){ 
+      setError("Day of birth is required");
+      return;
+    }
+    if (selectedMonth === "Month"){
+      setError("Month of birth is required");
+      return;
+    }
+    if (selectedYear === "Year"){
+      setError("Year of birth is required");
+      return;
+    }
     setFormData({ ...formData, dob: createDateObject(selectedDay, selectedMonth, selectedYear) });
     setFlowPage(3); // Skip capturing the code for now
   };
@@ -76,11 +95,6 @@ const Flow1 = ({ formData, setFormData, setFlowPage }: any) => {
       </DropdownItem>
     );
   }
-  useEffect(() => {
-    setSelectedDay("Day");
-  }, [selectedMonth, selectedYear]);
-  
-
 
   return (
     <Card shadow="sm" className="w-[400px] p-10">
@@ -190,12 +204,14 @@ const Flow1 = ({ formData, setFormData, setFlowPage }: any) => {
               </DropdownMenu>
             </Dropdown>
           </div>
+          {
+            error !== "" && <p className="text-red-500 text-xs mt-2">{error}</p>
+          }
           <Button onClick={handleNextPressed} radius="full" type="submit" className='bg-blue-500 hover:bg-blue-600 text-white'>Next</Button>
         </form>
       </Card>
   )
 }
-
 
 //the capture of the code sent to the email//but skip for now
 const Flow2 = ({formData, setFormData, setFlowPage}:any) => {
