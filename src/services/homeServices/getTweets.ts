@@ -89,3 +89,195 @@ Each object represents a tag and contains the following key-value pairs:
 "tweet_count": The count of tweets associated with this tag. */
 
  export {getTrendingTopics};
+
+ const likeTweet = async (tweetData: any) => {//the functions expects User_Id,Tweet_Id only
+    if(tweetData.User_Id != null){
+      try {
+       const { data:like, error } = await supabase
+      .from('Likes')
+      .insert([
+        { tweetData },
+      ])
+      .select()
+      if(error) throw error;
+
+      return like;
+      } catch (error) {
+        if (error instanceof FunctionsHttpError) {
+          const errorMessage = await error.context.json()
+          console.log('Function returned an error', errorMessage)
+        } else if (error instanceof FunctionsRelayError) {
+          console.log('Relay error:', error.message)
+        } else if (error instanceof FunctionsFetchError) {
+          console.log('Fetch error:', error.message)
+        }
+        throw error; // Re-throw the error to handle it in the calling code if needed
+      }
+      
+    }
+    else {
+      return { error: "User ID is missing or invalid." };
+    }
+ };
+ export {likeTweet};
+
+ const unlikeTweet = async (tweetData: any) => {//the functions expects User_Id,Tweet_Id only
+  if(tweetData.User_Id != null){
+    try {
+
+      const { error } = await supabase
+      .from('Likes')
+      .delete()
+      .eq('Tweet_Id', tweetData.Tweet_Id)
+      .eq('User_Id',tweetData.User_Id)
+              
+    if(error) throw error;
+
+    return { success: "Tweet unliked successfully." };
+
+    } catch (error) {
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+        console.log('Function returned an error', errorMessage)
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+      }
+      throw error; // Re-throw the error to handle it in the calling code if needed
+    }
+    
+  }
+  else {
+    return { error: "User ID is missing or invalid." };
+  }
+};
+export {unlikeTweet};
+
+const reTweet = async (tweetData: any) => {//the functions expects User_Id,Tweet_Id only
+  if(tweetData.User_Id != null){
+    try {
+     const { data:retweet, error } = await supabase
+    .from('Retweets')
+    .insert([
+      { tweetData },
+    ])
+    .select()
+
+    if(error) throw error;
+
+    return retweet;
+    } catch (error) {
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+        console.log('Function returned an error', errorMessage)
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+      }
+      throw error; // Re-throw the error to handle it in the calling code if needed
+    }
+    
+  }
+  else {
+    return { error: "User ID is missing or invalid." };
+  }
+};
+export {reTweet};
+const undoRetweet = async (tweetData: any) => {//the functions expects User_Id,Tweet_Id only
+  if(tweetData.User_Id != null){
+    try {
+     
+    const { error } = await supabase
+    .from('Retweets')
+    .delete()
+    .eq('Tweeter_Id', tweetData.User_Id)
+    .eq('Tweet_Id',tweetData.Tweet_Id)
+        
+    if(error) throw error;
+
+    return { success: "Tweet unretweeted successfully." };
+    } catch (error) {
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+        console.log('Function returned an error', errorMessage)
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+      }
+      throw error; // Re-throw the error to handle it in the calling code if needed
+    }
+    
+  }
+  else {
+    return { error: "User ID is missing or invalid." };
+  }
+};
+export {undoRetweet};
+
+const follow = async (followData: any) => {//the functions expects User_Id,following_Id(following) only
+  if(followData.User_Id != null){
+    try {
+     const { data:follow, error } = await supabase
+    .from('Followers')
+    .insert([
+      { followData },
+    ])
+    .select()
+
+    if(error) throw error;
+
+    return follow;
+    } catch (error) {
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+        console.log('Function returned an error', errorMessage)
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+      }
+      throw error; // Re-throw the error to handle it in the calling code if needed
+    }
+    
+  }
+  else {
+    return { error: "User ID is missing or invalid." };
+  }
+};
+export {follow};
+
+const unfollow = async (followData: any) => {//the functions expects User_Id,following_Id(following) only
+  if(followData.User_Id != null){
+    try {
+     const { error } = await supabase
+    .from('Followers')
+    .delete()
+    .eq("Followed_Id",followData.User_Id)
+    .eq("Following_Id",followData.following_Id)
+
+    if(error) throw error;
+
+    return { success: "unfollowed succesfully." };
+
+    } catch (error) {
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+        console.log('Function returned an error', errorMessage)
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+      }
+      throw error; // Re-throw the error to handle it in the calling code if needed
+    }
+    
+  }
+  else {
+    return { error: "User ID is missing or invalid." };
+  }
+};
+export {unfollow};
+
