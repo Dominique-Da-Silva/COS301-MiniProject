@@ -12,7 +12,7 @@ interface HomePageProps { }
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [currentUser, setCurrentUser] = useState<any>(false);
+  const [setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
@@ -145,7 +145,7 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-            {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
+          <CreateTweet />
           {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
             // console.log("Tweet:");
             // console.log(tweet);
