@@ -18,6 +18,8 @@ import {checkIfFollowing} from "./usersProfileServices/checkIfFollowing.ts";
 import {getLoggedUserId} from "./usersProfileServices/getLoggedUserId.ts";
 import { getTrendingTopics } from "./homeServices/getTweets.ts";
 import {toggleLike} from "./homeServices/toggleLike.ts";
+import {toggleSave} from "./homeServices/toggleSave.ts";
+import {toggleRetweet} from "./homeServices/toggleRetweet.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
@@ -25,5 +27,5 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
-    getTrendingTopics,toggleLike,
+    getTrendingTopics,toggleLike,toggleSave,toggleRetweet,
     };
