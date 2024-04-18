@@ -17,45 +17,45 @@ Deno.serve(async (req) => {
   try {
     const request = await req.json();
     //console.log(request);
-    if(request.tweetData.Img_file){
-    //const {User_Id,Content,Img_filename,Img_file} = await req.json();
-    console.log(request.tweetData.Img_file);
-    //instantiate a variable for a file and pass it to upload
-    const { data: uploadedImage, error: imageError } = await supabase.storage
-      .from('media')
-      .upload(`tweet_images/${request.tweetData.Img_filename}`, request.tweetData.Img_file, { upsert: false});
-
-    if (imageError) {
-      console.log(imageError);
-      throw imageError;
+    if(request.tweetData.Img_file)
+      {
+        //console.log("From add tweet: "+tweetData.Img_file);
+        const { data: uploadedImage, error: imageError } = await supabase.storage
+        .from('media')
+        .upload(`tweet_images/${request.tweetData.Img_filename}`, request.tweetData.Img_file, { upsert: false});
+  
+      if (imageError) {
+        throw imageError;
+      }
+  
+      
+      console.log("uploaded in media");
+      console.log(uploadedImage);
+  
+      const {data:image_url} = supabase.storage.from("media").getPublicUrl(uploadedImage.path);
+      console.log(image_url);
+  
+  
+      const tweet = {
+        User_Id:request.tweetData.User_Id,
+        Content:request.tweetData.Content,
+        Img_Url: image_url.publicUrl
+      };
+      // Insert tweet data into the database
+      const { data: insertedTweet, error: tweetError } = await supabase
+        .from('Tweets')
+        .insert([tweet])
+        .select()
+        addTags(insertedTweet);
+      if (tweetError) {
+        throw tweetError;
+      }
+      return new Response(JSON.stringify(insertedTweet), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200,
+      });
     }
-    
-    //console.log("uploaded in media");
-
-    const tweetData = {
-      User_Id:request.tweetData.User_Id,
-      Content:request.tweetData.Content,
-      Img_Url: uploadedImage.fullPath
-    };
-    // Insert tweet data into the database
-    const { data: insertedTweet, error: tweetError } = await supabase
-      .from('Tweets')
-      .insert([tweetData])
-      .select();
-
-    if (tweetError) {
-      throw tweetError;
-    }
-
-    console.log('Tweet inserted successfully:', insertedTweet);
-
-    // Return the inserted tweet as response
-    return new Response(JSON.stringify(insertedTweet), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200,
-    });}
     else{
-      //const {User_Id,Content} = await req.json();
       const tweet = {
         User_Id:request.tweetData.User_Id,
         Content:request.tweetData.Content,
@@ -65,10 +65,13 @@ Deno.serve(async (req) => {
       const { data: insertedTweet, error: tweetError } = await supabase
         .from('Tweets')
         .insert([tweet])
-  
+        .select()
+        console.log("calling addTags");
+        addTags(insertedTweet);
       if (tweetError) {
         throw tweetError;
       }
+      
       // Return the inserted tweet as response
     return new Response(JSON.stringify(insertedTweet), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -83,3 +86,54 @@ Deno.serve(async (req) => {
     });
   }
 });
+async function addTags(tweetData:any) {
+  const regex = /#[^\s#]+/g; // Matches hashtags (#) followed by non-whitespace characters
+  const matches = tweetData[0].Content.match(regex);
+  if (matches && matches.length > 0) { // Found tags
+      for (const match of matches) {
+        //console.log(match);
+        // Trim the tag to remove the '#' character
+        const trimmedTag = match.substring(1);
+        console.log(trimmedTag);
+            const { data: storedTags, error } = await supabase
+            .from('Stored_Tags')
+            .select('Tag_Id, Tag_Name')
+            .eq('Tag_Name', trimmedTag);
+          if (error) {
+            throw error
+          } else {
+            console.log('Stored tags:', storedTags);
+          }
+
+          if (storedTags && storedTags.length>0) { // Tag exists, insert into tweet tags directly
+              const { data:tags,error } = await supabase
+                  .from('Tweet_Tags')
+                  .insert([
+                      { Tweet_Id: tweetData[0].Tweet_Id, Tag_Id: storedTags[0].Tag_Id },
+                  ])
+                  .select();
+                  console.log("Inserted tags:"+tags);
+              if (error) throw error;
+          } else { // Store new tag and then insert into tweet tags
+              const { data: insertedTag, error: tagInsertError } = await supabase
+                  .from('Stored_Tags')
+                  .insert([{ Tag_Name: trimmedTag }])
+                  .select();
+
+              if (tagInsertError) throw tagInsertError;
+
+              const {data:tags, error } = await supabase
+                  .from('Tweet_Tags')
+                  .insert([
+                      { Tweet_Id: tweetData[0].Tweet_Id, Tag_Id: insertedTag[0].Tag_Id },
+                  ])
+                  .select();
+                  console.log("Inserted new tag: "+tags);
+              if (error) throw error;
+          }
+      }
+  } else {
+    console.log("Did not find tags");
+      return; // No tags found
+  }
+}

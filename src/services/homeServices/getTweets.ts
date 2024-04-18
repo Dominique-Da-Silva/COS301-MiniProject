@@ -26,55 +26,12 @@ const fetchTweets = async () => {
 
   const addTweet = async (tweetData: any) => {
   try {
-    console.log(tweetData);
-    if(tweetData.Img_file)
-    {
-      const { data: uploadedImage, error: imageError } = await supabase.storage
-      .from('media')
-      .upload(`tweet_images/${tweetData.Img_filename}`, tweetData.Img_file, { upsert: false});
+    const { data, error } = await supabase.functions.invoke('addTweet', {
+      body: {tweetData}
+    });
+    if(error) throw error;
+    return data;
 
-    if (imageError) {
-      console.log(imageError);
-      throw imageError;
-    }
-    
-    console.log("uploaded in media");
-    console.log(uploadedImage);
-
-    const {data:image_url} = supabase.storage.from("media").getPublicUrl(uploadedImage.path);
-    console.log(image_url);
-
-    const tweet = {
-      User_Id:tweetData.User_Id,
-      Content:tweetData.Content,
-      Img_Url: image_url.publicUrl
-    };
-    // Insert tweet data into the database
-    const { data: insertedTweet, error: tweetError } = await supabase
-      .from('Tweets')
-      .insert([tweet])
-
-    if (tweetError) {
-      throw tweetError;
-    }
-    return insertedTweet;
-  }
-  else{
-    const tweet = {
-      User_Id:tweetData.User_Id,
-      Content:tweetData.Content,
-      Img_Url: null
-    };
-    // Insert tweet data into the database
-    const { data: insertedTweet, error: tweetError } = await supabase
-      .from('Tweets')
-      .insert([tweet])
-
-    if (tweetError) {
-      throw tweetError;
-    }
-    return insertedTweet;
-  }
   } catch (error) {
     if (error instanceof FunctionsHttpError) {
       const errorMessage = await error.context.json()
@@ -115,5 +72,20 @@ const getTrendingTopics = async () => {
     throw error; // Re-throw the error to handle it in the calling code if needed
   }
 };
+/**Here's the structure of getTrending JSON data:
+
+The JSON data is an array of objects.
+Each object represents a tag and contains the following key-value pairs:
+ "Tag_Id": The ID of the tag.
+ "Tag_Name": The name of the tag.
+ "Tweet_Tags": An array of objects representing tweet tags associated with this tag. Each tweet tag object contains:
+    "Tweets": An object representing one tweet associated with this tweet tag. The tweet object contains:
+          "Content": The content of the tweet.
+          "Img_Url": The URL of the image attached to the tweet (if any).
+          "User_Id": The ID of the user who posted the tweet.
+          "Tweet_Id": The ID of the tweet.
+          "Created_at": The timestamp when the tweet was created.
+  "created_at": The timestamp when the tweet tag was created.
+"tweet_count": The count of tweets associated with this tag. */
 
  export {getTrendingTopics};
