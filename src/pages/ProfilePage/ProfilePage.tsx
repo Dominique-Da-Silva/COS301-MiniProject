@@ -7,6 +7,7 @@ import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
 import { fetchUserData } from "@services/index";
 import { fetchUserMedia } from "@services/index";
+import { fetchLikedPosts } from "@services/index";
 //import { getUserData } from "@services/auth/auth";
 // import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
@@ -15,6 +16,8 @@ import { BiCalendar } from "react-icons/bi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Search } from "@components/index";
 import { isUserLoggedIn } from "@services/index";
+import { fetchTweets, fetchUsers } from "@services/index";
+import { fetchAllProfiles } from "@services/profileServices/getProfile";
 // import {
 //   mockTweets,
 //   mockUsers,
@@ -134,6 +137,9 @@ const ProfileDetails = () => {
   const [userData, setUserData] = useState<any>(mockUserProfile);
   const [userFollowers, setUserFollowers] = useState<any>(null);
   const [userFollowing, setUserFollowing] = useState<any>(null);
+  const [tweets, setTweets] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [profiles, setProfiles] = useState<any[]>([]);
   const [createdAt] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
@@ -162,8 +168,8 @@ const ProfileDetails = () => {
   const [userTweets, setUserTweets] = useState<TweetProps[]>([]);
   const [userMedia, setUserMedia] = useState<string[]>([]);
   const [userReplies, setUserReplies] = useState<TweetProps[]>([]);
-  // const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
-  const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
+  //const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
+  const [likedTweets, setLikedTweets] = useState<any[]>([]);
   // const [replies, setReplies] = useState<TweetProps[]>([]);
 
   // useEffect(() => {
@@ -202,7 +208,51 @@ const ProfileDetails = () => {
       }
     } 
     profileSub();
+
+    const fetchData = async () => {
+      try {
+        const usersData = await fetchUsers();
+        // console.log("Users Data:");
+        // console.log(usersData);
+        setUsers(usersData as any[]); // Add type assertion here
+
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    fetchData();
+
+    const getAllProfiles = async () => {
+      try {
+        const profilesData = await fetchAllProfiles();
+        setProfiles(profilesData as any); // Update the type of the state variable
+      } catch (error) {
+        console.error('Error fetching profiles:', error);
+      }
+    };
+    getAllProfiles();
+
+    const fetchTweetData = async () => {
+      try {
+        const tweetData = await fetchTweets();
+        setTweets(tweetData);
+      } catch (error) {
+        console.error('Error fetching tweets:', error);
+      }
+    };
+    fetchTweetData();
     
+    const getLikes = async () => {
+      try {
+        const likes = await fetchLikedPosts(userData.User_Id);
+        console.log(likes);
+        setLikedTweets(likes);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    getLikes();
+
     const fetchUserProfile = async () => {
       try {
         // const fetchData = async () => {
@@ -947,223 +997,231 @@ const ProfileDetails = () => {
             <div className="profile-info flex flex-col min-w-full m-0">
               <div className="m-0 p-4">
                 <div className="profile flex min-w-full flex-1 justify-between items-center">
-                  <Avatar
-                    src={profileDetails.Img_Url}
-                    alt={userData.Name}
-                    size="lg"
-                  />
-                  {external ? (
-                    <Button
-                    className={`ml-auto text-base font-semibold rounded-full border ${
-                      following ? 'bg-blue-400 text-white border-blue-400' : 'bg-white border-gray-300 text-blue-400'
-                    } h-9 items-center`}
-                    style={{ borderColor: following ? '#1DA1F2' : '#DADADA', color: following ? '#FFFFFF' : '#1DA1F2' }}
-                    onClick={handleButtonClick}
-                    >
-                      {following ? 'Following' : 'Follow'}
-                    </Button>
-                  ) : (
-                    <NavLink to="/editProfile">
-                      <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
-                        <IoMdSettings className="mr-1" />
-                        Edit profile
-                      </Button>
-                    </NavLink>
-                  )}
-                </div>
-                <h2 className="font-bold text-xl">
-                  {userData.Name}
-                </h2>
+                                    <Avatar
+                                      src={profileDetails.Img_Url}
+                                      alt={userData.Name}
+                                      size="lg"
+                                    />
+                                    {external ? (
+                                      <Button
+                                      className={`ml-auto text-base font-semibold rounded-full border ${
+                                        following ? 'bg-blue-400 text-white border-blue-400' : 'bg-white border-gray-300 text-blue-400'
+                                      } h-9 items-center`}
+                                      style={{ borderColor: following ? '#1DA1F2' : '#DADADA', color: following ? '#FFFFFF' : '#1DA1F2' }}
+                                      onClick={handleButtonClick}
+                                      >
+                                        {following ? 'Following' : 'Follow'}
+                                      </Button>
+                                    ) : (
+                                      <NavLink to="/editProfile">
+                                        <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
+                                          <IoMdSettings className="mr-1" />
+                                          Edit profile
+                                        </Button>
+                                      </NavLink>
+                                    )}
+                                  </div>
+                                  <h2 className="font-bold text-xl">
+                                    {userData.Name}
+                                  </h2>
 
-                <p className="text-gray-500 mb-5">@{userData.Username}</p>
-                <p className="mb-2">{profileDetails.Bio}</p>
-                <p className="text-gray-500 flex items-center">
-                  <BiCalendar className="mr-1" />
-                  Joined {createdAt}
-                </p>
-              </div>
-              {/* Profile Details */}
-              <div>
-                <div className="profile-details ">
-                  <div className="flex gap-6 items-center px-4 mb-6">
-                    {/* <div className="flex">
-                      <h3 className="font-bold text-lg">Tweets</h3>
-                      <p className="text-gray-500">0</p>
-                    </div> */}
-                    <div className="flex">
-                      <p className="font-semibold">{userFollowing}&nbsp;</p>
-                      <h3 className="text-base text-gray-500">Following</h3>
-                    </div>
-                    <div className="flex">
-                      <p className="font-semibold">{userFollowers}&nbsp;</p>
-                      <h3 className="text-base text-gray-500">Followers</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-                <div>
-                  <div className="flex justify-around border-b border-gray-200">
-                    <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
-                        activeTab === "tweets"
-                          ? "text-black border-b-3 border-blue-500"
-                          : "text-gray-500"
-                      }`}
-                      onClick={() => handleTabClick("tweets")}
-                    >
-                      Tweets
-                    </button>
+                                  <p className="text-gray-500 mb-5">@{userData.Username}</p>
+                                  <p className="mb-2">{profileDetails.Bio}</p>
+                                  <p className="text-gray-500 flex items-center">
+                                    <BiCalendar className="mr-1" />
+                                    Joined {createdAt}
+                                  </p>
+                                </div>
+                                {/* Profile Details */}
+                                <div>
+                                  <div className="profile-details ">
+                                    <div className="flex gap-6 items-center px-4 mb-6">
+                                      {/* <div className="flex">
+                                        <h3 className="font-bold text-lg">Tweets</h3>
+                                        <p className="text-gray-500">0</p>
+                                      </div> */}
+                                      <div className="flex">
+                                        <p className="font-semibold">{userFollowing}&nbsp;</p>
+                                        <h3 className="text-base text-gray-500">Following</h3>
+                                      </div>
+                                      <div className="flex">
+                                        <p className="font-semibold">{userFollowers}&nbsp;</p>
+                                        <h3 className="text-base text-gray-500">Followers</h3>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                  <div>
+                                    <div className="flex justify-around border-b border-gray-200">
+                                      <button
+                                        className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                                          activeTab === "tweets"
+                                            ? "text-black border-b-3 border-blue-500"
+                                            : "text-gray-500"
+                                        }`}
+                                        onClick={() => handleTabClick("tweets")}
+                                      >
+                                        Tweets
+                                      </button>
 
-                    <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
-                        activeTab === "replies"
-                          ? "text-black border-b-3 border-blue-500"
-                          : "text-gray-500"
-                      }`}
-                      onClick={() => handleTabClick("replies")}
-                    >
-                      Replies
-                    </button>
-                    <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
-                        activeTab === "media"
-                          ? "text-black border-b-3 border-blue-500"
-                          : "text-gray-500"
-                      }`}
-                      onClick={() => handleTabClick("media")}
-                    >
-                      Media
-                    </button>
-                    <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
-                        activeTab === "likes"
-                          ? "text-black border-b-3 border-blue-500"
-                          : "text-gray-500"
-                      }`}
-                      onClick={() => handleTabClick("likes")}
-                    >
-                      Likes
-                    </button>
-                  </div>
-                  
-                  {activeTab === "tweets" && (
-                    <div>
-                      {userTweets.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          User hasn't tweeted yet
-                        </p>
-                      ) : (
-                        userTweets.map((tweet, index) => (
-                          <Tweet
-                            key={index}
-                            name={tweet.name}
-                            username={tweet.username}
-                            text={tweet.text}
-                            imageUrl={tweet.image_url}
-                            likes={tweet.likes}
-                            retweets={tweet.retweets}
-                            comments={1000}
-                            saves={1000}
-                            timeDisplay={getTimeDisplay(tweet.createdAt)}
-                          />
-                        ))
-                      )}
-                    </div>
-                  )}
-                  {activeTab === "media" && (
-                    <div className="grid grid-cols-3 gap-1">
-                      {userMedia.filter((u) => u !== "")
-                        .length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          No media to display
-                        </p>
-                        ) : (
-                        userMedia
-                          .filter((u) => u !== "")
-                          .map((u, index) => (
-                            <div key={index}>
-                              <img
-                                src={u}
-                                alt="Tweet"
-                                className="object-cover w-full h-full"
-                              />
+                                      <button
+                                        className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                                          activeTab === "replies"
+                                            ? "text-black border-b-3 border-blue-500"
+                                            : "text-gray-500"
+                                        }`}
+                                        onClick={() => handleTabClick("replies")}
+                                      >
+                                        Replies
+                                      </button>
+                                      <button
+                                        className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                                          activeTab === "media"
+                                            ? "text-black border-b-3 border-blue-500"
+                                            : "text-gray-500"
+                                        }`}
+                                        onClick={() => handleTabClick("media")}
+                                      >
+                                        Media
+                                      </button>
+                                      <button
+                                        className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                                          activeTab === "likes"
+                                            ? "text-black border-b-3 border-blue-500"
+                                            : "text-gray-500"
+                                        }`}
+                                        onClick={() => handleTabClick("likes")}
+                                      >
+                                        Likes
+                                      </button>
+                                    </div>
+                                    
+                                    {activeTab === "tweets" && (
+                                      <div>
+                                        {userTweets.length === 0 ? (
+                                          <p className="text-center text-gray-500">
+                                            User hasn't tweeted yet
+                                          </p>
+                                        ) : (
+                                          userTweets.map((tweet, index) => (
+                                            <Tweet
+                                              key={index}
+                                              name={tweet.name}
+                                              username={tweet.username}
+                                              text={tweet.text}
+                                              imageUrl={tweet.image_url}
+                                              likes={tweet.likes}
+                                              retweets={tweet.retweets}
+                                              comments={1000}
+                                              saves={1000}
+                                              timeDisplay={getTimeDisplay(tweet.createdAt)}
+                                            />
+                                          ))
+                                        )}
+                                      </div>
+                                    )}
+                                    {activeTab === "media" && (
+                                      <div className="grid grid-cols-3 gap-1">
+                                        {userMedia.filter((u) => u !== "")
+                                          .length === 0 ? (
+                                          <p className="text-center text-gray-500">
+                                            No media to display
+                                          </p>
+                                          ) : (
+                                          userMedia
+                                            .filter((u) => u !== "")
+                                            .map((u, index) => (
+                                              <div key={index}>
+                                                <img
+                                                  src={u}
+                                                  alt="Tweet"
+                                                  className="object-cover w-full h-full"
+                                                />
+                                              </div>
+                                            ))
+                                          )}
+                                      </div>
+                                    )}
+
+                                    {activeTab === "replies" && (
+                                      <div>
+                                        {userReplies.length === 0 ? (
+                                          <p className="text-center text-gray-500">
+                                            No replies to display
+                                          </p>
+                                        ) : (
+                                          userReplies.map((reply, index) => (
+                                            <Tweet
+                                              key={index}
+                                              name={reply.name}
+                                              username={reply.username}
+                                              text={reply.text}
+                                              imageUrl={reply.image_url}
+                                              likes={reply.likes}
+                                              retweets={reply.retweets}
+                                              comments={1000}
+                                              saves={1000}
+                                              timeDisplay={getTimeDisplay(reply.createdAt)}
+                                            />
+                                          ))
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {activeTab === "likes" && (
+                                    <div>
+                                      {likedTweets.length === 0 ? (
+                                        <p className="text-center text-gray-500">
+                                          No liked Tweets to display
+                                        </p>
+                                    ) : (
+                                      likedTweets.map((tweet, index) => {
+                                          const iUser = users.find((u: any) => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+                                          // const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
+                                          // const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
+                                          // const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
+                                          // const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
+                                          const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+                                          return(
+                                          <Tweet
+                                            key={index}
+                                            name={iUser ? iUser.Name : "Unknown User"}
+                                            username={iUser ? `@${iUser.Username}` : ""}
+                                            text={tweet.Content}
+                                            imageUrl={tweet.Img_Url}
+                                            timeDisplay={getTimeDisplay(tweet.Created_at)}
+                                            likes={0}
+                                            retweets={0}
+                                            saves={0}
+                                            comments={0}
+                                            profileimageurl={image_url}
+                                          />);
+                                        })
+                                      )}
+                                    </div>
+                                  )}
+                              </div>
                             </div>
-                          ))
-                        )}
-                    </div>
-                  )}
+                          </div>
+                        </div>
+                        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+                          <div className="mb-3">
+                            <Search />
+                          </div>
+                          <TrendingTopics />
+                          <WhoToFollow users={[]} />
+                        </div>
+                      </div>
+                    ); 
+                  };
 
-                  {activeTab === "replies" && (
-                    <div>
-                      {userReplies.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          No replies to display
-                        </p>
-                      ) : (
-                        userReplies.map((reply, index) => (
-                          <Tweet
-                            key={index}
-                            name={reply.name}
-                            username={reply.username}
-                            text={reply.text}
-                            imageUrl={reply.image_url}
-                            likes={reply.likes}
-                            retweets={reply.retweets}
-                            comments={1000}
-                            saves={1000}
-                            timeDisplay={getTimeDisplay(reply.createdAt)}
-                          />
-                        ))
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {activeTab === "likes" && (
-                  <div>
-                    {likedTweets.length === 0 ? (
-                      <p className="text-center text-gray-500">
-                        No liked Tweets to display
-                      </p>
-                    ) : (
-                      likedTweets.map((tweet, index) => (
-                        <Tweet
-                          key={index}
-                          name={tweet.name}
-                          username={tweet.username}
-                          text={tweet.text}
-                          imageUrl={tweet.image_url}
-                          likes={tweet.likes}
-                          retweets={tweet.retweets}
-                          comments={1000}
-                          saves={1000}
-                          timeDisplay={getTimeDisplay(tweet.createdAt)}
-                        />
-                      ))
-                    )}
-                  </div>
-                )}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
-        </div>
-        <TrendingTopics />
-        <WhoToFollow users={[]} />
-      </div>
-    </div>
-  ); 
-};
-
-const ProfilePage = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProfileDetails />
-    </Suspense>
-  );
-};
+                  const ProfilePage = () => {
+                    return (
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <ProfileDetails />
+                      </Suspense>
+                    );
+                  };
 
 export default ProfilePage;
