@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, button, user } from "@nextui-org/react";
 import { fetchUsers } from "@services/index";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
-import { isUserLoggedIn } from "@services/index";
 import {UserCard} from "@components/index";
 
 interface User {
@@ -17,11 +15,7 @@ interface WhoToFollowProps {
 }
 const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   const [users, setUsers] = useState<any[]>([]);
-  const [user, setUser] = useState<User>();
-  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
-  const [isFollowing, setIsFollowing] = useState<boolean>(false);
-  const [buttonText, setButtonText] = useState<string>("Follow");
-
+ 
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
@@ -45,41 +39,6 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
     return randomUsers;
   };
 
-  const followUser = (user: User) => {
-    console.log("Followed", user);
-    setIsFollowing(true);
-  };
-
-  const unFollowUser = (user: User) => {
-    console.log("Unfollowed", user);
-    setButtonText("Follow");
-    setIsFollowing(false);
-  };
-
-  const handleMouseEnter = () => {
-    if (isFollowing) {
-      setButtonText("Unfollow");
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (isFollowing) {
-      setButtonText("Following");
-    }
-  };
-
-  useEffect(() => {
-    // this is necessary for checking if the user is signed in
-    const checkUser = async () => {
-      // Check if user is already logged in
-      const result = await isUserLoggedIn();
-      setUserAuthStatus(result);
-    };
-
-    // Call the async function
-    checkUser();
-  }, []);
-
   return (
     <div>
       <Card className="bg-gray-50 dark:bg-neutral-900 shadow-none mt-8 w-11/12">
@@ -91,12 +50,13 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
             {" "}
             {users.map((user) => (
               <UserCard
-              key={user.user_id}
+              key={user.User_id}
               logged_in_user_id={1}
-              user_id={user.user_id}
-              name={user.name}
-              username={user.username}
-              avatarUrl={user.avatarUrl}
+              user_id={user.User_id}
+              name={user.Name}
+              surname={user.Surname}
+              username={user.Username}
+              avatarUrl={user.Img_Url}
               />
             ))}
           </div>

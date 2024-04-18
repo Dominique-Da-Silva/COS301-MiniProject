@@ -7,10 +7,12 @@ import {
   followUser,
   unfollowUser,
 } from "@services/index";
+import { NavLink } from "react-router-dom";
 interface User {
   logged_in_user_id: number;
   user_id: number;
   name: string;
+  surname: string;
   username: string;
   avatarUrl: string;
 }
@@ -19,6 +21,7 @@ const UserCard: React.FC<User> = ({
   logged_in_user_id,
   user_id,
   name,
+  surname,
   username,
   avatarUrl,
 }) => {
@@ -108,8 +111,12 @@ const UserCard: React.FC<User> = ({
     <div key={user_id} className="flex items-center hover:bg-slate-200 p-3">
       <Avatar src={avatarUrl} alt={name} size="md" className="p-0 m-0" />
       <div className="ml-4">
-        <h3 className="text-base font-medium p-0 m-0">{name}</h3>
-        <p className="text-gray-500 p-0 m-0">@{username}</p>
+        <NavLink to={`/profile/${username}`}>
+          <h3 className="text-base font-medium p-0 m-0">
+            {name} {surname}
+          </h3>
+          <p className="text-gray-500 p-0 m-0">@{username}</p>
+        </NavLink>
       </div>
       {userAuthStatus ? (
         <Button
