@@ -6,6 +6,7 @@ import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
 import { fetchUserData } from "@services/index";
+import { fetchUserMedia } from "@services/index";
 //import { getUserData } from "@services/auth/auth";
 // import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
@@ -128,7 +129,7 @@ const ProfileDetails = () => {
 
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
-  const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(mockUserProfile);
   const [userFollowers, setUserFollowers] = useState<any>(null);
@@ -159,6 +160,7 @@ const ProfileDetails = () => {
   // const [followingCount, setFollowingCount] = useState<number>(10); // mock following count
   // const [followerCount, setFollowerCount] = useState<number>(20); // mock followers count
   const [userTweets, setUserTweets] = useState<TweetProps[]>([]);
+  const [userMedia, setUserMedia] = useState<string[]>([]);
   const [userReplies, setUserReplies] = useState<TweetProps[]>([]);
   // const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
   const [likedTweets, setLikedTweets] = useState<TweetProps[]>([]);
@@ -189,10 +191,12 @@ const ProfileDetails = () => {
         const followerTemp = await countFollowers(userData.User_Id);
         const followingTemp = await countFollowing(userData.User_Id);
         const userDataX = await fetchUserData();
+        const imageURLs = await fetchUserMedia(userData.User_Id);
         setUserFollowers(followerTemp);
         setUserFollowing(followingTemp);
         setUserData(userDataX);
         setProfileDetails(profileTemp);
+        setUserMedia(imageURLs);
       } catch (error) {
           console.error("Error fetching data: ", error);
       }
@@ -1068,24 +1072,24 @@ const ProfileDetails = () => {
                   )}
                   {activeTab === "media" && (
                     <div className="grid grid-cols-3 gap-1">
-                      {userTweets.filter((tweet) => tweet.image_url !== "")
+                      {userMedia.filter((u) => u !== "")
                         .length === 0 ? (
                         <p className="text-center text-gray-500">
                           No media to display
                         </p>
-                      ) : (
-                        userTweets
-                          .filter((tweet) => tweet.image_url !== "")
-                          .map((tweet, index) => (
+                        ) : (
+                        userMedia
+                          .filter((u) => u !== "")
+                          .map((u, index) => (
                             <div key={index}>
                               <img
-                                src={tweet.image_url}
+                                src={u}
                                 alt="Tweet"
                                 className="object-cover w-full h-full"
                               />
                             </div>
                           ))
-                      )}
+                        )}
                     </div>
                   )}
 
