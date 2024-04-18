@@ -16,7 +16,7 @@
 
 </p>
 
-![image](images/Splash_Page_Screenshot.png)
+![image](images/SplashPage.png)
 
 # Table of contents
 
@@ -74,7 +74,7 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 
 # Demo Video
 <p align="center">
-<a href="">Demo 1</a><br>
+<a href="https://www.youtube.com/watch?v=_SxSVuEryPU">Demo 1</a><br>
 <a href="">Demo 2</a><br>
 </p>
 

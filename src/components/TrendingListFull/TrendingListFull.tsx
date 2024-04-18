@@ -28,7 +28,7 @@ const formatCount = (count: number): string | number => {
 
 
     
-const TrendingList: React.FC<ExploreProps> = () => {
+const TrendingListFull: React.FC<ExploreProps> = () => {
   const [topics] = useState<any>(mockTrending);
 //   const [Tags, setTags] = useState<any[]>([]);
 
@@ -50,7 +50,7 @@ const TrendingList: React.FC<ExploreProps> = () => {
     return (
         <div>
            {topics.map((topic: Topic) => (
-            <div key={topic.Trending_Id} className="items-center justify-between p-3 hover:bg-gray-100 dark:bg-neutral-900">
+            <div key={topic.Trending_Id} className="items-center justify-between p-3 hover:bg-gray-100 dark:bg-black">
               <div className="flex justify-between items-center">
                 <h3 className="text-[16px] font-medium">#{topic.TagName}</h3>
                 <div className="h-10 w-10 flex justify-center rounded-full align-middle items-center hover:text-sky-600 hover:bg-blue-100 p-0 m-0 cursor-pointer">
@@ -64,4 +64,4 @@ const TrendingList: React.FC<ExploreProps> = () => {
     )
 };
 
-export default TrendingList;
+export default TrendingListFull;
