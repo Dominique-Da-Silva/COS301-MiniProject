@@ -1,0 +1,137 @@
+import React, { useEffect, useState } from "react";
+import { Avatar, Button } from "@nextui-org/react";
+import {
+  fetchUserByUsername,
+  isUserLoggedIn,
+  checkIfFollowing,
+  followUser,
+  unfollowUser,
+} from "@services/index";
+interface User {
+  logged_in_user_id: number;
+  user_id: number;
+  name: string;
+  username: string;
+  avatarUrl: string;
+}
+
+const UserCard: React.FC<User> = ({
+  logged_in_user_id,
+  user_id,
+  name,
+  username,
+  avatarUrl,
+}) => {
+  const [user, setUser] = useState<any>();
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [buttonText, setButtonText] = useState<string>("Follow");
+  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
+
+  const follow_User = () => {
+    console.log("Followed", username);
+    const result = async () => {
+      const following = await checkIfFollowing(logged_in_user_id, user_id);
+      if (!following) {
+        const result = await followUser(logged_in_user_id, user_id);
+        console.log(result);
+      }
+    };
+    setButtonText("Following");
+    setIsFollowing(true);
+  };
+
+  const unFollow_User = () => {
+    console.log("Unfollowed", user);
+    const result = async () => {
+      const following = await checkIfFollowing(logged_in_user_id, user_id);
+      if (following) {
+        const result = await unfollowUser(logged_in_user_id, user_id);
+        console.log(result);
+      }
+    };
+    setButtonText("Follow");
+    setIsFollowing(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (isFollowing) {
+      setButtonText("Unfollow");
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isFollowing) {
+      setButtonText("Following");
+    }
+  };
+
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      setUserAuthStatus(result);
+    };
+
+    // Call the async function
+    checkUser();
+  }, []);
+
+  //   useEffect(() => {
+  //     const checkUser = async () => {
+  //       //fetch the user data based on the username
+  //       const result = await fetchUserByUsername(username);
+  //       setUser(result);
+  //     };
+  //     //call the async function
+  //     checkUser();
+  //   }, []);
+
+  //   useEffect(() => {
+  //     const checkIfFollowing = async () => {
+  //       // Check if the user is following the current user
+  //       // const result = await checkIfFollowing(logged_in_user_id, user_id);
+  //       // setIsFollowing(result);
+  //     };
+  //     // Call the async function
+  //     checkIfFollowing();
+  //   }, []);
+
+  //   useEffect(() => {
+  //     const followUser = async () => {
+  //       // const result = await followUser(logged_in_user_id, user_id);
+  //       // console.log(result);
+  //     };
+  //   });
+
+  return (
+    <div key={user_id} className="flex items-center hover:bg-slate-200 p-3">
+      <Avatar src={avatarUrl} alt={name} size="md" className="p-0 m-0" />
+      <div className="ml-4">
+        <h3 className="text-base font-medium p-0 m-0">{name}</h3>
+        <p className="text-gray-500 p-0 m-0">@{username}</p>
+      </div>
+      {userAuthStatus ? (
+        <Button
+          className="ml-auto font-bold text-white bg-black h-7"
+          radius="full"
+          onClick={isFollowing ? () => unFollow_User() : () => follow_User()}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {buttonText}
+        </Button>
+      ) : (
+        <Button
+          className="ml-auto font-bold text-white bg-black h-7"
+          radius="full"
+          isDisabled
+        >
+          Follow
+        </Button>
+      )}
+    </div>
+  );
+};
+
+export default UserCard;

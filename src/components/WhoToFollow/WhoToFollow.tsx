@@ -3,6 +3,7 @@ import { Avatar, Button, button, user } from "@nextui-org/react";
 import { fetchUsers } from "@services/index";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import { isUserLoggedIn } from "@services/index";
+import {UserCard} from "@components/index";
 
 interface User {
   user_id: number;
@@ -16,6 +17,7 @@ interface WhoToFollowProps {
 }
 const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   const [users, setUsers] = useState<any[]>([]);
+  const [user, setUser] = useState<User>();
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [buttonText, setButtonText] = useState<string>("Follow");
@@ -88,40 +90,14 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
           <div className="m-0 p-0">
             {" "}
             {users.map((user) => (
-              <div
-                key={user.User_Id}
-                className="flex items-center hover:bg-slate-200 p-3"
-              >
-                <Avatar
-                  src={user.avatarUrl}
-                  alt={user.Name}
-                  size="md"
-                  className="p-0 m-0"
-                />
-                <div className="ml-4">
-                  <h3 className="text-base font-medium p-0 m-0">{user.Name}</h3>
-                  <p className="text-gray-500 p-0 m-0">@{user.Username}</p>
-                </div>
-                {userAuthStatus ? (
-                  <Button
-                    className="ml-auto font-bold text-white bg-black h-7"
-                    radius="full"
-                    onClick={isFollowing ? () => unFollowUser(user) : () => followUser(user)}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {buttonText}
-                  </Button>
-                ) : (
-                  <Button
-                    className="ml-auto font-bold text-white bg-black h-7"
-                    radius="full"
-                    isDisabled
-                  >
-                    Follow
-                  </Button>
-                )}
-              </div>
+              <UserCard
+              key={user.user_id}
+              logged_in_user_id={1}
+              user_id={user.user_id}
+              name={user.name}
+              username={user.username}
+              avatarUrl={user.avatarUrl}
+              />
             ))}
           </div>
         </CardBody>

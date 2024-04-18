@@ -14,6 +14,7 @@ import MutedNotifications from "./MutedNotifications/MutedNotifications";
 import PostNotification from "./PostNotification/PostNotification";
 import LikeNotification from "./PostNotification/LikedNotification";
 import Mention from "./Mentions/Mention";
+import UserCard from "./UserCard/UserCard";
 
 export {
   EditProfile,
@@ -31,5 +32,6 @@ export {
   NotificationSettings,
   DisplaySettings,
   ChangePassword,
-  MutedNotifications
+  MutedNotifications,
+  UserCard,
 };
