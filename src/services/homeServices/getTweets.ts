@@ -89,4 +89,22 @@ Each object represents a tag and contains the following key-value pairs:
 "tweet_count": The count of tweets associated with this tag. */
 
  export {getTrendingTopics};
+ const getUserNotifications = async (User_Id:number|null) => {
+  try {
+    
+    const { data: Notifications, error } = await supabase
+    .from('Notification')
+    .select('*')
+    .eq('User_Id',User_Id)
 
+    if (error) {
+      throw error;
+    }
+    return Notifications;
+
+  } catch (error) {
+    console.error('Error getting notifications:', error);
+  }
+};
+
+ export {getUserNotifications};
