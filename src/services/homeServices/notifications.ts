@@ -16,6 +16,7 @@ const followNotification = (User_Id:number|null) => {
         // Emit an event with the payload when a change event is received
         //console.log(payload);
         //add it to notification table here
+        let notif = null;
         try{
              const { data:username,error } = await supabase
             .from('User')
@@ -23,12 +24,12 @@ const followNotification = (User_Id:number|null) => {
             .eq('User_Id', payload.new.Following_Id)
             if (error) throw error;
 
-            console.log(username);
-            const Content = `${username.Username}. followed you`;
+            //console.log(username);
+            const Content = `${username[0].Username} followed you`;
 
-            const {data:notif} = await supabase
+            const {data:notifs} = await supabase
             .from("Notification")
-            .insert([{Notif_Id:4,
+            .insert([{
                 User_Id:User_Id,
                 Type_Id: 4,
                 Content:Content,
@@ -36,14 +37,14 @@ const followNotification = (User_Id:number|null) => {
                 Created_at:payload.commit_timestamp}])
             .select();
 
-            console.log(notif);
-
+            //console.log(notif);
+            notif = notifs;
             if(error) throw error;
         }catch(error)
         {
             console.log(error);
         }
-        notificationEmitter.emit('new-notification', payload.new);
+        notificationEmitter.emit('new-notification', notif);
       }
     )
     .subscribe();

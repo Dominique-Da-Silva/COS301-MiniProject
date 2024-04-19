@@ -70,7 +70,8 @@ const Notifications: React.FC<NotificationsProps> = () => {
     }
 
   }, [navigate]);
-  const testNotifications = () => {
+  const testNotifications = () => {//u can put this evenlistenr inside a useeffect to  make sure its not called multple times, only
+    //after unitial render
     // Call the followNotification function to start listening for notifications for user_id = 13
     followNotification(13);
   
