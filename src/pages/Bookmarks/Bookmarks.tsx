@@ -1,4 +1,4 @@
-import { isUserLoggedIn } from '@services/index';
+import { isUserLoggedIn, getLoggedUserId, getBookmarkedTweets } from '@services/index';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Nav, Tweet, TrendingTopics , WhoToFollow, Search} from '@components/index';
@@ -7,7 +7,9 @@ import {useState} from "react";
   
 const Bookmarks = () => {
 
-  const [tweets] = useState<any[]>(mockTweets);
+  // const [tweets] = useState<any[]>(mockTweets);
+  const [userid, setUserId] = useState<any[]>([]);
+  const [tweets, setTweets] = useState<any[]>([]);
   const [users] = useState<any[]>(mockUsers);
   const [savesCount] = useState<any>(mockSavesCount);
   const [commentsCount] = useState<any>(mockCommentsCount);
@@ -61,9 +63,25 @@ const Bookmarks = () => {
         navigate("/home"); // Redirect to home page if user is not logged in
       }
     }
-    
+
+    const fetchTweets = async () => {
+      try {
+        const id = await getLoggedUserId();
+        setUserId(id); // Set user ID state
+        console.log(id);
+
+        // Fetch tweets only if user ID is available
+        if (id !== null) {
+          const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
+          setTweets(tweetData);
+        }
+      } catch (error) {
+        console.error('Error fetching tweets:', error);
+      }
+    };
     // Call the async function
     checkUser();
+    fetchTweets();
   }, [navigate]);
   
   return (

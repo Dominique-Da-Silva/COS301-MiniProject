@@ -9,9 +9,11 @@ export async function getBookmarkedTweets(userId: number): Promise<any[]> {
             .eq('User_Id', userId);
 
         if (error) {
-            //console.error('Error fetching bookmarked tweets.');
+            // console.error('Error fetching bookmarked tweets.');
             return [];
         }
+        // console.log("ts file bookmarkedtweets:");
+        // console.log(bookmarkedTweets);
 
         // Extract tweet IDs from the bookmarked tweets data
         const tweetIds = bookmarkedTweets.map((bookmark: any) => bookmark.Tweet_Id);

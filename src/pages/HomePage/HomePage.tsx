@@ -12,7 +12,7 @@ interface HomePageProps { }
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [setCurrentUser] = useState<any>(false);
+  // const [setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
@@ -49,16 +49,16 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    const getCurrentUser = async () => {
-      try {
-        const user = await isUserLoggedIn();
-         console.log("Current User:");
-         console.log(user);
-        setCurrentUser(user);
-      } catch (error) {
-        console.error('Error fetching current user:', error);
-      }
-    };
+    // const getCurrentUser = async () => {
+    //   try {
+    //     const user = await isUserLoggedIn();
+    //      console.log("Current User:");
+    //      console.log(user);
+    //      setCurrentUser(user);
+    //   } catch (error) {
+    //     console.error('Error fetching current user:', error);
+    //   }
+    // };
 
     const getAllProfiles = async () => {
       try {
@@ -73,7 +73,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     // // Call both fetch functions when the component mounts
     fetchTweetData();
     fetchData();
-    getCurrentUser();
+    // getCurrentUser();
     getAllProfiles();
   }, []);
 
