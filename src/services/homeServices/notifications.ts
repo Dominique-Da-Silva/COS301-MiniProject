@@ -11,23 +11,29 @@ const followNotification = (User_Id:number|null) => {
     .channel('custom-insert-channel')
     .on(
       'postgres_changes',
-      { event: 'INSERT', schema: 'public', table: 'Followers', filter: `Following_Id=eq.${User_Id}` },
+      { event: 'INSERT', schema: 'public', table: 'Followers', filter: `Followed_Id=eq.${User_Id}` },
       async (payload) => {
         // Emit an event with the payload when a change event is received
-        console.log(payload);
+        //console.log(payload);
         //add it to notification table here
         try{
              const { data:username,error } = await supabase
             .from('User')
             .select("Username")
-            .eq('User_Id', payload.new.Followed_Id)
+            .eq('User_Id', payload.new.Following_Id)
             if (error) throw error;
 
-            const Content = `${username}. followed you`;
+            console.log(username);
+            const Content = `${username.Username}. followed you`;
 
             const {data:notif} = await supabase
             .from("Notification")
-            .insert([{Notif_Id:4,User_Id:User_Id,Type_Id:4,Content:Content}])
+            .insert([{Notif_Id:4,
+                User_Id:User_Id,
+                Type_Id: 4,
+                Content:Content,
+                Read:false,
+                Created_at:payload.commit_timestamp}])
             .select();
 
             console.log(notif);
