@@ -28,7 +28,8 @@ export async function toggleSave(tweetId: number, userId: number): Promise<"save
             return "saved";
         }
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error toggling save for the tweet:', error.message);
+        return error;
     }
 }

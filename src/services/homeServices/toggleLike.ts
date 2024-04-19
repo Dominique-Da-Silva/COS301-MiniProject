@@ -10,7 +10,7 @@ export async function toggleLike(tweetId: number, userId: number): Promise<"like
             .single();
 
         if (existingLikeError) {
-            //console.error('Error checking whether there is an existing like.');
+            console.error('Error checking whether there is an existing like:', existingLikeError.message);
             return "error";
         }
 
@@ -22,7 +22,7 @@ export async function toggleLike(tweetId: number, userId: number): Promise<"like
                 .eq('Like_Id', existingLike.Like_Id);
 
             if (unlikeError) {
-                //console.error('Error unliking tweet.');
+                console.error('Error unliking tweet:', unlikeError.message);
                 return "error";
             }
             return "unliked";
@@ -34,13 +34,13 @@ export async function toggleLike(tweetId: number, userId: number): Promise<"like
                 .insert([{ Tweet_Id: tweetId, User_Id: userId }]);
 
             if (likeError) {
-                //console.error('Error liking tweet.');
+                console.error('Error liking tweet:', likeError.message);
                 return "error";
             }
             return "liked";
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error toggling like for the tweet:', error.message);
+        return "error";
     }
 }
-
