@@ -114,7 +114,7 @@ fetchUserData();
   }, []);
 
   return (
-    <div className="sidebar left-0 top-0 h-full bg-white p-12">
+    <div className="sidebar h-full bg-white dark:bg-black py-12 dark:text-white fixed">
       {/* Logo */}
       <NavLink
         to="/home"
@@ -128,7 +128,7 @@ fetchUserData();
           {/* Home */}
           <NavLink
             to="/home"
-            className={`sidebar-item font-medium cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/home' ? 'bg-gray-200 active-tab' : ''
+            className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/home' ? 'font-bold active-tab' : ''
               }`}
           >
             <GoHomeFill size={28} className="mr-5" />
@@ -138,7 +138,7 @@ fetchUserData();
           {/* Explore */}
           <NavLink
             to="/explore"
-            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/explore' ? 'bg-gray-200 active-tab' : ''
+            className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/explore' ? 'font-bold active-tab' : ''
               }`}
           >
             <IoSearch size={28} className="mr-5" />
@@ -149,7 +149,7 @@ fetchUserData();
           {userAuthStatus &&
             <NavLink
               to="/notifications"
-              className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'font-bold active-tab' : ''
                 }`}
             >
               <PiBellBold size={28} className="mr-5" />
@@ -161,7 +161,7 @@ fetchUserData();
           {userAuthStatus &&
             <NavLink
               to="/bookmarks"
-              className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'font-bold active-tab' : ''
                 }`}
             >
               <FaRegBookmark size={28} className="mr-5" />
@@ -173,7 +173,7 @@ fetchUserData();
           {userAuthStatus &&
             <NavLink
               to="/profile"
-              className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/profile' ? 'font-bold active-tab' : ''
                 }`}
             >
               <FaRegUserCircle size={28} className="mr-5" />
@@ -185,7 +185,7 @@ fetchUserData();
           {userAuthStatus &&
             <NavLink
               to="/settings"
-              className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/settings' ? 'font-bold active-tab' : ''
                 }`}
             >
               <FiSettings size={28} className="mr-5" />
@@ -196,7 +196,7 @@ fetchUserData();
           {/* Post Button - will route to create tweet component */}
           {
             userAuthStatus ?
-              <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
+              <Button size="lg" className="post-button bg-sky-500 w-52 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
                 Post
               </Button>
               :

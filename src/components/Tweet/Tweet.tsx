@@ -65,7 +65,7 @@ const Tweet: React.FC<TweetProps> = ({
   };
 
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
       <div className="avatar">
         <Avatar
           src={profileimageurl}
@@ -76,20 +76,36 @@ const Tweet: React.FC<TweetProps> = ({
       <div className="post flex-col w-full pl-2">
         <div className="user-info flex">
           <NavLink
-            to={`/profile/${username.substring(1)}`}
-            className="font-semibold p-0 m-0"
+            to={{
+              pathname: `/profile/${username.substring(1)}`, //sets the url path
+              //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
+              /*
+              To retrieve this data when navigating to the next page:
+              import { useLocation } from 'react-router-dom';
+              const ProfileComponent = () => {
+                const location = useLocation();
+                const username = location.state?.username;
+  
+                // Use the username to render the profile
+              };
+              */
+            }}
+            className="font-semibold p-0 m-0 dark:text-white"
           >
             {name}&nbsp;
           </NavLink>
           <NavLink
-            to={`/profile/${username.substring(1)}`}
-            className="text-slate-700 p-0 m-0"
+            to={{
+              pathname: `/profile/${username.substring(1)}`,
+              //state: { username: username.substring(1) } -> is this valid, please verify
+            }}
+            className="text-slate-700 p-0 m-0 dark:text-gray-400"
           >
             @{username.substring(1)} &nbsp;· {timeDisplay}
           </NavLink>
         </div>
         <div>
-          <p className="p-0 m-0">{text}</p>
+          <p className="p-0 m-0 dark:text-white">{text}</p>
           {imageUrl && (
             <Image
               src={imageUrl}
