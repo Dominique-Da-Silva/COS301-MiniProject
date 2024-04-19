@@ -49,16 +49,16 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    // const getCurrentUser = async () => {
-    //   try {
-    //     const user = await isUserLoggedIn();
-    //      console.log("Current User:");
-    //      console.log(user);
-    //      setCurrentUser(user);
-    //   } catch (error) {
-    //     console.error('Error fetching current user:', error);
-    //   }
-    // };
+    const getCurrentUser = async () => {
+      try {
+        const user = await isUserLoggedIn();
+         console.log("Current User:");
+         console.log(user);
+         setCurrentUser(user);
+      } catch (error) {
+        console.error('Error fetching current user:', error);
+      }
+    };
 
     const getAllProfiles = async () => {
       try {

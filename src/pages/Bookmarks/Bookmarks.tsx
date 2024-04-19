@@ -1,4 +1,5 @@
-import { isUserLoggedIn, getLoggedUserId, getBookmarkedTweets } from '@services/index';
+import { isUserLoggedIn, getLoggedUserId, getBookmarkedTweets, fetchUsers } from '@services/index';
+import { fetchAllProfiles } from "@services/profileServices/getProfile";
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Nav, Tweet, TrendingTopics , WhoToFollow, Search} from '@components/index';
@@ -10,7 +11,8 @@ const Bookmarks = () => {
   // const [tweets] = useState<any[]>(mockTweets);
   const [userid, setUserId] = useState<any[]>([]);
   const [tweets, setTweets] = useState<any[]>([]);
-  const [users] = useState<any[]>(mockUsers);
+  const [users, setUsers] = useState<any[]>([]);
+  const [profiles, setProfiles] = useState<any[]>([]);
   const [savesCount] = useState<any>(mockSavesCount);
   const [commentsCount] = useState<any>(mockCommentsCount);
   const [retweetsCount] = useState<any>(mockRetweetsCount);
@@ -64,6 +66,29 @@ const Bookmarks = () => {
       }
     }
 
+    const fetchData = async () => {
+      try {
+        const usersData = await fetchUsers();
+        // console.log("Users Data:");
+        // console.log(usersData);
+        setUsers(usersData as any[]); // Add type assertion here
+
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    const getAllProfiles = async () => {
+      try {
+        const profilesData = await fetchAllProfiles();
+        console.log("Profiles Data:");
+        console.log(profilesData);
+        setProfiles(profilesData as any); // Update the type of the state variable
+      } catch (error) {
+        console.error('Error fetching profiles:', error);
+      }
+    };
+
     const fetchTweets = async () => {
       try {
         const id = await getLoggedUserId();
@@ -81,6 +106,8 @@ const Bookmarks = () => {
     };
     // Call the async function
     checkUser();
+    fetchData();
+    getAllProfiles();
     fetchTweets();
   }, [navigate]);
   
@@ -100,6 +127,7 @@ const Bookmarks = () => {
                 const comments = commentsCount[tweet.Tweet_Id] || 0;
                 const likes = likesCount[tweet.Tweet_Id] || 0;
                 const retweets = retweetsCount[tweet.Tweet_Id] || 0;
+                const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
                 return (
                   <Tweet
                     key={tweet.Tweet_Id}
@@ -113,6 +141,7 @@ const Bookmarks = () => {
                     saves={formatCount(saves)}
                     comments={formatCount(comments)}
                     bookmarked={true}
+                    profileimageurl={image_url}
                   />
                 );
               })}
