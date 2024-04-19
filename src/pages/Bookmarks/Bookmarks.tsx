@@ -67,7 +67,7 @@ const Bookmarks = () => {
   }, [navigate]);
   
   return (
-    <div className="conatiner flex">
+    <div className="container flex">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>

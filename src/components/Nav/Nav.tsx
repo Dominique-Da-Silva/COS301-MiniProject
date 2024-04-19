@@ -11,7 +11,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { CreateTweet } from "..";
 import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
-import { FaUser } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
 import { signOut } from "@services/index";
 //import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";

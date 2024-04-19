@@ -1,5 +1,4 @@
 import {supabase} from '@config/supabase';
-import { FunctionsHttpError, FunctionsRelayError, FunctionsFetchError } from '@supabase/supabase-js'
 // FETCHING TWEETS AND THEIR RESPECTIVE STATS
 const fetchTweets = async () => {
     try {
