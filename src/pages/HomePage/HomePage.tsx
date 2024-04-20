@@ -122,7 +122,7 @@ const HomePage: React.FC<HomePageProps> = () => {
   return (
     <div className="w-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
+        <div className="nav flex justify-end w-1/5 pr-5">
           <Nav />
         </div>
         <div className="main-content flex flex-col w-full md:w-3/5 m-0 p-0 border dark:border-neutral-800">
