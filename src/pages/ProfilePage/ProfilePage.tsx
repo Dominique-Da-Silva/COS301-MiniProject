@@ -18,6 +18,7 @@ import { Search } from "@components/index";
 import { isUserLoggedIn } from "@services/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
+import { getCurrentSuite } from "@vitest/runner";
 // import {
 //   mockTweets,
 //   mockUsers,
@@ -140,6 +141,7 @@ const ProfileDetails = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
+  const [currUser, setCurrUser] = useState<int>();
   const [createdAt] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
@@ -165,7 +167,7 @@ const ProfileDetails = () => {
   // const [content, setContent] = useState(null);
   // const [followingCount, setFollowingCount] = useState<number>(10); // mock following count
   // const [followerCount, setFollowerCount] = useState<number>(20); // mock followers count
-  const [userTweets, setUserTweets] = useState<TweetProps[]>([]);
+  const [userTweets, setUserTweets] = useState<any[]>([]);
   const [userMedia, setUserMedia] = useState<string[]>([]);
   const [userReplies, setUserReplies] = useState<TweetProps[]>([]);
   //const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
@@ -198,6 +200,7 @@ const ProfileDetails = () => {
         const followingTemp = await countFollowing(userData.User_Id);
         const userDataX = await fetchUserData();
         const imageURLs = await fetchUserMedia(userData.User_Id);
+        setCurrUser(userData.User_Id);
         setUserFollowers(followerTemp);
         setUserFollowing(followingTemp);
         setUserData(userDataX);
@@ -241,6 +244,22 @@ const ProfileDetails = () => {
       }
     };
     fetchTweetData();
+
+    const getCurrUserTweets = async () => {
+      try {
+        const allTweets = await fetchTweets(); // Fetch all tweets
+        console.log("Curr User: ");
+        console.log(currUser);
+        const currUserTweets = allTweets.filter((tweet: any) => tweet.User_Id === currUser);
+        setUserTweets(currUserTweets);
+        console.log("UT:");
+        console.log(userTweets);
+      }
+      catch (error) {
+        console.error('Error fetching user tweets:', error);
+      }
+    }
+    getCurrUserTweets();
     
     const getLikes = async () => {
       try {
@@ -255,43 +274,6 @@ const ProfileDetails = () => {
 
     const fetchUserProfile = async () => {
       try {
-        // const fetchData = async () => {
-        //   try {
-        //     const userDataX = await fetchUserData();
-        //     //setUserData()
-        //     //console.log(userDataX);
-        //   //   const followingCount = await countFollowing(userData.id);
-        //   //   const followerCount = await countFollowers(userData.id);
-        //     // console.log(followingCount); 
-        //     //setUserData(null);
-        //     setUserData(userDataX);
-        //   } catch (error) {
-        //       console.error("Error fetching data: ", error);
-        //   }
-        // } 
-        // fetchData();
-
-        // const fetchFollData = async () => {
-        //   try {
-        //     const followerTemp = await countFollowers(userData.User_Id);
-        //     const followingTemp = await countFollowing(userData.User_Id);
-        //     const userDataX = await fetchUserData();
-        //     //setUserData()
-        //     //console.log(followerTemp);
-        //     //console.log(followingTemp);
-        //     //   const followingCount = await countFollowing(userData.id);
-        //   //   const followerCount = await countFollowers(userData.id);
-        //     // console.log(followingCount); 
-        //     setUserFollowers(followerTemp);
-        //     setUserFollowing(followingTemp);
-        //     setUserData(userDataX);
-
-        //   } catch (error) {
-        //       console.error("Error fetching data: ", error);
-        //   }
-        // } 
-        // fetchFollData();
-
         const mockTweets: TweetProps[] = [
           {
             id: 1,
@@ -414,7 +396,7 @@ const ProfileDetails = () => {
             quotes: 10,
           },
         ];
-        setUserTweets(mockTweets);
+        //setUserTweets(mockTweets);
 
         // const userData = {
         //   following: 10, // mock following count
@@ -683,7 +665,7 @@ const ProfileDetails = () => {
     };
 
     fetchUserProfile();
-  }, [activeTab, userData.User_Id]);
+  }, [activeTab, userData.User_Id, currUser]);
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -732,6 +714,19 @@ const ProfileDetails = () => {
   // const loadTweets = () => {
   //   setContent(loadTweetsContent());
   // };
+
+  // <button onClick={async () => {
+  //   const result = await toggleLike(tweetId, userId);
+  //   if (result === 'liked') {
+  //     //I'm guessing we'd change the colour of the heart icon, from white to red/black
+  //   } else if (result === 'unliked') {
+  //     //I'm guessing we'd change the colour of the heart icon again, but from red/black to white
+  //   } else {
+  //     //We just process the error here, maybe a toast or something
+  //   }
+  // }}>
+  //   Like
+  // </button>
 
   //         if (userData?.User_Id) {
   //           const { data: profileData, error: profileError } = await supabase
@@ -1098,7 +1093,7 @@ const ProfileDetails = () => {
                                     
                                     {activeTab === "tweets" && (
                                       <div>
-                                        {userTweets.length === 0 ? (
+                                        {tweets.length === 0 ? (
                                           <p className="text-center text-gray-500">
                                             User hasn't tweeted yet
                                           </p>
