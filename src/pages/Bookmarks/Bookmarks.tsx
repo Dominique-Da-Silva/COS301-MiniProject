@@ -3,20 +3,19 @@ import { fetchAllProfiles } from "@services/profileServices/getProfile";
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Nav, Tweet, TrendingTopics , WhoToFollow, Search} from '@components/index';
-import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
+// import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 import {useState} from "react";
   
 const Bookmarks = () => {
 
   // const [tweets] = useState<any[]>(mockTweets);
-  const [userid, setUserId] = useState<any[]>([]);
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
-  const [savesCount] = useState<any>(mockSavesCount);
-  const [commentsCount] = useState<any>(mockCommentsCount);
-  const [retweetsCount] = useState<any>(mockRetweetsCount);
-  const [likesCount] = useState<any>(mockLikesCount);
+  // const [savesCount] = useState<any>(mockSavesCount);
+  // const [commentsCount] = useState<any>(mockCommentsCount);
+  // const [retweetsCount] = useState<any>(mockRetweetsCount);
+  // const [likesCount] = useState<any>(mockLikesCount);
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const getTimeDisplay = (timestamp: string) => {
@@ -92,8 +91,7 @@ const Bookmarks = () => {
     const fetchTweets = async () => {
       try {
         const id = await getLoggedUserId();
-        setUserId(id); // Set user ID state
-        console.log(id);
+        // console.log(id);
 
         // Fetch tweets only if user ID is available
         if (id !== null) {
@@ -121,12 +119,12 @@ const Bookmarks = () => {
           <div className="flex flex-col m-0 p-0 justify-center">
             <h1 className="text-2xl font-bold p-4 dark:text-white">Bookmarks</h1>
             {/* <p className="p-4">This is the Bookmarks page content.</p>  */}
-            {tweets.map(tweet => {
+            {tweets?.map(tweet => {
                 const user = users.find(u => u.User_Id === tweet.User_Id);
-                const saves = savesCount[tweet.Tweet_Id] || 0 ;
-                const comments = commentsCount[tweet.Tweet_Id] || 0;
-                const likes = likesCount[tweet.Tweet_Id] || 0;
-                const retweets = retweetsCount[tweet.Tweet_Id] || 0;
+                const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
+                const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
+                const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
+                const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
                 const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
                 return (
                   <Tweet

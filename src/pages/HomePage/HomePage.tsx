@@ -2,7 +2,7 @@ import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet } from "@c
 import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 import { fetchTweets, fetchUsers } from "@services/index";
-import { isUserLoggedIn } from "@services/auth/auth";
+// import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
@@ -49,16 +49,16 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    const getCurrentUser = async () => {
-      try {
-        const user = await isUserLoggedIn();
-         console.log("Current User:");
-         console.log(user);
-         setCurrentUser(user);
-      } catch (error) {
-        console.error('Error fetching current user:', error);
-      }
-    };
+    // const getCurrentUser = async () => {
+    //   try {
+    //     const user = await isUserLoggedIn();
+    //      console.log("Current User:");
+    //      console.log(user);
+    //      setCurrentUser(user);
+    //   } catch (error) {
+    //     console.error('Error fetching current user:', error);
+    //   }
+    // };
 
     const getAllProfiles = async () => {
       try {

@@ -26,7 +26,20 @@ export async function getBookmarkedTweets(userId: number): Promise<any[]> {
         // Fetch details of the bookmarked tweets from the Tweets table
         const { data: tweetsData, error: tweetsError } = await supabase
             .from('Tweets')
-            .select('*')
+            .select(`
+            *,
+            Retweets (
+             count()
+            ),
+            Likes(
+              count()
+            ),
+            Saves(
+              count()
+            ),
+            Comments(
+              count()
+            )`)
             .in('Tweet_Id', tweetIds);
 
         if (tweetsError) {
