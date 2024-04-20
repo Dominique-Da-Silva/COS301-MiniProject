@@ -701,10 +701,14 @@ const ProfileDetails = () => {
 
                   {activeTab === "replies" && (
                     <div>
-                      {userReplies.length === 0 ? (
+                    {userReplies.length === 0 ? (
+                      <>
                         <p className="text-center text-gray-500">
-                          No replies to display
+                            No replies to display
                         </p>
+                        <div style={{ height: '200px' }}></div>
+                      </>  
+                        
                       ) : (
                         userReplies.map((reply, index) => (
                           <Tweet
@@ -727,10 +731,13 @@ const ProfileDetails = () => {
 
                 {activeTab === "likes" && (
                   <div>
-                    {likedTweets.length === 0 ? (
+                  {likedTweets.length === 0 ? (
+                    <>
                       <p className="text-center text-gray-500">
                         No liked Tweets to display
                       </p>
+                      <div style={{ height: '200px' }}></div>
+                    </>  
                   ) : (
                     likedTweets.map((tweet, index) => {
                         const iUser = users.find((u: any) => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
