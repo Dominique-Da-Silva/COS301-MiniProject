@@ -647,10 +647,13 @@ const ProfileDetails = () => {
                   
                   {activeTab === "tweets" && (
                     <div>
-                      {userTweets.length === 0 ? (
+                    {userTweets.length === 0 ? (
+                      <>
                         <p className="text-center text-gray-500">
                           User hasn't tweeted yet
                         </p>
+                        <div style={{ height: '800px' }}></div>
+                      </>  
                       ) : (
                         userTweets.map((tweet, index) => {
                             // const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
@@ -680,9 +683,12 @@ const ProfileDetails = () => {
                     <div className="grid grid-cols-3 gap-1">
                       {userMedia.filter((u) => u !== "")
                         .length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          No media to display
-                        </p>
+                        <>
+                          <p className="text-center text-gray-500">
+                            No media to display
+                          </p>
+                          <div style={{ height: '800px' }}></div>
+                        </>  
                         ) : (
                         userMedia
                           .filter((u) => u !== "")
@@ -706,7 +712,7 @@ const ProfileDetails = () => {
                         <p className="text-center text-gray-500">
                             No replies to display
                         </p>
-                        <div style={{ height: '200px' }}></div>
+                        <div style={{ height: '800px' }}></div>
                       </>  
                         
                       ) : (
@@ -736,7 +742,7 @@ const ProfileDetails = () => {
                       <p className="text-center text-gray-500">
                         No liked Tweets to display
                       </p>
-                      <div style={{ height: '200px' }}></div>
+                      <div style={{ height: '800px' }}></div>
                     </>  
                   ) : (
                     likedTweets.map((tweet, index) => {
