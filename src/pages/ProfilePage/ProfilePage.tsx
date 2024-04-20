@@ -646,22 +646,18 @@ const ProfileDetails = () => {
                   </div>
                   
                   {activeTab === "tweets" && (
+                  <>
                     <div>
-                    {userTweets.length === 0 ? (
-                      <>
-                        <p className="text-center text-gray-500">
-                          User hasn't tweeted yet
-                        </p>
-                        <div style={{ height: '800px' }}></div>
-                      </>  
+                      {userTweets.length === 0 ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '800px' }}>
+                          <p className="text-center text-gray-500">
+                            User hasn't tweeted yet
+                          </p>
+                        </div>
                       ) : (
                         userTweets.map((tweet, index) => {
-                            // const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
-                            // const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
-                            // const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
-                            // const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
-                            const image_url = profileDetails.Img_Url;
-                            return(
+                          const image_url = profileDetails.Img_Url;
+                          return(
                             <Tweet
                               key={index}
                               name={userData.Name}
@@ -675,36 +671,39 @@ const ProfileDetails = () => {
                               comments={0}
                               profileimageurl={image_url}
                             />);
-                          })
-                        )}
+                        })
+                      )}
                     </div>
-                  )}
+                    <div style={{ height: '800px' }}></div>
+                  </>
+                )}
                   {activeTab === "media" && (
-                    <div className="grid grid-cols-3 gap-1">
-                      {userMedia.filter((u) => u !== "")
-                        .length === 0 ? (
-                        <>
-                          <p className="text-center text-gray-500">
-                            No media to display
-                          </p>
-                          <div style={{ height: '800px' }}></div>
-                        </>  
-                        ) : (
-                        userMedia
-                          .filter((u) => u !== "")
-                          .map((u, index) => (
-                            <div key={index}>
-                              <img
-                                src={u}
-                                alt="Tweet"
-                                className="object-cover w-full h-full"
-                              />
-                            </div>
-                          ))
+                    <>
+                      <div className="grid grid-cols-3 gap-1">
+                        {userMedia.filter((u) => u !== "")
+                          .length === 0 ? (
+                          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '800px' }}>
+                            <p className="text-center text-gray-500">
+                              No media to display
+                            </p>
+                          </div>
+                          ) : (
+                          userMedia
+                            .filter((u) => u !== "")
+                            .map((u, index) => (
+                              <div key={index}>
+                                <img
+                                  src={u}
+                                  alt="Tweet"
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                            ))
                         )}
-                    </div>
+                      </div>
+                      <div style={{ height: '800px' }}></div>
+                    </>
                   )}
-
                   {activeTab === "replies" && (
                     <div>
                     {userReplies.length === 0 ? (
@@ -716,7 +715,8 @@ const ProfileDetails = () => {
                       </>  
                         
                       ) : (
-                        userReplies.map((reply, index) => (
+                        <>
+                        {userReplies.map((reply, index) => (
                           <Tweet
                             key={index}
                             name={reply.name}
@@ -729,47 +729,46 @@ const ProfileDetails = () => {
                             saves={1000}
                             timeDisplay={getTimeDisplay(reply.createdAt)}
                           />
-                        ))
+                        ))}
+                        <div style={{ height: '800px' }}></div>
+                      </>
                       )}
                     </div>
                   )}
-                </div>
-
+              </div>
                 {activeTab === "likes" && (
+                <>
                   <div>
-                  {likedTweets.length === 0 ? (
-                    <>
-                      <p className="text-center text-gray-500">
-                        No liked Tweets to display
-                      </p>
-                      <div style={{ height: '800px' }}></div>
-                    </>  
-                  ) : (
-                    likedTweets.map((tweet, index) => {
+                    {likedTweets.length === 0 ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '800px' }}>
+                        <p className="text-center text-gray-500">
+                          No liked Tweets to display
+                        </p>
+                      </div>
+                    ) : (
+                      likedTweets.map((tweet, index) => {
                         const iUser = users.find((u: any) => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-                        // const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
-                        // const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
-                        // const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
-                        // const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
                         const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
                         return(
-                        <Tweet
-                          key={index}
-                          name={iUser ? iUser.Name : "Unknown User"}
-                          username={iUser ? `@${iUser.Username}` : ""}
-                          text={tweet.Content}
-                          imageUrl={tweet.Img_Url}
-                          timeDisplay={getTimeDisplay(tweet.Created_at)}
-                          likes={0}
-                          retweets={0}
-                          saves={0}
-                          comments={0}
-                          profileimageurl={image_url}
-                        />);
+                          <Tweet
+                            key={index}
+                            name={iUser ? iUser.Name : "Unknown User"}
+                            username={iUser ? `@${iUser.Username}` : ""}
+                            text={tweet.Content}
+                            imageUrl={tweet.Img_Url}
+                            timeDisplay={getTimeDisplay(tweet.Created_at)}
+                            likes={0}
+                            retweets={0}
+                            saves={0}
+                            comments={0}
+                            profileimageurl={image_url}
+                          />);
                       })
                     )}
                   </div>
-                )}
+                  <div style={{ height: '800px' }}></div>
+                </>
+              )}
             </div>
           </div>
         </div>
