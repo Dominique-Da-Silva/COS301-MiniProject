@@ -9,6 +9,7 @@ import { fetchUserData } from "@services/index";
 import { fetchUserMedia } from "@services/index";
 import { fetchLikedPosts } from "@services/index";
 import { getUserTweets } from "@services/index";
+import { getUserComments } from "@services/index";
 //import { getUserData } from "@services/auth/auth";
 // import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
@@ -45,6 +46,21 @@ import { fetchAllProfiles } from "@services/profileServices/getProfile";
 //   isOpen: boolean;
 //   onClose: () => void;
 // }
+
+interface Tweet {
+  key: number;
+  name: string;
+  username: string;
+  text: string;
+  imageUrl: string;
+  likes: number;
+  retweets: number;
+  saves: number;
+  comments: number;
+  timeDisplay: string;
+  profileimageurl: string;
+  author?: string; // Add this line
+}
 
 const getTimeDisplay = (timestamp: string) => {
   const currentTime = new Date();
@@ -218,6 +234,17 @@ const ProfileDetails = () => {
       }
     }
     getCurrUserTweets();
+
+    const getUserReplies = async() => {
+      try {
+        const replies = await getUserComments(userData.User_Id);
+        setUserReplies(replies);
+      }
+      catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    getUserReplies();
 
   }, [activeTab, userData.User_Id]);
 
@@ -705,35 +732,38 @@ const ProfileDetails = () => {
                     </>
                   )}
                   {activeTab === "replies" && (
+                  <>
                     <div>
                     {userReplies.length === 0 ? (
-                      <>
-                        <p className="text-center text-gray-500">
-                            No replies to display
-                        </p>
-                        <div style={{ height: '800px' }}></div>
-                      </>  
-                        
+                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '800px' }}>
+                         <p className="text-center text-gray-500">
+                           No replies to display
+                         </p>
+                       </div>
                       ) : (
-                        <>
-                        {userReplies.map((reply, index) => (
-                          <Tweet
-                            key={index}
-                            name={reply.name}
-                            username={reply.username}
-                            text={reply.text}
-                            imageUrl={reply.image_url}
-                            likes={reply.likes}
-                            retweets={reply.retweets}
-                            comments={1000}
-                            saves={1000}
-                            timeDisplay={getTimeDisplay(reply.createdAt)}
-                          />
-                        ))}
-                        <div style={{ height: '800px' }}></div>
-                      </>
-                      )}
+                          userReplies.map((reply, index) => {
+                            const author = "Your value here"; // Define your variable here
+                            const image_url = profileDetails.Img_Url;
+                            return(
+                              <Tweet
+                                key={index}
+                                name={userData.Name}
+                                username={`@${userData.Username}`}
+                                author={`replying to @${author}`}
+                                text={reply.Content}
+                                imageUrl={reply.image_url}
+                                likes={0}
+                                retweets={0}
+                                saves={0}
+                                comments={0}
+                                timeDisplay={getTimeDisplay(reply.Created_at)}
+                                profileimageurl={image_url}
+                            />);
+                            })
+                          )}
                     </div>
+                    <div style={{ height: '800px' }}></div>
+                    </>
                   )}
               </div>
                 {activeTab === "likes" && (
