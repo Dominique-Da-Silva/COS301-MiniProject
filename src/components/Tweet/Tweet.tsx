@@ -19,9 +19,10 @@ interface TweetProps {
   comments?: number | string;
   saves?: number | string;
   bookmarked?: boolean;
+  author?: string;
 }
 
-const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked }) => {
+const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author }) => {
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4">
       <div className="avatar">
@@ -63,6 +64,18 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
             @{username.substring(1)} &nbsp;· {timeDisplay}
           </NavLink>
         </div>
+        {author && (
+          <div>
+            <NavLink
+              to={{
+                pathname: `/profile/${author.substring(0)}`,
+              }}
+              className="text-slate-700 p-0 m-0 block text-left"
+            >
+              replying to @{author.substring(1)} &nbsp;
+            </NavLink>
+          </div>
+        )}
         <div>
           <p className="p-0 m-0">{text}</p>
           {imageUrl && (

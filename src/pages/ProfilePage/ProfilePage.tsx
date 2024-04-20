@@ -143,6 +143,7 @@ const ProfileDetails = () => {
   const [userFollowing, setUserFollowing] = useState<any>(null);
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
+  const [tweetCollection, setTweetCollection] = useState<any[]>([]);
   const [createdAt] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
@@ -245,6 +246,30 @@ const ProfileDetails = () => {
       }
     }
     getUserReplies();
+
+    const getUsers= async() => {
+      try {
+        const usersFetched = await fetchUsers();
+        const profilesFetched = await fetchAllProfiles();
+        setUsers(usersFetched as any[]);
+        setProfiles(profilesFetched as any[]);
+      }
+      catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    getUsers();
+
+    const getTweets = async() => {
+      try {
+        const tweetsFetched = await fetchTweets();
+        setTweetCollection(tweetsFetched as any[]);
+      }
+      catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    getTweets();
 
   }, [activeTab, userData.User_Id]);
 
@@ -742,15 +767,15 @@ const ProfileDetails = () => {
                        </div>
                       ) : (
                           userReplies.map((reply, index) => {
-                            const author = "Your value here"; // Define your variable here
+                            const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => reply.Tweet_Id === u.Tweet_Id);
+                            const iUser = users.find((u: any) => u.User_Id === originalTweet.User_Id); 
                             const image_url = profileDetails.Img_Url;
                             return(
                               <Tweet
                                 key={index}
                                 name={userData.Name}
                                 username={`@${userData.Username}`}
-                                author={`replying to @${author}`}
-                                text={reply.Content}
+                                author={iUser ? `@${iUser.Username}` : ''}                                text={reply.Content}
                                 imageUrl={reply.image_url}
                                 likes={0}
                                 retweets={0}
@@ -776,8 +801,8 @@ const ProfileDetails = () => {
                         </p>
                       </div>
                     ) : (
-                      likedTweets.map((tweet, index) => {
-                        const iUser = users.find((u: any) => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+                        likedTweets.map((tweet, index) => {
+                        const iUser = users.find((u: any) => u.User_Id === tweet.User_Id); 
                         const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
                         return(
                           <Tweet
