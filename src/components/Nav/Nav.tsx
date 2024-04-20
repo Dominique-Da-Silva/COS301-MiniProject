@@ -13,10 +13,10 @@ import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaTimes } from 'react-icons/fa';
 import { signOut } from "@services/index";
-//import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
-//import { fetchUsers, fetchProfileDetails, getUserData } from "@services/index"; //option 2
+import { getLoggedUserId, fetchUsers } from "@services/index";
 import { isUserLoggedIn } from "@services/index";
 import { CiLogin } from "react-icons/ci";
+import { FaUser } from "react-icons/fa";
 
 const Nav = () => {
   const location = useLocation();
@@ -24,9 +24,9 @@ const Nav = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
   const [showPopup, setShowPopup] = useState(false);
-  //const [userName, setUserName] = useState('');
-  //const [userUsername, setUserUsername] = useState('');
-  //const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [userName, setUserName] = useState('');
+  const [userUsername, setUserUsername] = useState('');
+  const [profileDetails] = useState<any>(null);
 
   const handleLogout = () => {
     console.log('Logout clicked');
@@ -54,52 +54,35 @@ const Nav = () => {
     };
   }, []);
 
-  /*useEffect(() => {
-    const fetchUserData = async () => {*/
-  //option 1
-  //if(userAuthStatus) then the users auth status is valid
-  /*const fetchMeta = await getUserData();
-  const userId = fetchMeta.user_metadata.User_Id;
-  console.log('Getting User Id',userId);
+  useEffect(() => {
+    const fetchUserData = async () => {
 
-    const userData = await fetchUsers();
-    if (userData.User_Id === userId) {
-      setUserName(`${userData.Name} ${userData.Surname}`);
-      console.log('Getting user data: ',userData);
-      setUserUsername(`@${userData.Username}`);
-    }
- 
-    try {
-      // Fetch profile details by username
-      const profileData = await fetchProfileDetails(userId);
-      setProfileDetails(profileData);
-    } catch (error) {
-      console.error("Error fetching profile details:", error);
-    }*/
+      //option 2
+      console.log('Fetching ID');
+      const userId = await getLoggedUserId();
+      console.log('ID: ', userId);
+      if (userId) {
+        try {
+          // Fetch user data
+          const userData = await fetchUsers();
+      
+          // Find the user object with the matching User_Id
+          const user = userData.find(user => user.User_Id === userId);
+      
+          if (user) {
+            setUserName(`${user.Name} ${user.Surname}`);
+            setUserUsername(`@${user.Username}`);
+          } else {
+            console.error('User data not found for user ID:', userId);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
 
-  //option 2
-  /*console.log('Fetching ID');
-  const userId = await getLoggedUserId();
-  console.log('ID: ', userId);
-  if (userId) {
-    const userData = await fetchUsers();
-    if (userData.User_Id === userId) {
-      setUserName(`${userData.Name} ${userData.Surname}`);
-      setUserUsername(`@${userData.Username}`);
-    }
-
-    try {
-      // Fetch profile details by username
-      const profileData = await fetchProfileDetails(userId);
-      setProfileDetails(profileData);
-    } catch (error) {
-      console.error("Error fetching profile details:", error);
-    }
-  }
-};
-
-fetchUserData();
-}, [userAuthStatus]);*/
+    fetchUserData();
+  }, [userAuthStatus]);
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -216,24 +199,16 @@ fetchUserData();
               onClick={() => setShowPopup(!showPopup)}
             >
               <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <img
-                  src="images/IMG-20240312-WA0073.jpg"
-                  alt="Default Profile"
-                  className="rounded-full object-cover object-center"
-                  style={{ width: "100%", height: "100%" }}
-                />
-                {/*profileDetails?.Img_Url ? (
-    <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
-  ) : (
-    <FaUser size={20} color="#FFFFFF" />
-  )*/}
+                {profileDetails?.Img_Url ? (
+                  <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
+                ) : (
+                  <FaUser size={20} color="#FFFFFF" />
+                )}
               </div>
 
               <div className="user-info">
-                <p className="text-sm font-semibold mb-1">Kyle Marshall</p>
-                <p className="text-xs">@dreamer</p>
-                {/*<p className="text-sm font-semibold mb-1">{userName}</p> 
-                    <p className="text-xs">{userUsername}</p>*/}
+                <p className="text-sm font-semibold mb-1">{userName}</p>
+                <p className="text-xs">{userUsername}</p>
               </div>
             </div>
           }
@@ -360,17 +335,12 @@ fetchUserData();
               onClick={() => setShowPopup(!showPopup)}
             >
               <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <img
-                  src="images/IMG-20240312-WA0073.jpg"
-                  alt="Default Profile"
-                  className="rounded-full object-cover object-center"
-                  style={{ width: "100%", height: "100%" }}
-                />
-                {/*profileDetails?.Img_Url ? (
-    <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
-  ) : (
-    <FaUser size={20} color="#FFFFFF" />
-  )*/}
+
+                {profileDetails?.Img_Url ? (
+                  <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
+                ) : (
+                  <FaUser size={20} color="#FFFFFF" />
+                )}
               </div>
 
 

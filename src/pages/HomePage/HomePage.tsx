@@ -172,6 +172,8 @@ const HomePage: React.FC<HomePageProps> = () => {
   return (
     <Tweet
       key={tweet.Tweet_Id}
+      userid={tweet.User_Id}
+      tweetid={tweet.Tweet_Id}
       name={user ? user.Name : "Unknown User"}
       username={user ? `@${user.Username}` : ""}
       text={tweet.Content}
