@@ -152,7 +152,7 @@ const ProfileDetails = () => {
   );
   //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
   //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
-  const [external] = useState(true);
+  const [external, setExternal] = useState(true);
 
   const [following, setFollowing] = useState(false);
   // const [isEditing, setIsEditing] = useState(false);
@@ -202,6 +202,7 @@ const ProfileDetails = () => {
         const followingTemp = await countFollowing(userData.User_Id);
         const userDataX = await fetchUserData();
         const imageURLs = await fetchUserMedia(userData.User_Id);
+        setExternal(false);
         //setCurrUser(userData.User_Id);
         setUserFollowers(followerTemp);
         setUserFollowing(followingTemp);
