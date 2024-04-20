@@ -17,6 +17,7 @@ import { getLoggedUserId, fetchUsers } from "@services/index";
 import { isUserLoggedIn } from "@services/index";
 import { CiLogin } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
+import { fetchProfileDetails } from "@services/index";
 
 const Nav = () => {
   const location = useLocation();
@@ -26,7 +27,24 @@ const Nav = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [userName, setUserName] = useState('');
   const [userUsername, setUserUsername] = useState('');
-  const [profileDetails] = useState<any>(null);
+  const [profileDetails, setProfileDetails] = useState<any>(null);
+
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userId = await getLoggedUserId();
+        if (userId === null) return;
+        const profileData = await fetchProfileDetails(userId);
+        setProfileDetails(profileData);
+        console.log('Profile Data:', profileData); // Log the profile data
+      } catch (error) {
+        console.error('Error fetching profile details:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleLogout = () => {
     console.log('Logout clicked');
