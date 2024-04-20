@@ -21,13 +21,22 @@ import { fetchProfileDetails } from "@services/index";
 
 const Nav = () => {
   const location = useLocation();
-  const { isOpen, onOpenChange } = useDisclosure();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
   const [showPopup, setShowPopup] = useState(false);
   const [userName, setUserName] = useState('');
   const [userUsername, setUserUsername] = useState('');
   const [profileDetails, setProfileDetails] = useState<any>(null);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
 
 
   useEffect(() => {
@@ -83,10 +92,10 @@ const Nav = () => {
         try {
           // Fetch user data
           const userData = await fetchUsers();
-      
+
           // Find the user object with the matching User_Id
           const user = userData.find(user => user.User_Id === userId);
-      
+
           if (user) {
             setUserName(`${user.Name} ${user.Surname}`);
             setUserUsername(`@${user.Username}`);
@@ -197,19 +206,31 @@ const Nav = () => {
           {/* Post Button - will route to create tweet component */}
           {
             userAuthStatus ?
-              <Button size="lg" className="post-button bg-sky-500 w-52 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
-                Post
-              </Button>
+              <div>
+                {/* Button to open the modal */}
+                <Button size="lg" className="post-button bg-sky-500 w-52 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onClick={handleOpenModal}>
+                  Post
+                </Button>
+
+                {/* Modal */}
+                <Modal size="xl" isOpen={isModalOpen} onOpenChange={handleCloseModal}>
+                  <ModalContent>
+                    <ModalHeader>
+                    </ModalHeader>
+                    <ModalBody>
+                      <CreateTweet />
+                    </ModalBody>
+                  </ModalContent>
+                </Modal>
+              </div>
               :
               <div className="my-7">
-                <NavLink
-                  to="/"
-                  className={`post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4`}
-                >
+                <NavLink to="/" className={`post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4`}>
                   SignIn/Signup
                 </NavLink>
               </div>
           }
+
           {
             userAuthStatus &&
             <div
@@ -249,20 +270,7 @@ const Nav = () => {
       {/*<Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onPress={onOpen}>
         Post
     </Button>*/}
-      <Modal size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {() => (
-            <>
-              <ModalHeader>
-                {/* <Button endContent={<FaXmark />} onPress={onClose}></Button> */}
-              </ModalHeader>
-              <ModalBody>
-                <CreateTweet />
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+
 
       {!isLargeScreen && (
         <>
@@ -331,12 +339,20 @@ const Nav = () => {
           {/* Post */}
           {
             userAuthStatus ?
-              <NavLink
-                to="/home" //will route to create a tweet component
-                className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
-              >
-                <BiPlusCircle size={28} color="#FFFFFF" />
-              </NavLink>
+              <div>
+                <NavLink
+                  to="/home" //will route to create a tweet component
+                  className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
+                  onClick={handleOpenModal}
+                >
+                  <BiPlusCircle size={28} color="#FFFFFF" />
+                </NavLink>
+                <Modal isOpen={isModalOpen} onOpenChange={handleCloseModal}>
+                  <ModalContent>
+                   <CreateTweet />
+                  </ModalContent>
+                </Modal>
+              </div>
               :
               <NavLink
                 to="/home" //will route to create a tweet component
