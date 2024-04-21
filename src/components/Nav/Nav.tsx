@@ -6,27 +6,54 @@ import { PiBellBold } from "react-icons/pi";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Button } from '@nextui-org/button';
-import { Modal, ModalContent, useDisclosure, ModalHeader, ModalBody } from '@nextui-org/react';
+import { Modal, ModalContent, ModalHeader, ModalBody } from '@nextui-org/react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { CreateTweet } from "..";
 import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 import { FaTimes } from 'react-icons/fa';
 import { signOut } from "@services/index";
-//import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
-//import { fetchUsers, fetchProfileDetails, getUserData } from "@services/index"; //option 2
+import { getLoggedUserId, fetchUsers } from "@services/index";
 import { isUserLoggedIn } from "@services/index";
 import { CiLogin } from "react-icons/ci";
+import { FaUser } from "react-icons/fa";
+import { fetchProfileDetails } from "@services/index";
 
 const Nav = () => {
   const location = useLocation();
-  const { isOpen, onOpenChange } = useDisclosure();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1265);
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
   const [showPopup, setShowPopup] = useState(false);
-  //const [userName, setUserName] = useState('');
-  //const [userUsername, setUserUsername] = useState('');
-  //const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [userName, setUserName] = useState('');
+  const [userUsername, setUserUsername] = useState('');
+  const [profileDetails, setProfileDetails] = useState<any>(null);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userId = await getLoggedUserId();
+        if (userId === null) return;
+        const profileData = await fetchProfileDetails(userId);
+        setProfileDetails(profileData);
+        console.log('Profile Data:', profileData); // Log the profile data
+      } catch (error) {
+        console.error('Error fetching profile details:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleLogout = () => {
     console.log('Logout clicked');
@@ -54,52 +81,35 @@ const Nav = () => {
     };
   }, []);
 
-  /*useEffect(() => {
-    const fetchUserData = async () => {*/
-  //option 1
-  //if(userAuthStatus) then the users auth status is valid
-  /*const fetchMeta = await getUserData();
-  const userId = fetchMeta.user_metadata.User_Id;
-  console.log('Getting User Id',userId);
+  useEffect(() => {
+    const fetchUserData = async () => {
 
-    const userData = await fetchUsers();
-    if (userData.User_Id === userId) {
-      setUserName(`${userData.Name} ${userData.Surname}`);
-      console.log('Getting user data: ',userData);
-      setUserUsername(`@${userData.Username}`);
-    }
- 
-    try {
-      // Fetch profile details by username
-      const profileData = await fetchProfileDetails(userId);
-      setProfileDetails(profileData);
-    } catch (error) {
-      console.error("Error fetching profile details:", error);
-    }*/
+      //option 2
+      console.log('Fetching ID');
+      const userId = await getLoggedUserId();
+      console.log('ID: ', userId);
+      if (userId) {
+        try {
+          // Fetch user data
+          const userData = await fetchUsers();
 
-  //option 2
-  /*console.log('Fetching ID');
-  const userId = await getLoggedUserId();
-  console.log('ID: ', userId);
-  if (userId) {
-    const userData = await fetchUsers();
-    if (userData.User_Id === userId) {
-      setUserName(`${userData.Name} ${userData.Surname}`);
-      setUserUsername(`@${userData.Username}`);
-    }
+          // Find the user object with the matching User_Id
+          const user = userData.find(user => user.User_Id === userId);
 
-    try {
-      // Fetch profile details by username
-      const profileData = await fetchProfileDetails(userId);
-      setProfileDetails(profileData);
-    } catch (error) {
-      console.error("Error fetching profile details:", error);
-    }
-  }
-};
+          if (user) {
+            setUserName(`${user.Name} ${user.Surname}`);
+            setUserUsername(`@${user.Username}`);
+          } else {
+            console.error('User data not found for user ID:', userId);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
 
-fetchUserData();
-}, [userAuthStatus]);*/
+    fetchUserData();
+  }, [userAuthStatus]);
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -196,19 +206,31 @@ fetchUserData();
           {/* Post Button - will route to create tweet component */}
           {
             userAuthStatus ?
-              <Button size="lg" className="post-button bg-sky-500 w-52 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
-                Post
-              </Button>
+              <div>
+                {/* Button to open the modal */}
+                <Button size="lg" className="post-button bg-sky-500 w-52 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onClick={handleOpenModal}>
+                  Post
+                </Button>
+
+                {/* Modal */}
+                <Modal size="xl" isOpen={isModalOpen} onOpenChange={handleCloseModal}>
+                  <ModalContent>
+                    <ModalHeader>
+                    </ModalHeader>
+                    <ModalBody>
+                      <CreateTweet />
+                    </ModalBody>
+                  </ModalContent>
+                </Modal>
+              </div>
               :
               <div className="my-7">
-                <NavLink
-                  to="/"
-                  className={`post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4`}
-                >
+                <NavLink to="/" className={`post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4`}>
                   SignIn/Signup
                 </NavLink>
               </div>
           }
+
           {
             userAuthStatus &&
             <div
@@ -216,24 +238,16 @@ fetchUserData();
               onClick={() => setShowPopup(!showPopup)}
             >
               <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <img
-                  src="images/IMG-20240312-WA0073.jpg"
-                  alt="Default Profile"
-                  className="rounded-full object-cover object-center"
-                  style={{ width: "100%", height: "100%" }}
-                />
-                {/*profileDetails?.Img_Url ? (
-    <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
-  ) : (
-    <FaUser size={20} color="#FFFFFF" />
-  )*/}
+                {profileDetails?.Img_Url ? (
+                  <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
+                ) : (
+                  <FaUser size={20} color="#FFFFFF" />
+                )}
               </div>
 
               <div className="user-info">
-                <p className="text-sm font-semibold mb-1">Kyle Marshall</p>
-                <p className="text-xs">@dreamer</p>
-                {/*<p className="text-sm font-semibold mb-1">{userName}</p> 
-                    <p className="text-xs">{userUsername}</p>*/}
+                <p className="text-sm font-semibold mb-1">{userName}</p>
+                <p className="text-xs">{userUsername}</p>
               </div>
             </div>
           }
@@ -256,20 +270,7 @@ fetchUserData();
       {/*<Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4" onPress={onOpen}>
         Post
     </Button>*/}
-      <Modal size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {() => (
-            <>
-              <ModalHeader>
-                {/* <Button endContent={<FaXmark />} onPress={onClose}></Button> */}
-              </ModalHeader>
-              <ModalBody>
-                <CreateTweet />
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+
 
       {!isLargeScreen && (
         <>
@@ -338,12 +339,20 @@ fetchUserData();
           {/* Post */}
           {
             userAuthStatus ?
-              <NavLink
-                to="/home" //will route to create a tweet component
-                className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
-              >
-                <BiPlusCircle size={28} color="#FFFFFF" />
-              </NavLink>
+              <div>
+                <NavLink
+                  to="/home" //will route to create a tweet component
+                  className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
+                  onClick={handleOpenModal}
+                >
+                  <BiPlusCircle size={28} color="#FFFFFF" />
+                </NavLink>
+                <Modal isOpen={isModalOpen} onOpenChange={handleCloseModal}>
+                  <ModalContent>
+                   <CreateTweet />
+                  </ModalContent>
+                </Modal>
+              </div>
               :
               <NavLink
                 to="/home" //will route to create a tweet component
@@ -360,17 +369,12 @@ fetchUserData();
               onClick={() => setShowPopup(!showPopup)}
             >
               <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <img
-                  src="images/IMG-20240312-WA0073.jpg"
-                  alt="Default Profile"
-                  className="rounded-full object-cover object-center"
-                  style={{ width: "100%", height: "100%" }}
-                />
-                {/*profileDetails?.Img_Url ? (
-    <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
-  ) : (
-    <FaUser size={20} color="#FFFFFF" />
-  )*/}
+
+                {profileDetails?.Img_Url ? (
+                  <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
+                ) : (
+                  <FaUser size={20} color="#FFFFFF" />
+                )}
               </div>
 
 
