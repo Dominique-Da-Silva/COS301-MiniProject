@@ -10,10 +10,6 @@ import { fetchUserMedia } from "@services/index";
 import { fetchLikedPosts } from "@services/index";
 import { getUserTweets } from "@services/index";
 import { getUserComments } from "@services/index";
-import { countLikes } from "@services/index";
-import { countComments } from "@services/index";
-import { countRetweets } from "@services/index";
-import { countSaves } from "@services/index";
 //import { getUserData } from "@services/auth/auth";
 // import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
@@ -148,7 +144,6 @@ const ProfileDetails = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [tweetCollection, setTweetCollection] = useState<any[]>([]);
-  const [likesPerTweet, setLikesPerTweet] = useState<number[]>([]);
   const [createdAt] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
@@ -733,7 +728,7 @@ const ProfileDetails = () => {
                           const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
                           const _likes = originalTweet.Likes[0].count || 0;
                           // const _saves = originalTweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
-                          // const _comments = originalTweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
+                          const _comments = originalTweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
                           // const _retweets = originalTweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
                           return(
                             <Tweet
@@ -746,7 +741,7 @@ const ProfileDetails = () => {
                               likes={_likes}
                               retweets={0}
                               saves={0}
-                              comments={0}
+                              comments={_comments}
                               profileimageurl={image_url}
                             />);
                         })
@@ -796,6 +791,7 @@ const ProfileDetails = () => {
                             const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => reply.Tweet_Id === u.Tweet_Id);
                             const iUser = users.find((u: any) => u.User_Id === originalTweet.User_Id); 
                             const _likes = originalTweet.Likes[0].count || 0;
+                            const _comments = originalTweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
                             const image_url = profileDetails.Img_Url;
                             return (
                               <Tweet
@@ -807,7 +803,7 @@ const ProfileDetails = () => {
                                 likes={_likes}
                                 retweets={0}
                                 saves={0}
-                                comments={0}
+                                comments={_comments}
                                 timeDisplay={getTimeDisplay(reply.Created_at)}
                                 profileimageurl={image_url}
                             />);
@@ -833,6 +829,7 @@ const ProfileDetails = () => {
                           const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
                           const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
                           const _likes = originalTweet.Likes[0].count || 0;
+                          const _comments = originalTweet.Comments[0].count || 0;
                         return(
                           <Tweet
                             key={index}
@@ -844,7 +841,7 @@ const ProfileDetails = () => {
                             likes={_likes}
                             retweets={0}
                             saves={0}
-                            comments={0}
+                            comments={_comments}
                             profileimageurl={image_url}
                           />);
                       })
