@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers, fetchUserByUsername, followUser } from "@services/index";
+import {
+  fetchUsers,
+  getLoggedUserId,
+} from "@services/index";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import { UserCard } from "@components/index";
 
@@ -15,6 +18,7 @@ interface WhoToFollowProps {
 }
 const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   const [users, setUsers] = useState<any[]>([]);
+  const [loggedUserId, setLoggedUserId] = useState<any>();
 
   useEffect(() => {
     const fetchUsersData = async () => {
@@ -29,6 +33,16 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
     };
 
     fetchUsersData();
+  }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await getLoggedUserId();
+      console.log("User Data:");
+      console.log(userData);
+      setLoggedUserId(userData);
+    };
+    fetchUserData();
   }, []);
 
   // useEffect(() => {
@@ -74,9 +88,9 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
             {" "}
             {users.map((user) => (
               <UserCard
-                key={user.User_id}
-                logged_in_user_id={13}
-                user_id={user.User_id}
+                key={user.User_Id}
+                logged_in_user_id={loggedUserId}
+                user_id={user.User_Id}
                 name={user.Name}
                 surname={user.Surname}
                 username={user.Username}

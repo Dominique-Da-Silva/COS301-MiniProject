@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Button } from "@nextui-org/react";
 import {
-  fetchUserByUsername,
   isUserLoggedIn,
   checkIfFollowing,
   followUser,
@@ -25,7 +24,6 @@ const UserCard: React.FC<User> = ({
   username,
   avatarUrl,
 }) => {
-  const [user, setUser] = useState<any>();
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [buttonText, setButtonText] = useState<string>("Follow");
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
@@ -33,6 +31,8 @@ const UserCard: React.FC<User> = ({
   const follow_User = async () => {
     console.log("Followed", username);
     const following = await checkIfFollowing(logged_in_user_id, user_id);
+    console.log(logged_in_user_id);
+    console.log(user_id);
     if (!following) {
       const result = await followUser(logged_in_user_id, user_id);
       console.log(result);
