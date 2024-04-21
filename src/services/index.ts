@@ -17,6 +17,13 @@ import {fetchLikedPosts} from "./profileServices/getLikedPosts.ts";
 import {fetchUserMedia} from "./profileServices/getUserMedia.ts";
 import {getUserTweets} from "./profileServices/getUserTweets.ts";
 import {getUserComments} from "./profileServices/getUserComments.ts"
+import {toggleLike} from "./tweetInteraction/toggleLike.ts";
+import {toggleSave} from "./tweetInteraction/toggleSave.ts";
+import {toggleRetweet} from "./tweetInteraction/toggleRetweet.ts";
+import {countLikes} from "./tweetInteraction/countLikes.ts"
+import {countRetweets} from "./tweetInteraction/countRetweets.ts"
+import {countSaves} from "./tweetInteraction/countSaves.ts"
+import {countComments} from "./tweetInteraction/countComments.ts"
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
@@ -24,5 +31,6 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL, fetchLikedPosts, fetchUserMedia, getUserTweets, getUserComments,
+    toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, countSaves, countComments,
     
 };
