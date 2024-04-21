@@ -53,7 +53,7 @@ const App = () => {
   }, [auth_state])
 
   return (
-    <main className="w-full h-full">
+    <main className="w-full h-full dark">
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />

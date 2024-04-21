@@ -54,25 +54,25 @@ const Settings = () => {
         <div className="flex flex-col m-0 p-0 w-full">
           <h2 className="text-[21px] font-bold dark:text-white pt-2 pl-3">Settings</h2>
           <div className="mt-4 w-full">
-            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center ${activeTab === "account" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("account")}>
+            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "account" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("account")}>
                 <p>Your account</p>
-                <IoIosArrowForward />
+                <IoIosArrowForward className="dark:text-gray-500" />
             </div>
             {
               auth_method === "email" && (
-                <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center ${activeTab === "ChangePassword" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("ChangePassword")} >
+                <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "ChangePassword" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("ChangePassword")} >
                     <p>Change Password</p>
-                    <IoIosArrowForward/>
+                    <IoIosArrowForward className="dark:text-gray-500" />
                 </div>
               )
             }
-            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center ${activeTab === "Notifications" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Notifications")}>
+            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "Notifications" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Notifications")}>
                 <p>Notification settings</p>
-                <IoIosArrowForward />
+                <IoIosArrowForward className="dark:text-gray-500" />
             </div>
-            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center ${activeTab === "Display" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Display")}>
+            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "Display" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Display")}>
                 <p>Display</p>  
-                <IoIosArrowForward />           
+                <IoIosArrowForward className="dark:text-gray-500" />           
             </div>
           </div>
         </div>
