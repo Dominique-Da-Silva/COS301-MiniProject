@@ -15,13 +15,13 @@ export async function toggleRetweet(tweetId: number, userId: number): Promise<"r
         }
 
         if (existingRetweet) {
-            const { error: unretweetError } = await supabase.from('Retweet').delete().eq('Retweet_Id', existingRetweet.Retweet_Id);
+            const { error: unretweetError } = await supabase.from('Retweets').delete().eq('Retweet_Id', existingRetweet.Retweet_Id);
             if (unretweetError) {
                 return "error";
             }
             return "unretweeted";
         } else {
-            const { error: retweetError } = await supabase.from('Retweet').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
+            const { error: retweetError } = await supabase.from('Retweets').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
             if (retweetError) {
                 return "error";
             }
