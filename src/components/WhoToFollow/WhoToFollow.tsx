@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers } from "@services/index";
+import { fetchUsers, fetchUserByUsername, followUser } from "@services/index";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
-import {UserCard} from "@components/index";
+import { UserCard } from "@components/index";
 
 interface User {
   user_id: number;
@@ -15,7 +15,7 @@ interface WhoToFollowProps {
 }
 const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   const [users, setUsers] = useState<any[]>([]);
- 
+
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
@@ -31,10 +31,34 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
     fetchUsersData();
   }, []);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await fetchUserByUsername("tester1000");
+  //     if (result) {
+  //       console.log(result);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
+  // useEffect(() => {
+  //   const fecthData = async () => {
+  //     const result = await followUser(13, 27);
+  //     if (result) {
+  //       console.log(result);
+  //     }
+  //   };
+  //   fecthData();
+  // }, []);
+
   const randomUsers = (users: any[]) => {
     const randomUsers = [];
+    const repeatedIndexes: number[] = [];
     for (let i = 0; i < 3; i++) {
+      if (repeatedIndexes.includes(Math.floor(Math.random() * users.length))) {
+      }
       randomUsers.push(users[Math.floor(Math.random() * users.length)]);
+      repeatedIndexes.push(Math.floor(Math.random() * users.length));
     }
     return randomUsers;
   };
@@ -50,13 +74,13 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
             {" "}
             {users.map((user) => (
               <UserCard
-              key={user.User_id}
-              logged_in_user_id={1}
-              user_id={user.User_id}
-              name={user.Name}
-              surname={user.Surname}
-              username={user.Username}
-              avatarUrl={user.Img_Url}
+                key={user.User_id}
+                logged_in_user_id={13}
+                user_id={user.User_id}
+                name={user.Name}
+                surname={user.Surname}
+                username={user.Username}
+                avatarUrl={user.Img_Url}
               />
             ))}
           </div>

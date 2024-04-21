@@ -30,28 +30,24 @@ const UserCard: React.FC<User> = ({
   const [buttonText, setButtonText] = useState<string>("Follow");
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
 
-  const follow_User = () => {
+  const follow_User = async () => {
     console.log("Followed", username);
-    const result = async () => {
-      const following = await checkIfFollowing(logged_in_user_id, user_id);
-      if (!following) {
-        const result = await followUser(logged_in_user_id, user_id);
-        console.log(result);
-      }
-    };
+    const following = await checkIfFollowing(logged_in_user_id, user_id);
+    if (!following) {
+      const result = await followUser(logged_in_user_id, user_id);
+      console.log(result);
+    }
     setButtonText("Following");
     setIsFollowing(true);
   };
 
-  const unFollow_User = () => {
-    console.log("Unfollowed", user);
-    const result = async () => {
-      const following = await checkIfFollowing(logged_in_user_id, user_id);
-      if (following) {
-        const result = await unfollowUser(logged_in_user_id, user_id);
-        console.log(result);
-      }
-    };
+  const unFollow_User = async () => {
+    console.log("Unfollowed", username);
+    const following = await checkIfFollowing(logged_in_user_id, user_id);
+    if (following) {
+      const result = await unfollowUser(logged_in_user_id, user_id);
+      console.log(result);
+    }
     setButtonText("Follow");
     setIsFollowing(false);
   };
