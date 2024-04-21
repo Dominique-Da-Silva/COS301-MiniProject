@@ -10,6 +10,10 @@ import { fetchUserMedia } from "@services/index";
 import { fetchLikedPosts } from "@services/index";
 import { getUserTweets } from "@services/index";
 import { getUserComments } from "@services/index";
+import { countLikes } from "@services/index";
+import { countComments } from "@services/index";
+import { countRetweets } from "@services/index";
+import { countSaves } from "@services/index";
 //import { getUserData } from "@services/auth/auth";
 // import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
@@ -144,6 +148,7 @@ const ProfileDetails = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [tweetCollection, setTweetCollection] = useState<any[]>([]);
+  const [likesPerTweet, setLikesPerTweet] = useState<number[]>([]);
   const [createdAt] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
@@ -236,6 +241,22 @@ const ProfileDetails = () => {
     }
     getCurrUserTweets();
 
+    // const getLikesPerTweet = async () => {
+    //   try {
+    //     if (userTweets.length !== 0) {
+    //       const tweetIds = userTweets.map(tweet => tweet.tweet_Id);
+    //       console.log("_________________________");
+    //       console.log(tweetIds);
+    //     }
+        
+    //     //setLikesPerTweet(tweetIds);
+    //   } 
+    //   catch (error) {
+    //     console.error("Error fetching data: ", error);
+    //   }
+    // }
+    //getLikesPerTweet();
+
     const getUserReplies = async() => {
       try {
         const replies = await getUserComments(userData.User_Id);
@@ -264,13 +285,13 @@ const ProfileDetails = () => {
       try {
         const tweetsFetched = await fetchTweets();
         setTweetCollection(tweetsFetched as any[]);
+        // console.log(tweetCollection);
       }
       catch (error) {
         console.error("Error fetching data: ", error);
       }
     }
     getTweets();
-
   }, [activeTab, userData.User_Id]);
 
   useEffect(() => {
@@ -709,6 +730,11 @@ const ProfileDetails = () => {
                       ) : (
                         userTweets.map((tweet, index) => {
                           const image_url = profileDetails.Img_Url;
+                          const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
+                          const _likes = originalTweet.Likes[0].count || 0;
+                          // const _saves = originalTweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
+                          // const _comments = originalTweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
+                          // const _retweets = originalTweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
                           return(
                             <Tweet
                               key={index}
@@ -717,7 +743,7 @@ const ProfileDetails = () => {
                               text={tweet.Content}
                               imageUrl={tweet.Img_Url}
                               timeDisplay={getTimeDisplay(tweet.Created_at)}
-                              likes={0}
+                              likes={_likes}
                               retweets={0}
                               saves={0}
                               comments={0}
@@ -769,15 +795,16 @@ const ProfileDetails = () => {
                           userReplies.map((reply, index) => {
                             const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => reply.Tweet_Id === u.Tweet_Id);
                             const iUser = users.find((u: any) => u.User_Id === originalTweet.User_Id); 
+                            const _likes = originalTweet.Likes[0].count || 0;
                             const image_url = profileDetails.Img_Url;
-                            return(
+                            return (
                               <Tweet
                                 key={index}
                                 name={userData.Name}
                                 username={`@${userData.Username}`}
-                                author={iUser ? `@${iUser.Username}` : ''}                                text={reply.Content}
+                                author={iUser ? `@${iUser.Username}` : ''} text={reply.Content}
                                 imageUrl={reply.image_url}
-                                likes={0}
+                                likes={_likes}
                                 retweets={0}
                                 saves={0}
                                 comments={0}
@@ -802,8 +829,10 @@ const ProfileDetails = () => {
                       </div>
                     ) : (
                         likedTweets.map((tweet, index) => {
-                        const iUser = users.find((u: any) => u.User_Id === tweet.User_Id); 
-                        const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+                          const iUser = users.find((u: any) => u.User_Id === tweet.User_Id); 
+                          const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+                          const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
+                          const _likes = originalTweet.Likes[0].count || 0;
                         return(
                           <Tweet
                             key={index}
@@ -812,7 +841,7 @@ const ProfileDetails = () => {
                             text={tweet.Content}
                             imageUrl={tweet.Img_Url}
                             timeDisplay={getTimeDisplay(tweet.Created_at)}
-                            likes={0}
+                            likes={_likes}
                             retweets={0}
                             saves={0}
                             comments={0}
