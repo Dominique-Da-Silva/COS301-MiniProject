@@ -203,7 +203,6 @@ const ProfileDetails = () => {
         const userDataX = await fetchUserData();
         const imageURLs = await fetchUserMedia(userData.User_Id);
         setExternal(false);
-        //setCurrUser(userData.User_Id);
         setUserFollowers(followerTemp);
         setUserFollowing(followingTemp);
         setUserData(userDataX);

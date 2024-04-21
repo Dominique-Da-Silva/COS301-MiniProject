@@ -15,15 +15,17 @@ const EditProfile: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        //console.log("here");
         const userDataX = await fetchUserData();
-        console.log(userDataX);
+        //console.log(userDataX);
         setUserData(userDataX);
       } catch (error) {
           console.error("Error fetching data: ", error);
       }
     } 
     fetchData();
-    console.log(userData);
+
+    //console.log(userData);
     const profileSub = async () => {
       try {
         const profileTemp = await fetchProfileDetails(userData.User_Id);
@@ -35,7 +37,7 @@ const EditProfile: React.FC = () => {
     } 
     profileSub();
   }
-  ,[])
+  ,[userData])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");
