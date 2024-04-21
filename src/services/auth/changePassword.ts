@@ -13,7 +13,7 @@ export async function changePassword(oldPassword: string, newPassword: string): 
             return "error";
         }*/
 
-        const { error } = await supabase.auth.updateUser({newPassword,});
+        const { error } = await supabase.auth.updateUser({password: newPassword,});
 
         if (error) {
             //console.log('Error in changing the password');
@@ -22,7 +22,8 @@ export async function changePassword(oldPassword: string, newPassword: string): 
         return "success";
 
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error changing password:', error.message);
+        return "error";
     }
 }
