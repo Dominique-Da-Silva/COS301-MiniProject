@@ -17,9 +17,13 @@ import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
 import {checkIfFollowing} from "./usersProfileServices/checkIfFollowing.ts";
 import {getLoggedUserId} from "./usersProfileServices/getLoggedUserId.ts";
 import { getTrendingTopics } from "./homeServices/getTrendingTopics.ts";
-import {toggleLike} from "./homeServices/toggleLike.ts";
-import {toggleSave} from "./homeServices/toggleSave.ts";
-import {toggleRetweet} from "./homeServices/toggleRetweet.ts";
+import {toggleLike} from "./tweetInteraction/toggleLike.ts";
+import {toggleSave} from "./tweetInteraction/toggleSave.ts";
+import {toggleRetweet} from "./tweetInteraction/toggleRetweet.ts";
+import {countLikes} from "./tweetInteraction/countLikes.ts"
+import {countRetweets} from "./tweetInteraction/countRetweets.ts"
+import {countSaves} from "./tweetInteraction/countSaves.ts"
+import {countComments} from "./tweetInteraction/countComments.ts"
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
@@ -27,5 +31,5 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
-    getTrendingTopics,toggleLike,toggleSave,toggleRetweet,
+    getTrendingTopics,toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, countSaves, countComments,
     };
