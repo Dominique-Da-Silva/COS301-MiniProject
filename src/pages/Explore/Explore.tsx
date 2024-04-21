@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Nav, Search, Tweet, WhoToFollow } from '@components/index';
 import TrendingListFull from '@components/TrendingListFull/TrendingListFull';
 import { FiSettings } from "react-icons/fi";
+import { getTrendingTopics } from '@services/index';
 import { FaArrowLeft } from "react-icons/fa";
 import { IoSearch } from 'react-icons/io5';
 import { Tab, Tabs } from '@nextui-org/react';
@@ -19,10 +20,11 @@ const Explore: React.FC<ExplorePageProps> = () => {
   const [searchValue, setSearchValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [showTabs, setShowTabs] = useState(false); // State to track if tabs should be shown
+  
 
   const handleSearchChange = (event: any) => {
     setSearchValue(event.target.value);
-  };
+  }; 
 
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
