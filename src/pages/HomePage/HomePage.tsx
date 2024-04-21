@@ -12,7 +12,7 @@ interface HomePageProps { }
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  // const [setCurrentUser] = useState<any>(false);
+  const [setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
@@ -49,22 +49,22 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    // const getCurrentUser = async () => {
-    //   try {
-    //     const user = await isUserLoggedIn();
-    //      console.log("Current User:");
-    //      console.log(user);
-    //      setCurrentUser(user);
-    //   } catch (error) {
-    //     console.error('Error fetching current user:', error);
-    //   }
-    // };
+    const getCurrentUser = async () => {
+      try {
+        const user = await isUserLoggedIn();
+        //  console.log("Current User:");
+        //  console.log(user);
+         setCurrentUser(user);
+      } catch (error) {
+        console.error('Error fetching current user:', error);
+      }
+    };
 
     const getAllProfiles = async () => {
       try {
         const profilesData = await fetchAllProfiles();
-        console.log("Profiles Data:");
-        console.log(profilesData);
+        // console.log("Profiles Data:");
+        // console.log(profilesData);
         setProfiles(profilesData as any); // Update the type of the state variable
       } catch (error) {
         console.error('Error fetching profiles:', error);
@@ -147,44 +147,44 @@ const HomePage: React.FC<HomePageProps> = () => {
             > */}
           <CreateTweet/>
           {tweets?.map(tweet => {
-  console.log("Tweet:", tweet);
-  console.log("Users:", users);
-  const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-  console.log("User:", user);
+            // console.log("Tweet:", tweet);
+            // console.log("Users:", users);
+            const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+            // console.log("User:", user);
 
-  // Check if tweet.Saves is defined and not empty before accessing its properties
-  const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
-  console.log("Saves Count:", saves);
+            // Check if tweet.Saves is defined and not empty before accessing its properties
+            const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
+            // console.log("Saves Count:", saves);
 
-  // Similar checks for Comments, Likes, and Retweets
-  const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
-  console.log("Comments Count:", comments);
+            // Similar checks for Comments, Likes, and Retweets
+            const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
+            // console.log("Comments Count:", comments);
 
-  const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
-  console.log("Likes Count:", likes);
+            const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
+            // console.log("Likes Count:", likes);
 
-  const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
-  console.log("Retweets Count:", retweets);
+            const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
+            // console.log("Retweets Count:", retweets);
 
-  const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-  console.log("Image URL:", image_url);
+            const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+            // console.log("Image URL:", image_url);
 
-  return (
-    <Tweet
-      key={tweet.Tweet_Id}
-      name={user ? user.Name : "Unknown User"}
-      username={user ? `@${user.Username}` : ""}
-      text={tweet.Content}
-      imageUrl={tweet.Img_Url}
-      timeDisplay={getTimeDisplay(tweet.Created_at)}
-      likes={formatCount(likes)}
-      retweets={formatCount(retweets)}
-      saves={formatCount(saves)}
-      comments={formatCount(comments)}
-      profileimageurl={image_url}
-    />
-  );
-})}
+            return (
+              <Tweet
+                key={tweet.Tweet_Id}
+                name={user ? user.Name : "Unknown User"}
+                username={user ? `@${user.Username}` : ""}
+                text={tweet.Content}
+                imageUrl={tweet.Img_Url}
+                timeDisplay={getTimeDisplay(tweet.Created_at)}
+                likes={formatCount(likes)}
+                retweets={formatCount(retweets)}
+                saves={formatCount(saves)}
+                comments={formatCount(comments)}
+                profileimageurl={image_url}
+              />
+            );
+          })}
 
           {/* </Tab>
             <Tab
