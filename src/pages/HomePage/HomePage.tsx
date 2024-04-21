@@ -208,8 +208,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           <WhoToFollow users={[]} />
         </div>
       </div>
-    </div>
-    
+    </div>    
   );
 };
 

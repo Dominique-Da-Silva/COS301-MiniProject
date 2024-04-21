@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Nav, Search, Tweet, WhoToFollow } from '@components/index';
 import TrendingListFull from '@components/TrendingListFull/TrendingListFull';
 import { FiSettings } from "react-icons/fi";
-import { getTrendingTopics } from '@services/index';
 import { FaArrowLeft } from "react-icons/fa";
 import { IoSearch } from 'react-icons/io5';
 import { Tab, Tabs } from '@nextui-org/react';
