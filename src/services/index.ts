@@ -16,6 +16,7 @@ import {fetchProfileDetails} from "./profileServices/getProfile.ts";
 import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
 import {checkIfFollowing} from "./usersProfileServices/checkIfFollowing.ts";
 import {getLoggedUserId} from "./usersProfileServices/getLoggedUserId.ts";
+import {changePassword} from "./auth/changePassword.ts";
 import { getTrendingTopics } from "./homeServices/getTrendingTopics.ts";
 import {toggleLike} from "./tweetInteraction/toggleLike.ts";
 import {toggleSave} from "./tweetInteraction/toggleSave.ts";
