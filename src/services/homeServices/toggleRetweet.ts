@@ -29,6 +29,5 @@ export async function toggleRetweet(tweetId: number, userId: number): Promise<"r
         }
     } catch (error: any) {
         console.error('Error toggling retweet for the tweet:', error.message);
-        return "error";
     }
 }
