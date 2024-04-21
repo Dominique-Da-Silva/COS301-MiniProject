@@ -122,10 +122,10 @@ const HomePage: React.FC<HomePageProps> = () => {
   return (
     <div className="w-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
+        <div className="nav flex justify-end w-1/5 pr-5">
           <Nav />
         </div>
-        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
+        <div className="main-content flex flex-col w-full md:w-3/5 m-0 p-0 border dark:border-neutral-800">
           <div className="flex flex-col m-0 p-0 justify-center">
             {/* <Tabs 
             aria-label="Options" 
@@ -201,7 +201,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           </Tabs> */}
           </div>
         </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
           <div className="mb-3">
             <Search />
           </div>
