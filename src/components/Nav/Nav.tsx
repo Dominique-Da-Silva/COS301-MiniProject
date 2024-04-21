@@ -6,7 +6,7 @@ import { PiBellBold } from "react-icons/pi";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Button } from '@nextui-org/button';
-import { Modal, ModalContent, useDisclosure, ModalHeader, ModalBody } from '@nextui-org/react';
+import { Modal, ModalContent, ModalHeader, ModalBody } from '@nextui-org/react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { CreateTweet } from "..";
 import { useState, useEffect } from 'react';
