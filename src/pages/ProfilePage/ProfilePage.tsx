@@ -2,7 +2,7 @@ import { useState, Suspense, useEffect } from "react";
 
 import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 //import { supabase } from "@config/supabase"; // Import supabase client
-import { mockUserProfile, mockProfileDetails } from "../../mockData/mockData";
+import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
 import { fetchUserData } from "@services/index";
