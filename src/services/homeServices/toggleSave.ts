@@ -4,7 +4,7 @@ export async function toggleSave(tweetId: number, userId: number): Promise<"save
     try {
         // Check for existing save
         const { data: existingSave, error: existingSaveError } = await supabase
-            .from('Save')
+            .from('Saves')
             .select('*')
             .eq('Tweet_Id', tweetId)
             .eq('User_Id', userId)
