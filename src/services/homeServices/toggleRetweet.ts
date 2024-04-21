@@ -4,7 +4,7 @@ export async function toggleRetweet(tweetId: number, userId: number): Promise<"r
     try {
         // Check for existing retweet
         const { data: existingRetweet, error: existingRetweetError } = await supabase
-            .from('Retweet')
+            .from('Retweets')
             .select('*')
             .eq('Tweet_Id', tweetId)
             .eq('User_Id', userId)
