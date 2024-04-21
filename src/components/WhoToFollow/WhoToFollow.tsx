@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button } from "@nextui-org/react";
-// import { IoMdPersonAdd } from "react-icons/io";
-// import { supabase } from "@config/supabase";
-import {Card, CardHeader, CardBody, CardFooter} from "@nextui-org/react";
-import { mockFollowSuggestions } from '../../mockData/mockData';
+import { Avatar, Button} from "@nextui-org/react";
+import { fetchUsers } from "@services/index";
+import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import { isUserLoggedIn } from "@services/index";
 
 interface User {
@@ -17,32 +15,56 @@ interface WhoToFollowProps {
   users: User[];
 }
 const WhoToFollow: React.FC<WhoToFollowProps> = () => {
-  const [users] = useState<any[]>(mockFollowSuggestions);
+  const [users, setUsers] = useState<any[]>([]);
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [buttonText, setButtonText] = useState<string>("Follow");
 
-  // const [users, setUsers] = useState<any[]>([]);
-  // // Function is not fetching the users from the User table
-  // const fetchUsers = async () => {
-  //   try {
-  //     const { data: usersData, error } = await supabase
-  //       .from("User")
-  //       .select("*")
-  //       .limit(3);
-  //     if (error) {
-  //       throw error;
-  //     }
-  //     //console.log(usersData);
-  //     if (usersData) {
-  //       setUsers(usersData);
-  //     } else {
-  //       console.log("No users found");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching users:", error);
-  //   }
-  // };
+  useEffect(() => {
+    const fetchUsersData = async () => {
+      try {
+        const usersData = await fetchUsers();
+        console.log("Users Data:");
+        console.log(usersData);
+        setUsers(randomUsers(usersData as any[])); // Add type assertion here
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
-  // fetchUsers();
+    fetchUsersData();
+  }, []);
+
+  const randomUsers = (users: any[]) => {
+    const randomUsers = [];
+    for (let i = 0; i < 3; i++) {
+      randomUsers.push(users[Math.floor(Math.random() * users.length)]);
+    }
+    return randomUsers;
+  };
+
+  const followUser = (user: User) => {
+    console.log("Followed", user);
+    setIsFollowing(true);
+  };
+
+  const unFollowUser = (user: User) => {
+    console.log("Unfollowed", user);
+    setButtonText("Follow");
+    setIsFollowing(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (isFollowing) {
+      setButtonText("Unfollow");
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isFollowing) {
+      setButtonText("Following");
+    }
+  };
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -50,12 +72,12 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
       // Check if user is already logged in
       const result = await isUserLoggedIn();
       setUserAuthStatus(result);
-    }
-    
+    };
+
     // Call the async function
     checkUser();
   }, []);
-  
+
   return (
     <div>
       <Card className="bg-gray-50 dark:bg-neutral-900 shadow-none mt-8 w-11/12">
@@ -66,31 +88,47 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
           <div className="m-0 p-0">
             {" "}
             {users.map((user) => (
-              <div key={user.user_id} className="flex items-center hover:bg-slate-200 p-3">
-                <Avatar src={user.avatarUrl} alt={user.name} size="md" className="p-0 m-0" />
+              <div
+                key={user.User_Id}
+                className="flex items-center hover:bg-slate-200 p-3"
+              >
+                <Avatar
+                  src={user.avatarUrl}
+                  alt={user.Name}
+                  size="md"
+                  className="p-0 m-0"
+                />
                 <div className="ml-4">
-                  <h3 className="text-base font-medium p-0 m-0">{user.name}</h3>
-                  <p className="text-gray-500 p-0 m-0">@{user.username}</p>
+                  <h3 className="text-base font-medium p-0 m-0">{user.Name}</h3>
+                  <p className="text-gray-500 p-0 m-0">@{user.Username}</p>
                 </div>
-                {
-                  userAuthStatus ?
-                    <Button className="ml-auto font-bold text-white bg-black dark:text-black dark:bg-white h-7" radius="full">
-                      Follow
-                    </Button>
-                    :
-                    <Button className="ml-auto font-bold text-white bg-black dark:text-black dark:bg-white h-7" radius="full" isDisabled>
-                      Follow
-                    </Button>
-                }
-            </div>
-          ))}
+                {userAuthStatus ? (
+                  <Button
+                    className="ml-auto font-bold text-white bg-black h-7"
+                    radius="full"
+                    onClick={isFollowing ? () => unFollowUser(user) : () => followUser(user)}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {buttonText}
+                  </Button>
+                ) : (
+                  <Button
+                    className="ml-auto font-bold text-white bg-black h-7"
+                    radius="full"
+                    isDisabled
+                  >
+                    Follow
+                  </Button>
+                )}
+              </div>
+            ))}
           </div>
         </CardBody>
         <CardFooter className="cursor-pointer text-sky-500 hover:bg-slate-200">
-            Show more
+          Show more
         </CardFooter>
-      </Card>    
-      
+      </Card>
     </div>
   );
 };

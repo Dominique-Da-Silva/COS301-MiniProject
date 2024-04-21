@@ -39,7 +39,7 @@ const App = () => {
     const checkUserAuthState = async () => {
       if(auth_state === 'SIGNED_IN') {
         const res = await addUserToDatabase();
-        if(res === "error") {
+        if(res === "failed to insert into database" || res === "not logged in") {
           toast.error('Failed to sign in!', { duration: 2000, position: 'top-center',});
           await signOut();
         }
