@@ -1,5 +1,6 @@
 import { Nav, AccountInfo, NotificationSettings,DisplaySettings,ChangePassword } from "@components/index";
 import  { useEffect, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
 import { Link} from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { getUserData, isUserLoggedIn } from "@services/index";
@@ -44,52 +45,39 @@ const Settings = () => {
   }, [navigate]);
 
   return (
-    <div className="w-full h-full flex justify-center align-middle">
+    <div className="w-full h-full flex justify-center align-middle overflow-y-scroll">
       <div className="container flex w-full justify-center dark:bg-black">
         <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
         <Nav />
       </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
-        <div className="flex flex-col m-0 p-0">
-          <div className="p-4 border-b border-gray-300 dark:border-neutral-800">
-            <h2 className="text-gray-600 font-semibold">SETTINGS</h2>
-          </div>
-          <div className="mt-4">
-            <div className="hover:bg-gray-100 p-2 rounded-md">
-              <Link href="#" onClick={() => setActiveTab("account")}>
-                <p className="font-semibold">Your account</p>
-              </Link>
+      <div className="main-content flex w-1/4 m-0 p-0 border dark:border-neutral-800">
+        <div className="flex flex-col m-0 p-0 w-full">
+          <h2 className="text-[21px] font-bold dark:text-white pt-2 pl-3">Settings</h2>
+          <div className="mt-4 w-full">
+            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center ${activeTab === "account" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("account")}>
+                <p>Your account</p>
+                <IoIosArrowForward />
             </div>
             {
               auth_method === "email" && (
-                <div className="hover:bg-gray-100 p-2 rounded-md">
-                  <Link href="#" onClick={() => setActiveTab("ChangePassword")}>
-                    <p className="font-semibold">Change Password</p>
-                  </Link>
+                <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center ${activeTab === "ChangePassword" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("ChangePassword")} >
+                    <p>Change Password</p>
+                    <IoIosArrowForward/>
                 </div>
               )
             }
-            <div className="hover:bg-gray-100 p-2 rounded-md">
-              <Link href="#" onClick={() => setActiveTab("Notifications")}>
-                <p className="font-semibold">Notification settings</p>
-              </Link>
+            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center ${activeTab === "Notifications" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Notifications")}>
+                <p>Notification settings</p>
+                <IoIosArrowForward />
             </div>
-            <div className="hover:bg-gray-100 p-2 rounded-md">
-              <Link
-                href="#"
-                onClick={() =>
-                  setActiveTab("Display")
-                }
-              >
-                <p className="font-semibold">
-                Display
-                </p>
-              </Link>
+            <div className={`hover:bg-gray-100 p-2 h-12 w-full cursor-pointer flex justify-between items-center ${activeTab === "Display" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Display")}>
+                <p>Display</p>  
+                <IoIosArrowForward />           
             </div>
           </div>
         </div>
       </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+      <div className="sidebar-right w-2/5 ml-7 mt-2 pl-1 pr-2">
         {renderSettingsContent()}
       </div>
     </div>
