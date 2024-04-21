@@ -197,6 +197,13 @@ const ProfileDetails = () => {
   // }, []);
 
   useEffect(() => {
+    
+    const getUD = async () => {
+      const userDataX = await fetchUserData();
+      setUserData(userDataX);
+    }
+    getUD();
+
     const profileSub = async () => {
       try {
         const profileTemp = await fetchProfileDetails(userData.User_Id);
@@ -731,7 +738,7 @@ const ProfileDetails = () => {
                           const _likes = originalTweet.Likes[0].count || 0;
                           const _saves = originalTweet.Saves[0].count || 0;
                           const _comments = originalTweet.Comments[0].count || 0;
-                          // const _retweets = originalTweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
+                          const _retweets = originalTweet.Retweets[0].count || 0;
                           return(
                             <Tweet
                               key={index}
@@ -741,7 +748,7 @@ const ProfileDetails = () => {
                               imageUrl={tweet.Img_Url}
                               timeDisplay={getTimeDisplay(tweet.Created_at)}
                               likes={_likes}
-                              retweets={0}
+                              retweets={_retweets}
                               saves={_saves}
                               comments={_comments}
                               profileimageurl={image_url}
@@ -795,6 +802,7 @@ const ProfileDetails = () => {
                             const _likes = originalTweet.Likes[0].count || 0;
                             const _comments = originalTweet.Comments[0].count || 0;
                             const _saves = originalTweet.Saves[0].count || 0;
+                            const _retweets = originalTweet.Retweets[0].count || 0;
                             const image_url = profileDetails.Img_Url;
                             return (
                               <Tweet
@@ -804,7 +812,7 @@ const ProfileDetails = () => {
                                 author={iUser ? `@${iUser.Username}` : ''} text={reply.Content}
                                 imageUrl={reply.image_url}
                                 likes={_likes}
-                                retweets={0}
+                                retweets={_retweets}
                                 saves={_saves}
                                 comments={_comments}
                                 timeDisplay={getTimeDisplay(reply.Created_at)}
@@ -834,6 +842,7 @@ const ProfileDetails = () => {
                           const _likes = originalTweet.Likes[0].count || 0;
                           const _comments = originalTweet.Comments[0].count || 0;
                           const _saves = originalTweet.Saves[0].count || 0;
+                          const _retweets = originalTweet.Retweets[0].count || 0;
                         return(
                           <Tweet
                             key={index}
@@ -843,7 +852,7 @@ const ProfileDetails = () => {
                             imageUrl={tweet.Img_Url}
                             timeDisplay={getTimeDisplay(tweet.Created_at)}
                             likes={_likes}
-                            retweets={0}
+                            retweets={_retweets}
                             saves={_saves}
                             comments={_comments}
                             profileimageurl={image_url}
