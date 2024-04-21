@@ -8,7 +8,7 @@ interface TrendingTopicsProps {}
 const TrendingTopics: React.FC<TrendingTopicsProps> = () => {
   return (
     <div>
-      <Card className="bg-gray-50 shadow-none w-11/12">
+      <Card className="bg-gray-50 shadow-none w-11/12 dark:bg-neutral-900">
         <CardHeader className="flex gap-1 pb-0">
           <h2 className="text-lg font-bold mb-4">Trending Topics</h2>
         </CardHeader>

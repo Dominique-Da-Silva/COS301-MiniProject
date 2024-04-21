@@ -11,7 +11,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { CreateTweet } from "..";
 import { useState, useEffect } from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
-import { FaUser } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
 import { signOut } from "@services/index";
 //import { getLoggedUserId, fetchUsers, fetchProfileDetails } from "@services/index";
@@ -115,7 +114,7 @@ fetchUserData();
   }, []);
 
   return (
-    <div className="sidebar left-0 top-0 h-full bg-white p-12">
+    <div className="sidebar h-full bg-white dark:bg-black py-12 dark:text-white fixed">
       {/* Logo */}
       <NavLink
         to="/home"
@@ -129,7 +128,7 @@ fetchUserData();
           {/* Home */}
           <NavLink
             to="/home"
-            className={`sidebar-item font-medium cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/home' ? 'bg-gray-200 active-tab' : ''
+            className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/home' ? 'font-bold active-tab' : ''
               }`}
           >
             <GoHomeFill size={28} className="mr-5" />
@@ -139,7 +138,7 @@ fetchUserData();
           {/* Explore */}
           <NavLink
             to="/explore"
-            className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/explore' ? 'bg-gray-200 active-tab' : ''
+            className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/explore' ? 'font-bold active-tab' : ''
               }`}
           >
             <IoSearch size={28} className="mr-5" />
@@ -150,7 +149,7 @@ fetchUserData();
           {userAuthStatus &&
             <NavLink
               to="/notifications"
-              className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'bg-gray-200 active-tab' : ''
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/notifications' ? 'font-bold active-tab' : ''
                 }`}
             >
               <PiBellBold size={28} className="mr-5" />
@@ -162,7 +161,7 @@ fetchUserData();
           {userAuthStatus &&
             <NavLink
               to="/bookmarks"
-              className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'font-bold active-tab' : ''
                 }`}
             >
               <FaRegBookmark size={28} className="mr-5" />
@@ -174,7 +173,7 @@ fetchUserData();
           {userAuthStatus &&
             <NavLink
               to="/profile"
-              className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/profile' ? 'bg-gray-200 active-tab' : ''
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/profile' ? 'font-bold active-tab' : ''
                 }`}
             >
               <FaRegUserCircle size={28} className="mr-5" />
@@ -186,7 +185,7 @@ fetchUserData();
           {userAuthStatus &&
             <NavLink
               to="/settings"
-              className={`sidebar-item font-normal cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 hover:bg-gray-200 ${location.pathname === '/settings' ? 'bg-gray-200 active-tab' : ''
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/settings' ? 'font-bold active-tab' : ''
                 }`}
             >
               <FiSettings size={28} className="mr-5" />
@@ -197,7 +196,7 @@ fetchUserData();
           {/* Post Button - will route to create tweet component */}
           {
             userAuthStatus ?
-              <Button size="lg" className="post-button bg-sky-500 w-36 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
+              <Button size="lg" className="post-button bg-sky-500 w-52 p-3 cursor-pointer rounded-full text-center font-semibold text-white text-lg my-4">
                 Post
               </Button>
               :
@@ -217,13 +216,22 @@ fetchUserData();
               onClick={() => setShowPopup(!showPopup)}
             >
               <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <img src="images/IMG-20240312-WA0082.jpg"
-                  alt="Default Profile" className="rounded-full" />
-                {/*profileDetails?.Img_Url ? (<img src={profileDetails.Img_Url} alt="Profile" />) : (<FaUser size={20} color="#FFFFFF" />)*/}
+                <img
+                  src="images/IMG-20240312-WA0073.jpg"
+                  alt="Default Profile"
+                  className="rounded-full object-cover object-center"
+                  style={{ width: "100%", height: "100%" }}
+                />
+                {/*profileDetails?.Img_Url ? (
+    <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
+  ) : (
+    <FaUser size={20} color="#FFFFFF" />
+  )*/}
               </div>
+
               <div className="user-info">
-                <p className="text-sm font-semibold mb-1">Tessa Engelbrecht</p>
-                <p className="text-xs">@tessaengelbrecht</p>
+                <p className="text-sm font-semibold mb-1">Kyle Marshall</p>
+                <p className="text-xs">@dreamer</p>
                 {/*<p className="text-sm font-semibold mb-1">{userName}</p> 
                     <p className="text-xs">{userUsername}</p>*/}
               </div>
@@ -352,8 +360,19 @@ fetchUserData();
               onClick={() => setShowPopup(!showPopup)}
             >
               <div className="user-icon w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
-                <FaUser size={20} color="#FFFFFF" />
+                <img
+                  src="images/IMG-20240312-WA0073.jpg"
+                  alt="Default Profile"
+                  className="rounded-full object-cover object-center"
+                  style={{ width: "100%", height: "100%" }}
+                />
+                {/*profileDetails?.Img_Url ? (
+    <img src={profileDetails.Img_Url} alt="Profile" className="rounded-full object-cover object-center" style={{ width: "100%", height: "100%" }} />
+  ) : (
+    <FaUser size={20} color="#FFFFFF" />
+  )*/}
               </div>
+
 
               {showPopup && (
                 <div className="speech-bubble absolute bg-white border border-gray-300 rounded-lg p-2 mt-2">

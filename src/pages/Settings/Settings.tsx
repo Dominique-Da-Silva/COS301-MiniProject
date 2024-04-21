@@ -44,13 +44,14 @@ const Settings = () => {
   }, [navigate]);
 
   return (
-    <div className="container flex">
-      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
+    <div className="w-full h-full flex justify-center align-middle">
+      <div className="container flex w-full justify-center dark:bg-black">
+        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
         <Nav />
       </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border">
+      <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
         <div className="flex flex-col m-0 p-0">
-          <div className="p-4 border-b border-gray-300">
+          <div className="p-4 border-b border-gray-300 dark:border-neutral-800">
             <h2 className="text-gray-600 font-semibold">SETTINGS</h2>
           </div>
           <div className="mt-4">
@@ -91,6 +92,7 @@ const Settings = () => {
       <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
         {renderSettingsContent()}
       </div>
+    </div>
     </div>
   );
 };

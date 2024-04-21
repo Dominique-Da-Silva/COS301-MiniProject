@@ -67,14 +67,15 @@ const Bookmarks = () => {
   }, [navigate]);
   
   return (
-    <div className="conatiner flex">
+    <div className="container flex">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>
       <div className="main-content flex w-2/5 m-0 p-0 border">
-        <div className="flex flex-col m-0 p-0 justify-center">
-          <h1 className="text-2xl font-bold p-4">Bookmarks</h1>
-          {/* <p className="p-4">This is the Bookmarks page content.</p>  */}
+        <div className="flex flex-col w-full m-0 p-0 justify-center">
+          <div className="flex w-full justify-around border-b border-gray-200 items-center">
+            <h1 className="text-2xl font-bold">Bookmarks</h1>
+          </div>
           {tweets.map(tweet => {
               const user = users.find(u => u.User_Id === tweet.User_Id);
               const saves = savesCount[tweet.Tweet_Id] || 0 ;
