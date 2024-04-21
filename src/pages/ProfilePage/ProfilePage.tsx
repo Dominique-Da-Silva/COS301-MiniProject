@@ -47,6 +47,8 @@ import { fetchAllProfiles } from "@services/profileServices/getProfile";
 //   onClose: () => void;
 // }
 
+//Make not of tweet_Ids not being unique
+
 interface Tweet {
   key: number;
   name: string;
@@ -59,7 +61,7 @@ interface Tweet {
   comments: number;
   timeDisplay: string;
   profileimageurl: string;
-  author?: string; // Add this line
+  author?: string;
 }
 
 const getTimeDisplay = (timestamp: string) => {
@@ -727,8 +729,8 @@ const ProfileDetails = () => {
                           const image_url = profileDetails.Img_Url;
                           const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
                           const _likes = originalTweet.Likes[0].count || 0;
-                          // const _saves = originalTweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
-                          const _comments = originalTweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
+                          const _saves = originalTweet.Saves[0].count || 0;
+                          const _comments = originalTweet.Comments[0].count || 0;
                           // const _retweets = originalTweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
                           return(
                             <Tweet
@@ -740,7 +742,7 @@ const ProfileDetails = () => {
                               timeDisplay={getTimeDisplay(tweet.Created_at)}
                               likes={_likes}
                               retweets={0}
-                              saves={0}
+                              saves={_saves}
                               comments={_comments}
                               profileimageurl={image_url}
                             />);
@@ -791,7 +793,8 @@ const ProfileDetails = () => {
                             const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => reply.Tweet_Id === u.Tweet_Id);
                             const iUser = users.find((u: any) => u.User_Id === originalTweet.User_Id); 
                             const _likes = originalTweet.Likes[0].count || 0;
-                            const _comments = originalTweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
+                            const _comments = originalTweet.Comments[0].count || 0;
+                            const _saves = originalTweet.Saves[0].count || 0;
                             const image_url = profileDetails.Img_Url;
                             return (
                               <Tweet
@@ -802,7 +805,7 @@ const ProfileDetails = () => {
                                 imageUrl={reply.image_url}
                                 likes={_likes}
                                 retweets={0}
-                                saves={0}
+                                saves={_saves}
                                 comments={_comments}
                                 timeDisplay={getTimeDisplay(reply.Created_at)}
                                 profileimageurl={image_url}
@@ -830,6 +833,7 @@ const ProfileDetails = () => {
                           const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
                           const _likes = originalTweet.Likes[0].count || 0;
                           const _comments = originalTweet.Comments[0].count || 0;
+                          const _saves = originalTweet.Saves[0].count || 0;
                         return(
                           <Tweet
                             key={index}
@@ -840,7 +844,7 @@ const ProfileDetails = () => {
                             timeDisplay={getTimeDisplay(tweet.Created_at)}
                             likes={_likes}
                             retweets={0}
-                            saves={0}
+                            saves={_saves}
                             comments={_comments}
                             profileimageurl={image_url}
                           />);

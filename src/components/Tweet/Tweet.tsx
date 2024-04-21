@@ -20,10 +20,9 @@ interface TweetProps {
   saves?: number | string;
   bookmarked?: boolean;
   author?: string;
-  tweetID?: number;
 }
 
-const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author, tweetID }) => {
+const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4">
       <div className="avatar">
