@@ -32,5 +32,5 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
-    getTrendingTopics,toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, countSaves, countComments,
+    getTrendingTopics,toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, countSaves, countComments, changePassword
     };
