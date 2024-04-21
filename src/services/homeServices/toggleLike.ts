@@ -41,6 +41,5 @@ export async function toggleLike(tweetId: number, userId: number): Promise<"like
         }
     } catch (error: any) {
         console.error('Error toggling like for the tweet:', error.message);
-        return "error";
     }
 }
