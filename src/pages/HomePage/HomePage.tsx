@@ -2,7 +2,7 @@ import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet } from "@c
 import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 import { fetchTweets, fetchUsers } from "@services/index";
-// import { isUserLoggedIn } from "@services/auth/auth";
+import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
@@ -73,7 +73,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     // // Call both fetch functions when the component mounts
     fetchTweetData();
     fetchData();
-    // getCurrentUser();
+    getCurrentUser();
     getAllProfiles();
   }, [setCurrentUser]);
 
