@@ -19,25 +19,26 @@ const EditProfile: React.FC = () => {
         const userDataX = await fetchUserData();
         //console.log(userDataX);
         setUserData(userDataX);
+        const profileTemp = await fetchProfileDetails(userData.User_Id);
+        //console.log(profileTemp);
+        setProfileDetails(profileTemp);
       } catch (error) {
           console.error("Error fetching data: ", error);
       }
     } 
     fetchData();
 
-    //console.log(userData);
-    const profileSub = async () => {
-      try {
-        const profileTemp = await fetchProfileDetails(userData.User_Id);
-        console.log(profileTemp);
-        setProfileDetails(profileTemp);
-      } catch (error) {
-          console.error("Error fetching data: ", error);
-      }
-    } 
-    profileSub();
+    // //console.log(userData);
+    // const profileSub = async () => {
+    //   try {
+        
+    //   } catch (error) {
+    //       console.error("Error fetching data: ", error);
+    //   }
+    // } 
+    // profileSub();
   }
-  ,[fetchUserData, fetchProfileDetails])
+  ,[userData,profileDetails])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");
@@ -229,7 +230,7 @@ const EditProfile: React.FC = () => {
           <Input
             id="username"
             //placeholder={userData.Username ? userData.Username : "Enter your Username"}
-            // onChange={(e) => setEditedName(e.target.value)}
+            //onChange={(e) => setEditedName(e.target.value)}
             className="mb-4"
           />
           <label htmlFor="bio" className="block mb-2 font-semibold">
