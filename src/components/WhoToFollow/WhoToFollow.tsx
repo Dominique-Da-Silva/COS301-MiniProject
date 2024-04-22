@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import {
+  fetchUsers,
+  getLoggedUserId,
+} from "@services/index";
 import { Avatar, Button} from "@nextui-org/react";
-import { fetchUsers } from "@services/index";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import { isUserLoggedIn } from "@services/index";
 

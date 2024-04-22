@@ -13,10 +13,14 @@ import {
   ModalBody,
   useDisclosure,
   } from "@nextui-org/react";
-
+  import { toggleLike } from "@services/index";
+  import { toggleRetweet } from "@services/index";
+  import { toggleSave } from "@services/index";
   
 
 export interface TweetProps {
+  tweetid : number;
+  userid: number;
   name: string;
   username: string;
   text: string;
