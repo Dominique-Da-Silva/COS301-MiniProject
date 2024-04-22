@@ -117,14 +117,14 @@ export async function signUpNewUser(user_data: {
   }
 }
 
-export async function signInUser(email: string, password: string): Promise<"success" | "error"> {
+export async function signInUser(email: string, password: string): Promise<string> {
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
 
   if (error) {
-    return "error";
+    return error.message;
   } else {
     //add user to database if not already there
     return "success";
@@ -149,7 +149,7 @@ export async function doesLoggedUserExistInDatabase(): Promise<boolean> {
 export async function addUserToDatabase() {
   //add user to database if not already there
   const logged_user = await supabase.auth.getUser();
-  if (!logged_user.data.user) return "error";
+  if (!logged_user.data.user) return "not logged in";
 
   //check if user is already in database by counting the number of users with the same auth_id
   const existing_user = await doesLoggedUserExistInDatabase();
@@ -169,7 +169,7 @@ export async function addUserToDatabase() {
 
   const res = await supabase.from('User').insert(user);
 
-  if (res.error) return "error";
+  if (res.error) return "failed to insert into database";
   await insertProfileDetails({
     Img_Url: logged_user.data.user.user_metadata.avatar_url ? logged_user.data.user.user_metadata.avatar_url : "",
   });

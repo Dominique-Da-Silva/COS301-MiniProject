@@ -2,10 +2,11 @@ import { Nav, AccountInfo, NotificationSettings,DisplaySettings,ChangePassword }
 import  { useEffect, useState } from "react";
 import { Link} from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { isUserLoggedIn } from "@services/index";
+import { getUserData, isUserLoggedIn } from "@services/index";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("account");
+  const [auth_method, setAuthMethod] = useState(""); //this should be set to the auth method of the user [email, google, github, etc.]
   const navigate = useNavigate(); // Initialize useNavigate hook
   const renderSettingsContent = () => {
     switch (activeTab) {
@@ -15,8 +16,8 @@ const Settings = () => {
         return <NotificationSettings />;
       case "Display":
         return <DisplaySettings/>;
-      case "ChangePassword":
-        return<ChangePassword/>
+      case "ChangePassword": 
+        return<ChangePassword/> //this page should not be available for people who did not auth with email
       default:
         return null;
     }
@@ -30,6 +31,12 @@ const Settings = () => {
       if (!result) {
         navigate("/home"); // Redirect to home page if user is not logged in
       }
+
+      const user = await getUserData();
+      if (user) {
+        console.log(user.app_metadata.provider);
+        setAuthMethod(user.app_metadata.provider?? "");
+      }
     }
     
     // Call the async function
@@ -37,13 +44,14 @@ const Settings = () => {
   }, [navigate]);
 
   return (
-    <div className="container flex">
-      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
+    <div className="w-full h-full flex justify-center align-middle">
+      <div className="container flex w-full justify-center dark:bg-black">
+        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
         <Nav />
       </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border">
+      <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
         <div className="flex flex-col m-0 p-0">
-          <div className="p-4 border-b border-gray-300">
+          <div className="p-4 border-b border-gray-300 dark:border-neutral-800">
             <h2 className="text-gray-600 font-semibold">SETTINGS</h2>
           </div>
           <div className="mt-4">
@@ -52,11 +60,15 @@ const Settings = () => {
                 <p className="font-semibold">Your account</p>
               </Link>
             </div>
-            <div className="hover:bg-gray-100 p-2 rounded-md">
-              <Link href="#" onClick={() => setActiveTab("ChangePassword")}>
-                <p className="font-semibold">Change Password</p>
-              </Link>
-            </div>
+            {
+              auth_method === "email" && (
+                <div className="hover:bg-gray-100 p-2 rounded-md">
+                  <Link href="#" onClick={() => setActiveTab("ChangePassword")}>
+                    <p className="font-semibold">Change Password</p>
+                  </Link>
+                </div>
+              )
+            }
             <div className="hover:bg-gray-100 p-2 rounded-md">
               <Link href="#" onClick={() => setActiveTab("Notifications")}>
                 <p className="font-semibold">Notification settings</p>
@@ -80,6 +92,7 @@ const Settings = () => {
       <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
         {renderSettingsContent()}
       </div>
+    </div>
     </div>
   );
 };
