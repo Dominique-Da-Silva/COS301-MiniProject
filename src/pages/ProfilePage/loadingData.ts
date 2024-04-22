@@ -12,7 +12,7 @@ export const mockUserProfile = {
     Name: "Loading Name",
     Username: "Loading Username",
     auth_id: "123456789",
-    Created_at: "2022-01-01T00:00:00.000Z",
+    Created_at: "0000-00-00T00:00:00.000Z",
     followers: 0,
     following: 0,
   };

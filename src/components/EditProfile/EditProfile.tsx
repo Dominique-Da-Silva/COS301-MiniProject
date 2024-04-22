@@ -37,7 +37,7 @@ const EditProfile: React.FC = () => {
     } 
     profileSub();
   }
-  ,[userData.Username, userData, profileDetails])
+  ,[fetchUserData, fetchProfileDetails])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");
@@ -219,7 +219,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Input
             id="name"
-            placeholder={userData.Name ? userData.Name : "Enter your name"}
+            //placeholder={userData.Name ? userData.Name : "Enter your name"}
             //  onChange={(e) => setEditedName(e.target.value)}
             className="mb-4"
           />
@@ -228,7 +228,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Input
             id="username"
-            placeholder={userData.Username ? userData.Username : "Enter your Username"}
+            //placeholder={userData.Username ? userData.Username : "Enter your Username"}
             // onChange={(e) => setEditedName(e.target.value)}
             className="mb-4"
           />
@@ -237,7 +237,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Textarea
             id="bio"
-            placeholder={profileDetails.Bio ? profileDetails.Bio : "Enter your bio"}
+            //placeholder={profileDetails.Bio ? profileDetails.Bio : "Enter your bio"}
             className="mb-4"
           // onChange={(e) => setEditedBio(e.target.value)}
           />
@@ -246,7 +246,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Textarea
             id="location"
-            placeholder={profileDetails.Location ? profileDetails.Location : "Enter your location"}
+            //placeholder={profileDetails.Location ? profileDetails.Location : "Enter your location"}
             className="mb-4"
           //  onChange={(e) => setEditedLocation(e.target.value)}
           />
@@ -255,7 +255,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Textarea
             id="website"
-            placeholder={profileDetails.Website ? profileDetails.Website : "Enter your website"}
+            //placeholder={profileDetails.Website ? profileDetails.Website : "Enter your website"}
             className="mb-4"
           //  onChange={(e) => setEditedWebsite(e.target.value)}
           />
