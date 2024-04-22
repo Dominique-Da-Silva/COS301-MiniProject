@@ -9,7 +9,12 @@ import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts"
 import { insertProfileDetails, updateProfileDetails } from "./profileServices/updateProfileDetails";
 import { addTweet } from "./homeServices/addTweets.ts";
 import {fetchUserData} from "./profileServices/getAuthUser.ts";
-import {countFollowers} from "./profileServices/countFollowers.ts";
+import { fetchLikedPosts } from "./profileServices/getLikedPosts.ts";
+import { getUserTweets } from "./profileServices/getUserTweets.ts";
+import { getUserComments } from "./profileServices/getUserComments.ts";
+import { fetchUserMedia } from "./profileServices/getUserMedia.ts";
+import { getUserData } from "./auth/auth.ts";
+import { countFollowers } from "./profileServices/countFollowers.ts";
 import {countFollowing} from "./profileServices/countFollowing.ts";
 import {fetchProfileDetails} from "./profileServices/getProfile.ts";
 import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
@@ -24,8 +29,7 @@ import {toggleRetweet} from "./tweetInteraction/toggleRetweet.ts";
 import {countLikes} from "./tweetInteraction/countLikes.ts"
 import {countRetweets} from "./tweetInteraction/countRetweets.ts"
 import {countSaves} from "./tweetInteraction/countSaves.ts"
-import {countComments} from "./tweetInteraction/countComments.ts"
-
+import { countComments } from "./tweetInteraction/countComments.ts"
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
@@ -33,5 +37,6 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId,
-    getTrendingTopics,toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
+    getTrendingTopics, toggleLike, toggleSave, toggleRetweet, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets,
+    fetchLikedPosts, getUserTweets, getUserComments, getUserData, fetchUserMedia
     };

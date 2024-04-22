@@ -8,7 +8,11 @@ import { Avatar } from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
 import CreateComment from "../CreateComment/CreateComment";
 import {
-  Modal,ModalContent,ModalBody,useDisclosure,} from "@nextui-org/react";
+  Modal,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+} from "@nextui-org/react";
   import { toggleLike } from "@services/index";
   import { toggleRetweet } from "@services/index";
   import { toggleSave } from "@services/index";
@@ -32,6 +36,51 @@ interface TweetProps {
 }
 
 const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
+  
+  const [commentColor, setCommentColor] = useState(false);
+  const [retweetColor, setRetweetColor] = useState(false);
+  const [likeColor, setLikeColor] = useState(false);
+  const [bookmarkColor, setBookmarkColor] = useState(bookmarked || false);
+
+  const [commentCount, setCommentCount] = useState(Number(comments) || 0);
+  const [retweetCount, setRetweetCount] = useState(Number(retweets) || 0);
+  const [likeCount, setLikeCount] = useState(Number(likes) || 0);
+  const [saveCount, setSaveCount] = useState(Number(saves) || 0);
+  const { isOpen, onOpenChange, onOpen } = useDisclosure();
+
+
+
+  const handleCommentClick = () => {
+    setCommentColor((prevState) => !prevState);
+    setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
+    onOpen();
+  };
+
+  const handleRetweetClick = () => {
+    setRetweetColor((prevState) => !prevState);
+    setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleRetweet function with tweetid and username
+    toggleRetweet(tweetid, userid);
+  };
+
+  const handleLikeClick = () => {
+    setLikeColor((prevState) => !prevState);
+    setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleLike function with tweetid and username
+    toggleLike(tweetid, userid);
+  };
+
+  const handleBookmarkClick = () => {
+    setBookmarkColor((prevState) => !prevState);
+    setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleSave function with tweetid and username
+    toggleSave(tweetid, userid);
+  };
+
+  
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
       <div className="avatar">
