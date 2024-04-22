@@ -17,9 +17,7 @@ import {
 } from "mockData/mockData";
 import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn } from "@services/index";
-import { followNotification } from "@services/index";
-//import { getCurrentUser } from "@services/auth/auth";
-import { notificationEmitter } from "@services/index";
+
 
 interface NotificationsProps {}
 const Notifications: React.FC<NotificationsProps> = () => {
@@ -70,17 +68,6 @@ const Notifications: React.FC<NotificationsProps> = () => {
     }
 
   }, [navigate]);
-  const testNotifications = () => {//u can put this evenlistenr inside a useeffect to  make sure its not called multple times, only
-    //after unitial render
-    // Call the followNotification function to start listening for notifications for user_id = 13
-    followNotification(13);
-  
-    // Listen for the 'new-notification' event and handle it
-    notificationEmitter.on('new-notification', (notification) => {
-      console.log('Received new notification:', notification);
-    });
-  };
-  testNotifications();
   
   return (
     <div className="w-full h-full flex justify-center align-middle">
