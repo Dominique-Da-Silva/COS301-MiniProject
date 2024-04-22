@@ -18,7 +18,7 @@ import {
   import { toggleSave } from "@services/index";
   
 
-export interface TweetProps {
+ interface TweetProps {
   tweetid : number;
   userid: number;
   name: string;
