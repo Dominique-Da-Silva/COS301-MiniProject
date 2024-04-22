@@ -6,6 +6,19 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
+import CreateComment from "../CreateComment/CreateComment";
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+  } from "@nextui-org/react";
+  import { toggleLike } from "@services/index";
+  import { toggleRetweet } from "@services/index";
+  import { toggleSave } from "@services/index";
+  
+
+ interface TweetProps {
 import { toggleLike } from "@services/index";
 import { toggleRetweet } from "@services/index";
 import { toggleSave } from "@services/index";
@@ -51,10 +64,14 @@ const Tweet: React.FC<TweetProps> = ({
   const [retweetCount, setRetweetCount] = useState(Number(retweets) || 0);
   const [likeCount, setLikeCount] = useState(Number(likes) || 0);
   const [saveCount, setSaveCount] = useState(Number(saves) || 0);
+  const { isOpen, onOpenChange, onOpen } = useDisclosure();
+
+
 
   const handleCommentClick = () => {
     setCommentColor((prevState) => !prevState);
     setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
+    onOpen();
   };
 
   const handleRetweetClick = () => {
@@ -132,6 +149,15 @@ const Tweet: React.FC<TweetProps> = ({
             />
           )}
         </div>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {() => (
+                  <ModalBody>
+                    <CreateComment name={name} username={username} text={text} imageUrl={imageUrl} profileimageurl={profileimageurl} timeDisplay={timeDisplay}></CreateComment>
+                  </ModalBody>
+              )}
+            </ModalContent>
+          </Modal>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
           <span
             className={`action flex items-center cursor-pointer ${
