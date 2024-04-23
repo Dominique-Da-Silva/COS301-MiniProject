@@ -56,6 +56,8 @@ Deno.serve(async (req) => {
         tweet_count: tweetCount
       };
     });
+    // Sort the tags by tweet count in descending order
+  tagsWithTweetCounts.sort((a, b) => b.tweet_count - a.tweet_count);
 
     console.log(JSON.stringify(tagsWithTweetCounts));
     return new Response(JSON.stringify(tagsWithTweetCounts), {

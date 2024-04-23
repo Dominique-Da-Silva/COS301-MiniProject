@@ -1,13 +1,32 @@
-import React from "react";
-import { FaRegComment } from "react-icons/fa";
-import { PiHeartBold } from "react-icons/pi";
+import React, { useState } from "react";
+import { FaRegComment, FaComment } from "react-icons/fa";
+import { PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
-import { FaBookmark , FaRegBookmark} from "react-icons/fa6";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
+import CreateComment from "../CreateComment/CreateComment";
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+  } from "@nextui-org/react";
+  import { toggleLike } from "@services/index";
+  import { toggleRetweet } from "@services/index";
+  import { toggleSave } from "@services/index";
+  
+
+ interface TweetProps {
+import { toggleLike } from "@services/index";
+import { toggleRetweet } from "@services/index";
+import { toggleSave } from "@services/index";
+
 
 interface TweetProps {
+  tweetid : number;
+  userid: number;
   name: string;
   username: string;
   text: string;
@@ -21,15 +40,71 @@ interface TweetProps {
   bookmarked?: boolean;
 }
 
-const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked }) => {
+const Tweet: React.FC<TweetProps> = ({
+  tweetid,
+  userid,
+  name,
+  username,
+  text,
+  imageUrl,
+  profileimageurl,
+  timeDisplay,
+  likes,
+  retweets,
+  comments,
+  saves,
+  bookmarked,
+}) => {
+  const [commentColor, setCommentColor] = useState(false);
+  const [retweetColor, setRetweetColor] = useState(false);
+  const [likeColor, setLikeColor] = useState(false);
+  const [bookmarkColor, setBookmarkColor] = useState(bookmarked || false);
+
+  const [commentCount, setCommentCount] = useState(Number(comments) || 0);
+  const [retweetCount, setRetweetCount] = useState(Number(retweets) || 0);
+  const [likeCount, setLikeCount] = useState(Number(likes) || 0);
+  const [saveCount, setSaveCount] = useState(Number(saves) || 0);
+  const { isOpen, onOpenChange, onOpen } = useDisclosure();
+
+
+
+  const handleCommentClick = () => {
+    setCommentColor((prevState) => !prevState);
+    setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
+    onOpen();
+  };
+
+  const handleRetweetClick = () => {
+    setRetweetColor((prevState) => !prevState);
+    setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleRetweet function with tweetid and username
+    toggleRetweet(tweetid, userid);
+  };
+
+  const handleLikeClick = () => {
+    setLikeColor((prevState) => !prevState);
+    setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleLike function with tweetid and username
+    toggleLike(tweetid, userid);
+  };
+
+  const handleBookmarkClick = () => {
+    setBookmarkColor((prevState) => !prevState);
+    setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleSave function with tweetid and username
+    toggleSave(tweetid, userid);
+  };
+
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
       <div className="avatar">
         <Avatar
-          src={profileimageurl} // profile image url to be replaced
+          src={profileimageurl}
           alt="User Avatar"
           className="user-avatar min-w-12 min-h-12"
-        // style={{ minWidth: '48px', minHeight: '48px' }}
         />
       </div>
       <div className="post flex-col w-full pl-2">
@@ -51,7 +126,7 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
             }}
             className="font-semibold p-0 m-0 dark:text-white"
           >
-            {name}&nbsp;
+            {name}
           </NavLink>
           <NavLink
             to={{
@@ -74,11 +149,53 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
             />
           )}
         </div>
-        <div className="tweet-actions flex flex-row justify-around col text-slate-700 dark:text-neutral-600">
-          <span className="action flex items-center cursor-pointer hover:text-blue-500 "><FaRegComment className="w-4 h-4" /> &nbsp;{comments}{" "}</span>
-          <span className="action flex items-center cursor-pointer hover:text-green-500"><LuRepeat2 className="w-4 h-4" /> &nbsp;{retweets}{" "}</span>
-          <span className="action flex items-center cursor-pointer hover:text-red-500"><PiHeartBold className="w-4 h-4" />&nbsp;{likes}{" "}</span>
-          <span className="action flex items-center cursor-pointer hover:text-blue-500">{bookmarked ? <FaBookmark className="w-4 h-4" />: <FaRegBookmark className="w-4 h-4" />} &nbsp;{saves}{" "}</span>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {() => (
+                  <ModalBody>
+                    <CreateComment name={name} username={username} text={text} imageUrl={imageUrl} profileimageurl={profileimageurl} timeDisplay={timeDisplay}></CreateComment>
+                  </ModalBody>
+              )}
+            </ModalContent>
+          </Modal>
+        <div className="tweet-actions flex flex-row justify-around col text-slate-700">
+          <span
+            className={`action flex items-center cursor-pointer ${
+              commentColor ? "text-blue-500" : "hover:text-blue-500"
+            }`}
+            onClick={handleCommentClick}
+          >
+            {commentColor ? <FaComment className="w-4 h-4" /> : <FaRegComment className="w-4 h-4" />} &nbsp;{commentCount}{" "}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              retweetColor ? "text-green-500" : "hover:text-green-500"
+            }`}
+            onClick={handleRetweetClick}
+          >
+            {retweetColor ? <LuRepeat2 className="w-4 h-4" /> : <LuRepeat2 className="w-4 h-4" />} &nbsp;{retweetCount}{" "}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              likeColor ? "text-red-500" : "hover:text-red-500"
+            }`}
+            onClick={handleLikeClick}
+          >
+            {likeColor ? <PiHeartFill className="w-4 h-4" /> : <PiHeartBold className="w-4 h-4" />} &nbsp;{likeCount}{" "}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              bookmarkColor ? "text-orange-500" : "hover:text-orange-500"
+            }`}
+            onClick={handleBookmarkClick}
+          >
+            {bookmarkColor ? (
+              <FaBookmark className="w-4 h-4" />
+            ) : (
+              <FaRegBookmark className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{saveCount}{" "}
+          </span>
         </div>
       </div>
     </div>

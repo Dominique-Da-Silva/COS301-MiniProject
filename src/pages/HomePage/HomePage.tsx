@@ -52,9 +52,9 @@ const HomePage: React.FC<HomePageProps> = () => {
     const getCurrentUser = async () => {
       try {
         const user = await isUserLoggedIn();
-         console.log("Current User:");
-         console.log(user);
-        setCurrentUser(user);
+        //  console.log("Current User:");
+        //  console.log(user);
+         setCurrentUser(user);
       } catch (error) {
         console.error('Error fetching current user:', error);
       }
@@ -63,8 +63,8 @@ const HomePage: React.FC<HomePageProps> = () => {
     const getAllProfiles = async () => {
       try {
         const profilesData = await fetchAllProfiles();
-        console.log("Profiles Data:");
-        console.log(profilesData);
+        // console.log("Profiles Data:");
+        // console.log(profilesData);
         setProfiles(profilesData as any); // Update the type of the state variable
       } catch (error) {
         console.error('Error fetching profiles:', error);
@@ -75,7 +75,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     fetchData();
     getCurrentUser();
     getAllProfiles();
-  }, []);
+  }, [setCurrentUser]);
 
   //testing
 
@@ -122,10 +122,10 @@ const HomePage: React.FC<HomePageProps> = () => {
   return (
     <div className="w-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
+        <div className="nav flex justify-end w-1/5 pr-5">
           <Nav />
         </div>
-        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
+        <div className="main-content flex flex-col w-full md:w-3/5 m-0 p-0 border dark:border-neutral-800">
           <div className="flex flex-col m-0 p-0 justify-center">
             {/* <Tabs 
             aria-label="Options" 
@@ -145,19 +145,30 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-          <CreateTweet />
-          {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
-            // console.log("Tweet:");
-            // console.log(tweet);
-            // console.log("Users:");
-            // console.log(users);
+          <CreateTweet/>
+          {tweets?.map(tweet => {
+            // console.log("Tweet:", tweet);
+            // console.log("Users:", users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-            const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
-            const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
-            const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
-            const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
+            // console.log("User:", user);
+
+            // Check if tweet.Saves is defined and not empty before accessing its properties
+            const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
+            // console.log("Saves Count:", saves);
+
+            // Similar checks for Comments, Likes, and Retweets
+            const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
+            // console.log("Comments Count:", comments);
+
+            const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
+            // console.log("Likes Count:", likes);
+
+            const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
+            // console.log("Retweets Count:", retweets);
+
             const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-            //console.log("Image URL:", image_url);
+            // console.log("Image URL:", image_url);
+
             return (
               <Tweet
                 key={tweet.Tweet_Id}
@@ -174,6 +185,8 @@ const HomePage: React.FC<HomePageProps> = () => {
               />
             );
           })}
+
+
           {/* </Tab>
             <Tab
               title={
@@ -188,7 +201,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           </Tabs> */}
           </div>
         </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
           <div className="mb-3">
             <Search />
           </div>
@@ -196,8 +209,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           <WhoToFollow users={[]} />
         </div>
       </div>
-    </div>
-    
+    </div>    
   );
 };
 

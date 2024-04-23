@@ -19,10 +19,11 @@ const Explore: React.FC<ExplorePageProps> = () => {
   const [searchValue, setSearchValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [showTabs, setShowTabs] = useState(false); // State to track if tabs should be shown
+  
 
   const handleSearchChange = (event: any) => {
     setSearchValue(event.target.value);
-  };
+  }; 
 
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();

@@ -1,5 +1,4 @@
 import { supabase } from '@config/supabase';
-import { Notifications } from '@pages/index';
 
 const CreateFollowNotification = async (Following_Id:number,Followed_Id:number) => {
         try{
@@ -221,3 +220,23 @@ const updateNotifications = async (notifications: Notification[]) => {
 };
 
 export { updateNotifications };
+
+const getUserNotifications = async (User_Id:number|null) => {
+  try {
+    
+    const { data: Notifications, error } = await supabase
+    .from('Notification')
+    .select('*')
+    .eq('User_Id',User_Id)
+
+    if (error) {
+      throw error;
+    }
+    return Notifications;
+
+  } catch (error) {
+    console.error('Error getting notifications:', error);
+  }
+};
+
+ export {getUserNotifications};
