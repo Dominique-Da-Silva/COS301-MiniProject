@@ -16,13 +16,6 @@ import {
   import { toggleLike } from "@services/index";
   import { toggleRetweet } from "@services/index";
   import { toggleSave } from "@services/index";
-  
-
- interface TweetProps {
-import { toggleLike } from "@services/index";
-import { toggleRetweet } from "@services/index";
-import { toggleSave } from "@services/index";
-
 
 interface TweetProps {
   tweetid : number;
