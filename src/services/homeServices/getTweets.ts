@@ -30,6 +30,7 @@ const fetchTweets = async () => {
       body: {tweetData}
     });
     if(error) throw error;
+    //add a notification here
     return data;
 
   } catch (error) {

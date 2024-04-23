@@ -17,7 +17,8 @@ import {uploadImageAndGetURL} from "./profileServices/uploadProfileImage.ts";
 import {checkIfFollowing} from "./usersProfileServices/checkIfFollowing.ts";
 import {getLoggedUserId} from "./usersProfileServices/getLoggedUserId.ts";
 import { getTrendingTopics } from "./homeServices/getTweets.ts";
-import { CreateFollowNotification,CreateLikeNotification } from "./homeServices/notifications.ts";
+import { CreateFollowNotification,CreateLikeNotification,CreateCommentNotification,
+    CreateRetweetNotification,CreateTweetNotification,updateNotifications } from "./homeServices/notifications.ts";
 import { getUserNotifications } from "./homeServices/getTweets.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
@@ -26,5 +27,6 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
-    getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification
+    getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
+    CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications
     };
