@@ -19,7 +19,7 @@ const EditProfile: React.FC = () => {
         const userDataX = await fetchUserData();
         //console.log(userDataX);
         setUserData(userDataX);
-        const profileTemp = await fetchProfileDetails(userData.User_Id);
+        const profileTemp = await fetchProfileDetails(userDataX.User_Id);
         //console.log(profileTemp);
         setProfileDetails(profileTemp);
       } catch (error) {
@@ -27,6 +27,7 @@ const EditProfile: React.FC = () => {
       }
     } 
     fetchData();
+    
 
     // //console.log(userData);
     // const profileSub = async () => {
@@ -220,8 +221,8 @@ const EditProfile: React.FC = () => {
           </label>
           <Input
             id="name"
-            //placeholder={userData.Name ? userData.Name : "Enter your name"}
-            //  onChange={(e) => setEditedName(e.target.value)}
+            placeholder={userData.Name ? userData.Name : "Enter your name"}
+            //onChange={(e) => setEditedName(e.target.value)}
             className="mb-4"
           />
           <label htmlFor="username" className="block mb-2 font-semibold">
@@ -229,7 +230,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Input
             id="username"
-            //placeholder={userData.Username ? userData.Username : "Enter your Username"}
+            placeholder={userData.Username ? userData.Username : "Enter your Username"}
             //onChange={(e) => setEditedName(e.target.value)}
             className="mb-4"
           />

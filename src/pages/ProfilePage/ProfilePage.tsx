@@ -1,7 +1,6 @@
 import { useState, Suspense, useEffect } from "react";
 
 import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
-//import { supabase } from "@config/supabase"; // Import supabase client
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
@@ -10,8 +9,6 @@ import { fetchUserMedia } from "@services/index";
 import { fetchLikedPosts } from "@services/index";
 import { getUserTweets } from "@services/index";
 import { getUserComments } from "@services/index";
-//import { getUserData } from "@services/auth/auth";
-// import { EditProfile, SearchBar } from "@components/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
@@ -20,34 +17,6 @@ import { Search } from "@components/index";
 import { isUserLoggedIn } from "@services/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
-// import {
-//   mockTweets,
-//   mockUsers,
-//   mockSavesCount,
-//   mockCommentsCount,
-//   mockRetweetsCount,
-//   mockLikesCount,
-// } from "../../mockData/mockData";
-
-// interface Profile {
-//   Bio?: string | null | undefined;
-//   Img_Url?: string | null | undefined;
-//   Profile_Id?: number | undefined;
-//   Profile_Type?: string | null | undefined;
-//   Theme?: boolean | null | undefined;
-//   User_Id?: number | undefined;
-//   Website?: string | null | undefined;
-//   Location?: string | null | undefined;
-//   Banner_Url?: string | null | undefined;
-//   [key: string]: string | number | boolean | null | undefined; // index signature
-// }
-
-// interface PopupProps {
-//   isOpen: boolean;
-//   onClose: () => void;
-// }
-
-//Make not of tweet_Ids not being unique
 
 interface Tweet {
   key: number;
@@ -89,51 +58,6 @@ const getTimeDisplay = (timestamp: string) => {
   return timeDisplay;
 };
 
-// const formatCount = (count: number): string | number => {
-//   if (count < 1000) {
-//     return count; // Return as it is if less than 1000
-//   } else if (count < 1000000) {
-//     // Convert to K format
-//     return (count / 1000).toFixed(1) + "K";
-//   } else {
-//     // Convert to M format
-//     return (count / 1000000).toFixed(1) + "M";
-//   }
-// };
-
-// const editingProfile: React.FC<PopupProps> = ({ isOpen, onClose }) => {
-//   const [isVisible, setIsVisible] = useState(isOpen);
-//   const popupRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     setIsVisible(isOpen);
-//   }, [isOpen]);
-
-//   useEffect(() => {
-//     const handleClickOutside = (event: MouseEvent) => {
-//       if (
-//         popupRef.current &&
-//         !popupRef.current.contains(event.target as Node)
-//       ) {
-//         onClose();
-//       }
-//     };
-
-//     if (isVisible) {
-//       document.addEventListener("mousedown", handleClickOutside);
-//     }
-
-//     return () => {
-//       document.removeEventListener("mousedown", handleClickOutside);
-//     };
-//   }, [isVisible, onClose]);
-
-//   if (!isVisible) {
-//     return null;
-//   }
-//   return <EditProfile />;
-// };
-
 const ProfileDetails = () => {
 
   const [activeTab, setActiveTab] = useState("tweets");
@@ -157,44 +81,10 @@ const ProfileDetails = () => {
   const [external, setExternal] = useState(true);
 
   const [following, setFollowing] = useState(false);
-  // const [isEditing, setIsEditing] = useState(false);
-  // const [editedName, setEditedName] = useState(mockUserProfile.Name);
-  // const [editedBio, setEditedBio] = useState(mockProfileDetails.Bio);
-  // const [editedLocation, setEditedLocation] = useState(
-  //   mockProfileDetails.Location
-  // );
-  // const [editedWebsite, setEditedWebsite] = useState(
-  //   mockProfileDetails.Website
-  // );
-  // const [editedImage, setEditedImage] = useState<File | null>(null);
-  // const [editedBanner, setEditedBanner] = useState<File | null>(null);
-  // const [content, setContent] = useState(null);
-  // const [followingCount, setFollowingCount] = useState<number>(10); // mock following count
-  // const [followerCount, setFollowerCount] = useState<number>(20); // mock followers count
   const [userTweets, setUserTweets] = useState<any[]>([]);
   const [userMedia, setUserMedia] = useState<string[]>([]);
   const [userReplies, setUserReplies] = useState<any[]>([]);
-  // const [userLikes, setUserLikes] = useState<TweetProps[]>([]);
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
-  // const [replies, setReplies] = useState<TweetProps[]>([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const userDataX = await fetchUserData();
-  //       //setUserData()
-  //       //console.log(userDataX);
-  //     //   const followingCount = await countFollowing(userData.id);
-  //     //   const followerCount = await countFollowers(userData.id);
-  //       // console.log(followingCount); 
-  //       //setUserData(null);
-  //       setUserData(userDataX);
-  //     } catch (error) {
-  //         console.error("Error fetching data: ", error);
-  //     }
-  //   } 
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     
@@ -206,6 +96,8 @@ const ProfileDetails = () => {
 
     const profileSub = async () => {
       try {
+        const user = JSON.parse(window.localStorage.getItem('user') || '{}'); // Replace 'user' with the key you used to store the user value
+        console.log("user: ________" + JSON.stringify(user));
         const profileTemp = await fetchProfileDetails(userData.User_Id);
         const followerTemp = await countFollowers(userData.User_Id);
         const followingTemp = await countFollowing(userData.User_Id);
@@ -245,23 +137,7 @@ const ProfileDetails = () => {
     }
     getCurrUserTweets();
 
-    // const getLikesPerTweet = async () => {
-    //   try {
-    //     if (userTweets.length !== 0) {
-    //       const tweetIds = userTweets.map(tweet => tweet.tweet_Id);
-    //       console.log("_________________________");
-    //       console.log(tweetIds);
-    //     }
-        
-    //     //setLikesPerTweet(tweetIds);
-    //   } 
-    //   catch (error) {
-    //     console.error("Error fetching data: ", error);
-    //   }
-    // }
-    //getLikesPerTweet();
-
-    const getUserReplies = async() => {
+    const getUserReplies = async () => {
       try {
         const replies = await getUserComments(userData.User_Id);
         setUserReplies(replies);
@@ -296,7 +172,7 @@ const ProfileDetails = () => {
       }
     }
     getTweets();
-  }, [activeTab, userData.User_Id]);
+  }, [activeTab, userData.User_Id, likedTweets]);
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -316,289 +192,10 @@ const ProfileDetails = () => {
     setActiveTab(tabName);
   };
 
-  // useEffect(() => {
-  //   const fetchUserProfile = async () => {
-  //     try {
-  //       const { data: { user } } = await supabase.auth.getUser();
-  //       if (user) {
-  //         const { data: userData, error: userError } = await supabase
-  //           .from("User")
-  //           .select()
-  //           .eq("auth_id", user?.id)
-  //           .single();
-  //         if (userError) {
-  //           throw userError;
-  //         }
-  //         setUserProfile(userData);
-  //         const createdDate = new Date(userData.Created_at);
-  //         const formattedDate = createdDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
-  //         setCreatedAt(formattedDate);
-  // };
-  // const loadLiked = () => {
-  //   setContent(loadLikedContent());
-  // };
-  //   setContent(loadMediaContent());
-  // const loadMedia = () => {
-  // };
-  //   setContent(loadRepliesContent());
-  // const loadReplies = () => {
-  // const loadTweets = () => {
-  //   setContent(loadTweetsContent());
-  // };
-
-  // <button onClick={async () => {
-  //   const result = await toggleLike(tweetId, userId);
-  //   if (result === 'liked') {
-  //     //I'm guessing we'd change the colour of the heart icon, from white to red/black
-  //   } else if (result === 'unliked') {
-  //     //I'm guessing we'd change the colour of the heart icon again, but from red/black to white
-  //   } else {
-  //     //We just process the error here, maybe a toast or something
-  //   }
-  // }}>
-  //   Like
-  // </button>
-
-  //         if (userData?.User_Id) {
-  //           const { data: profileData, error: profileError } = await supabase
-  //             .from("Profile")
-  //             .select()
-  //             .eq("User_Id", userData.User_Id)
-  //             .single();
-  //           if (profileError) {
-  //             throw profileError;
-  //           }
-  //           setProfileDetails(profileData);
-
-  //           // Count followers
-  //           const { data: followersData, error: followersError } = await supabase
-  //             .from("Followers")
-  //             .select("Followed_Id")
-  //             .eq("Following_Id", userData.User_Id);
-  //           if (followersError) {
-  //             throw followersError;
-  //           }
-  //           const followersCount = followersData.length;
-
-  //           // Count following
-  //           const { data: followingData, error: followingError } = await supabase
-  //             .from("Followers")
-  //             .select("Following_Id")
-  //             .eq("Followed_Id", userData.User_Id);
-  //           if (followingError) {
-  //             throw followingError;
-  //           }
-  //           const followingCount = followingData.length;
-
-  //           setUserProfile((prevState: any) => ({
-  //             ...prevState,
-  //             followers: followersCount,
-  //             following: followingCount
-  //           }));
-  //         } else {
-  //           console.error("User data ID is undefined");
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching user profile:", (error as any).message);
-  //     }
-  //   };
-
-  //   fetchUserProfile();
-  // }, []);
-
-  // const handleEditClick = () => {
-  //   console.log("Edit button clicked");
-  //   console.log(profileDetails);
-  //   console.log(userProfile);
-  //   setIsEditing(true);
-  //   setEditedName(userProfile?.Name);
-  //   setEditedBio(profileDetails?.Bio);
-  //   setEditedLocation(profileDetails?.Location);
-  //   setEditedWebsite(profileDetails?.Website);
-  // };
-
-  // const handleSaveClick = async () => {
-  //   console.log(editedImage);
-  //   console.log(editedBanner);
-  //   try {
-  //     // Update name in User table
-  //     await supabase
-  //       .from("User")
-  //       .update({ Name: editedName })
-  //       .eq("auth_id", userProfile?.auth_id)
-  //       .single();
-
-  //     // Update bio in Profile table
-  //     await supabase
-  //       .from("Profile")
-  //       .update({
-  //         Bio: editedBio,
-  //         Location: editedLocation,
-  //         Website: editedWebsite
-  //       })
-  //       .eq("User_Id", userProfile?.User_Id)
-  //       .single();
-
-  //     if (editedImage) {
-  //       const { data: imageData, error: imageError } = await supabase.storage
-  //         .from(`media`)
-  //         .upload(`profile_images/${editedImage.name}`, editedImage, {
-  //           cacheControl: "3600",
-  //           upsert: false,
-  //         });
-  //       if (imageError) {
-  //         console.log(imageData);
-  //         throw new Error(`Error uploading image: ${imageError.message}`);
-  //       }
-
-  //       console.log("Image uploaded successfully:", imageData.path);
-  //       if (imageData) {
-  //         console.log("Image data:", imageData);
-
-  //         const { data: publicURL } = await supabase
-  //           .storage
-  //           .from('media')
-  //           .getPublicUrl(imageData?.path);
-  //         // Insert image reference into database table
-  //         console.log("Public URL:", publicURL);
-
-  //         const { data: imageInsertData, error: insertError } = await supabase
-  //           .from("Profile")
-  //           .update({ Img_Url: publicURL.publicUrl })
-  //           .eq("User_Id", userProfile.User_Id)
-  //           .single();
-
-  //         if (insertError) {
-  //           throw insertError;
-  //         }
-
-  //         console.log("Image reference inserted into database:", imageInsertData);
-  //       }
-  //     }
-
-  //     if (editedBanner) {
-  //       const { data: bannerData, error: bannerError } = await supabase.storage
-  //         .from("media")
-  //         .upload(`banner_images/${editedBanner.name}`, editedBanner, {
-  //           cacheControl: "3600",
-  //           upsert: false,
-  //         });
-  //       if (bannerError) {
-  //         throw new Error(`Error uploading banner: ${bannerError.message}`);
-  //       }
-
-  //       console.log("Banner uploaded successfully:", bannerData.path);
-
-  //       if (bannerData) {
-  //         console.log("Banner data:", bannerData);
-
-  //         const { data: bannerURL } = await supabase
-  //           .storage
-  //           .from('media')
-  //           .getPublicUrl(bannerData.path);
-  //         // Insert image reference into database table
-  //         console.log("Banner URL:", bannerURL);
-
-  //         // Insert image reference into database table
-  //         const { data: bannerInsertData, error: bannerInsertError } = await supabase
-  //           .from("Profile")
-  //           .update({
-  //             Banner_Url: bannerURL?.publicUrl,
-  //             Bio: editedBio,
-  //             Img_Url: editedImage ? editedImage.toString() : "",
-  //             Profile_Id: userProfile?.Profile_Id,
-  //             Profile_Type: userProfile?.Profile_Type,
-  //             Theme: userProfile?.Theme,
-  //             User_Id: userProfile?.User_Id
-  //           })
-  //           .eq("User_Id", userProfile?.User_Id)
-  //           .single();
-
-  //         if (bannerInsertError) {
-  //           throw bannerInsertError;
-  //         }
-
-  //         console.log("Banner reference inserted into database:", bannerInsertData);
-  //       }
-  //     }
-
-  //     // Refresh profile details after updating
-  //     const { data: updatedProfileData, error: profileError } = await supabase
-  //       .from("Profile")
-  //       .select()
-  //       .eq("User_Id", userProfile.User_Id)
-  //       .single();
-  //     if (profileError) {
-  //       throw profileError;
-  //     }
-  //     setProfileDetails(updatedProfileData);
-
-  //     const { data: updatedUserData, error: updatedUserError } = await supabase
-  //       .from("User")
-  //       .select()
-  //       .eq("auth_id", userProfile?.auth_id)
-  //       .single();
-  //     if (updatedUserError) {
-  //       throw updatedUserError;
-  //     }
-  //     setUserProfile(updatedUserData);
-
-  //     // Close the edit window and reset states
-  //     setIsEditing(false);
-  //     setEditedName("");
-  //     setEditedBio("");
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       if (error.message.includes("media")) {
-  //         console.error("Error uploading image:", error.message);
-  //       } else if (error.message.includes("images")) {
-  //         console.error("Error uploading banner:", error.message);
-  //       } else if (error.message.includes("Profile")) {
-  //         console.error("Error updating profile:", error.message);
-  //       } else if (error.message.includes("User")) {
-  //         console.error("Error updating user:", error.message);
-  //       } else {
-  //         console.error("Unknown error:", error.message);
-  //       }
-  //     }
-  //   }
-  // };
-
-  // const handleCancelClick = () => {
-  //   // Reset Editing state to close the edit window
-  //   setIsEditing(false);
-  // };
-
-  // const loadTweetsContent = () => {
-  //   return <div>Loading tweets...</div>;
-  // };
-  // const loadRepliesContent = () => {
-  //   return <div>Loading replies...</div>;
-  // };
-  // const loadMediaContent = () => {
-  //   return <div>Loading media...</div>;
-  // };
-  // const loadLikedContent = () => {
-  //   return <div>Loading liked content...</div>;
-  // };
-
   if (!profileDetails || !userProfile) {
     console.log("Log");
     return <div>Loading...</div>;
   }
-
-  // const [isEditingProfileOpen, setIsEditingProfileOpen] = useState(false);
-
-  // const handleEditProfileClose = () => {
-  //   setIsEditingProfileOpen(false);
-  // };
-
-  // const handleEditProfileOpen = () => {
-  //   setIsEditingProfileOpen(true);
-  // };
-  
-  
 
   const handleButtonClick = () => {
     setFollowing(!following);
@@ -741,6 +338,8 @@ const ProfileDetails = () => {
                           const _retweets = originalTweet.Retweets[0].count || 0;
                           return(
                             <Tweet
+                              tweetid={tweet.id}
+                              userid={userData.User_Id}
                               key={index}
                               name={userData.Name}
                               username={`@${userData.Username}`}
@@ -806,6 +405,8 @@ const ProfileDetails = () => {
                             const image_url = profileDetails.Img_Url;
                             return (
                               <Tweet
+                                tweetid={reply.id}
+                                userid={userData.User_Id}
                                 key={index}
                                 name={userData.Name}
                                 username={`@${userData.Username}`}
@@ -845,6 +446,8 @@ const ProfileDetails = () => {
                           const _retweets = originalTweet.Retweets[0].count || 0;
                         return(
                           <Tweet
+                            tweetid={tweet.id}
+                            userid={userData.User_Id}
                             key={index}
                             name={iUser ? iUser.Name : "Unknown User"}
                             username={iUser ? `@${iUser.Username}` : ""}
