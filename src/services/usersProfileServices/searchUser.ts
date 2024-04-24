@@ -4,13 +4,14 @@ export async function searchUsers(query: string): Promise<string[]> {
     try {
         const { data: usersData, error: usersError } = await supabase
             .from('User')
-            .select('Username, Name, Surname')
+            .select('User_Id, Username, Name, Surname')
             .or(`Username.ilike.%${query}%`, `Name.ilike.%${query}%`, `Surname.ilike.%${query}%`);
 
         if (usersError) {
             console.error('Error searching for users.');
             return [];
         }
+        // console.log(usersData);
 
         const profiles: string[] = [];
 
@@ -31,7 +32,8 @@ export async function searchUsers(query: string): Promise<string[]> {
                 bio: profileData?.Bio || '',
                 img_url: profileData?.Img_Url || '',
             };
-            profiles.push(JSON.stringify(userProfile));
+            // console.log(userProfile);
+            profiles.push(userProfile);
         }
 
         return profiles;

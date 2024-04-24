@@ -26,7 +26,6 @@ import {countLikes} from "./tweetInteraction/countLikes.ts"
 import {countRetweets} from "./tweetInteraction/countRetweets.ts"
 import {countSaves} from "./tweetInteraction/countSaves.ts"
 import {countComments} from "./tweetInteraction/countComments.ts"
-
 import {searchUsers} from "./usersProfileServices/searchUser.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,

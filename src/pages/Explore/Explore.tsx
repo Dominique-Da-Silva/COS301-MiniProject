@@ -10,6 +10,12 @@ import { mockTweets, mockUsers, mockSavesCount, mockCommentsCount, mockRetweetsC
 
 interface ExplorePageProps { }
 
+interface User {
+  UserName: string;
+  Name: string;
+  Surname: string;
+}
+
 const Explore: React.FC<ExplorePageProps> = () => {
   const [tweets] = useState<any[]>(mockTweets);
   const [users] = useState<any[]>(mockUsers);
@@ -21,7 +27,6 @@ const Explore: React.FC<ExplorePageProps> = () => {
   const [searchValue, setSearchValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [showTabs, setShowTabs] = useState(false); // State to track if tabs should be shown
-  
 
   const handleSearchChange = (event: any) => {
     setSearchValue(event.target.value);
@@ -72,23 +77,24 @@ const Explore: React.FC<ExplorePageProps> = () => {
     setIsFocused(false);
   };
 
-  const handleSearchKeyPress = (event: any, searchterm?:string) => {
+  const handleSearchKeyPress = (event: any) => {
     if (event.key === 'Enter') {
       setShowTabs(true);
-      useEffect(() => {
-        const getResultsHandles = async () => {
-          try {
-            const results = await searchUsers(searchterm);
-            setSearchResultshandles(results);
-            console.log(results);
-          } catch (error) {
-            console.error('Error fetching tags:', error);
-          }
-        }
-        getResultsHandles();
-      }, []);
+      getResultsHandles(searchValue);
     }
+    console.log(searchResultshandles);
   };
+
+
+  const getResultsHandles = async (searchValue) => {
+    try {
+      const results = await searchUsers(searchValue);
+      console.log('Results:', results); // Check the results in the console
+      setSearchResultshandles(results);
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+    }
+  }
 
   return (
     <div className="w-full h-full flex justify-center align-middle">
@@ -163,7 +169,16 @@ const Explore: React.FC<ExplorePageProps> = () => {
                     })}
                   </Tab>
                   <Tab key="Latest" title="Latest" className="p-0"/>
-                  <Tab key="People" title="People" className="p-0"/>
+                  <Tab key="People" title="People" className="p-0">
+                    {searchResultshandles?.map((handle: User) => (
+                      <div key={handle.User_Id} className="flex items-center justify-between p-3 hover:bg-gray-100 dark:bg-neutral-900">
+                        <div className="flex justify-between items-center">
+                          <h3 className="text-[16px] font-medium">{handle.username}</h3>
+                        </div>
+                        <p className="text-[13.5px] text-gray-500 -mt-1">{handle.name}</p>
+                      </div>
+                    ))}
+                  </Tab>
                   <Tab key="Media" title="Media" className="p-0"/>
                 </Tabs>
               </div>
