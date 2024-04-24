@@ -17,5 +17,5 @@ export const countFollowers = async (userId: string) => {
     } catch (error) {
       console.error('Error counting followers:', error);
     }
-    return undefined;
+    //return undefined;
 };
