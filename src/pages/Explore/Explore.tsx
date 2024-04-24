@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Nav, Search, Tweet, WhoToFollow } from '@components/index';
 import TrendingListFull from '@components/TrendingListFull/TrendingListFull';
 import { FiSettings } from "react-icons/fi";
 import { FaArrowLeft } from "react-icons/fa";
 import { IoSearch } from 'react-icons/io5';
 import { Tab, Tabs } from '@nextui-org/react';
+import { searchUsers } from '@services/index';
 import { mockTweets, mockUsers, mockSavesCount, mockCommentsCount, mockRetweetsCount, mockLikesCount } from '../../mockData/mockData';
 
 interface ExplorePageProps { }
@@ -12,6 +13,7 @@ interface ExplorePageProps { }
 const Explore: React.FC<ExplorePageProps> = () => {
   const [tweets] = useState<any[]>(mockTweets);
   const [users] = useState<any[]>(mockUsers);
+  const [searchResultshandles, setSearchResultshandles] = useState<any[]>([]); // State to store search results
   const [savesCount] = useState<any>(mockSavesCount);
   const [commentsCount] = useState<any>(mockCommentsCount);
   const [retweetsCount] = useState<any>(mockRetweetsCount);
@@ -70,9 +72,21 @@ const Explore: React.FC<ExplorePageProps> = () => {
     setIsFocused(false);
   };
 
-  const handleSearchKeyPress = (event: any) => {
+  const handleSearchKeyPress = (event: any, searchterm?:string) => {
     if (event.key === 'Enter') {
       setShowTabs(true);
+      useEffect(() => {
+        const getResultsHandles = async () => {
+          try {
+            const results = await searchUsers(searchterm);
+            setSearchResultshandles(results);
+            console.log(results);
+          } catch (error) {
+            console.error('Error fetching tags:', error);
+          }
+        }
+        getResultsHandles();
+      }, []);
     }
   };
 
