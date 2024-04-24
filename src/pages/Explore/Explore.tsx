@@ -3,6 +3,8 @@ import { Nav, Search, Tweet, WhoToFollow } from '@components/index';
 import TrendingListFull from '@components/TrendingListFull/TrendingListFull';
 import { FiSettings } from "react-icons/fi";
 import { FaArrowLeft } from "react-icons/fa";
+import { Avatar } from "@nextui-org/react";
+import { NavLink } from "react-router-dom";
 import { IoSearch } from 'react-icons/io5';
 import { Tab, Tabs } from '@nextui-org/react';
 import { searchUsers } from '@services/index';
@@ -120,7 +122,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                   onBlur={handleSearchBlur}
                   onKeyPress={handleSearchKeyPress}
                   placeholder="Search..."
-                  className="w-full rounded-full bg-transparent outline-0 border-none text-lg"
+                  className="w-full bg-transparent outline-0 border-none text-lg"
                 />
               </div>
             </div>
@@ -171,12 +173,52 @@ const Explore: React.FC<ExplorePageProps> = () => {
                   <Tab key="Latest" title="Latest" className="p-0"/>
                   <Tab key="People" title="People" className="p-0">
                     {searchResultshandles?.map((handle: User) => (
-                      <div key={handle.User_Id} className="flex items-center justify-between p-3 hover:bg-gray-100 dark:bg-neutral-900">
-                        <div className="flex justify-between items-center">
-                          <h3 className="text-[16px] font-medium">{handle.username}</h3>
-                        </div>
-                        <p className="text-[13.5px] text-gray-500 -mt-1">{handle.name}</p>
+                      <div className="tweet w-full flex border-b hover:bg-neutral-200 cursor-pointer m-0 p-4 dark:border-neutral-800">
+                      <div className="avatar">
+                        <Avatar
+                          src={handle.img_url}
+                          alt="User Avatar"
+                          className="user-avatar min-w-12 min-h-12"
+                        />
                       </div>
+                      <div className="w-full flex flex-col align pl-2 align-middle">
+                        <div className="p-0 m-0 h-5">
+                          <NavLink
+                            to={{
+                              pathname: `/profile/${handle.username.substring(1)}`, //sets the url path
+                              //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
+                              /*
+                              To retrieve this data when navigating to the next page:
+                              import { useLocation } from 'react-router-dom';
+                              const ProfileComponent = () => {
+                                const location = useLocation();
+                                const username = location.state?.username;
+                  
+                                // Use the username to render the profile
+                              };
+                              */
+                            }}
+                            className="font-semibold p-0 m-0 dark:text-white"
+                          >
+                            {handle.name}
+                          </NavLink>
+                        </div>
+                        <div className="p-0 m-0 h-5">
+                          <NavLink
+                            to={{
+                              pathname: `/profile/${handle.username.substring(1)}`,
+                              //state: { username: username.substring(1) } -> is this valid, please verify
+                            }}
+                            className="text-slate-700 p-0 m-0 dark:text-gray-400"
+                          >
+                            @{handle.username}
+                          </NavLink>
+                        </div>     
+                        <div>
+                          <p className="p-0 m-0 dark:text-white">{handle.bio}</p>
+                        </div>             
+                      </div>
+                    </div>
                     ))}
                   </Tab>
                   <Tab key="Media" title="Media" className="p-0"/>
