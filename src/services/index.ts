@@ -18,6 +18,15 @@ import {checkIfFollowing} from "./usersProfileServices/checkIfFollowing.ts";
 import {getLoggedUserId} from "./usersProfileServices/getLoggedUserId.ts";
 import {changePassword} from "./auth/changePassword.ts";
 import { getTrendingTopics } from "./homeServices/getTrendingTopics.ts";
+import {getBookmarkedTweets} from "./usersProfileServices/getBookmarkedTweets.ts";
+import {toggleLike} from "./tweetInteraction/toggleLike.ts";
+import {toggleSave} from "./tweetInteraction/toggleSave.ts";
+import {toggleRetweet} from "./tweetInteraction/toggleRetweet.ts";
+import {countLikes} from "./tweetInteraction/countLikes.ts"
+import {countRetweets} from "./tweetInteraction/countRetweets.ts"
+import {countSaves} from "./tweetInteraction/countSaves.ts"
+import {countComments} from "./tweetInteraction/countComments.ts"
+
 import {searchUsers} from "./usersProfileServices/searchUser.ts";
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
@@ -26,5 +35,5 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
-    getTrendingTopics, changePassword, searchUsers,
+    getTrendingTopics,toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, countSaves, countComments, changePassword, searchUsers, getBookmarkedTweets
     };

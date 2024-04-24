@@ -52,9 +52,9 @@ const HomePage: React.FC<HomePageProps> = () => {
     const getCurrentUser = async () => {
       try {
         const user = await isUserLoggedIn();
-         console.log("Current User:");
-         console.log(user);
-        setCurrentUser(user);
+        //  console.log("Current User:");
+        //  console.log(user);
+         setCurrentUser(user);
       } catch (error) {
         console.error('Error fetching current user:', error);
       }
@@ -63,8 +63,8 @@ const HomePage: React.FC<HomePageProps> = () => {
     const getAllProfiles = async () => {
       try {
         const profilesData = await fetchAllProfiles();
-        console.log("Profiles Data:");
-        console.log(profilesData);
+        // console.log("Profiles Data:");
+        // console.log(profilesData);
         setProfiles(profilesData as any); // Update the type of the state variable
       } catch (error) {
         console.error('Error fetching profiles:', error);
@@ -122,10 +122,10 @@ const HomePage: React.FC<HomePageProps> = () => {
   return (
     <div className="w-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
+        <div className="nav flex justify-end w-1/5 pr-5">
           <Nav />
         </div>
-        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
+        <div className="main-content flex flex-col w-full md:w-3/5 m-0 p-0 border dark:border-neutral-800">
           <div className="flex flex-col m-0 p-0 justify-center">
             {/* <Tabs 
             aria-label="Options" 
@@ -147,44 +147,45 @@ const HomePage: React.FC<HomePageProps> = () => {
             > */}
           <CreateTweet/>
           {tweets?.map(tweet => {
-  console.log("Tweet:", tweet);
-  console.log("Users:", users);
-  const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-  console.log("User:", user);
+            // console.log("Tweet:", tweet);
+            // console.log("Users:", users);
+            const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+            // console.log("User:", user);
 
-  // Check if tweet.Saves is defined and not empty before accessing its properties
-  const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
-  console.log("Saves Count:", saves);
+            // Check if tweet.Saves is defined and not empty before accessing its properties
+            const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
+            // console.log("Saves Count:", saves);
 
-  // Similar checks for Comments, Likes, and Retweets
-  const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
-  console.log("Comments Count:", comments);
+            // Similar checks for Comments, Likes, and Retweets
+            const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
+            // console.log("Comments Count:", comments);
 
-  const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
-  console.log("Likes Count:", likes);
+            const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
+            // console.log("Likes Count:", likes);
 
-  const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
-  console.log("Retweets Count:", retweets);
+            const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
+            // console.log("Retweets Count:", retweets);
 
-  const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-  console.log("Image URL:", image_url);
+            const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+            // console.log("Image URL:", image_url);
 
-  return (
-    <Tweet
-      key={tweet.Tweet_Id}
-      name={user ? user.Name : "Unknown User"}
-      username={user ? `@${user.Username}` : ""}
-      text={tweet.Content}
-      imageUrl={tweet.Img_Url}
-      timeDisplay={getTimeDisplay(tweet.Created_at)}
-      likes={formatCount(likes)}
-      retweets={formatCount(retweets)}
-      saves={formatCount(saves)}
-      comments={formatCount(comments)}
-      profileimageurl={image_url}
-    />
-  );
-})}
+            return (
+              <Tweet
+                key={tweet.Tweet_Id}
+                name={user ? user.Name : "Unknown User"}
+                username={user ? `@${user.Username}` : ""}
+                text={tweet.Content}
+                imageUrl={tweet.Img_Url}
+                timeDisplay={getTimeDisplay(tweet.Created_at)}
+                likes={formatCount(likes)}
+                retweets={formatCount(retweets)}
+                saves={formatCount(saves)}
+                comments={formatCount(comments)}
+                profileimageurl={image_url}
+              />
+            );
+          })}
+
 
           {/* </Tab>
             <Tab
@@ -200,7 +201,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           </Tabs> */}
           </div>
         </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
           <div className="mb-3">
             <Search />
           </div>
