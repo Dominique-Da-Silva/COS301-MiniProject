@@ -27,7 +27,16 @@ const EditProfile: React.FC = () => {
       }
     } 
     fetchData();
-    
+
+    const setPD = async () => {
+      try {
+        setProfileDetails(userData);
+      }
+      catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    setPD();
 
     // //console.log(userData);
     // const profileSub = async () => {
@@ -39,7 +48,7 @@ const EditProfile: React.FC = () => {
     // } 
     // profileSub();
   }
-  ,[userData,profileDetails])
+  ,[userData])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");
@@ -239,7 +248,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Textarea
             id="bio"
-            //placeholder={profileDetails.Bio ? profileDetails.Bio : "Enter your bio"}
+            placeholder={profileDetails.Bio ? profileDetails.Bio : "Enter your bio"}
             className="mb-4"
           // onChange={(e) => setEditedBio(e.target.value)}
           />
