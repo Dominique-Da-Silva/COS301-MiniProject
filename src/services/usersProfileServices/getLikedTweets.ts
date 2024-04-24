@@ -11,7 +11,9 @@ const getLikedTweets = async(userId: number)=>{
         if (error) {
             throw error;
         }
-
+        if(likedTweets&& likedTweets.length <=0) return [];
+        //console.log(likedTweets);
+        const tweetIds = likedTweets.map((liked: any) =>liked.Tweet_Id);
         // Fetch details of the liked tweets from the Tweets table
         const { data: tweetsData, error: tweetsError } = await supabase
             .from('Tweets')
@@ -29,7 +31,7 @@ const getLikedTweets = async(userId: number)=>{
             Comments(
               count()
             )`)
-            .in('Tweet_Id', likedTweets);
+            .in('Tweet_Id',tweetIds)
 
         if (tweetsError) {
             throw error;
@@ -38,7 +40,7 @@ const getLikedTweets = async(userId: number)=>{
         if (!tweetsData || tweetsData.length === 0) {
             return [];
         }
-
+        //console.log(tweetsData)
         return tweetsData;
 
     } catch (error) {
