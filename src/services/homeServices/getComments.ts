@@ -4,7 +4,7 @@ const getComments = async(Tweet_Id: number)=>{
 try{
     const { data: Comments, error } = await supabase
     .from('Comments')
-    .select("User_Id","Tweet_Id","Content")
+    .select("*")
     .eq('Tweet_Id', Tweet_Id)
 
     if(error) throw error;
