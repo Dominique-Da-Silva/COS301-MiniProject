@@ -1,4 +1,5 @@
 import { supabase } from '@config/supabase';
+import { user } from '@nextui-org/react';
 
 const CreateFollowNotification = async (followingId:number,followedId:number) => {
       try{
@@ -235,7 +236,7 @@ const CreateCommentNotification = async (tweetId:number,userId: number) => {
     const { data: username, error: userError } = await supabase
       .from('User')
       .select('Username')
-      .eq('User_Id', userId);
+      .eq('User_Id', tweet[0].User_Id);
 
     if (userError) throw userError;
 
@@ -244,7 +245,7 @@ const CreateCommentNotification = async (tweetId:number,userId: number) => {
     const { data: notifs,error} = await supabase
       .from("Notification")
       .insert([{
-        User_Id: tweet[0].User_Id,
+        User_Id: userId,
         Type_Id: 3, // Assuming Type_Id 3 represents a comment notification
         Content: Content,
         Read: false,
