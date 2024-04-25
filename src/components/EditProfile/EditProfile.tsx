@@ -49,7 +49,7 @@ const EditProfile: React.FC = () => {
     // profileSub();
     setPD();
   }
-  ,[fetchUserData, fetchProfileDetails])
+  ,[userData])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");
@@ -217,6 +217,9 @@ const EditProfile: React.FC = () => {
     return <p>Loading</p>;
   }
   else {
+    if (!profileDetails) {
+      return <div>Loading...</div>;
+    } else {
     return (
       <div className="container mx-auto py-8">
         <div className="flex items-center mb-4">
@@ -258,7 +261,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Textarea
             id="location"
-            //placeholder={profileDetails.Location ? profileDetails.Location : "Enter your location"}
+            placeholder={profileDetails.Location ? profileDetails.Location : "Enter your location"}
             className="mb-4"
           //  onChange={(e) => setEditedLocation(e.target.value)}
           />
@@ -267,7 +270,7 @@ const EditProfile: React.FC = () => {
           </label>
           <Textarea
             id="website"
-            //placeholder={profileDetails.Website ? profileDetails.Website : "Enter your website"}
+            placeholder={profileDetails.Website ? profileDetails.Website : "Enter your website"}
             className="mb-4"
           //  onChange={(e) => setEditedWebsite(e.target.value)}
           />
@@ -277,6 +280,7 @@ const EditProfile: React.FC = () => {
         </div>
       </div>
     );
+  }
   }
 };
 export default EditProfile;

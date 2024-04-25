@@ -96,8 +96,8 @@ const ProfileDetails = () => {
 
     const profileSub = async () => {
       try {
-        const user = JSON.parse(window.localStorage.getItem('user') || '{}'); // Replace 'user' with the key you used to store the user value
-        console.log("user: ________" + JSON.stringify(user));
+        // const user = JSON.parse(window.localStorage.getItem('user') || '{}'); // Replace 'user' with the key you used to store the user value
+        // console.log("user: ________" + JSON.stringify(user));
         const profileTemp = await fetchProfileDetails(userData.User_Id);
         const followerTemp = await countFollowers(userData.User_Id);
         const followingTemp = await countFollowing(userData.User_Id);
