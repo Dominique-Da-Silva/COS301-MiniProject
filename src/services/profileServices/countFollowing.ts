@@ -4,14 +4,11 @@ import { supabase } from "@config/supabase";
 
 export const countFollowing = async (userId: string) => {
     try {
-      const { data: followingData, error: followingError } = await supabase.from('Followers')
-      .select('Followed_Id').eq('Following_Id', userId);
-  
-      if (followingError) {
-        throw followingError;
-      }
-  
-      return followingData.length;
+      const {count} = await supabase.from('Followers')
+      .select('Followed_Id', {count: 'exact'}).eq('Following_Id', userId);
+
+      return count ?? 0;
+
     } catch (error) {
       console.error('Error counting following:', error);
     }
