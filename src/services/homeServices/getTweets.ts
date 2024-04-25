@@ -22,5 +22,3 @@ const fetchTweets = async () => {
   };
 
    export {fetchTweets};
-
-

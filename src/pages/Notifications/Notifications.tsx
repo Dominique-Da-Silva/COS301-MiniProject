@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn } from "@services/index";
 
+
 interface NotificationsProps {}
 const Notifications: React.FC<NotificationsProps> = () => {
   const [activeTab, setActiveTab] = useState("all");
@@ -62,10 +63,10 @@ const Notifications: React.FC<NotificationsProps> = () => {
       if (!result) {
         navigate("/home"); // Redirect to home page if user is not logged in
       }
+      // Call the async function
+      checkUser();
     }
-    
-    // Call the async function
-    checkUser();
+
   }, [navigate]);
   
   return (
