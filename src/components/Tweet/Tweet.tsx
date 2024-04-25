@@ -34,7 +34,7 @@ interface TweetProps {
   author?: string;
 }
 
-const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
+const Tweet: React.FC<TweetProps> = ({ tweetid, userid, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
   
   const [commentColor, setCommentColor] = useState(false);
   const [retweetColor, setRetweetColor] = useState(false);
@@ -93,8 +93,8 @@ const Tweet: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileim
         <div className="user-info flex">
           <NavLink
             to={{
-              pathname: `/profile/${username.substring(1)}`, //sets the url path
-              //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
+              // pathname: `/profile/${username.substring(1)}`, //sets the url path
+              // state: { username: username.substring(1) } //passes the state -> is this valid, please verify
               /*
               To retrieve this data when navigating to the next page:
               import { useLocation } from 'react-router-dom';

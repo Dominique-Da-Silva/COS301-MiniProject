@@ -12,26 +12,26 @@ import { getUserComments } from "@services/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation, useParams } from "react-router-dom";
 import { Search } from "@components/index";
 import { isUserLoggedIn } from "@services/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 
-interface Tweet {
-  key: number;
-  name: string;
-  username: string;
-  text: string;
-  imageUrl: string;
-  likes: number;
-  retweets: number;
-  saves: number;
-  comments: number;
-  timeDisplay: string;
-  profileimageurl: string;
-  author?: string;
-}
+// interface Tweet {
+//   key: number;
+//   name: string;
+//   username: string;
+//   text: string;
+//   imageUrl: string;
+//   likes: number;
+//   retweets: number;
+//   saves: number;
+//   comments: number;
+//   timeDisplay: string;
+//   profileimageurl: string;
+//   author?: string;
+// }
 
 const getTimeDisplay = (timestamp: string) => {
   const currentTime = new Date();
@@ -86,9 +86,13 @@ const ProfileDetails = () => {
   const [userReplies, setUserReplies] = useState<any[]>([]);
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
 
+  
+  // const location = useLocation();
+
   useEffect(() => {
     
     const getUD = async () => {
+    //  console.log("Username from path : " + usernameP);
       const userDataX = await fetchUserData();
       setUserData(userDataX);
     }
@@ -96,8 +100,8 @@ const ProfileDetails = () => {
 
     const profileSub = async () => {
       try {
-        // const user = JSON.parse(window.localStorage.getItem('user') || '{}'); // Replace 'user' with the key you used to store the user value
-        // console.log("user: ________" + JSON.stringify(user));
+        // const usernameP = location.state?.username;
+        // console.log("Username from path : " + usernameP);
         const profileTemp = await fetchProfileDetails(userData.User_Id);
         const followerTemp = await countFollowers(userData.User_Id);
         const followingTemp = await countFollowing(userData.User_Id);
@@ -342,7 +346,7 @@ const ProfileDetails = () => {
                               const _retweets = originalTweet.Retweets[0].count || 0;
                               return (
                                 <Tweet
-                                  tweetid={tweet.id}
+                                  tweetid={tweet.Tweet_Id}
                                   userid={userData.User_Id}
                                   key={index}
                                   name={userData.Name}
