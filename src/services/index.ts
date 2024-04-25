@@ -19,9 +19,9 @@ import {getLoggedUserId} from "./usersProfileServices/getLoggedUserId.ts";
 import {changePassword} from "./auth/changePassword.ts";
 import { getTrendingTopics } from "./homeServices/getTrendingTopics.ts";
 import {getBookmarkedTweets} from "./usersProfileServices/getBookmarkedTweets.ts";
-import {toggleLike} from "./tweetInteraction/toggleLike.ts";
-import {toggleSave} from "./tweetInteraction/toggleSave.ts";
-import {toggleRetweet} from "./tweetInteraction/toggleRetweet.ts";
+import {likeTweet,unlikeTweet,checkIfLiked} from "./tweetInteraction/toggleLike.ts";
+import {save,unSave,checkIfSaved} from "./tweetInteraction/toggleSave.ts";
+import {retweet, unReweet,checkIfRetweeted} from "./tweetInteraction/toggleRetweet.ts";
 import {countLikes} from "./tweetInteraction/countLikes.ts"
 import {countRetweets} from "./tweetInteraction/countRetweets.ts"
 import {countSaves} from "./tweetInteraction/countSaves.ts"
@@ -36,7 +36,9 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
-    uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
+    likeTweet,unlikeTweet,checkIfLiked, retweet, unReweet,checkIfRetweeted, save,unSave,checkIfSaved,
+    uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
     ,getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
     CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments
+
     };
