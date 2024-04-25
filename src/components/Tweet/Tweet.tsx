@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
@@ -12,13 +12,22 @@ import {
   ModalContent,
   ModalBody,
   useDisclosure,
-  } from "@nextui-org/react";
-  import { toggleLike } from "@services/index";
-  import { toggleRetweet } from "@services/index";
-  import { toggleSave } from "@services/index";
+} from "@nextui-org/react";
+import {
+  getLoggedUserId,
+  likeTweet,
+  unlikeTweet,
+  checkIfLiked,
+  retweet,
+  checkIfRetweeted,
+  save,
+  unSave,
+  checkIfSaved,
+  unReweet,
+} from "@services/index";
 
 interface TweetProps {
-  tweetid : number;
+  tweetid: number;
   userid: number;
   name: string;
   username: string;
@@ -52,27 +61,35 @@ const Tweet: React.FC<TweetProps> = ({
   const [retweetColor, setRetweetColor] = useState(false);
   const [likeColor, setLikeColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(bookmarked || false);
-
+  const [loggedUserId, setLoggedUserId] = useState<any>();
   const [commentCount, setCommentCount] = useState(Number(comments) || 0);
   const [retweetCount, setRetweetCount] = useState(Number(retweets) || 0);
   const [likeCount, setLikeCount] = useState(Number(likes) || 0);
   const [saveCount, setSaveCount] = useState(Number(saves) || 0);
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
-
-
   const handleCommentClick = () => {
     setCommentColor((prevState) => !prevState);
-    setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
+    setCommentCount((prevCount) =>
+      commentColor ? prevCount - 1 : prevCount + 1
+    );
     onOpen();
   };
 
   const handleRetweetClick = () => {
     setRetweetColor((prevState) => !prevState);
-    setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
+    setRetweetCount((prevCount) =>
+      retweetColor ? prevCount - 1 : prevCount + 1
+    );
 
+    check_retweet().then((result) => {
+      if (result == false) {
+        add_retweet();
+      } else {
+        un_retweet();
+      }
+    });
     // Call the toggleRetweet function with tweetid and username
-    toggleRetweet(tweetid, userid);
   };
 
   const handleLikeClick = () => {
@@ -80,16 +97,89 @@ const Tweet: React.FC<TweetProps> = ({
     setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
 
     // Call the toggleLike function with tweetid and username
-    toggleLike(tweetid, userid);
+    check_like().then((result) => {
+      if (result == false) {
+        add_like();
+      } else {
+        un_like();
+      }
+    });
   };
 
   const handleBookmarkClick = () => {
     setBookmarkColor((prevState) => !prevState);
-    setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
+    setSaveCount((prevCount) =>
+      bookmarkColor ? prevCount - 1 : prevCount + 1
+    );
 
     // Call the toggleSave function with tweetid and username
-    toggleSave(tweetid, userid);
+    check_save().then((result) => {
+      if (result == false) {
+        add_save();
+      } else {
+        un_save();
+      }
+    });
   };
+
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      const userData = await getLoggedUserId();
+      setLoggedUserId(userData);
+    };
+    fetchLoggedInUser();
+  }, []);
+
+  const add_like = async () => {
+    const result = await likeTweet(tweetid, loggedUserId);
+    console.log(result);
+  };
+  const check_like = async () => {
+    const result = await checkIfLiked(tweetid, loggedUserId);
+    console.log(result);
+    return result;
+  };
+  const un_like = async () => {
+    const result = await unlikeTweet(tweetid, loggedUserId);
+    console.log(result);
+  };
+
+  const add_retweet = async () => {
+    const result = await retweet(tweetid, loggedUserId);
+    console.log(result);
+  };
+
+  const check_retweet = async () => {
+    const result = await checkIfRetweeted(tweetid, loggedUserId);
+    console.log(result);
+    return result;
+  };
+
+  const un_retweet = async () => {
+    const result = await unReweet(tweetid, loggedUserId);
+    console.log(result);
+  };
+
+  const add_save = async () => {
+    const result = await save(tweetid, loggedUserId);
+    console.log(result);
+  };
+
+  const check_save = async () => {
+    const result = await checkIfSaved(tweetid, loggedUserId);
+    console.log(result);
+    return result;
+  };
+
+  const un_save = async () => {
+    const result = await unSave(tweetid, loggedUserId);
+    console.log(result);
+  };
+
+  // const add_comment = async()=>{
+  //   const result = await toggleComment(tweetid, loggedUserId);
+  //   console.log(result);
+  // }
 
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
@@ -143,14 +233,21 @@ const Tweet: React.FC<TweetProps> = ({
           )}
         </div>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-            <ModalContent>
-              {() => (
-                  <ModalBody>
-                    <CreateComment name={name} username={username} text={text} imageUrl={imageUrl} profileimageurl={profileimageurl} timeDisplay={timeDisplay}></CreateComment>
-                  </ModalBody>
-              )}
-            </ModalContent>
-          </Modal>
+          <ModalContent>
+            {() => (
+              <ModalBody>
+                <CreateComment
+                  name={name}
+                  username={username}
+                  text={text}
+                  imageUrl={imageUrl}
+                  profileimageurl={profileimageurl}
+                  timeDisplay={timeDisplay}
+                ></CreateComment>
+              </ModalBody>
+            )}
+          </ModalContent>
+        </Modal>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
           <span
             className={`action flex items-center cursor-pointer ${
@@ -158,7 +255,12 @@ const Tweet: React.FC<TweetProps> = ({
             }`}
             onClick={handleCommentClick}
           >
-            {commentColor ? <FaComment className="w-4 h-4" /> : <FaRegComment className="w-4 h-4" />} &nbsp;{commentCount}{" "}
+            {commentColor ? (
+              <FaComment className="w-4 h-4" />
+            ) : (
+              <FaRegComment className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{commentCount}{" "}
           </span>
           <span
             className={`action flex items-center cursor-pointer ${
@@ -166,7 +268,12 @@ const Tweet: React.FC<TweetProps> = ({
             }`}
             onClick={handleRetweetClick}
           >
-            {retweetColor ? <LuRepeat2 className="w-4 h-4" /> : <LuRepeat2 className="w-4 h-4" />} &nbsp;{retweetCount}{" "}
+            {retweetColor ? (
+              <LuRepeat2 className="w-4 h-4" />
+            ) : (
+              <LuRepeat2 className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{retweetCount}{" "}
           </span>
           <span
             className={`action flex items-center cursor-pointer ${
@@ -174,7 +281,12 @@ const Tweet: React.FC<TweetProps> = ({
             }`}
             onClick={handleLikeClick}
           >
-            {likeColor ? <PiHeartFill className="w-4 h-4" /> : <PiHeartBold className="w-4 h-4" />} &nbsp;{likeCount}{" "}
+            {likeColor ? (
+              <PiHeartFill className="w-4 h-4" />
+            ) : (
+              <PiHeartBold className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{likeCount}{" "}
           </span>
           <span
             className={`action flex items-center cursor-pointer ${

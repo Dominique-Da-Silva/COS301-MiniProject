@@ -38,8 +38,6 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = await getLoggedUserId();
-      console.log("User Data:");
-      console.log(userData);
       setLoggedUserId(userData);
     };
     fetchUserData();
@@ -100,7 +98,6 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
           </div>
         </CardBody>
         <CardFooter className="cursor-pointer text-sky-500 hover:bg-slate-200">
-          Show more
         </CardFooter>
       </Card>
     </div>
