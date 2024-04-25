@@ -7,7 +7,7 @@ import { supabase } from '@config/supabase';
             .from('Retweets')
             .select('*')
             .eq('Tweet_Id', tweetId)
-            .eq('User_Id', userId)
+            .eq('Tweeter_Id', userId)
             .single();
 
 
@@ -33,7 +33,7 @@ export async function checkIfRetweeted(tweetId: number, userId: number): Promise
             .from('Retweets')
             .select('*')
             .eq('Tweet_Id', tweetId)
-            .eq('User_Id', userId)
+            .eq('Tweeter_Id', userId)
             .single();
 
         if (error) {
@@ -50,7 +50,7 @@ export async function checkIfRetweeted(tweetId: number, userId: number): Promise
 export async function retweet(tweetId: number, userId: number): Promise<boolean> {
     try {
         // Like the tweet
-        await supabase.from('Retweets').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
+        await supabase.from('Retweets').insert([{ Tweet_Id: tweetId, Tweeter_Id: userId }]);
         return true;
     } catch (error) {
         console.error('Error retweeting the tweet:', error.message);
@@ -64,7 +64,7 @@ export async function unReweet(tweetId: number, userId: number): Promise<boolean
             .from('Retweets')
             .delete()
             .eq('Tweet_Id', tweetId)
-            .eq('User_Id', userId);
+            .eq('Tweeter_Id', userId);
 
         if (error) {
             console.error('Error unRetweeting the tweet:', error.message);
