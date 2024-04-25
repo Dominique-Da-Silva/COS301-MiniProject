@@ -19,9 +19,9 @@ const EditProfile: React.FC = () => {
         const userDataX = await fetchUserData();
         //console.log(userDataX);
         setUserData(userDataX);
-        const profileTemp = await fetchProfileDetails(userDataX.User_Id);
+        //const profileTemp = await fetchProfileDetails(userDataX.User_Id);
         //console.log(profileTemp);
-        setProfileDetails(profileTemp);
+        //setProfileDetails(profileTemp);
       } catch (error) {
           console.error("Error fetching data: ", error);
       }
@@ -36,7 +36,7 @@ const EditProfile: React.FC = () => {
         console.error("Error fetching data: ", error);
       }
     }
-    setPD();
+    
 
     // //console.log(userData);
     // const profileSub = async () => {
@@ -47,8 +47,9 @@ const EditProfile: React.FC = () => {
     //   }
     // } 
     // profileSub();
+    setPD();
   }
-  ,[userData])
+  ,[fetchUserData, fetchProfileDetails])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");

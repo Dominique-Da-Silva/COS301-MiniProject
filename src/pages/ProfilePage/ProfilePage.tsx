@@ -172,7 +172,7 @@ const ProfileDetails = () => {
       }
     }
     getTweets();
-  }, [activeTab, userData.User_Id, likedTweets]);
+  }, [activeTab, userData.User_Id, likedTweets, tweetCollection]);
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -329,30 +329,35 @@ const ProfileDetails = () => {
                           </p>
                         </div>
                       ) : (
-                        userTweets.map((tweet, index) => {
-                          const image_url = profileDetails.Img_Url;
-                          const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
-                          const _likes = originalTweet.Likes[0].count || 0;
-                          const _saves = originalTweet.Saves[0].count || 0;
-                          const _comments = originalTweet.Comments[0].count || 0;
-                          const _retweets = originalTweet.Retweets[0].count || 0;
-                          return(
-                            <Tweet
-                              tweetid={tweet.id}
-                              userid={userData.User_Id}
-                              key={index}
-                              name={userData.Name}
-                              username={`@${userData.Username}`}
-                              text={tweet.Content}
-                              imageUrl={tweet.Img_Url}
-                              timeDisplay={getTimeDisplay(tweet.Created_at)}
-                              likes={_likes}
-                              retweets={_retweets}
-                              saves={_saves}
-                              comments={_comments}
-                              profileimageurl={image_url}
-                            />);
-                        })
+                          userTweets.map((tweet, index) => {
+                            const image_url = profileDetails.Img_Url;
+                            const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
+                          
+                            if (!originalTweet) {
+                              window.location.reload();
+                            } else {
+                              const _likes = originalTweet.Likes[0].count || 0;
+                              const _saves = originalTweet.Saves[0].count || 0;
+                              const _comments = originalTweet.Comments[0].count || 0;
+                              const _retweets = originalTweet.Retweets[0].count || 0;
+                              return (
+                                <Tweet
+                                  tweetid={tweet.id}
+                                  userid={userData.User_Id}
+                                  key={index}
+                                  name={userData.Name}
+                                  username={`@${userData.Username}`}
+                                  text={tweet.Content}
+                                  imageUrl={tweet.Img_Url}
+                                  timeDisplay={getTimeDisplay(tweet.Created_at)}
+                                  likes={_likes}
+                                  retweets={_retweets}
+                                  saves={_saves}
+                                  comments={_comments}
+                                  profileimageurl={image_url}
+                                />);
+                            }
+                          })
                       )}
                     </div>
                     <div style={{ height: '800px' }}></div>
