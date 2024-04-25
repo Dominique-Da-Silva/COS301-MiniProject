@@ -1,5 +1,7 @@
 import { supabase } from "@config/supabase";
 import { addTweet } from "./addTweets";
+import { CreateCommentNotification } from "./notifications";
+
 const addComment= async (User_Id:number,Tweet_Id:number,Content:string)=>{
 try {
     const { data:comment, error } = await supabase
@@ -10,6 +12,8 @@ try {
     .select()
     if(error) throw error;
 
+    CreateCommentNotification(Tweet_Id,User_Id);
+    
     const tweetData={
         User_Id:User_Id,
         Content:Content,
