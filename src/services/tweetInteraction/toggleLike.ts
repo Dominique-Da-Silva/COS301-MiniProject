@@ -1,45 +1,60 @@
 import { supabase } from '@config/supabase';
 
-export async function toggleLike(tweetId: number, userId: number): Promise<"liked" | "unliked" | "error"> {
+export async function checkIfLiked(tweetId: number, userId: number): Promise<boolean> {
     try {
         // Check for existing like
-        const { data: existingLike, error: existingLikeError } = await supabase
-            .from('Likes').select('*')
+        const { data: existingLike, error } = await supabase
+            .from('Likes')
+            .select('*')
             .eq('Tweet_Id', tweetId)
             .eq('User_Id', userId)
             .single();
 
-        if (existingLikeError) {
-            console.error('Error checking whether there is an existing like:', existingLikeError.message);
-            return "error";
+        if (error) {
+            console.error('Error checking whether the tweet has been liked:', error.message);
+            return false;
         }
 
-        if (existingLike) {
-            // Unlike the tweet
-            const { error: unlikeError } = await supabase
-                .from('Likes')
-                .delete()
-                .eq('Like_Id', existingLike.Like_Id);
+        return true;; // Return true if existingLike is not null or undefined
+    } catch (error) {
+        console.error('Error checking whether the tweet has been liked:', error.message);
+    }
+}
 
-            if (unlikeError) {
-                console.error('Error unliking tweet:', unlikeError.message);
-                return "error";
-            }
-            return "unliked";
+export async function likeTweet(tweetId: number, userId: number): Promise<boolean> {
+    try {
+        // Like the tweet
+        const { error } = await supabase
+            .from('Likes')
+            .insert([{ Tweet_Id: tweetId, User_Id: userId }]);
 
-        } else {
-            // Like the tweet
-            const { error: likeError } = await supabase
-                .from('Likes')
-                .insert([{ Tweet_Id: tweetId, User_Id: userId }]);
-
-            if (likeError) {
-                console.error('Error liking tweet:', likeError.message);
-                return "error";
-            }
-            return "liked";
+        if (error) {
+            console.error('Error liking the tweet:', error.message);
+            return false;
         }
-    } catch (error: any) {
-        console.error('Error toggling like for the tweet:', error.message);
+
+        return true;
+    } catch (error) {
+        console.error('Error liking the tweet:', error.message);
+    }
+}
+
+export async function unlikeTweet(tweetId: number, userId: number): Promise<boolean> {
+    try {
+        // Unlike the tweet
+        const { error } = await supabase
+            .from('Likes')
+            .delete()
+            .eq('Tweet_Id', tweetId)
+            .eq('User_Id', userId);
+
+        if (error) {
+            console.error('Error unliking the tweet:', error.message);
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error unliking the tweet:', error.message);
     }
 }
