@@ -2,28 +2,30 @@ import { supabase } from "@config/supabase";
 import { addTweet } from "./addTweets";
 import { CreateCommentNotification } from "./notifications";
 
-const addComment= async (User_Id:number,Tweet_Id:number,Content:string)=>{
+const addComment= async (userId:number,tweetId:number,content:string)=>{
 try {
     const { data:comment, error } = await supabase
     .from('Comments')
     .insert([
-    { User_Id: User_Id, Tweet_Id: Tweet_Id, Content:Content },
+    { User_Id: userId, Tweet_Id: tweetId, Content:content },
     ])
     .select()
     if(error) throw error;
 
-    CreateCommentNotification(Tweet_Id,User_Id);
-    
+    CreateCommentNotification(tweetId,userId);
+
     const tweetData={
-        User_Id:User_Id,
-        Content:Content,
+        User_Id:userId,
+        Content:content,
         Img_Url:null,
     }
     const success = addTweet(tweetData);
-    if(success != error)
+    if(success !== error)
     return comment;
 
-    else {throw success};
+    else {
+        throw success
+    }
 
 } catch (error) {
     console.log('Error adding comment: '+error);

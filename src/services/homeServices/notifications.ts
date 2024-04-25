@@ -1,11 +1,11 @@
 import { supabase } from '@config/supabase';
 
-const CreateFollowNotification = async (Following_Id:number,Followed_Id:number) => {
+const CreateFollowNotification = async (followingId:number,followedId:number) => {
       try{
             const { data:username,error:usernameError } = await supabase
           .from('User')
           .select("Username")
-          .eq('User_Id', Following_Id)
+          .eq('User_Id', followingId)
           if (usernameError) throw usernameError;
 
           //console.log(username);
@@ -14,7 +14,7 @@ const CreateFollowNotification = async (Following_Id:number,Followed_Id:number) 
           const { data: existingNotifs,error} = await supabase
           .from("Notification")
           .select("*")
-          .eq("User_Id", Followed_Id)
+          .eq("User_Id", followedId)
           .eq("Type_Id", 1)
           .eq("Content", Content);
 
@@ -32,7 +32,7 @@ const CreateFollowNotification = async (Following_Id:number,Followed_Id:number) 
                       .from("Notification")
                       .insert([
                           {
-                              User_Id: Followed_Id,
+                              User_Id: followedId,
                               Type_Id: 1,
                               Content: Content,
                               Read: false
@@ -57,21 +57,21 @@ const CreateFollowNotification = async (Following_Id:number,Followed_Id:number) 
 
 export { CreateFollowNotification};
 
-const CreateLikeNotification = async (Tweet_Id:number,User_Id: number) => {
+const CreateLikeNotification = async (tweetId:number,userId: number) => {
 
         try {
           //get owner of the tweet
           const { data: tweet, error: tweetError } = await supabase
             .from('Tweets')
             .select('User_Id')
-            .eq('Tweet_Id', Tweet_Id);
+            .eq('Tweet_Id', tweetId);
 
           if (tweetError) throw tweetError;
 
           const { data: username, error: userError } = await supabase
             .from('User')
             .select('Username')
-            .eq('User_Id', User_Id);
+            .eq('User_Id', userId);
 
           if (userError) throw userError;
 
@@ -121,21 +121,21 @@ const CreateLikeNotification = async (Tweet_Id:number,User_Id: number) => {
 
 export { CreateLikeNotification };
 
-const CreateRetweetNotification = async (Tweet_Id:number,User_Id: number) => {
+const CreateRetweetNotification = async (tweetId:number,userId: number) => {
 
   try {
     //get owner of the tweet
     const { data: tweet, error: tweetError } = await supabase
       .from('Tweets')
       .select('User_Id')
-      .eq('Tweet_Id', Tweet_Id);
+      .eq('Tweet_Id', tweetId);
 
     if (tweetError) throw tweetError;
 
     const { data: username, error: userError } = await supabase
       .from('User')
       .select('Username')
-      .eq('User_Id', User_Id);
+      .eq('User_Id', userId);
 
     if (userError) throw userError;
 
@@ -185,7 +185,7 @@ const CreateRetweetNotification = async (Tweet_Id:number,User_Id: number) => {
 
 export { CreateRetweetNotification };
 
-const CreateTweetNotification = async (Tweet_Id:number) => {
+const CreateTweetNotification = async (tweetId:number) => {
 //there can be multiple notifcations of the same tweet is a user tweets the same tweet
 //hence why I dont check if it exsts
   try {
@@ -193,7 +193,7 @@ const CreateTweetNotification = async (Tweet_Id:number) => {
     const { data: tweet, error: tweetError } = await supabase
       .from('Tweets')
       .select('User_Id')
-      .eq('Tweet_Id', Tweet_Id);
+      .eq('Tweet_Id', tweetId);
 
     if (tweetError) throw tweetError;
 
@@ -220,7 +220,7 @@ const CreateTweetNotification = async (Tweet_Id:number) => {
 
 export { CreateTweetNotification };
 
-const CreateCommentNotification = async (Tweet_Id:number,User_Id: number) => {
+const CreateCommentNotification = async (tweetId:number,userId: number) => {
 //there can be multiple notifcations of the same comment if a user comments the same comment
 //hence why I dont check if it exsts
   try {
@@ -228,14 +228,14 @@ const CreateCommentNotification = async (Tweet_Id:number,User_Id: number) => {
     const { data: tweet, error: tweetError } = await supabase
       .from('Tweets')
       .select('User_Id')
-      .eq('Tweet_Id', Tweet_Id);
+      .eq('Tweet_Id', tweetId);
 
     if (tweetError) throw tweetError;
 
     const { data: username, error: userError } = await supabase
       .from('User')
       .select('Username')
-      .eq('User_Id', User_Id);
+      .eq('User_Id', userId);
 
     if (userError) throw userError;
 
@@ -298,13 +298,13 @@ const updateNotifications = async (notifications: Notification[]) => {
 
 export { updateNotifications };
 
-const getUserNotifications = async (User_Id:number) => {
+const getUserNotifications = async (userId:number) => {
   try {
     
     const { data: Notifications, error } = await supabase
     .from('Notification')
     .select('*')
-    .eq('User_Id',User_Id)
+    .eq('User_Id',userId)
 
     if (error) {
       throw error;
