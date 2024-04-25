@@ -15,7 +15,7 @@ export async function checkIfLiked(tweetId: number, userId: number): Promise<boo
             return false;
         }
 
-        return true;; // Return true if existingLike is not null or undefined
+        return true; // Return true if existingLike is not null or undefined
     } catch (error) {
         console.error('Error checking whether the tweet has been liked:', error.message);
     }
