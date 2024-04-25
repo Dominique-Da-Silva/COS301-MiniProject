@@ -20,8 +20,8 @@ import {changePassword} from "./auth/changePassword.ts";
 import { getTrendingTopics } from "./homeServices/getTrendingTopics.ts";
 import {getBookmarkedTweets} from "./usersProfileServices/getBookmarkedTweets.ts";
 import {likeTweet,unlikeTweet,checkIfLiked} from "./tweetInteraction/toggleLike.ts";
-import {toggleSave} from "./tweetInteraction/toggleSave.ts";
-import {toggleRetweet} from "./tweetInteraction/toggleRetweet.ts";
+import {save,unSave,checkIfSaved} from "./tweetInteraction/toggleSave.ts";
+import {retweet, unReweet,checkIfRetweeted} from "./tweetInteraction/toggleRetweet.ts";
 import {countLikes} from "./tweetInteraction/countLikes.ts"
 import {countRetweets} from "./tweetInteraction/countRetweets.ts"
 import {countSaves} from "./tweetInteraction/countSaves.ts"
@@ -35,6 +35,6 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
     getTrendingTopics,
-    likeTweet,unlikeTweet,checkIfLiked,toggleSave,toggleRetweet, 
+    likeTweet,unlikeTweet,checkIfLiked, retweet, unReweet,checkIfRetweeted, save,unSave,checkIfSaved,
     countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
     };

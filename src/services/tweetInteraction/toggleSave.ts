@@ -1,6 +1,6 @@
 import { supabase } from '@config/supabase';
 
-export async function toggleSave(tweetId: number, userId: number): Promise<"saved" | "unsaved" | "error"> {
+/*export async function toggleSave(tweetId: number, userId: number): Promise<"saved" | "unsaved" | "error"> {
     try {
         // Check for existing save
         const { data: existingSave, error: existingSaveError } = await supabase
@@ -11,24 +11,68 @@ export async function toggleSave(tweetId: number, userId: number): Promise<"save
             .single();
 
         if (existingSaveError) {
-            return "error";
-        }
-
-        if (existingSave) {
+            await supabase.from('Saves').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
+            return "saved";
+        } else {
             const { error: unsaveError } = await supabase.from('Saves').delete().eq('Save_Id', existingSave.Save_Id);
             if (unsaveError) {
                 return "error";
             }
             return "unsaved";
-        } else {
-            const { error: saveError } = await supabase.from('Saves').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
-            if (saveError) {
-                return "error";
-            }
-            return "saved";
         }
 
     } catch (error: any) {
         console.error('Error toggling save for the tweet:', error.message);
+    }
+}*/
+
+export async function checkIfSaved(tweetId: number, userId: number): Promise<boolean> {
+    try {
+        // Check for existing like
+        const { data: existingSave, error } = await supabase
+            .from('Saves')
+            .select('*')
+            .eq('Tweet_Id', tweetId)
+            .eq('User_Id', userId)
+            .single();
+
+        if (error) {
+            console.error('Error checking whether the tweet has been saved:', error.message);
+            return false;
+        }
+        return true; // Return true if existingLike is not null or undefined
+        
+    } catch (error) {
+        console.error('Error checking whether the tweet has been saved:', error.message);
+    }
+}
+
+export async function save(tweetId: number, userId: number): Promise<boolean> {
+    try {
+        // Like the tweet
+        await supabase.from('Saves').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
+        return true;
+    } catch (error) {
+        console.error('Error saving the tweet:', error.message);
+    }
+}
+
+export async function unSave(tweetId: number, userId: number): Promise<boolean> {
+    try {
+        // Unlike the tweet
+        const { error } = await supabase
+            .from('Saves')
+            .delete()
+            .eq('Tweet_Id', tweetId)
+            .eq('User_Id', userId);
+
+        if (error) {
+            console.error('Error unSaving the tweet:', error.message);
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error unSaving the tweet:', error.message);
     }
 }
