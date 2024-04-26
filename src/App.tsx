@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings } from '@pages/index';
+import { SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings, Twivia } from '@pages/index';
 import { EditProfile } from '@components/index';
 import "./styles/tailwind.css";
 import { useEffect, useRef, useState  } from 'react';
@@ -66,6 +66,7 @@ const App = () => {
         <Route path="/explore" element={<Explore />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/bookmarks" element={<Bookmarks />} />
+        <Route path="/twivia" element={<Twivia />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>

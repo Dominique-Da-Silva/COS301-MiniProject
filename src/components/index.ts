@@ -15,6 +15,8 @@ import PostNotification from "./PostNotification/PostNotification";
 import LikeNotification from "./PostNotification/LikedNotification";
 import Mention from "./Mentions/Mention";
 import UserCard from "./UserCard/UserCard";
+import GamePlay from "./GamePlay/GamePlay";
+import GameResults from "./GameResults/GameResults";
 
 export {
   EditProfile,
@@ -34,4 +36,6 @@ export {
   ChangePassword,
   MutedNotifications,
   UserCard,
+  GamePlay,
+  GameResults
 };

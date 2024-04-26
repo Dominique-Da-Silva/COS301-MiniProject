@@ -178,6 +178,17 @@ const Nav = () => {
               Bookmarks
             </NavLink>
           }
+          {/* Bookmarks */}
+          {userAuthStatus &&
+            <NavLink
+              to="/twivia"
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/twivia' ? 'font-bold active-tab' : ''
+                }`}
+            >
+              <FaRegBookmark size={28} className="mr-5" />
+              Twivia
+            </NavLink>
+          }
 
           {/* Profile */}
           {userAuthStatus &&
@@ -308,6 +319,16 @@ const Nav = () => {
             <NavLink
               to="/bookmarks"
               className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/bookmarks' ? 'bg-gray-200 active-tab' : ''
+                }`}
+            >
+              <FaRegBookmark size={28} />
+            </NavLink>
+          }
+          {/* Bookmarks */}
+          {userAuthStatus &&
+            <NavLink
+              to="/twivia"
+              className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/twivia' ? 'bg-gray-200 active-tab' : ''
                 }`}
             >
               <FaRegBookmark size={28} />
