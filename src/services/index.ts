@@ -42,7 +42,7 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,         
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,toggleLike,toggleSave,
     toggleRetweet, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets,
-    ,getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
+    getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
     CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments,
     fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia
 };
