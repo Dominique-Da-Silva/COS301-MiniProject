@@ -7,6 +7,7 @@ import {
   unfollowUser,
 } from "@services/index";
 import { NavLink } from "react-router-dom";
+import { getCurrentUser } from "@services/auth/auth";
 interface User {
   logged_in_user_id: number;
   user_id: number;
@@ -30,7 +31,10 @@ const UserCard: React.FC<User> = ({
 
   const follow_User = async () => {
     console.log("Followed", username);
-    const following = await checkIfFollowing(logged_in_user_id, user_id);
+    const currentUser = await getCurrentUser();
+    if (currentUser !== undefined) {
+      const user: number = Number(currentUser.auth_id ?? 0);
+      const following = await checkIfFollowing(user, user_id);      
     console.log(logged_in_user_id);
     console.log(user_id);
     if (!following) {
@@ -39,6 +43,11 @@ const UserCard: React.FC<User> = ({
     }
     setButtonText("Following");
     setIsFollowing(true);
+  }
+  else
+  {
+    console.log("User not found");
+  }
   };
 
   const unFollow_User = async () => {
