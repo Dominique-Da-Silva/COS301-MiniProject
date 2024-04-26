@@ -152,17 +152,17 @@ const Notifications: React.FC<NotificationsProps> = () => {
                 <div>
                   {activeTab === "all" && (
                     <div>
-                      {postnotifications.length === 0 ? (
+                      {postnotifications.length === 0 ? ( //{notifications.length === 0 ? (
                         <p className="text-center text-gray-500">
                           You have no notifications
                         </p>
                       ) : (
-                        postnotifications.map((notification, index) => (
+                        postnotifications.map((notification, index) => ( //{notifications.map((notification, index) => (
                           <PostNotification
                             key={index}
                             id={index}
-                            description={notification.message}
-                            avatarUrl={notification.avatarUrl}
+                            description={notification.message} //notification.Content
+                            avatarUrl={notification.avatarUrl} //none, should i get the url of other users?
                           />
                         ))
                       )}
