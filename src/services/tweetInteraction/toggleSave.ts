@@ -47,13 +47,14 @@ export async function checkIfSaved(tweetId: number, userId: number): Promise<boo
     }
 }
 
-export async function save(tweetId: number, userId: number): Promise<boolean> {
+export async function save(tweetId: number, userId: number): Promise<string> {
     try {
-        // Like the tweet
-        await supabase.from('Saves').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
-        return true;
+        const { error } = await supabase.from('Saves').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
+        
+        return error ? error.message : "success";
     } catch (error) {
         console.error('Error saving the tweet:', error.message);
+        return error.message;
     }
 }
 
