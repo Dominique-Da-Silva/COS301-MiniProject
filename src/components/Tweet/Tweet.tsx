@@ -6,8 +6,20 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
+import CreateComment from "../CreateComment/CreateComment";
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+  } from "@nextui-org/react";
+  import { toggleLike } from "@services/index";
+  import { toggleRetweet } from "@services/index";
+  import { toggleSave } from "@services/index";
 
 interface TweetProps {
+  tweetid : number;
+  userid: number;
   name: string;
   username: string;
   text: string;
@@ -22,6 +34,8 @@ interface TweetProps {
 }
 
 const Tweet: React.FC<TweetProps> = ({
+  tweetid,
+  userid,
   name,
   username,
   text,
@@ -43,25 +57,38 @@ const Tweet: React.FC<TweetProps> = ({
   const [retweetCount, setRetweetCount] = useState(Number(retweets) || 0);
   const [likeCount, setLikeCount] = useState(Number(likes) || 0);
   const [saveCount, setSaveCount] = useState(Number(saves) || 0);
+  const { isOpen, onOpenChange, onOpen } = useDisclosure();
+
+
 
   const handleCommentClick = () => {
     setCommentColor((prevState) => !prevState);
     setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
+    onOpen();
   };
 
   const handleRetweetClick = () => {
     setRetweetColor((prevState) => !prevState);
     setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleRetweet function with tweetid and username
+    toggleRetweet(tweetid, userid);
   };
 
   const handleLikeClick = () => {
     setLikeColor((prevState) => !prevState);
     setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleLike function with tweetid and username
+    toggleLike(tweetid, userid);
   };
 
   const handleBookmarkClick = () => {
     setBookmarkColor((prevState) => !prevState);
     setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleSave function with tweetid and username
+    toggleSave(tweetid, userid);
   };
 
   return (
@@ -92,7 +119,7 @@ const Tweet: React.FC<TweetProps> = ({
             }}
             className="font-semibold p-0 m-0 dark:text-white"
           >
-            {name}&nbsp;
+            {name}
           </NavLink>
           <NavLink
             to={{
@@ -115,6 +142,15 @@ const Tweet: React.FC<TweetProps> = ({
             />
           )}
         </div>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {() => (
+                  <ModalBody>
+                    <CreateComment name={name} username={username} text={text} imageUrl={imageUrl} profileimageurl={profileimageurl} timeDisplay={timeDisplay}></CreateComment>
+                  </ModalBody>
+              )}
+            </ModalContent>
+          </Modal>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
           <span
             className={`action flex items-center cursor-pointer ${
