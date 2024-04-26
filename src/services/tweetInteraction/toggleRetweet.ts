@@ -49,7 +49,7 @@ export async function checkIfRetweeted(tweetId: number, userId: number): Promise
 
 export async function retweet(tweetId: number, userId: number): Promise<string> {
     try {
-        const { error } = await supabase.from('Retweets').insert([{ Tweet_Id: tweetId, Tweeter_Id: userId }]);
+        const { error } = await supabase.from('Retweets').insert({ Tweet_Id: tweetId, Tweeter_Id: userId });
         
         return error ? error.message : "success";
     } catch (error) {

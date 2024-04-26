@@ -49,7 +49,7 @@ export async function checkIfSaved(tweetId: number, userId: number): Promise<boo
 
 export async function save(tweetId: number, userId: number): Promise<string> {
     try {
-        const { error } = await supabase.from('Saves').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
+        const { error } = await supabase.from('Saves').insert({ Tweet_Id: tweetId, User_Id: userId });
         
         return error ? error.message : "success";
     } catch (error) {
