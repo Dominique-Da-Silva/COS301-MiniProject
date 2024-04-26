@@ -12,14 +12,14 @@ interface HomePageProps { }
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [setCurrentUser] = useState<any>(false);
+  const [currentUser, setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
   // const [retweetsCount, setRetweetsCount] = useState<any>(0);
   // const [likesCount, setLikesCount] = useState<any>(0);
-  //const [user] = useState<any>(null); // State variable to store current user
+  // const [currentUser] = useState<any>(null); // State variable to store current user
 
   // FETCHING THE TWEETS FROM TWEETS AND USERS TABLE
   //uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
@@ -145,8 +145,8 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-          <CreateTweet/>
-          {tweets?.map(tweet => {
+              {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
+          {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
             // console.log("Tweet:", tweet);
             // console.log("Users:", users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
