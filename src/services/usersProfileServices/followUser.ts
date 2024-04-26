@@ -1,4 +1,5 @@
 import { supabase } from "@config/supabase";
+import { CreateFollowNotification } from "..";
 
 export const followUser = async (loggedInUserId: number, userToFollowId: number) => {
     try {
@@ -10,6 +11,7 @@ export const followUser = async (loggedInUserId: number, userToFollowId: number)
         }
 
         await supabase.from('Followers').insert([{ Following_Id: loggedInUserId, Followed_Id: userToFollowId }]);
+        CreateFollowNotification(loggedInUserId,userToFollowId);
         return { success: true };
 
     } catch (error) {

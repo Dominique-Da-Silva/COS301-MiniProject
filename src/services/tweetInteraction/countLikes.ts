@@ -2,16 +2,13 @@ import { supabase } from '@config/supabase';
 
 export async function countLikes(tweetId: number): Promise<number> {
     try {
-        const { data: likes, error } = await supabase
+        const { count } = await supabase
             .from('Likes')
-            .select('Tweet_Id')
+            .select('Tweet_Id', {count: 'exact'})
             .eq('Tweet_Id', tweetId);
 
-        if (error) {
-            throw error;
-        }
 
-        return likes.length || 0;
+        return count ?? 0;
     } catch (error) {
         console.error('Error counting likes:', error.message);
     }
