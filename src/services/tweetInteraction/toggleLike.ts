@@ -55,13 +55,16 @@ export async function checkIfLiked(tweetId: number, userId: number): Promise<boo
     }
 }
 
-export async function likeTweet(tweetId: number, userId: number): Promise<boolean> {
+
+export async function likeTweet(tweetId: number, userId: number): Promise<string> {
     try {
         // Like the tweet
-        await supabase.from('Likes').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
-        return true;
+        const { error } = await supabase.from('Likes').insert({ Tweet_Id: tweetId, User_Id: userId });
+        
+        return error ? error.message : "success";
     } catch (error) {
         console.error('Error liking the tweet:', error.message);
+        return error.message;
     }
 }
 

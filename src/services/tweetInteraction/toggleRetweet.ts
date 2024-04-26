@@ -47,13 +47,14 @@ export async function checkIfRetweeted(tweetId: number, userId: number): Promise
     }
 }
 
-export async function retweet(tweetId: number, userId: number): Promise<boolean> {
+export async function retweet(tweetId: number, userId: number): Promise<string> {
     try {
-        // Like the tweet
-        await supabase.from('Retweets').insert([{ Tweet_Id: tweetId, Tweeter_Id: userId }]);
-        return true;
+        const { error } = await supabase.from('Retweets').insert({ Tweet_Id: tweetId, Tweeter_Id: userId });
+        
+        return error ? error.message : "success";
     } catch (error) {
         console.error('Error retweeting the tweet:', error.message);
+        return error.message;
     }
 }
 
