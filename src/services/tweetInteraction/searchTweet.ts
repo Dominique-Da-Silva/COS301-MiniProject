@@ -4,7 +4,19 @@ export async function searchTweet(query: string): Promise<Tweet[]> {
     try {
         const { data: tweetsData, error: tweetsError } = await supabase
             .from('Tweets')
-            .select('User_Id, Content, Img_Url, Created_at')
+            .select(`User_Id, Content, Img_Url, Created_at,
+               Retweets (
+                count()
+               ),
+               Likes(
+                 count()
+               ),
+               Saves(
+                 count()
+               ),
+               Comments(
+                 count()
+               )`)
             .ilike('Content', `%${query}%`);
 
         if (tweetsError) {
@@ -15,10 +27,11 @@ export async function searchTweet(query: string): Promise<Tweet[]> {
         const tweets: string[] = [];
 
         for (const tweet of tweetsData) {
+            // console.log(tweet.saves);
 
             const{data: userData, error: userError} = await supabase
                 .from('User')
-                .select('Username, Name, Surname')
+                .select('User_Id, Username, Name, Surname')
                 .eq('User_Id', tweet.User_Id)
                 .single();
 
@@ -27,15 +40,21 @@ export async function searchTweet(query: string): Promise<Tweet[]> {
             }
 
             const tweetInfo = {
+                User_Id : userData?.User_Id,
                 username : userData?.Username,
                 name : userData?.Name,
                 surname : userData?.Surname,
                 content : tweet.Content,
                 image : tweet.Img_Url || '',
                 created : tweet.Created_at,
+                Retweets : tweet.Retweets || 0,
+                Likes : tweet.Likes || 0,
+                Saves : tweet.Saves || 0,
+                Comments : tweet.Comments || 0,
             };
             tweets.push(tweetInfo);
         }
+        // console.log(tweets);
         return tweets;
 
     } catch (error) {
