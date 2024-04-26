@@ -186,6 +186,10 @@ const CreateRetweetNotification = async (tweetId:number,userId: number) => {
 
 export { CreateRetweetNotification };
 
+// *********Update this********
+// Need to get the user ID of the person who tweeted, then 
+// create a notification for all followers of that user
+// ***************************
 const CreateTweetNotification = async (tweetId:number) => {
 //there can be multiple notifcations of the same tweet is a user tweets the same tweet
 //hence why I dont check if it exsts
