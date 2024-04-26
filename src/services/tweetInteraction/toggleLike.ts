@@ -58,7 +58,11 @@ export async function checkIfLiked(tweetId: number, userId: number): Promise<boo
 export async function likeTweet(tweetId: number, userId: number): Promise<boolean> {
     try {
         // Like the tweet
-        await supabase.from('Likes').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
+        const resp = await supabase.from('Likes').insert([{ Tweet_Id: tweetId, User_Id: userId }]);
+        if(resp.error){
+            console.log('The like data has not been inserted.');
+            return false;
+        }
         return true;
     } catch (error) {
         console.error('Error liking the tweet:', error.message);
