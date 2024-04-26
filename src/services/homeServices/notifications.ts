@@ -1,4 +1,5 @@
 import { supabase } from '@config/supabase';
+import { user } from '@nextui-org/react';
 
 const CreateFollowNotification = async (followingId:number,followedId:number) => {
       try{
@@ -185,6 +186,10 @@ const CreateRetweetNotification = async (tweetId:number,userId: number) => {
 
 export { CreateRetweetNotification };
 
+// *********Update this********
+// Need to get the user ID of the person who tweeted, then 
+// create a notification for all followers of that user
+// ***************************
 const CreateTweetNotification = async (tweetId:number) => {
 //there can be multiple notifcations of the same tweet is a user tweets the same tweet
 //hence why I dont check if it exsts
@@ -235,7 +240,7 @@ const CreateCommentNotification = async (tweetId:number,userId: number) => {
     const { data: username, error: userError } = await supabase
       .from('User')
       .select('Username')
-      .eq('User_Id', userId);
+      .eq('User_Id', tweet[0].User_Id);
 
     if (userError) throw userError;
 
@@ -244,7 +249,7 @@ const CreateCommentNotification = async (tweetId:number,userId: number) => {
     const { data: notifs,error} = await supabase
       .from("Notification")
       .insert([{
-        User_Id: tweet[0].User_Id,
+        User_Id: userId,
         Type_Id: 3, // Assuming Type_Id 3 represents a comment notification
         Content: Content,
         Read: false,

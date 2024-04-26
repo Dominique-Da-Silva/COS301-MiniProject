@@ -16,7 +16,8 @@ import {
   mockMentions,
 } from "mockData/mockData";
 import { useNavigate } from "react-router-dom";
-import { isUserLoggedIn } from "@services/index";
+import { isUserLoggedIn, getUserData } from "@services/index";
+import { getUserNotifications } from "@services/index";
 
 
 interface NotificationsProps {}
@@ -26,6 +27,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
   const [likedNotfications] = useState<any[]>(mockLikedNotifications);
   const navigate = useNavigate(); // Initialize useNavigate hook
   const [mentions] = useState<any[]>(mockMentions);
+  const [notifications, setNotifications] = useState<any[]>([]); // Initialize notifications state
+  // const [followNotifications, setFollowNotifications] = useState<any[]>([]);
+  // const [postnotifications, setPostNotifications] = useState<any[]>([]);
+  // const [commentNotifications, setCommentNotifications] = useState<any[]>([]);
+  // const [likedNotfications, setLikedNotifications] = useState<any[]>([]);
+  // const [retweetNotifications, setRetweetNotifications] = useState<any[]>([]);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
@@ -63,12 +70,41 @@ const Notifications: React.FC<NotificationsProps> = () => {
       if (!result) {
         navigate("/home"); // Redirect to home page if user is not logged in
       }
-      // Call the async function
-      checkUser();
+      
+      const userData = await getUserData();
+      if (!userData) {
+        navigate("/home");
+      }
+      // console.log(userData);
+      /*setNotifications(await getUserNotifications(userData?.user_metadata.user_id as unknown as number) ?? []);
+      // console.log(notifications);
+      for (let i = 0; i < (notifications?.length ?? 0); i++) {
+        switch (notifications?.[i]?.Type_Id ?? "") {
+          case 1: //New_Follow
+            setFollowNotifications((prev) => [...prev, notifications[i]]);
+            break;
+          case 2: //New_Post
+            setPostNotifications((prev) => [...prev, notifications[i]]);
+            break;
+          case 3: //New_Comment
+            setCommentNotifications((prev) => [...prev, notifications[i]]);
+            break;
+          case 4: //New_Like
+            setLikedNotifications((prev) => [...prev, notifications[i]]);
+            break;
+          case 5: //Retweet
+            setRetweetNotifications((prev) => [...prev, notifications[i]]);
+            break;
+          default:
+            break;
+        }
+      }*/
     }
+    // Call the async function
+    checkUser();
 
   }, [navigate]);
-  
+  // Need to modify the layout of data being passed for different types of tweets
   return (
     <div className="w-full h-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
@@ -116,17 +152,17 @@ const Notifications: React.FC<NotificationsProps> = () => {
                 <div>
                   {activeTab === "all" && (
                     <div>
-                      {postnotifications.length === 0 ? (
+                      {postnotifications.length === 0 ? ( //{notifications.length === 0 ? (
                         <p className="text-center text-gray-500">
                           You have no notifications
                         </p>
                       ) : (
-                        postnotifications.map((notification, index) => (
+                        postnotifications.map((notification, index) => ( //{notifications.map((notification, index) => (
                           <PostNotification
                             key={index}
                             id={index}
-                            description={notification.message}
-                            avatarUrl={notification.avatarUrl}
+                            description={notification.message} //notification.Content
+                            avatarUrl={notification.avatarUrl} //none, should i get the url of other users?
                           />
                         ))
                       )}

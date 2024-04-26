@@ -26,6 +26,7 @@ import { FaRegFaceSmile } from "react-icons/fa6";
 import { TbCalendarSearch } from "react-icons/tb";
 import { useEffect} from "react";
 import { isUserLoggedIn } from "@services/index";
+import { CreateTweetNotification } from "@services/index";
 
 const CreateTweet = () => {
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
@@ -88,6 +89,7 @@ const CreateTweet = () => {
       // console.log("Tweet data:", tweetData);
       const usersData = await addTweet(tweetData);
       console.log("Tweet posted successfully:", usersData);
+      //CreateTweetNotification(usersData.Tweet_Id);
       window.location.reload();
       }
       else
