@@ -43,7 +43,7 @@ interface TweetProps {
 }
 
 const Tweet: React.FC<TweetProps> = ({
-  tweetid,
+  tweet_id,
   userid,
   name,
   username,
@@ -131,48 +131,49 @@ const Tweet: React.FC<TweetProps> = ({
   }, []);
 
   const add_like = async () => {
-    const result = await likeTweet(tweetid, loggedUserId);
+    const result = await likeTweet(tweet_id, loggedUserId);
     console.log(result);
   };
   const check_like = async () => {
-    const result = await checkIfLiked(tweetid, loggedUserId);
+    const result = await checkIfLiked(tweet_id, loggedUserId);
     console.log(result);
     return result;
   };
   const un_like = async () => {
-    const result = await unlikeTweet(tweetid, loggedUserId);
+    const result = await unlikeTweet(tweet_id, loggedUserId);
     console.log(result);
   };
 
   const add_retweet = async () => {
-    const result = await retweet(tweetid, loggedUserId);
+    const result = await retweet(tweet_id, loggedUserId);
     console.log(result);
   };
 
   const check_retweet = async () => {
-    const result = await checkIfRetweeted(tweetid, loggedUserId);
+    const result = await checkIfRetweeted(tweet_id, loggedUserId);
     console.log(result);
+    console.log(tweet_id, loggedUserId);
     return result;
   };
 
   const un_retweet = async () => {
-    const result = await unReweet(tweetid, loggedUserId);
+    const result = await unReweet(tweet_id, loggedUserId);
     console.log(result);
   };
 
   const add_save = async () => {
-    const result = await save(tweetid, loggedUserId);
+    const result = await save(tweet_id, loggedUserId);
     console.log(result);
   };
 
   const check_save = async () => {
-    const result = await checkIfSaved(tweetid, loggedUserId);
+    const result = await checkIfSaved(tweet_id, loggedUserId);
     console.log(result);
     return result;
   };
 
   const un_save = async () => {
-    const result = await unSave(tweetid, loggedUserId);
+    const result = await unSave(tweet_id, loggedUserId);
     console.log(result);
   };
 

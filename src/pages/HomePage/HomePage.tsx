@@ -29,7 +29,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       try {
         const tweetData = await fetchTweets();
         // console.log("Tweet Data:");
-        // console.log(tweetData);
+        console.log(tweetData);
         setTweets(tweetData);
       } catch (error) {
         console.error('Error fetching tweets:', error);
@@ -147,7 +147,7 @@ const HomePage: React.FC<HomePageProps> = () => {
             > */}
               {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
           {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
-            // console.log("Tweet:", tweet);
+            console.log("Tweet:", tweet);
             // console.log("Users:", users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
             // console.log("User:", user);
@@ -172,7 +172,7 @@ const HomePage: React.FC<HomePageProps> = () => {
             return (
               <Tweet
                 key={tweet.Tweet_Id}
-                tweetid={tweet.Tweet_Id}
+                tweet_id={tweet.Tweet_Id}
                 name={user ? user.Name : "Unknown User"}
                 username={user ? `@${user.Username}` : ""}
                 text={tweet.Content}
