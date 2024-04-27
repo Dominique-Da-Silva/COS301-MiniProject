@@ -26,6 +26,7 @@ import { FaRegFaceSmile } from "react-icons/fa6";
 import { TbCalendarSearch } from "react-icons/tb";
 import { useEffect} from "react";
 import { isUserLoggedIn } from "@services/index";
+import toast from 'react-hot-toast';
 import { CreateTweetNotification } from "@services/index";
 
 const CreateTweet = () => {
@@ -33,6 +34,7 @@ const CreateTweet = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState<any>();
   const [tweetText, setTweetText] = useState("");
+  const [isloading, setIsLoading] = useState(false);
 
 
   // const handleGalleryClick = (event: any) => {
@@ -77,7 +79,7 @@ const CreateTweet = () => {
   // };
 
   const postTweet = async () => {
-    console.log("Post Tweet clicked");
+    setIsLoading(true);
     try {
       const currentUser = await getCurrentUser();
       // console.log("Current User:", currentUser);
@@ -87,17 +89,19 @@ const CreateTweet = () => {
       const date = new Date();
       const tweetData = { User_Id: user, Content: tweetText, Img_filename: user?.toString() + date?.toISOString().replace(/Z$/, '') + (selectedImage?.name || ""),Img_file: selectedImage };
       // console.log("Tweet data:", tweetData);
-      const usersData = await addTweet(tweetData);
-      console.log("Tweet posted successfully:", usersData);
-      //CreateTweetNotification(usersData.Tweet_Id);
+      await addTweet(tweetData);//maybe this can be improved to account for errors occurring, however there is a try-catch block here
+      setIsLoading(false);
+      toast.success('Tweet posted successfully', { duration: 2000, position: 'top-center',});
       window.location.reload();
       }
       else
       {
-        console.log("User not found");
+        setIsLoading(false);
+        toast.error('User not found', { duration: 2000, position: 'top-center',});
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
+      setIsLoading(false);
+      toast.error('Error fetching user', { duration: 2000, position: 'top-center',});
     }
   };
 
@@ -312,7 +316,16 @@ const CreateTweet = () => {
         </div>
         <div className="-mx-9">
           {
-            userAuthStatus ?
+            userAuthStatus && isloading ?
+              <Button
+                radius="full"
+                className="rounded-full bg-sky-500 text-white border-none font-bold"
+                onClick={postTweet}
+                isLoading
+              >
+                Post
+              </Button>
+            : userAuthStatus && isloading === false ?
               <Button
                 radius="full"
                 className="rounded-full bg-sky-500 text-white border-none font-bold"

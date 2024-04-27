@@ -24,6 +24,7 @@ import { supabase } from '@config/supabase';
     } catch (error: any) {
         console.error('Error toggling retweet for the tweet:', error.message);
     }
+
 }*/
 
 export async function checkIfRetweeted(tweetId: number, userId: number): Promise<boolean> {

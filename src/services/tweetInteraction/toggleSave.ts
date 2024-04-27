@@ -24,6 +24,7 @@ import { supabase } from '@config/supabase';
     } catch (error: any) {
         console.error('Error toggling save for the tweet:', error.message);
     }
+
 }*/
 
 export async function checkIfSaved(tweetId: number, userId: number): Promise<boolean> {
@@ -76,4 +77,5 @@ export async function unSave(tweetId: number, userId: number): Promise<boolean> 
     } catch (error) {
         console.error('Error unSaving the tweet:', error.message);
     }
+
 }

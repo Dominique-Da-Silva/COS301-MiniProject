@@ -13,6 +13,7 @@ import {
   ModalBody,
   useDisclosure,
 } from "@nextui-org/react";
+
 import {
   getLoggedUserId,
   likeTweet,
@@ -40,23 +41,11 @@ interface TweetProps {
   comments?: number | string;
   saves?: number | string;
   bookmarked?: boolean;
+  author?: string;
 }
+const Tweet: React.FC<TweetProps> = ({ tweetid, userid, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
+  
 
-const Tweet: React.FC<TweetProps> = ({
-  tweet_id,
-  userid,
-  name,
-  username,
-  text,
-  imageUrl,
-  profileimageurl,
-  timeDisplay,
-  likes,
-  retweets,
-  comments,
-  saves,
-  bookmarked,
-}) => {
   const [commentColor, setCommentColor] = useState(false);
   const [retweetColor, setRetweetColor] = useState(false);
   const [likeColor, setLikeColor] = useState(false);
@@ -177,11 +166,11 @@ const Tweet: React.FC<TweetProps> = ({
     console.log(result);
   };
 
+
   // const add_comment = async()=>{
   //   const result = await toggleComment(tweetid, loggedUserId);
   //   console.log(result);
   // }
-
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
       <div className="avatar">
@@ -195,8 +184,8 @@ const Tweet: React.FC<TweetProps> = ({
         <div className="user-info flex">
           <NavLink
             to={{
-              pathname: `/profile/${username.substring(1)}`, //sets the url path
-              //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
+              // pathname: `/profile/${username.substring(1)}`, //sets the url path
+              // state: { username: username.substring(1) } //passes the state -> is this valid, please verify
               /*
               To retrieve this data when navigating to the next page:
               import { useLocation } from 'react-router-dom';
@@ -222,6 +211,18 @@ const Tweet: React.FC<TweetProps> = ({
             @{username.substring(1)} &nbsp;· {timeDisplay}
           </NavLink>
         </div>
+        {author && (
+          <div>
+            <NavLink
+              to={{
+                pathname: `/profile/${author.substring(0)}`,
+              }}
+              className="text-slate-700 p-0 m-0 block text-left"
+            >
+              replying to @{author.substring(1)} &nbsp;
+            </NavLink>
+          </div>
+        )}
         <div>
           <p className="p-0 m-0 dark:text-white">{text}</p>
           {imageUrl && (
