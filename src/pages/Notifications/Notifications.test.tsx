@@ -42,18 +42,18 @@ describe('Notifications component', () => {
   test('displays time in minutes if less than an hour', () => {
     const timestamp = new Date().toISOString(); // Current timestamp
     const timeDisplay = getTimeDisplay(timestamp);
-    expect(timeDisplay).toMatch(/\d+m/); // Expects the format to be like '15m', '30m', etc.
+    expect(timeDisplay).toMatch(/\d+m/); 
   });
 
   test('displays time in hours if less than a day', () => {
     const currentTime = new Date();
     const timestamp = new Date(currentTime.getTime() - 2 * 60 * 60 * 1000).toISOString(); // Two hours ago
     const timeDisplay = getTimeDisplay(timestamp);
-    expect(timeDisplay).toMatch(/\d+h/); // Expects the format to be like '1h', '2h', etc.
+    expect(timeDisplay).toMatch(/\d+h/); 
   });
 
   test('displays date if more than a day ago', () => {
-    const timestamp = new Date('2024-04-24T12:00:00').toISOString(); // Two days ago
+    const timestamp = new Date('2024-04-24T12:00:00').toISOString(); 
     const timeDisplay = getTimeDisplay(timestamp);
     expect(timeDisplay).toMatch(/\w{3} \d+/);
   });
