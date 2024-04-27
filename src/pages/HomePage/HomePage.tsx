@@ -44,6 +44,15 @@ const HomePage: React.FC<HomePageProps> = () => {
         // console.log(usersData);
         setUsers(usersData as any[]); // Add type assertion here
 
+        const tweetData = await fetchTweets();
+        setTweets(tweetData);
+
+        const user = await isUserLoggedIn();
+        setCurrentUser(user);
+
+        const profilesData = await fetchAllProfiles();
+        setProfiles(profilesData as any);
+
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -170,18 +179,20 @@ const HomePage: React.FC<HomePageProps> = () => {
             // console.log("Image URL:", image_url);
 
             return (
-              <Tweet
-                key={tweet.Tweet_Id}
-                name={user ? user.Name : "Unknown User"}
-                username={user ? `@${user.Username}` : ""}
-                text={tweet.Content}
-                imageUrl={tweet.Img_Url}
-                timeDisplay={getTimeDisplay(tweet.Created_at)}
-                likes={formatCount(likes)}
-                retweets={formatCount(retweets)}
-                saves={formatCount(saves)}
-                comments={formatCount(comments)}
-                profileimageurl={image_url} tweetid={0} userid={0}              />
+                <Tweet
+                  key={tweet.Tweet_Id}
+                  tweetid={tweet.Tweet_Id}
+                  name={user ? user.Name : "Unknown User"}
+                  username={user ? `@${user.Username}` : ""}
+                  text={tweet.Content}
+                  imageUrl={tweet.Img_Url}
+                  timeDisplay={getTimeDisplay(tweet.Created_at)}
+                  likes={formatCount(likes)}
+                  retweets={formatCount(retweets)}
+                  saves={formatCount(saves)}
+                  comments={formatCount(comments)}
+                  profileimageurl={image_url} 
+                  userid={0}              />
             );
           })}
 
