@@ -23,3 +23,16 @@ export const fetchUserData = async (): Promise<any> => {
         return "Error fetching authorised user.";
     }
 };
+
+export const fetchUserProfile = async (userId: string): Promise<any> => {
+  const { data, error } = await supabase
+    .from('User')
+    .select('User_Id, Username, Name, Surname, Created_at, auth_id')
+    .eq("auth_id", userId).single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
