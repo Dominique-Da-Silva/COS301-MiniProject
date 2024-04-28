@@ -40,13 +40,12 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
     fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
-    uploadImageAndGetURL,
-    fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia,
+    uploadImageAndGetURL,searchUsers,searchTweet,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     likeTweet,unlikeTweet,checkIfLiked, retweet, unReweet,checkIfRetweeted, save,unSave,checkIfSaved,
     checkIfFollowing, getLoggedUserId, getUserData, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
     ,getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
-    CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments
+    CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments,
     fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia
 };
 
