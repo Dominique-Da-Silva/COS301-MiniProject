@@ -1,11 +1,11 @@
 import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn, addUserToDatabase  } from "./auth/auth.ts";
 import { uploadProfile } from "./storage/storage.ts";
 import { updateUsername } from './profileServices/updateUsername.ts';
-import {fetchUsers} from "./homeServices/getUsersData.ts"
-import {fetchTweets}  from "./homeServices/getTweets.ts"
-import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts"
-import {followUser}  from "./usersProfileServices/followUser.ts"
-import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts"
+import {fetchUsers} from "./homeServices/getUsersData.ts";
+import {fetchTweets}  from "./homeServices/getTweets.ts";
+import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts";
+import {followUser}  from "./usersProfileServices/followUser.ts";
+import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts";
 import { insertProfileDetails, updateProfileDetails } from "./profileServices/updateProfileDetails";
 import { addTweet } from "./homeServices/addTweets.ts";
 import {fetchUserData} from "./profileServices/getAuthUser.ts";
@@ -32,6 +32,8 @@ import {countSaves} from "./tweetInteraction/countSaves.ts";
 import {countComments} from "./tweetInteraction/countComments.ts";
 import { addComment } from "./homeServices/addComment.ts";
 import { getComments } from "./homeServices/getComments.ts";
+import {searchUsers} from "./usersProfileServices/searchUser.ts";
+import {searchTweet} from "./tweetInteraction/searchTweet.ts";
 import { CreateFollowNotification,CreateLikeNotification,CreateCommentNotification,
     CreateRetweetNotification,CreateTweetNotification,updateNotifications,getUserNotifications } from "./homeServices/notifications.ts";
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
@@ -45,6 +47,6 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     checkIfFollowing, getLoggedUserId, getUserData, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
     ,getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
     CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments
-
-    };
+    fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia
+};
 
