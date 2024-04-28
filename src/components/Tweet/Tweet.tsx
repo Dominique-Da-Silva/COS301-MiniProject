@@ -28,7 +28,7 @@ import {
 } from "@services/index";
 
 interface TweetProps {
-  tweetid: number;
+  tweet_id: number;
   userid: number;
   name: string;
   username: string;
@@ -43,7 +43,7 @@ interface TweetProps {
   bookmarked?: boolean;
   author?: string;
 }
-const Tweet: React.FC<TweetProps> = ({ tweetid, userid, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
+const Tweet: React.FC<TweetProps> = ({ tweet_id, userid, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
   
 
   const [commentColor, setCommentColor] = useState(false);
