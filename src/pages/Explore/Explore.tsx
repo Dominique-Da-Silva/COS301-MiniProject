@@ -10,7 +10,7 @@ import { Tab, Tabs } from '@nextui-org/react';
 import { searchUsers, fetchUsers } from '@services/index';
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 import { searchTweet } from '@services/index';
-import { mockTweets, mockUsers, mockSavesCount, mockCommentsCount, mockRetweetsCount, mockLikesCount } from '../../mockData/mockData';
+import {CircularProgress} from "@nextui-org/react";
 
 interface ExplorePageProps { }
 
@@ -21,17 +21,12 @@ interface User {
 }
 
 const Explore: React.FC<ExplorePageProps> = () => {
-  const [tweets] = useState<any[]>(mockTweets);
-  // const [users] = useState<any[]>(mockUsers);
   const [searchResultshandles, setSearchResultshandles] = useState<any[]>([]); // State to store search results
   const [searchResultstweets, setSearchResultstweets] = useState<any[]>([]); // State to store search results
   const [profiles, setProfiles] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [savesCount] = useState<any>(mockSavesCount);
-  const [commentsCount] = useState<any>(mockCommentsCount);
-  const [retweetsCount] = useState<any>(mockRetweetsCount);
-  const [likesCount] = useState<any>(mockLikesCount);
   const [searchValue, setSearchValue] = useState('');
+  const [loading, setLoading] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [showTabs, setShowTabs] = useState(false); // State to track if tabs should be shown
 
@@ -112,18 +107,19 @@ const Explore: React.FC<ExplorePageProps> = () => {
   };
 
   const removetabs = () => {
+    setSearchValue('');
+    handleSearchKeyPress(event)
     setShowTabs(false);
     setIsFocused(false);
-    setSearchValue('');
   };
 
   const handleSearchKeyPress = (event: any) => {
-    if (event.key === 'Enter') {
-      setShowTabs(true);
+    if (event.key === 'Enter'  && searchValue.trim() !== '') {  
       getResultsHandles(searchValue);
       getResultsTweets(searchValue);
+      setShowTabs(true);
     }
-    console.log(searchResultshandles);
+    // console.log(searchResultshandles);
   };
 
 
@@ -147,9 +143,43 @@ const Explore: React.FC<ExplorePageProps> = () => {
     }
   }
 
+  const Loader = () => {
+    return (
+      <div className="top-0 left-0 w-full h-full flex justify-center bg-white">
+        <CircularProgress aria-label="Loading..." />
+      </div>
+    );
+  };
+
+  const handleTopicClick = async (topicName) => {
+    setSearchValue(topicName);
+    setLoading(true);
+    try {
+      // Call both functions asynchronously
+      await Promise.all([
+        getResultsHandles(topicName),
+        getResultsTweets(topicName)
+      ]);
+
+      // Both functions have been executed fully
+      setShowTabs(true);
+
+      // This will now log the updated searchValue
+      console.log("Topic Clicked: " + searchValue);
+    } catch (error) {
+      // Handle errors if any
+      console.error("Error:", error);
+    } finally {
+      // Hide loader regardless of success or failure
+      setLoading(false);
+    }
+    
+  };
+
   return (
     <div className="w-full h-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
+      
         <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
           <Nav />
         </div>
@@ -179,15 +209,16 @@ const Explore: React.FC<ExplorePageProps> = () => {
               <FiSettings size={18} />
             </div>
           </div>
-          {!showTabs && (
+          {loading && <Loader />}
+          {!showTabs && !loading && (
             <>
               <p className='pl-3 mt-1 text-[21px] font-bold dark:text-white'>Trends for you</p>
               <div className="flex flex-col m-0 p-0 justify-center dark:text-white">
-                <TrendingListFull />
+                <TrendingListFull onTopicClick={handleTopicClick}/>
               </div>
             </>
           )}
-          {showTabs && (
+          {showTabs && !loading && (
             <>
               <div className="flex flex-col m-0 p-0 justify-center">
                 <Tabs variant="underlined" aria-label="Tabs variants"  classNames={{
