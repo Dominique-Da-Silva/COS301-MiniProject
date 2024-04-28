@@ -428,28 +428,15 @@ const Explore: React.FC<ExplorePageProps> = () => {
                     )}
                   </Tab>
                   <Tab key="Media" title="Media" className="p-0">
-                    {searchResultstweets?.map(tweet => {
-                        // console.log("Tweet:", tweet);
-                        // console.log("Users:", users);
-                        const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-                        // console.log("User:", user);
-
-                        // Check if tweet.Saves is defined and not empty before accessing its properties
+                    {searchResultstweets?.some(tweet => tweet.image) ? (
+                      searchResultstweets.map(tweet => {
+                        const user = users.find(u => u.User_Id === tweet.User_Id);
                         const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
-                        // console.log("Saves Count:", saves);
-
-                        // Similar checks for Comments, Likes, and Retweets
                         const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
-                        // console.log("Comments Count:", comments);
-
                         const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
-                        // console.log("Likes Count:", likes);
-
                         const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
-                        // console.log("Retweets Count:", retweets);
-
                         const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-                        // console.log("Image URL:", image_url);
+
                         if (tweet.image) {
                           return (
                             <Tweet
@@ -467,7 +454,13 @@ const Explore: React.FC<ExplorePageProps> = () => {
                             />
                           );
                         }
-                    })}
+                        return null; // Return null if tweet has no image
+                      })
+                    ) : (
+                      <div className="no-tweets text-center p-8 text-black">
+                        <p className="font-bold text-4xl dark:text-white">No results for"{searchValue}"</p>
+                      </div>
+                    )}
                   </Tab>
                 </Tabs>
               </div>
