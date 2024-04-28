@@ -120,12 +120,12 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="w-full flex justify-center align-middle">
+    <div className="w-full h-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 pr-5">
+        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
           <Nav />
         </div>
-        <div className="main-content flex flex-col w-full md:w-3/5 m-0 p-0 border dark:border-neutral-800">
+        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
           <div className="flex flex-col m-0 p-0 justify-center">
             {/* <Tabs 
             aria-label="Options" 
