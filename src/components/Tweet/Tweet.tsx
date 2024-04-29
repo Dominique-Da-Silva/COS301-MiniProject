@@ -239,6 +239,8 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, userid, name, username, text, i
             {() => (
               <ModalBody>
                 <CreateComment
+                  tweet_id={tweet_id}
+                  user_id={loggedUserId}
                   name={name}
                   username={username}
                   text={text}
