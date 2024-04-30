@@ -15,6 +15,7 @@ import PostNotification from "./PostNotification/PostNotification";
 import LikeNotification from "./PostNotification/LikedNotification";
 import Mention from "./Mentions/Mention";
 import UserCard from "./UserCard/UserCard";
+import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
 
 export {
   EditProfile,
@@ -34,4 +35,5 @@ export {
   ChangePassword,
   MutedNotifications,
   UserCard,
+  RecommendedUsers
 };
