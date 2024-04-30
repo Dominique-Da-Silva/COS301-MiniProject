@@ -12,14 +12,14 @@ interface HomePageProps { }
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [setCurrentUser] = useState<any>(false);
+  const [currentUser, setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
   // const [retweetsCount, setRetweetsCount] = useState<any>(0);
   // const [likesCount, setLikesCount] = useState<any>(0);
-  //const [user] = useState<any>(null); // State variable to store current user
+  // const [currentUser] = useState<any>(null); // State variable to store current user
 
   // FETCHING THE TWEETS FROM TWEETS AND USERS TABLE
   //uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
@@ -29,7 +29,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       try {
         const tweetData = await fetchTweets();
         // console.log("Tweet Data:");
-        // console.log(tweetData);
+        console.log(tweetData);
         setTweets(tweetData);
       } catch (error) {
         console.error('Error fetching tweets:', error);
@@ -120,12 +120,12 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="w-full flex justify-center align-middle">
+    <div className="w-full h-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 pr-5">
+        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
           <Nav />
         </div>
-        <div className="main-content flex flex-col w-full md:w-3/5 m-0 p-0 border dark:border-neutral-800">
+        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
           <div className="flex flex-col m-0 p-0 justify-center">
             {/* <Tabs 
             aria-label="Options" 
@@ -145,9 +145,9 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-          <CreateTweet/>
-          {tweets?.map(tweet => {
-            // console.log("Tweet:", tweet);
+              {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
+          {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
+            console.log("Tweet:", tweet);
             // console.log("Users:", users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
             // console.log("User:", user);
@@ -172,6 +172,7 @@ const HomePage: React.FC<HomePageProps> = () => {
             return (
               <Tweet
                 key={tweet.Tweet_Id}
+                tweet_id={tweet.Tweet_Id}
                 name={user ? user.Name : "Unknown User"}
                 username={user ? `@${user.Username}` : ""}
                 text={tweet.Content}
@@ -181,8 +182,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                 retweets={formatCount(retweets)}
                 saves={formatCount(saves)}
                 comments={formatCount(comments)}
-                profileimageurl={image_url}
-              />
+                profileimageurl={image_url} tweetid={0} userid={0}              />
             );
           })}
 

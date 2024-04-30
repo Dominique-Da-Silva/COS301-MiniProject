@@ -166,8 +166,8 @@ export const mockTweets = [
 export const mockUsers = [
   {
     User_Id: 1,
-    Name: "John Doe",
-    Username: "johndoe",
+    Name: "Loading Name",
+    Username: "Loading Username",
   },
   {
     User_Id: 2,
@@ -218,26 +218,26 @@ export const mockUsers = [
 
 export const mockUserProfile = {
   User_Id: 1,
-  Name: "John Doe",
-  Username: "johndoe",
+  Name: "Loading Name",
+  Username: "Loading Username",
   auth_id: "123456789",
   Created_at: "2022-01-01T00:00:00.000Z",
-  followers: 2500,
-  following: 1000,
+  followers: 0,
+  following: 0,
 };
 
 export const mockProfileDetails = {
   Profile_Id: 1,
   User_Id: 1,
-  Bio: "Software engineer with a passion for coding and problem-solving.",
+  Bio: "Loading Bio",
   Img_Url:
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShB7IwN9gr4q2Tn-1CRfbgANRN-8SWlYMMy9iq467T1A&s",
+    "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg?size=626&ext=jpg&ga=GA1.1.553209589.1713643200&semt=sph",
   Banner_Url:
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS24nExiTCWQf_6D5XTuIMx3l_TyKWR4LUOh-fQzSQifg&s",
+    "https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8189.jpg?size=626&ext=jpg&ga=GA1.1.553209589.1713643200&semt=sph",
   Profile_Type: "Personal",
   Theme: false,
-  Location: "San Francisco, CA",
-  Website: "https://johndoe.com",
+  Location: "Loading Location",
+  Website: "Loading Website",
 };
 
 export const mockSavesCount = {
