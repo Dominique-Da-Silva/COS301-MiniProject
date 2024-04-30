@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button } from "@nextui-org/react";
+import { Card, Button, Link } from "@nextui-org/react";
 import { GameResults } from "@components/index";
 
 interface FollowerData {
@@ -9,21 +9,32 @@ interface FollowerData {
 }
 
 const followerData: FollowerData[] = [
-  { id: 'a', name: 'Dominique da Silva', photo: '/photos/dominique.jpg' },
-  { id: 'b', name: 'Kyle Marshall', photo: '/photos/kyle.jpg' },
-  { id: 'c', name: 'Quintin d\'Hotman', photo: '/photos/quintin.jpg' },
-  { id: 'd', name: 'Yashvitha Kanaparthy', photo: '/photos/yashvitha.jpg' },
+  { id: 'a', name: 'Dominique da Silva', photo: 'images/IMG-20240312-WA0081.jpg' },
+  { id: 'b', name: 'Kyle Marshall', photo: 'images/IMG-20240312-WA0073.jpg' },
+  { id: 'c', name: 'Quintin d\'Hotman', photo: 'images/IMG-20240312-WA0077.jpg' },
+  { id: 'd', name: 'Yashvitha Kanaparthy', photo: 'images/IMG-20240312-WA0076.jpg' },
 ];
 
 const GamePlay = () => {
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
+  const [showNext, setShowNext] = useState(false);
 
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
   };
 
   const handleSubmit = () => {
+    if (!selectedOption) {
+      alert('Please select an answer.');
+    } else {
+      setShowNext(true);
+    }
+  };
+  
+
+  const handleNext = () => {
+    setShowNext(false);
     setShowResult(true);
   };
 
@@ -54,13 +65,27 @@ const GamePlay = () => {
             ))}
           </div>
           <div className="flex justify-between w-full mt-6">
-            <Button auto flat color="error" onClick={() => setShowResult(false)}>
-              Quit
-            </Button>
-            <Button auto disabled={!selectedOption} onClick={handleSubmit}>
-              Submit
-            </Button>
-          </div>
+  <Link href="/twivia" className="mt-6">
+    <Button auto>
+      Quit
+    </Button>
+  </Link>
+  {showNext ? (
+    <Link href="#" className="mt-6">
+      <Button auto onClick={handleNext}>
+        Next
+      </Button>
+    </Link>
+  ) : (
+    <Link href="#" className="mt-6">
+      <Button auto onClick={handleSubmit}>
+        Submit
+      </Button>
+    </Link>
+  )}
+</div>
+
+
         </>
       ) : (
         <GameResults />
