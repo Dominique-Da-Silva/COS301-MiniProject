@@ -17,6 +17,7 @@ import { getLoggedUserId, fetchUsers } from "@services/index";
 import { isUserLoggedIn } from "@services/index";
 import { CiLogin } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
+import { FaGamepad } from "react-icons/fa";
 import { fetchProfileDetails } from "@services/index";
 
 const Nav = () => {
@@ -178,14 +179,14 @@ const Nav = () => {
               Bookmarks
             </NavLink>
           }
-          {/* Bookmarks */}
+          {/* Twivia */}
           {userAuthStatus &&
             <NavLink
               to="/twivia"
               className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/twivia' ? 'font-bold active-tab' : ''
                 }`}
             >
-              <FaRegBookmark size={28} className="mr-5" />
+              <FaGamepad size={28} className="mr-5" strokeWidth={47} fill="none"/>
               Twivia
             </NavLink>
           }
@@ -324,14 +325,14 @@ const Nav = () => {
               <FaRegBookmark size={28} />
             </NavLink>
           }
-          {/* Bookmarks */}
+          {/* Twivia */}
           {userAuthStatus &&
             <NavLink
               to="/twivia"
               className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/twivia' ? 'bg-gray-200 active-tab' : ''
                 }`}
             >
-              <FaRegBookmark size={28} />
+              <FaGamepad size={28} strokeWidth={47} fill="none"/>
             </NavLink>
           }
 
