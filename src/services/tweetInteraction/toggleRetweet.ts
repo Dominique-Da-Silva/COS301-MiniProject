@@ -1,4 +1,5 @@
 import { supabase } from '@config/supabase';
+import { CreateRetweetNotification } from '..';
 
 /*export async function toggleRetweet(tweetId: number, userId: number): Promise<"retweeted" | "unretweeted" | "error"> {
     try {
@@ -52,6 +53,11 @@ export async function retweet(tweetId: number, userId: number): Promise<string> 
     try {
         const { error } = await supabase.from('Retweets').insert({ Tweet_Id: tweetId, Tweeter_Id: userId });
         
+        if(!error)
+        {
+            const success = await CreateRetweetNotification(tweetId,userId);
+            if(success === error) throw success;
+        }
         return error ? error.message : "success";
     } catch (error) {
         console.error('Error retweeting the tweet:', error.message);

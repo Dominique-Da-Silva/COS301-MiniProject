@@ -1,5 +1,5 @@
 import { supabase } from '@config/supabase';
-import { user } from '@nextui-org/react';
+//import { user } from '@nextui-org/react';
 
 const CreateFollowNotification = async (followingId:number,followedId:number) => {
       try{
@@ -181,6 +181,7 @@ const CreateRetweetNotification = async (tweetId:number,userId: number) => {
           }
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -191,35 +192,49 @@ export { CreateRetweetNotification };
 // create a notification for all followers of that user
 // ***************************
 const CreateTweetNotification = async (tweetId:number) => {
-//there can be multiple notifcations of the same tweet is a user tweets the same tweet
-//hence why I dont check if it exsts
   try {
-    //get owner of the tweet
+    // Get owner of the tweet
     const { data: tweet, error: tweetError } = await supabase
       .from('Tweets')
-      .select('User_Id')
+      .select('User_Id, Username')
       .eq('Tweet_Id', tweetId);
 
     if (tweetError) throw tweetError;
 
-    const Content = `you made a new tweet`;
+    const Content = `${tweet[0].Username} made a new tweet`;
 
-    const { data: notifs,error} = await supabase
-      .from("Notification")
-      .insert([{
-        User_Id: tweet[0].User_Id,
-        Type_Id: 2, // Assuming Type_Id 2 represents a new post notification
-        Content: Content,
-        Read: false,
-      }])
-      .select();
+    // Get all followers of the user who made the tweet
+    const { data: followersData, error: followersError } = await supabase
+      .from('Followers')
+      .select('Following_Id')
+      .eq('Followed_Id', tweet[0].User_Id);
 
-      if(error) throw error;
-      return notifs;
+    if (followersError) throw followersError;
 
-    ///notif = notifs;
+    // Create a notification for each follower
+    const notifications = await Promise.all(
+      followersData.map(async (follower) => {
+        const { data: notif, error: notifError } = await supabase
+          .from('Notification')
+          .insert([
+            {
+              User_Id: follower.Following_Id,
+              Type_Id: 2, // Assuming Type_Id 2 represents a new post notification
+              Content: Content,
+              Read: false,
+            },
+          ])
+          .select();
+
+        if (notifError) throw notifError;
+        return notif;
+      })
+    );
+
+    return notifications;
   } catch (error) {
-    console.error(error);
+    console.error('Error in CreateTweetNotification:', error);
+    throw error; // Re-throw the error to handle it at a higher level if needed
   }
 };
 

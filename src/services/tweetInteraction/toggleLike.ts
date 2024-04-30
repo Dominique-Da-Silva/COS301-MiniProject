@@ -1,4 +1,6 @@
+import { LikeNotification } from '@components/index';
 import { supabase } from '@config/supabase';
+import { CreateLikeNotification } from '..';
 
 /*
 export async function toggleLike(tweetId: number, userId: number): Promise<"liked" | "unliked" | "error"> {
@@ -62,6 +64,11 @@ export async function likeTweet(tweetId: number, userId: number): Promise<string
         // Like the tweet
         const { error } = await supabase.from('Likes').insert({ Tweet_Id: tweetId, User_Id: userId });
         
+        if(!error)
+        {
+            const success = CreateLikeNotification(tweetId,userId);
+            if(success === error) throw success;
+        }
         return error ? error.message : "success";
     } catch (error) {
         console.error('Error liking the tweet:', error.message);
