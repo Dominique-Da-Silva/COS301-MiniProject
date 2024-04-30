@@ -1,4 +1,3 @@
-import { LikeNotification } from '@components/index';
 import { supabase } from '@config/supabase';
 import { CreateLikeNotification } from '..';
 
