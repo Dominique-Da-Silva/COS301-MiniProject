@@ -11,7 +11,7 @@ import {useState} from "react";
 const Bookmarks = () => {
 
   // const [tweets] = useState<any[]>(mockTweets);
-  const [tweets, _setTweets] = useState<any[]>([]);
+  const [tweets, ] = useState<any[]>([]);//setTweets
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const [savesCount] = useState<any>(mockSavesCount);

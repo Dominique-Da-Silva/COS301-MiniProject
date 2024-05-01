@@ -1,7 +1,7 @@
 //import { supabase } from "@config/supabase";
 
-export async function searchTweet(_query: string){
-    return ["the search tweet function is currently not functional"];
+export async function searchTweet(query: string){
+    return ["the search tweet function is currently not functional", query];
     /*try {
         const { data: tweetsData, error: tweetsError } = await supabase
             .from('Tweets')
