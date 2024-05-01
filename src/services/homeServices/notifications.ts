@@ -1,5 +1,5 @@
 import { supabase } from '@config/supabase';
-import { user } from '@nextui-org/react';
+//import { user } from '@nextui-org/react';
 
 const CreateFollowNotification = async (followingId:number,followedId:number) => {
       try{

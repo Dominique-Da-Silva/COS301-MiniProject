@@ -106,7 +106,7 @@ const CreateComment: React.FC<CreateCommentProps> = ({
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
       <Tweet
-        userid={user_id}
+        //user_id={user_id}
         tweet_id={tweet_id}
         name={name}
         username={username}

@@ -1,4 +1,6 @@
-import { isUserLoggedIn, getLoggedUserId, getBookmarkedTweets, fetchUsers } from '@services/index';
+import { isUserLoggedIn, getLoggedUserId, 
+  //getBookmarkedTweets, 
+  fetchUsers } from '@services/index';
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +11,7 @@ import {useState} from "react";
 const Bookmarks = () => {
 
   // const [tweets] = useState<any[]>(mockTweets);
-  const [tweets, setTweets] = useState<any[]>([]);
+  const [tweets, _setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const [savesCount] = useState<any>(mockSavesCount);
@@ -94,9 +96,13 @@ const Bookmarks = () => {
         // console.log(id);
 
         // Fetch tweets only if user ID is available
-        if (id !== null) {
-          const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
-          setTweets(tweetData);
+        if (id) {
+          //this doesn't work anymore
+          //const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
+          //setTweets(tweetData);
+        }
+        else{
+          throw "could not fetch tweet data"
         }
       } catch (error) {
         console.error('Error fetching tweets:', error);
@@ -129,6 +135,7 @@ const Bookmarks = () => {
                 return (
                   <Tweet
                     key={tweet.Tweet_Id}
+                    tweet_id={tweet.Tweet_Id}
                     name={user ? user.Name : "Unknown User"}
                     username={user ? `@${user.Username}` : ""}
                     text={tweet.Content}

@@ -35,10 +35,10 @@ export async function toggleLike(tweetId: number, userId: number): Promise<"like
 }
 */
 
-export async function checkIfLiked(tweetId: number, userId: number): Promise<boolean> {
+export async function checkIfLiked(tweetId: number, userId: number) {
     try {
         // Check for existing like
-        const { data: existingLike, error } = await supabase
+        const { error } = await supabase
             .from('Likes')
             .select('*')
             .eq('Tweet_Id', tweetId)
@@ -51,7 +51,7 @@ export async function checkIfLiked(tweetId: number, userId: number): Promise<boo
         }
 
         return true; // Return true if existingLike is not null or undefined
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error checking whether the tweet has been liked:', error.message);
     }
 }
@@ -63,13 +63,13 @@ export async function likeTweet(tweetId: number, userId: number): Promise<string
         const { error } = await supabase.from('Likes').insert({ Tweet_Id: tweetId, User_Id: userId });
         
         return error ? error.message : "success";
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error liking the tweet:', error.message);
         return error.message;
     }
 }
 
-export async function unlikeTweet(tweetId: number, userId: number): Promise<boolean> {
+export async function unlikeTweet(tweetId: number, userId: number){
     try {
         // Unlike the tweet
         const { error } = await supabase
@@ -84,7 +84,7 @@ export async function unlikeTweet(tweetId: number, userId: number): Promise<bool
         }
 
         return true;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error unliking the tweet:', error.message);
     }
 }

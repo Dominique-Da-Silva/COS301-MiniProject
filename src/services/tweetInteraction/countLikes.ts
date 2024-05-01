@@ -1,6 +1,6 @@
 import { supabase } from '@config/supabase';
 
-export async function countLikes(tweetId: number): Promise<number> {
+export async function countLikes(tweetId: number){
     try {
         const { count } = await supabase
             .from('Likes')
@@ -9,7 +9,7 @@ export async function countLikes(tweetId: number): Promise<number> {
 
 
         return count ?? 0;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error counting likes:', error.message);
     }
 }
