@@ -17,6 +17,7 @@ import { Search } from "@components/index";
 import { isUserLoggedIn } from "@services/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
+import { getAuthIdFromSession } from "@services/index";
 
 // interface Tweet {
 //   key: number;
@@ -95,6 +96,16 @@ const ProfileDetails = () => {
     //  console.log("Username from path : " + usernameP);
       const userDataX = await fetchUserData();
       setUserData(userDataX);
+      const sAID = await getAuthIdFromSession();
+      console.log("said "+sAID);
+        if (sAID === userDataX.auth_id) {
+          setExternal(false);
+          console.log("Reaction 1")
+        }
+        else {
+          setExternal(true);
+          console.log("Reaction 2");
+        }
       // console.log("UX : " + userDataX.auth_id);
       // const logged_user = await supabase.auth.getSession();
       // console.log(logged_user.data?.session?.user?.id);
@@ -110,7 +121,6 @@ const ProfileDetails = () => {
         const followingTemp = await countFollowing(userData.User_Id);
         const userDataX = await fetchUserData();
         const imageURLs = await fetchUserMedia(userData.User_Id);
-        setExternal(false);
         setUserFollowers(followerTemp);
         setUserFollowing(followingTemp);
         setUserData(userDataX);
