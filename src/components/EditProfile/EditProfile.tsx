@@ -4,7 +4,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import React,{ useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/profileServices/getAuthUser";
-// import { fetchProfileDetails } from "@services/profileServices/getProfile";
+import { fetchProfileDetails } from "@services/profileServices/getProfile";
 import {updateProfileDetails } from "@services/profileServices/updateProfileDetails"
 
 const EditProfile: React.FC = () => {
@@ -42,9 +42,10 @@ const EditProfile: React.FC = () => {
         const userDataX = await fetchUserData();
         //console.log(userDataX);
         setUserData(userDataX);
-        //const profileTemp = await fetchProfileDetails(userDataX.User_Id);
+        const profileTemp = await fetchProfileDetails(userDataX.User_Id);
         //console.log(profileTemp);
-        //setProfileDetails(profileTemp);
+        setProfileDetails(profileTemp);
+        //setProfileDetails(userData);
         setEditedName(userDataX.Name);
         setEditedUsername(userDataX.Username);
       } catch (error) {
@@ -53,14 +54,15 @@ const EditProfile: React.FC = () => {
     } 
     fetchData();
 
-    const setPD = async () => {
-      try {
-        setProfileDetails(userData);
-      }
-      catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    }
+    // const setPD = async () => {
+    //   try {
+    //     const tunnel = await fetchProfileDetails(userData.user_id);
+    //     setProfileDetails(tunnel);
+    //   }
+    //   catch (error) {
+    //     console.error("Error fetching data: ", error);
+    //   }
+    // }
     
 
     // //console.log(userData);
@@ -72,7 +74,7 @@ const EditProfile: React.FC = () => {
     //   }
     // } 
     // profileSub();
-    setPD();
+    // setPD();
   }
   ,[userData])
  
