@@ -1,13 +1,55 @@
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { IoMdArrowBack } from "react-icons/io";
 // import { supabase } from "@config/supabase";
-// import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { fetchUserData } from "@services/profileServices/getAuthUser";
+//import { fetchProfileDetails } from "@services/profileServices/getProfile";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
   // const [isEditing, setIsEditing] = useState(false);
-  // const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [profileDetails, setProfileDetails] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        //console.log("here");
+        const userDataX = await fetchUserData();
+        //console.log(userDataX);
+        setUserData(userDataX);
+        //const profileTemp = await fetchProfileDetails(userDataX.User_Id);
+        //console.log(profileTemp);
+        //setProfileDetails(profileTemp);
+      } catch (error) {
+          console.error("Error fetching data: ", error);
+      }
+    } 
+    fetchData();
+
+    const setPD = async () => {
+      try {
+        setProfileDetails(userData);
+      }
+      catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+    
+
+    // //console.log(userData);
+    // const profileSub = async () => {
+    //   try {
+        
+    //   } catch (error) {
+    //       console.error("Error fetching data: ", error);
+    //   }
+    // } 
+    // profileSub();
+    setPD();
+  }
+  ,[userData])
   // const [editedUsername, setEditedUsername] = useState("");
   // const [editedName, setEditedName] = useState("");
   // const [editedBio, setEditedBio] = useState("");
@@ -171,65 +213,74 @@ const EditProfile: React.FC = () => {
   //   // Reset Editing state to close the edit window
   //   setIsEditing(false);
   // };
-  return (
-    <div className="container mx-auto py-8">
-      <div className="flex items-center mb-4">
-        <NavLink to={"/profile"}>
-        <IoMdArrowBack className="text-2xl mr-2"  />
-        </NavLink>
-        <h2 className="text-2xl font-bold">Edit Profile</h2>
+  if (!userData) {
+    return <p>Loading</p>;
+  }
+  else {
+    if (!profileDetails) {
+      return <div>Loading...</div>;
+    } else {
+    return (
+      <div className="container mx-auto py-8">
+        <div className="flex items-center mb-4">
+          <NavLink to={"/profile"}>
+            <IoMdArrowBack className="text-2xl mr-2" />
+          </NavLink>
+          <h2 className="text-2xl font-bold">Edit Profile</h2>
+        </div>
+        <div className="bg-white p-4 shadow rounded-md">
+          <label htmlFor="name" className="block mb-2 font-semibold">
+            Name
+          </label>
+          <Input
+            id="name"
+            placeholder={userData.Name ? userData.Name : "Enter your name"}
+            //onChange={(e) => setEditedName(e.target.value)}
+            className="mb-4"
+          />
+          <label htmlFor="username" className="block mb-2 font-semibold">
+            Username
+          </label>
+          <Input
+            id="username"
+            placeholder={userData.Username ? userData.Username : "Enter your Username"}
+            //onChange={(e) => setEditedName(e.target.value)}
+            className="mb-4"
+          />
+          <label htmlFor="bio" className="block mb-2 font-semibold">
+            Bio
+          </label>
+          <Textarea
+            id="bio"
+            placeholder={profileDetails.Bio ? profileDetails.Bio : "Enter your bio"}
+            className="mb-4"
+          // onChange={(e) => setEditedBio(e.target.value)}
+          />
+          <label htmlFor="location" className="block mb-2 font semibold">
+            Location
+          </label>
+          <Textarea
+            id="location"
+            placeholder={profileDetails.Location ? profileDetails.Location : "Enter your location"}
+            className="mb-4"
+          //  onChange={(e) => setEditedLocation(e.target.value)}
+          />
+          <label htmlFor="website" className="block mb-2 font-semibold">
+            Website
+          </label>
+          <Textarea
+            id="website"
+            placeholder={profileDetails.Website ? profileDetails.Website : "Enter your website"}
+            className="mb-4"
+          //  onChange={(e) => setEditedWebsite(e.target.value)}
+          />
+          <Button size="lg" className="w-full" >
+            Save
+          </Button>
+        </div>
       </div>
-      <div className="bg-white p-4 shadow rounded-md">
-        <label htmlFor="name" className="block mb-2 font-semibold">
-          Name
-        </label>
-        <Input
-          id="name"
-          placeholder="Enter your name"
-        //  onChange={(e) => setEditedName(e.target.value)}
-          className="mb-4"
-        />
-        <label htmlFor="username" className="block mb-2 font-semibold">
-          Username
-        </label>
-        <Input
-          id="username"
-          placeholder="Enter your username"
-         // onChange={(e) => setEditedName(e.target.value)}
-          className="mb-4"
-        />
-        <label htmlFor="bio" className="block mb-2 font-semibold">
-          Bio
-        </label>
-        <Textarea
-          id="bio"
-          placeholder="Enter your bio"
-          className="mb-4"
-         // onChange={(e) => setEditedBio(e.target.value)}
-        />
-        <label htmlFor="location" className="block mb-2 font semibold">
-          Location
-        </label>
-        <Textarea
-          id="location"
-          placeholder="Enter your location"
-          className="mb-4"
-        //  onChange={(e) => setEditedLocation(e.target.value)}
-        />
-        <label htmlFor="website" className="block mb-2 font-semibold">
-          Website
-        </label>
-        <Textarea
-          id="website"
-          placeholder="Enter your website"
-          className="mb-4"
-        //  onChange={(e) => setEditedWebsite(e.target.value)}
-        />
-        <Button size="lg" className="w-full" >
-          Save
-        </Button>
-      </div>
-    </div>
-  );
+    );
+  }
+  }
 };
 export default EditProfile;

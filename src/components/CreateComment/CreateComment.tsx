@@ -1,22 +1,14 @@
 import { useState } from "react";
-import {
-  Avatar,
-  Button,
-  Textarea,
-  Tooltip
-} from "@nextui-org/react";
+import { Avatar, Button, Textarea, Tooltip } from "@nextui-org/react";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure
+  useDisclosure,
 } from "@nextui-org/react";
-import {
-  GalleryIcon,
-} from "@assets/index";
-import { addTweet } from "@services/index";
+import { GalleryIcon } from "@assets/index";
 import { getCurrentUser } from "@services/auth/auth";
 
 // import { GrGallery } from "react-icons/gr";
@@ -24,18 +16,47 @@ import { MdOutlineGifBox } from "react-icons/md";
 import { LiaPollHSolid } from "react-icons/lia";
 import { FaRegFaceSmile } from "react-icons/fa6";
 import { TbCalendarSearch } from "react-icons/tb";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { isUserLoggedIn } from "@services/index";
-import toast from 'react-hot-toast';
-//import { CreateTweetNotification } from "@services/index";
+import Tweet from "../Tweet/Tweet";
+import { addComment } from "@services/index";
 
-const CreateTweet = () => {
-  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
+interface CreateCommentProps {
+  user_id: number;
+  tweet_id: number;
+  name: string;
+  username: string;
+  text: string;
+  imageUrl?: string;
+  profileimageurl?: string;
+  timeDisplay: string;
+}
+const CreateComment: React.FC<CreateCommentProps> = ({
+  user_id,
+  tweet_id,
+  name,
+  username,
+  text,
+  imageUrl,
+  profileimageurl,
+  timeDisplay,
+}) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [commentText, setCommentText] = useState("");
   const [selectedImage, setSelectedImage] = useState<any>();
-  const [tweetText, setTweetText] = useState("");
-  const [isloading, setIsLoading] = useState(false);
+  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
 
+  useEffect(() => {
+    // this is necessary for checking if the user is signed in
+    const checkUser = async () => {
+      // Check if user is already logged in
+      const result = await isUserLoggedIn();
+      setUserAuthStatus(result);
+    };
+
+    // Call the async function
+    checkUser();
+  }, []);
 
   // const handleGalleryClick = (event: any) => {
   //   event.preventDefault();
@@ -49,88 +70,58 @@ const CreateTweet = () => {
     console.log(file);
   };
 
-  const handleGIFClick = (event: any) => {
-    event.preventDefault();
-    // Handle GIF click
-  };
-
-  const handlePollsClick = (event: any) => {
-    event.preventDefault();
-    // Handle Polls click
-  };
-
-  const handleStickersClick = (event: any) => {
-    event.preventDefault();
-    // Handle Stickers click
-  };
-
-  const handleScheduleClick = (event: any) => {
-    event.preventDefault();
-    // Handle Schedule click
-  };
-
-  // const handlePostTweet = (event: any) => {
-  //   event.preventDefault();
-  //   // Handle Post Tweet click
-  //   console.log("Post Tweet clicked");
-  //   console.log("Tweet text:", tweetText);
-  //   console.log("Selected Image:", selectedImage);
-
-  // };
-
-  const postTweet = async () => {
-    setIsLoading(true);
+  const postComment = async () => {
+    console.log("Post Tweet clicked");
     try {
       const currentUser = await getCurrentUser();
       // console.log("Current User:", currentUser);
       // console.log("Current User Auth ID:", currentUser?.auth_id);
       if (currentUser !== undefined) {
-      const user = currentUser.auth_id;
-      const date = new Date();
-      const tweetData = { User_Id: user, Content: tweetText, Img_filename: user?.toString() + date?.toISOString().replace(/Z$/, '') + (selectedImage?.name || ""),Img_file: selectedImage };
-      // console.log("Tweet data:", tweetData);
-      await addTweet(tweetData);//maybe this can be improved to account for errors occurring, however there is a try-catch block here
-      setIsLoading(false);
-      toast.success('Tweet posted successfully', { duration: 2000, position: 'top-center',});
-      window.location.reload();
-      }
-      else
-      {
-        setIsLoading(false);
-        toast.error('User not found', { duration: 2000, position: 'top-center',});
+        //todo: add comment
+        add_comment();
+       window.location.reload();
+      } else {
+        console.log("User not found");
       }
     } catch (error) {
-      setIsLoading(false);
-      toast.error('Error fetching user', { duration: 2000, position: 'top-center',});
+      console.error("Error fetching users:", error);
     }
   };
 
   const removeImage = () => {
     const file = undefined;
     setSelectedImage(file);
-  }
-  
-  useEffect(() => {
-    // this is necessary for checking if the user is signed in
-    const checkUser = async () => {
-      // Check if user is already logged in
-      const result = await isUserLoggedIn();
-      setUserAuthStatus(result);
+  };
+
+  const add_comment = async () => {
+    const result = await addComment(user_id, tweet_id, commentText);
+    if (result) {
+      console.log("Comment added successfully");
+    } else {
+      console.log("Error adding comment");
     }
-    
-    // Call the async function
-    checkUser();
-  }, []);
+  };
 
   return (
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
+      <Tweet
+        //user_id={user_id}
+        tweet_id={tweet_id}
+        name={name}
+        username={username}
+        text={text}
+        imageUrl={imageUrl}
+        profileimageurl={profileimageurl}
+        timeDisplay={timeDisplay}
+      ></Tweet>
+
       <div className="flex items-center space-x-1">
         <Avatar
           // src={imageUrl} // profile image url to be replaced
           alt="User Avatar"
           className="user-avatar min-w-12 min-h-12"
-        // style={{ minWidth: '48px', minHeight: '48px' }}
+          // style={{ minWidth: '48px', minHeight: '48px' }}
         />
         {/* decide what variant is better suited later on  */}
         <Textarea
@@ -138,18 +129,21 @@ const CreateTweet = () => {
           placeholder="What is happening?!"
           className="p-2"
           style={{ width: "150px" }}
-          value={tweetText}
-          onChange={(event: any) => setTweetText(event.target.value)}
+          value={commentText}
+          onChange={(event: any) => setCommentText(event.target.value)}
         />
         {selectedImage && (
           <div className="mt-4 mx-auto">
-            <img src={URL.createObjectURL(selectedImage)} alt="Selected Image" className="max-w-full" />
+            <img
+              src={URL.createObjectURL(selectedImage)}
+              alt="Selected Image"
+              className="max-w-full"
+            />
             <Button onClick={removeImage}>X</Button>
           </div>
-          
         )}
       </div>
-      <div className="flex justify-between items-center mt-2 mx-12 gap-1">
+      <div className="flex justify-between items-center mt-2  gap-1">
         <div className="flex gap-1">
           <Tooltip
             content="Media"
@@ -174,16 +168,20 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button isIconOnly onPress={onOpen} variant="light">{//onClick={handleGalleryClick}}
-            }
+            <Button isIconOnly onPress={onOpen} variant="light">
+              {
+                //onClick={handleGalleryClick}}
+              }
               <img src={GalleryIcon} alt="Gallery" className="w-6 h-6" />
             </Button>
           </Tooltip>
-          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <Modal size="full" isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
               {(onClose: any) => (
                 <>
-                  <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                  <ModalHeader className="flex flex-col gap-1">
+                    Modal Title
+                  </ModalHeader>
                   <ModalBody>
                     <p>
                       <input
@@ -228,8 +226,16 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button size='lg' isIconOnly onClick={handleGIFClick} variant="light" className="text-cyan-400">
-              <MdOutlineGifBox/>
+            <Button
+              size="lg"
+              isIconOnly
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+              variant="light"
+              className="text-cyan-400"
+            >
+              <MdOutlineGifBox />
             </Button>
           </Tooltip>
           <Tooltip
@@ -255,8 +261,16 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button size='lg' isIconOnly onClick={handlePollsClick} variant="light" className="text-cyan-400">
-              <LiaPollHSolid/>
+            <Button
+              size="lg"
+              isIconOnly
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+              variant="light"
+              className="text-cyan-400"
+            >
+              <LiaPollHSolid />
             </Button>
           </Tooltip>
           <Tooltip
@@ -282,8 +296,16 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button size='lg' isIconOnly onClick={handleStickersClick} variant="light" className="text-cyan-400">
-              <FaRegFaceSmile/>
+            <Button
+              size="lg"
+              isIconOnly
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+              variant="light"
+              className="text-cyan-400"
+            >
+              <FaRegFaceSmile />
             </Button>
           </Tooltip>
           <Tooltip
@@ -309,43 +331,41 @@ const CreateTweet = () => {
               },
             }}
           >
-            <Button size='lg' isIconOnly onClick={handleScheduleClick} variant="light" className="text-cyan-400">
-              <TbCalendarSearch/>
+            <Button
+              size="lg"
+              isIconOnly
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+              variant="light"
+              className="text-cyan-400"
+            >
+              <TbCalendarSearch />
             </Button>
           </Tooltip>
         </div>
         <div className="-mx-9">
-          {
-            userAuthStatus && isloading ?
-              <Button
-                radius="full"
-                className="rounded-full bg-sky-500 text-white border-none font-bold"
-                onClick={postTweet}
-                isLoading
-              >
-                Post
-              </Button>
-            : userAuthStatus && isloading === false ?
-              <Button
-                radius="full"
-                className="rounded-full bg-sky-500 text-white border-none font-bold"
-                onClick={postTweet}
-              >
-                Post
-              </Button>
-              :
-              <Button
-                radius="full"
-                className="rounded-full bg-sky-500 text-white border-none font-bold"
-                isDisabled
-              >
-                Login to post
-              </Button>
-          }
+          {userAuthStatus ? (
+            <Button
+              radius="full"
+              className="rounded-full bg-sky-500 text-white border-none font-bold"
+              onClick={postComment}
+            >
+              Reply
+            </Button>
+          ) : (
+            <Button
+              radius="full"
+              className="rounded-full bg-sky-500 text-white border-none font-bold"
+              isDisabled
+            >
+              Login to Reply
+            </Button>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default CreateTweet;
+export default CreateComment;
