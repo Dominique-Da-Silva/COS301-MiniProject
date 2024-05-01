@@ -4,14 +4,36 @@ import { IoMdArrowBack } from "react-icons/io";
 import React,{ useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/profileServices/getAuthUser";
-import { fetchProfileDetails } from "@services/profileServices/getProfile";
+// import { fetchProfileDetails } from "@services/profileServices/getProfile";
 import {updateProfileDetails } from "@services/profileServices/updateProfileDetails"
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
-  // const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);.
   const [profileDetails, setProfileDetails] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
+
+  const handleClick = async () => {
+    const user_data = {
+      Name: editedName,
+      Username: editedUsername,
+      Bio: editedBio,
+      Location: editedLocation,
+      Website: editedWebsite,
+    };
+
+    //const result = await updateProfileDetails(user_data);
+    console.log("XXXXX: " + user_data.Bio + ' '+ user_data.Name);
+    // if (result === 'success') {
+    //   // The profile details were successfully updated
+    //   console.log('Profile details updated successfully');
+    // } else {
+    //   // There was an error updating the profile details
+    //   console.log('Error updating profile details');
+    // }
+  };
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +45,8 @@ const EditProfile: React.FC = () => {
         //const profileTemp = await fetchProfileDetails(userDataX.User_Id);
         //console.log(profileTemp);
         //setProfileDetails(profileTemp);
+        setEditedName(userDataX.Name);
+        setEditedUsername(userDataX.Username);
       } catch (error) {
           console.error("Error fetching data: ", error);
       }
@@ -51,11 +75,7 @@ const EditProfile: React.FC = () => {
     setPD();
   }
   ,[userData])
-  // const [editedUsername, setEditedUsername] = useState("");
-  // const [editedName, setEditedName] = useState("");
-  // const [editedBio, setEditedBio] = useState("");
-  // const [editedLocation, setEditedLocation] = useState("");
-  // const [editedWebsite, setEditedWebsite] = useState("");
+ 
   // const [editedImage, setEditedImage] = useState<File | null>(null);
   // const [editedBanner, setEditedBanner] = useState<File | null>(null);
   // const handleSaveClick = async () => {
@@ -214,6 +234,12 @@ const EditProfile: React.FC = () => {
   //   // Reset Editing state to close the edit window
   //   setIsEditing(false);
   // };
+  const [editedUsername, setEditedUsername] = useState(userData?.Name || '');
+  const [editedName, setEditedName] = useState(userData?.Username ||'');
+  const [editedBio, setEditedBio] = useState(profileDetails?.Bio || '');
+  const [editedLocation, setEditedLocation] = useState(profileDetails?.Location || '');
+  const [editedWebsite, setEditedWebsite] = useState(profileDetails?.Website || '');
+
   if (!userData) {
     return <p>Loading</p>;
   }
@@ -221,7 +247,7 @@ const EditProfile: React.FC = () => {
     if (!profileDetails) {
       return <div>Loading...</div>;
     } else {
-    return (
+      return (
       <div className="container mx-auto py-8">
         <div className="flex items-center mb-4">
           <NavLink to={"/profile"}>
@@ -236,7 +262,7 @@ const EditProfile: React.FC = () => {
           <Input
             id="name"
             placeholder={userData.Name ? userData.Name : "Enter your name"}
-            //onChange={(e) => setEditedName(e.target.value)}
+            onChange={(e) => setEditedName(e.target.value)}
             className="mb-4"
           />
           <label htmlFor="username" className="block mb-2 font-semibold">
@@ -245,7 +271,7 @@ const EditProfile: React.FC = () => {
           <Input
             id="username"
             placeholder={userData.Username ? userData.Username : "Enter your Username"}
-            //onChange={(e) => setEditedName(e.target.value)}
+            onChange={(e) => setEditedUsername(e.target.value)}
             className="mb-4"
           />
           <label htmlFor="bio" className="block mb-2 font-semibold">
@@ -255,7 +281,7 @@ const EditProfile: React.FC = () => {
             id="bio"
             placeholder={profileDetails.Bio ? profileDetails.Bio : "Enter your bio"}
             className="mb-4"
-          // onChange={(e) => setEditedBio(e.target.value)}
+            onChange={(e) => setEditedBio(e.target.value)}
           />
           <label htmlFor="location" className="block mb-2 font semibold">
             Location
@@ -264,7 +290,7 @@ const EditProfile: React.FC = () => {
             id="location"
             placeholder={profileDetails.Location ? profileDetails.Location : "Enter your location"}
             className="mb-4"
-          //  onChange={(e) => setEditedLocation(e.target.value)}
+            onChange={(e) => setEditedLocation(e.target.value)}
           />
           <label htmlFor="website" className="block mb-2 font-semibold">
             Website
@@ -273,9 +299,9 @@ const EditProfile: React.FC = () => {
             id="website"
             placeholder={profileDetails.Website ? profileDetails.Website : "Enter your website"}
             className="mb-4"
-          //  onChange={(e) => setEditedWebsite(e.target.value)}
+            onChange={(e) => setEditedWebsite(e.target.value)}
           />
-          <Button size="lg" className="w-full" >
+          <Button size="lg" className="w-full" onClick={handleClick}>
             Save
           </Button>
         </div>

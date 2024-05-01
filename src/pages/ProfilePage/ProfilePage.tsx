@@ -103,7 +103,7 @@ const ProfileDetails = () => {
           console.log("Reaction 1")
         }
         else {
-          setExternal(true);
+          setExternal(false);
           console.log("Reaction 2");
         }
       // console.log("UX : " + userDataX.auth_id);
