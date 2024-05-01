@@ -1,10 +1,11 @@
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { IoMdArrowBack } from "react-icons/io";
 // import { supabase } from "@config/supabase";
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/profileServices/getAuthUser";
 import { fetchProfileDetails } from "@services/profileServices/getProfile";
+import {updateProfileDetails } from "@services/profileServices/updateProfileDetails"
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);

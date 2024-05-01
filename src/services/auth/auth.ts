@@ -214,3 +214,19 @@ export async function getUserData(){
   const user = await supabase.auth.getUser();
   return !user.data.user ? null : user.data.user;
 }
+
+export async function getAuthIdFromSession(): Promise<number | null> {
+  try {
+      const { data: currUser, error } = await supabase.auth.getSession();
+
+      if (error || !currUser.data) {
+          console.error('Error getting auth id from session:', error?.message || 'Session data not found');
+          return null;
+      }
+      return parseInt(currUser.data?.session?.user?.id);
+
+  } catch (error) {
+      console.error('Error getting auth id from session:', error.message);
+      return null;
+  }
+}

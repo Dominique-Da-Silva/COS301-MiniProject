@@ -1,5 +1,5 @@
 import { useState, Suspense, useEffect } from "react";
-
+import { supabase } from "@config/supabase";
 import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
@@ -95,6 +95,9 @@ const ProfileDetails = () => {
     //  console.log("Username from path : " + usernameP);
       const userDataX = await fetchUserData();
       setUserData(userDataX);
+      // console.log("UX : " + userDataX.auth_id);
+      // const logged_user = await supabase.auth.getSession();
+      // console.log(logged_user.data?.session?.user?.id);
     }
     getUD();
 

@@ -1,12 +1,21 @@
-import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn, addUserToDatabase  } from "./auth/auth.ts";
+import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn, addUserToDatabase, getAuthIdFromSession } from "./auth/auth.ts";
 import { uploadProfile } from "./storage/storage.ts";
 import { updateUsername } from './profileServices/updateUsername.ts';
+<<<<<<< HEAD
 import {fetchUsers} from "./homeServices/getUsersData.ts";
 import {fetchTweets}  from "./homeServices/getTweets.ts";
 import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts";
 import {followUser}  from "./usersProfileServices/followUser.ts";
 import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts";
 import { insertProfileDetails, updateProfileDetails } from "./profileServices/updateProfileDetails";
+=======
+import {fetchUsers} from "./homeServices/getUsersData.ts"
+import {fetchTweets}  from "./homeServices/getTweets.ts"
+import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts"
+import {followUser}  from "./usersProfileServices/followUser.ts"
+import {unfollowUser}  from "./usersProfileServices/unfollowUser.ts"
+import { insertProfileDetails, updateProfileDetails } from "./profileServices/updateProfileDetails.ts";
+>>>>>>> cbe6cb22c22383016ddf8a8a058877b613d555be
 import { addTweet } from "./homeServices/addTweets.ts";
 import {fetchUserData} from "./profileServices/getAuthUser.ts";
 import { fetchLikedPosts } from "./profileServices/getLikedPosts.ts";
@@ -48,5 +57,5 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     changePassword, searchUsers, getBookmarkedTweets, searchTweet,
     getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
     CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments,
-    fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia
+    fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia, getAuthIdFromSession,
 };
