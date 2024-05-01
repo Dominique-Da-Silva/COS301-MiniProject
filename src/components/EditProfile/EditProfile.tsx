@@ -14,16 +14,21 @@ const EditProfile: React.FC = () => {
   const [userData, setUserData] = useState<any>(null);
 
   const handleClick = async () => {
-    const user_data = {
-      Name: editedName,
-      Username: editedUsername,
-      Bio: editedBio,
-      Location: editedLocation,
-      Website: editedWebsite,
-    };
+    const user_data: {
+      Name?: string;
+      Username?: string;
+      Bio?: string;
+      Location?: string;
+      Website?: string;
+    } = {};
 
+    if (editedName !== '') user_data.Name = editedName;
+    if (editedUsername !== '') user_data.Username = editedUsername;
+    if (editedBio !== '') user_data.Bio = editedBio;
+    if (editedLocation !== '') user_data.Location = editedLocation;
+    if (editedWebsite !== '') user_data.Website = editedWebsite;
     //const result = await updateProfileDetails(user_data);
-    console.log("XXXXX: " + user_data.Bio + ' '+ user_data.Name);
+    console.log("XXXXX: " + user_data.Bio);
     // if (result === 'success') {
     //   // The profile details were successfully updated
     //   console.log('Profile details updated successfully');
