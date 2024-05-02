@@ -1,5 +1,6 @@
 import {supabase} from '@config/supabase';
 import { FunctionsHttpError, FunctionsRelayError, FunctionsFetchError } from '@supabase/supabase-js'
+import { CreateTweetNotification } from './notifications';
 
 const addTweet = async (tweetData: any) => {
   try {
@@ -7,6 +8,9 @@ const addTweet = async (tweetData: any) => {
       body: {tweetData}
     });
     if(error) throw error;
+    console.log(data[0].Tweet_Id);
+    // Create a notification for the tweet
+    CreateTweetNotification(data[0].Tweet_Id);
     return data;
 
   } catch (error) {
