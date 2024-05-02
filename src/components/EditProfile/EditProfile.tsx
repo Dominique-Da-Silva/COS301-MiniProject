@@ -27,15 +27,16 @@ const EditProfile: React.FC = () => {
     if (editedBio !== '') user_data.Bio = editedBio;
     if (editedLocation !== '') user_data.Location = editedLocation;
     if (editedWebsite !== '') user_data.Website = editedWebsite;
-    //const result = await updateProfileDetails(user_data);
-    console.log("XXXXX: " + user_data.Bio);
-    // if (result === 'success') {
-    //   // The profile details were successfully updated
-    //   console.log('Profile details updated successfully');
-    // } else {
-    //   // There was an error updating the profile details
-    //   console.log('Error updating profile details');
-    // }
+    const result = await updateProfileDetails(user_data);
+    // console.log("XXXXX: " + user_data.Bio);
+    if (result === 'success') {
+      // The profile details were successfully updated
+      console.log('Profile details updated successfully');
+    } else {
+      // There was an error updating the profile details
+      console.log('Error updating profile details');
+    }
+    
   };
 
 
