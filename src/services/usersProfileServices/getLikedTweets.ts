@@ -45,7 +45,6 @@ const getLikedTweets = async(userId: number)=>{
 
     } catch (error) {
         console.error('Error fetching liked tweets:', error);
-        throw error;
     }
 };
 export{getLikedTweets};
