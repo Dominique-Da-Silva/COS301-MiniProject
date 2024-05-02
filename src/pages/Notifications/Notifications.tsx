@@ -34,9 +34,9 @@ const Notifications: React.FC<NotificationsProps> = () => {
   // const [mentions] = useState<any[]>(mockMentions);
   const [notifications, setNotifications] = useState<any[]>([]); // Initialize notifications state
   const [followNotifications, setFollowNotifications] = useState<any[]>([]);
-  const [postnotifications, setPostNotifications] = useState<any[]>([]);
+  const [postNotifications, setPostNotifications] = useState<any[]>([]);
   const [commentNotifications, setCommentNotifications] = useState<any[]>([]);
-  const [likedNotfications, setLikedNotifications] = useState<any[]>([]);
+  const [likedNotifications, setLikedNotifications] = useState<any[]>([]);
   const [retweetNotifications, setRetweetNotifications] = useState<any[]>([]);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -84,6 +84,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
       setNotifications(await getUserNotifications(userData?.user_metadata.user_id));
       console.log(notifications);
       for (let i = 0; i < (notifications?.length ?? 0); i++) {
+        console.log(notifications[i].Type_Id);
         switch (notifications?.[i]?.Type_Id ?? "") {
           case 1: //New_Follow
             setFollowNotifications((prev) => [...prev, notifications[i]]);
@@ -137,7 +138,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
                 <FiSettings size={18} />
               </Button>
             </div>
-            {/* Notifications Tabs */}
+            {/* Notifications Tabs */} 
+            {/* // console.log(followNotifications);
+                // console.log(postnotifications);
+                // console.log(commentNotifications);
+                // console.log(likedNotfications);
+                // console.log(retweetNotifications); */}
             <div className="flex w-full justify-around border-b border-gray-200 dark:border-neutral-800 items-center">
               <div className="w-full">
                 <div className="flex ">
@@ -153,17 +159,41 @@ const Notifications: React.FC<NotificationsProps> = () => {
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
                       activeTab === "verified" ? "text-blue-500" : "text-gray-500"
                     }`}
-                    onClick={() => handleTabClick("verified")}
+                    onClick={() => handleTabClick("follows")}
                   >
-                    Verified
+                    Follows
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
                       activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
-                    onClick={() => handleTabClick("mentions")}
+                    onClick={() => handleTabClick("posts")}
                   >
-                    Mentions
+                    Posts
+                  </button>
+                  <button
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                    }`}
+                    onClick={() => handleTabClick("comments")}
+                  >
+                    Comments
+                  </button>
+                  <button
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                    }`}
+                    onClick={() => handleTabClick("likes")}
+                  >
+                    Likes
+                  </button>
+                  <button
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                    }`}
+                    onClick={() => handleTabClick("retweets")}
+                  >
+                    Retweets
                   </button>
                 </div>
                 <div>
@@ -215,49 +245,109 @@ const Notifications: React.FC<NotificationsProps> = () => {
                       ))} */}
                     </div>
                   )}
-                  {activeTab === "verified" && (
+                  {activeTab === "follows" && (
                     <div>
-                      {likedNotfications.length === 0 ? (
+                      {followNotifications.length === 0 ? (
                         <p className="text-center text-gray-500">
                           You have no notifications
                         </p>
                       ) : (
-                        likedNotfications.map((notification, index) => (
-                          <LikeNotification
-                            key={index}
-                            id={index}
-                            description={notification.message}
-                            tweet={notification.tweet}
-                            avatarUrl={notification.avatarUrl}
-                          />
+                        followNotifications
+                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                        .map((notification, index) => (
+                          <PostNotification
+                              key={index}
+                              id={index}
+                              description={notification.Content}
+                              avatarUrl={notification.avatarUrl}
+                              dateCreated={getTimeDisplay(notification.Created_at)}
+                            />
                         ))
                       )}
                     </div>
                   )}
-                  {activeTab === "mentions" && (
+                  {activeTab === "posts" && (
                     <div>
-                      {/* {mentions.length === 0 ? (
+                     {postNotifications.length === 0 ? (
                         <p className="text-center text-gray-500">
-                          You have no mentions
+                          You have no notifications
                         </p>
                       ) : (
-                        mentions.map((mention, index) => (
-                          <Mention
-                            key={index}
-                            id={index}
-                            name={mention.Name}
-                            username={mention.Username}
-                            text={mention.Content}
-                            imageUrl={mention.avatarUrl}
-                            replyToUsername={mention.MentionedUser}
-                            saves={1000}
-                            comments={100}
-                            retweets={100}
-                            likes={100}
-                            timeDisplay={getTimeDisplay(mention.Created_at)}
-                          />
+                        postNotifications
+                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                        .map((notification, index) => (
+                          <PostNotification
+                              key={index}
+                              id={index}
+                              description={notification.Content}
+                              avatarUrl={notification.avatarUrl}
+                              dateCreated={getTimeDisplay(notification.Created_at)}
+                            />
                         ))
-                      )} */}
+                      )}
+                    </div>
+                  )}
+                  {activeTab === "comments" && (
+                    <div>
+                      {commentNotifications.length === 0 ? (
+                        <p className="text-center text-gray-500">
+                          You have no notifications
+                        </p>
+                      ) : (
+                        commentNotifications
+                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                        .map((notification, index) => (
+                          <PostNotification
+                              key={index}
+                              id={index}
+                              description={notification.Content}
+                              avatarUrl={notification.avatarUrl}
+                              dateCreated={getTimeDisplay(notification.Created_at)}
+                            />
+                        ))
+                      )}
+                    </div>
+                  )}
+                  {activeTab === "likes" && (
+                    <div>
+                      {likedNotifications.length === 0 ? (
+                        <p className="text-center text-gray-500">
+                          You have no notifications
+                        </p>
+                      ) : (
+                        likedNotifications
+                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                        .map((notification, index) => (
+                          <PostNotification
+                          key={index}
+                          id={index}
+                          description={notification.Content}
+                          avatarUrl={notification.avatarUrl}
+                          dateCreated={getTimeDisplay(notification.Created_at)}
+                        />
+                        ))
+                      )}
+                    </div>
+                  )}
+                  {activeTab === "retweets" && (
+                    <div>
+                      {retweetNotifications.length === 0 ? (
+                        <p className="text-center text-gray-500">
+                          You have no notifications
+                        </p>
+                      ) : (
+                        retweetNotifications
+                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                        .map((notification, index) => (
+                          <PostNotification
+                          key={index}
+                          id={index}
+                          description={notification.Content}
+                          avatarUrl={notification.avatarUrl}
+                          dateCreated={getTimeDisplay(notification.Created_at)}
+                        />
+                        ))
+                      )}
                     </div>
                   )}
                 </div>
