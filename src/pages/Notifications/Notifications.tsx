@@ -17,22 +17,27 @@ import {
 } from "mockData/mockData";
 import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn, getUserData } from "@services/index";
-import { getUserNotifications } from "@services/index";
+import { getUserNotifications, 
+  CreateCommentNotification,
+  CreateFollowNotification,
+  CreateLikeNotification,
+ CreateRetweetNotification,
+ CreateTweetNotification } from "@services/index";
 
 
 interface NotificationsProps {}
 const Notifications: React.FC<NotificationsProps> = () => {
   const [activeTab, setActiveTab] = useState("all");
-  const [postnotifications] = useState<any[]>(mockNotifications);
-  const [likedNotfications] = useState<any[]>(mockLikedNotifications);
+  // const [postnotifications] = useState<any[]>(mockNotifications);
+  // const [likedNotfications] = useState<any[]>(mockLikedNotifications);
   const navigate = useNavigate(); // Initialize useNavigate hook
-  const [mentions] = useState<any[]>(mockMentions);
+  // const [mentions] = useState<any[]>(mockMentions);
   const [notifications, setNotifications] = useState<any[]>([]); // Initialize notifications state
-  // const [followNotifications, setFollowNotifications] = useState<any[]>([]);
-  // const [postnotifications, setPostNotifications] = useState<any[]>([]);
-  // const [commentNotifications, setCommentNotifications] = useState<any[]>([]);
-  // const [likedNotfications, setLikedNotifications] = useState<any[]>([]);
-  // const [retweetNotifications, setRetweetNotifications] = useState<any[]>([]);
+  const [followNotifications, setFollowNotifications] = useState<any[]>([]);
+  const [postnotifications, setPostNotifications] = useState<any[]>([]);
+  const [commentNotifications, setCommentNotifications] = useState<any[]>([]);
+  const [likedNotfications, setLikedNotifications] = useState<any[]>([]);
+  const [retweetNotifications, setRetweetNotifications] = useState<any[]>([]);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
@@ -75,9 +80,9 @@ const Notifications: React.FC<NotificationsProps> = () => {
       if (!userData) {
         navigate("/home");
       }
-      // console.log(userData);
-      /*setNotifications(await getUserNotifications(userData?.user_metadata.user_id as unknown as number) ?? []);
-      // console.log(notifications);
+      console.log(userData?.user_metadata.user_id);
+      setNotifications(await getUserNotifications(userData?.user_metadata.user_id));
+      console.log(notifications);
       for (let i = 0; i < (notifications?.length ?? 0); i++) {
         switch (notifications?.[i]?.Type_Id ?? "") {
           case 1: //New_Follow
@@ -98,7 +103,18 @@ const Notifications: React.FC<NotificationsProps> = () => {
           default:
             break;
         }
-      }*/
+      }
+
+      // CreateCommentNotification(94, 27);
+      // CreateFollowNotification(27, 27);
+      // CreateLikeNotification(94, 27);
+      // CreateRetweetNotification(94, 27);
+      // CreateTweetNotification(94);
+      // console.log(followNotifications);
+      // console.log(postnotifications);
+      // console.log(commentNotifications);
+      // console.log(likedNotfications);
+      // console.log(retweetNotifications);
     }
     // Call the async function
     checkUser();
@@ -152,21 +168,24 @@ const Notifications: React.FC<NotificationsProps> = () => {
                 <div>
                   {activeTab === "all" && (
                     <div>
-                      {postnotifications.length === 0 ? ( //{notifications.length === 0 ? (
+                      {notifications.length === 0 ? ( //{notifications.length === 0 ? (
                         <p className="text-center text-gray-500">
                           You have no notifications
                         </p>
                       ) : (
-                        postnotifications.map((notification, index) => ( //{notifications.map((notification, index) => (
-                          <PostNotification
-                            key={index}
-                            id={index}
-                            description={notification.message} //notification.Content
-                            avatarUrl={notification.avatarUrl} //none, should i get the url of other users?
-                          />
-                        ))
+                        notifications
+                          .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                          .map((notification, index) => (
+                            <PostNotification
+                              key={index}
+                              id={index}
+                              description={notification.Content}
+                              avatarUrl={notification.avatarUrl}
+                              dateCreated={getTimeDisplay(notification.Created_at)}
+                            />
+                          ))
                       )}
-                      {" "}
+                      {/* {" "}
                       {likedNotfications.map((notification, index) => (
                         <LikeNotification
                           key={index}
@@ -192,7 +211,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                           likes={100}
                           timeDisplay={getTimeDisplay(mention.Created_at)}
                         />
-                      ))}
+                      ))} */}
                     </div>
                   )}
                   {activeTab === "verified" && (
@@ -216,7 +235,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   )}
                   {activeTab === "mentions" && (
                     <div>
-                      {mentions.length === 0 ? (
+                      {/* {mentions.length === 0 ? (
                         <p className="text-center text-gray-500">
                           You have no mentions
                         </p>
@@ -237,7 +256,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                             timeDisplay={getTimeDisplay(mention.Created_at)}
                           />
                         ))
-                      )}
+                      )} */}
                     </div>
                   )}
                 </div>

@@ -1,6 +1,7 @@
 import { supabase } from '@config/supabase';
 //import { user } from '@nextui-org/react';
 
+//tweet id:94 95 96 : userid: 27 - testing
 const CreateFollowNotification = async (followingId:number,followedId:number) => {
       try{
             const { data:username,error:usernameError } = await supabase
@@ -196,12 +197,19 @@ const CreateTweetNotification = async (tweetId:number) => {
     // Get owner of the tweet
     const { data: tweet, error: tweetError } = await supabase
       .from('Tweets')
-      .select('User_Id, Username')
+      .select('User_Id')
       .eq('Tweet_Id', tweetId);
 
     if (tweetError) throw tweetError;
 
-    const Content = `${tweet[0].Username} made a new tweet`;
+    const { data: user, error: userError } = await supabase
+      .from('User')
+      .select('Username')
+      .eq('User_Id', tweet[0].User_Id);
+    
+    if (userError) throw userError;
+    console.log(user);
+    const Content = `${user[0].Username} made a new tweet`; //${tweet[0].Username} made a new tweet`;
 
     // Get all followers of the user who made the tweet
     const { data: followersData, error: followersError } = await supabase
