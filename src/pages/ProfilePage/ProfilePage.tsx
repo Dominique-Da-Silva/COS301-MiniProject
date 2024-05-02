@@ -12,7 +12,7 @@ import { getUserComments } from "@services/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink, useNavigate, useLocation, useParams } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";//useLocation, useParams
 import { Search } from "@components/index";
 import { isUserLoggedIn } from "@services/index";
 import { fetchTweets, fetchUsers } from "@services/index";
@@ -133,6 +133,9 @@ const ProfileDetails = () => {
     const getCurrUserTweets = async () => {
       try {
         const tempTweets = await getUserTweets(userData.User_Id);
+        if(!tempTweets){
+          throw "user tweets are undefined";
+        }
         setUserTweets(tempTweets);
       }
       catch (error) {
@@ -144,6 +147,9 @@ const ProfileDetails = () => {
     const getUserReplies = async () => {
       try {
         const replies = await getUserComments(userData.User_Id);
+        if(!replies){
+          throw "comments are undefined";
+        }
         setUserReplies(replies);
       }
       catch (error) {
@@ -346,8 +352,8 @@ const ProfileDetails = () => {
                               const _retweets = originalTweet.Retweets[0].count || 0;
                               return (
                                 <Tweet
-                                  tweetid={tweet.Tweet_Id}
-                                  userid={userData.User_Id}
+                                  tweet_id={tweet.Tweet_Id}
+                                  //userid={userData.User_Id}
                                   key={index}
                                   name={userData.Name}
                                   username={`@${userData.Username}`}
@@ -414,8 +420,8 @@ const ProfileDetails = () => {
                             const image_url = profileDetails.Img_Url;
                             return (
                               <Tweet
-                                tweetid={reply.id}
-                                userid={userData.User_Id}
+                                tweet_id={reply.id}
+                                //userid={userData.User_Id}
                                 key={index}
                                 name={userData.Name}
                                 username={`@${userData.Username}`}
@@ -455,8 +461,8 @@ const ProfileDetails = () => {
                           const _retweets = originalTweet.Retweets[0].count || 0;
                         return(
                           <Tweet
-                            tweetid={tweet.id}
-                            userid={userData.User_Id}
+                            tweet_id={tweet.id}
+                            //userid={userData.User_Id}
                             key={index}
                             name={iUser ? iUser.Name : "Unknown User"}
                             username={iUser ? `@${iUser.Username}` : ""}

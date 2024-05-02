@@ -29,7 +29,7 @@ import {
 
 interface TweetProps {
   tweet_id: number;
-  userid: number;
+  //userid: number;
   name: string;
   username: string;
   text: string;
@@ -43,7 +43,7 @@ interface TweetProps {
   bookmarked?: boolean;
   author?: string;
 }
-const Tweet: React.FC<TweetProps> = ({ tweet_id, userid, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
+const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
   
 
   const [commentColor, setCommentColor] = useState(false);
@@ -72,7 +72,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, userid, name, username, text, i
     );
 
     check_retweet().then((result) => {
-      if (result == false) {
+      if (result===false) {
         add_retweet();
       } else {
         un_retweet();
@@ -87,7 +87,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, userid, name, username, text, i
 
     // Call the toggleLike function with tweetid and username
     check_like().then((result) => {
-      if (result == false) {
+      if (result===false) {
         add_like();
       } else {
         un_like();
@@ -103,7 +103,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, userid, name, username, text, i
 
     // Call the toggleSave function with tweetid and username
     check_save().then((result) => {
-      if (result == false) {
+      if (result===false) {
         add_save();
       } else {
         un_save();

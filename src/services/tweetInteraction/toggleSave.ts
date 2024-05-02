@@ -27,10 +27,10 @@ import { supabase } from '@config/supabase';
 
 }*/
 
-export async function checkIfSaved(tweetId: number, userId: number): Promise<boolean> {
+export async function checkIfSaved(tweetId: number, userId: number){
     try {
         // Check for existing like
-        const { data: existingSave, error } = await supabase
+        const { error } = await supabase
             .from('Saves')
             .select('*')
             .eq('Tweet_Id', tweetId)
@@ -43,7 +43,7 @@ export async function checkIfSaved(tweetId: number, userId: number): Promise<boo
         }
         return true; // Return true if existingLike is not null or undefined
         
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error checking whether the tweet has been saved:', error.message);
     }
 }
@@ -53,13 +53,13 @@ export async function save(tweetId: number, userId: number): Promise<string> {
         const { error } = await supabase.from('Saves').insert({ Tweet_Id: tweetId, User_Id: userId });
         
         return error ? error.message : "success";
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error saving the tweet:', error.message);
         return error.message;
     }
 }
 
-export async function unSave(tweetId: number, userId: number): Promise<boolean> {
+export async function unSave(tweetId: number, userId: number) {
     try {
         // Unlike the tweet
         const { error } = await supabase
@@ -74,7 +74,7 @@ export async function unSave(tweetId: number, userId: number): Promise<boolean> 
         }
 
         return true;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error unSaving the tweet:', error.message);
     }
 

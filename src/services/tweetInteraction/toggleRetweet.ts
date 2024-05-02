@@ -28,10 +28,10 @@ import { CreateRetweetNotification } from '..';
 
 }*/
 
-export async function checkIfRetweeted(tweetId: number, userId: number): Promise<boolean> {
+export async function checkIfRetweeted(tweetId: number, userId: number) {
     try {
         // Check for existing like
-        const { data: existingRetweet, error } = await supabase
+        const { error } = await supabase
             .from('Retweets')
             .select('*')
             .eq('Tweet_Id', tweetId)
@@ -44,7 +44,7 @@ export async function checkIfRetweeted(tweetId: number, userId: number): Promise
         }
         return true; // Return true if existingLike is not null or undefined
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error checking whether the tweet has been retweeted:', error.message);
     }
 }
@@ -59,13 +59,13 @@ export async function retweet(tweetId: number, userId: number): Promise<string> 
             if(success === error) throw success;
         }
         return error ? error.message : "success";
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error retweeting the tweet:', error.message);
         return error.message;
     }
 }
 
-export async function unReweet(tweetId: number, userId: number): Promise<boolean> {
+export async function unReweet(tweetId: number, userId: number) {
     try {
         // Unlike the tweet
         const { error } = await supabase
@@ -80,7 +80,7 @@ export async function unReweet(tweetId: number, userId: number): Promise<boolean
         }
 
         return true;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error unRetweeting the tweet:', error.message);
     }
 }

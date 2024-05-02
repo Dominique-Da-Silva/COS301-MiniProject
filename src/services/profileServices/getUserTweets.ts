@@ -1,6 +1,6 @@
 import { supabase } from '@config/supabase';
 
-export async function getUserTweets(userId: number): Promise<any[]> {
+export async function getUserTweets(userId: number){
     try {
         // Fetch tweets made by the user with the provided user ID
         const { data: userTweets, error } = await supabase
@@ -18,7 +18,7 @@ export async function getUserTweets(userId: number): Promise<any[]> {
         }
 
         return userTweets;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching user tweets:', error.message);
     }
 }

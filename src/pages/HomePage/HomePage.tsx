@@ -182,7 +182,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                 retweets={formatCount(retweets)}
                 saves={formatCount(saves)}
                 comments={formatCount(comments)}
-                profileimageurl={image_url} tweetid={0} userid={0}              />
+                profileimageurl={image_url}            />
             );
           })}
 

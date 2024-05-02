@@ -123,7 +123,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
   };
 
 
-  const getResultsHandles = async (searchValue) => {
+  const getResultsHandles = async (searchValue: any) => {
     try {
       const results = await searchUsers(searchValue);
       // console.log('Results:', results); // Check the results in the console
@@ -133,7 +133,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
     }
   }
 
-  const getResultsTweets = async (searchValue) => {
+  const getResultsTweets = async (searchValue: any) => {
     try {
       const results = await searchTweet(searchValue);
       // console.log('Results:', results); // Check the results in the console
@@ -151,7 +151,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
     );
   };
 
-  const handleTopicClick = async (topicName) => {
+  const handleTopicClick = async (topicName: any) => {
     setSearchValue(topicName);
     setLoading(true);
     try {
@@ -237,7 +237,8 @@ const Explore: React.FC<ExplorePageProps> = () => {
                       <div className="tweet w-full flex hover:bg-neutral-200 cursor-pointer m-0 p-4 dark:border-neutral-800">
                       <div className="avatar">
                         <Avatar
-                          src={handle.img_url}
+                        src={"https://gravatar.com/avatar/2b57c362077cd0cc478fbae93f08f2b1?s=400&d=robohash&r=x"}
+                          //src={handle.img_url} img_url does not exist on handle
                           alt="User Avatar"
                           className="user-avatar min-w-12 min-h-12"
                         />
@@ -246,7 +247,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                         <div className="p-0 m-0 h-5">
                           <NavLink
                             to={{
-                              pathname: `/profile/${handle.username.substring(1)}`, //sets the url path
+                              pathname: `/profile/${handle.UserName.substring(1)}`, //sets the url path
                               //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
                               /*
                               To retrieve this data when navigating to the next page:
@@ -261,22 +262,22 @@ const Explore: React.FC<ExplorePageProps> = () => {
                             }}
                             className="font-semibold p-0 m-0 dark:text-white"
                           >
-                            {handle.name}
+                            {handle.Name}
                           </NavLink>
                         </div>
                         <div className="p-0 m-0 h-5">
                           <NavLink
                             to={{
-                              pathname: `/profile/${handle.username.substring(1)}`,
+                              pathname: `/profile/${handle.UserName.substring(1)}`,
                               //state: { username: username.substring(1) } -> is this valid, please verify
                             }}
                             className="text-slate-700 p-0 m-0 dark:text-gray-400"
                           >
-                            @{handle.username}
+                            @{handle.UserName}
                           </NavLink>
                         </div>     
                         <div>
-                          <p className="p-0 m-0 dark:text-white">{handle.bio}</p>
+                          <p className="p-0 m-0 dark:text-white"></p>{/*perhaps .bio was removed in a merge conflict -> handle.bio*/}
                         </div>             
                       </div>
                     </div>
@@ -307,6 +308,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                       return (
                         <Tweet
                           key={tweet.Tweet_Id}
+                          tweet_id={tweet.Tweet_Id}
                           name={user ? user.Name : "Unknown User"}
                           username={user ? `@${user.Username}` : ""}
                           text={tweet.content}
@@ -353,6 +355,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                       return (
                         <Tweet
                           key={tweet.Tweet_Id}
+                          tweet_id={tweet.Tweet_Id}
                           name={user ? user.Name : "Unknown User"}
                           username={user ? `@${user.Username}` : ""}
                           text={tweet.content}
@@ -377,7 +380,8 @@ const Explore: React.FC<ExplorePageProps> = () => {
                       <div className="tweet w-full flex border-b hover:bg-neutral-200 cursor-pointer m-0 p-4 dark:border-neutral-800">
                       <div className="avatar">
                         <Avatar
-                          src={handle.img_url}
+                          src={"https://gravatar.com/avatar/2b57c362077cd0cc478fbae93f08f2b1?s=400&d=robohash&r=x"}
+                          //src={handle.img_url} //img_url does not exist on handle
                           alt="User Avatar"
                           className="user-avatar min-w-12 min-h-12"
                         />
@@ -386,7 +390,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                         <div className="p-0 m-0 h-5">
                           <NavLink
                             to={{
-                              pathname: `/profile/${handle.username.substring(1)}`, //sets the url path
+                              pathname: `/profile/${handle.UserName.substring(1)}`, //sets the url path
                               //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
                               /*
                               To retrieve this data when navigating to the next page:
@@ -401,22 +405,22 @@ const Explore: React.FC<ExplorePageProps> = () => {
                             }}
                             className="font-semibold p-0 m-0 dark:text-white"
                           >
-                            {handle.name}
+                            {handle.Name}
                           </NavLink>
                         </div>
                         <div className="p-0 m-0 h-5">
                           <NavLink
                             to={{
-                              pathname: `/profile/${handle.username.substring(1)}`,
+                              pathname: `/profile/${handle.UserName.substring(1)}`,
                               //state: { username: username.substring(1) } -> is this valid, please verify
                             }}
                             className="text-slate-700 p-0 m-0 dark:text-gray-400"
                           >
-                            @{handle.username}
+                            @{handle.UserName}
                           </NavLink>
                         </div>     
                         <div>
-                          <p className="p-0 m-0 dark:text-white">{handle.bio}</p>
+                          <p className="p-0 m-0 dark:text-white">bio not available</p>{/*handle.bio bio does not exist on handle*/}
                         </div>             
                       </div>
                     </div>
@@ -441,6 +445,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                           return (
                             <Tweet
                               key={tweet.Tweet_Id}
+                              tweet_id={tweet.Tweet_Id}
                               name={user ? user.Name : "Unknown User"}
                               username={user ? `@${user.Username}` : ""}
                               text={tweet.content}
