@@ -120,6 +120,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
     checkUser();
 
   }, [navigate]);
+  // need to add tabs: Likes, Follows, Comments, Retweets, Posts
   // Need to modify the layout of data being passed for different types of tweets
   return (
     <div className="w-full h-full flex justify-center align-middle">
