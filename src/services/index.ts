@@ -32,6 +32,8 @@ import {countSaves} from "./tweetInteraction/countSaves.ts";
 import {countComments} from "./tweetInteraction/countComments.ts";
 import { addComment } from "./homeServices/addComment.ts";
 import { getComments } from "./homeServices/getComments.ts";
+import {searchUsers} from "./usersProfileServices/searchUser.ts";
+import {searchTweet} from "./tweetInteraction/searchTweet.ts";
 import { CreateFollowNotification,CreateLikeNotification,CreateCommentNotification,
     CreateRetweetNotification,CreateTweetNotification,updateNotifications,getUserNotifications } from "./homeServices/notifications.ts";
 
@@ -41,7 +43,9 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,         
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,toggleLike,toggleSave,
-    toggleRetweet, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets,
+    toggleRetweet,
+    countLikes, countRetweets, countSaves, countComments,
+    changePassword, searchUsers, getBookmarkedTweets, searchTweet,
     getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
     CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments,
     fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia, getAuthIdFromSession,

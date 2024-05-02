@@ -35,7 +35,7 @@ const TrendingList: React.FC<ExploreProps> = () => {
       try {
         const tagsData = await getTrendingTopics();
         setTopics(tagsData);
-        console.log(tagsData);
+        // console.log(tagsData);
       } catch (error) {
         console.error('Error fetching tags:', error);
       }
