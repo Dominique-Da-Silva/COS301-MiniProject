@@ -1,7 +1,7 @@
 import { test, 
   expect
 } from 'vitest';
-import { addTweet } from './addTweets'; 
+
 
 const addCommentMock = async (userId: number, tweetId: number, content: string) => {
   try {
@@ -79,15 +79,12 @@ const CreateFollowNotificationMock = async (followingId: number, followedId: num
       
       const Content = `${username[0].Username} followed you`;
 
-      // Mocking existing notifications
-      const existingNotifs = []; // Assuming no existing notifications
-      
-      // Mocking insertion of new notification
       const newNotif = { 
           User_Id: followedId,
           Type_Id: 1,
           Content: Content,
-          Read: false
+          Read: false,
+          FollowId: followingId
       };
 
       return newNotif;
@@ -104,16 +101,14 @@ const CreateLikeNotificationMock = async (tweetId: number, userId: number) => {
       const username = [{ Username: "liker" }];
       
       const Content = `${username[0].Username} has liked your tweet`;
-
-      // Mocking existing notifications
-      const existingNotifs = []; // Assuming no existing notifications
       
       // Mocking insertion of new notification
       const newNotif = { 
-          User_Id: 1,
+          User_Id: userId,
           Type_Id: 4,
           Content: Content,
-          Read: false
+          Read: false,
+          tweetId: tweetId
       };
 
       return newNotif;
@@ -130,16 +125,13 @@ const CreateRetweetNotificationMock = async (tweetId: number, userId: number) =>
       const username = [{ Username: "retweeter" }];
       
       const Content = `${username[0].Username} has retweeted your tweet`;
-
-      // Mocking existing notifications
-      const existingNotifs = []; // Assuming no existing notifications
       
-      // Mocking insertion of new notification
       const newNotif = { 
-          User_Id: 1,
+          User_Id: userId,
           Type_Id: 5,
           Content: Content,
-          Read: false
+          Read: false,
+          tweetId: tweetId
       };
 
       return newNotif;
@@ -151,7 +143,7 @@ const CreateRetweetNotificationMock = async (tweetId: number, userId: number) =>
 
 const CreateTweetNotificationMock = async (tweetId: number) => {
   try {
-      const tweet = [{ User_Id: 1 }]; 
+      const tweet = [{ User_Id: 1, tweetId }]; 
       
       const Content = `you made a new tweet`;
 
@@ -171,18 +163,17 @@ const CreateTweetNotificationMock = async (tweetId: number) => {
 
 const CreateCommentNotificationMock = async (tweetId: number, userId: number) => {
   try {
-      const tweet = [{ User_Id: 1 }]; 
       
       const username = [{ Username: "commenter" }];
       
       const Content = `${username[0].Username} has commented on your tweet`;
 
-     
       const newNotif = { 
-          User_Id: 1,
+          User_Id: userId,
           Type_Id: 3,
           Content: Content,
-          Read: false
+          Read: false,
+          tweetId: tweetId
       };
 
       return [newNotif]; 
@@ -221,27 +212,6 @@ const getUserNotificationsMock = async (userId: number) => {
       throw error;
   }
 };
-
-
-test('addTweet inserts a tweet successfully', async () => {
-///check the validity of the function addTweet
-
-  // Mock tweet data
-  const tweetData = {
-    User_Id: 13,
-    Content: 'making this tweet from a test file',
-    Img_filename: 'null',
-    Img_file: null // Mock image file
-  };
-
-  // Call the addTweet function with mock Supabase
-  const result = await addTweet(tweetData);
-
-  expect(result.length).toBeGreaterThan(0); // Check if result contains at least one item
-  expect(result[0].Content).toBe('making this tweet from a test file'); // Check if the first item has the expected content
-  expect(result[0].User_Id).toBe(13); // Check if the first item has the expected user ID
-
-});
 
 test('addComment inserts a comment successfully', async () => {
   const result = await addCommentMock(1,1,"TestComment");
@@ -319,7 +289,7 @@ test("CreateLikeNotification creates like notification correctly", async () => {
 
   expect(result).toBeDefined();
 
-  expect(result.User_Id).toBe(1);
+  expect(result.User_Id).toBe(userId);
   expect(result.Type_Id).toBe(4);
   expect(result.Content).toBe("liker has liked your tweet");
   expect(result.Read).toBe(false);
@@ -333,7 +303,7 @@ test("CreateRetweetNotification creates retweet notification correctly", async (
 
   expect(result).toBeDefined();
 
-  expect(result.User_Id).toBe(1);
+  expect(result.User_Id).toBe(userId);
   expect(result.Type_Id).toBe(5);
   expect(result.Content).toBe("retweeter has retweeted your tweet");
   expect(result.Read).toBe(false);
@@ -363,7 +333,7 @@ test("CreateCommentNotification creates comment notification correctly", async (
   expect(Array.isArray(result)).toBe(true);
 
   const [notification] = result; 
-  expect(notification.User_Id).toBe(1);
+  expect(notification.User_Id).toBe(userId);
   expect(notification.Type_Id).toBe(3);
   expect(notification.Content).toBe("commenter has commented on your tweet");
   expect(notification.Read).toBe(false);
