@@ -1,11 +1,11 @@
 import { supabase } from "@config/supabase";
 
-export async function searchUsers(query: string): Promise<string[]> {
+export async function searchUsers(query: string){
     try {
         const { data: usersData, error: usersError } = await supabase
             .from('User')
             .select('User_Id, Username, Name, Surname')
-            .or(`Username.ilike.%${query}%`, `Name.ilike.%${query}%`, `Surname.ilike.%${query}%`);
+            .or(`Username.ilike.%${query}%,Name.ilike.%${query}%,Surname.ilike.%${query}%`);
 
         if (usersError) {
             console.error('Error searching for users.');
@@ -33,12 +33,12 @@ export async function searchUsers(query: string): Promise<string[]> {
                 img_url: profileData?.Img_Url || '',
             };
             // console.log(userProfile);
-            profiles.push(userProfile);
+            profiles.push(JSON.stringify(userProfile));
         }
 
         return profiles;
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error searching for users:', error.message);
         return [];
     }

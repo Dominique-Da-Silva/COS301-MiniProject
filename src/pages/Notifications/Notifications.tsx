@@ -17,7 +17,7 @@ import {
 } from "mockData/mockData";
 import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn, getUserData } from "@services/index";
-import { getUserNotifications } from "@services/index";
+//import { getUserNotifications } from "@services/index";
 
 
 interface NotificationsProps {}
@@ -27,7 +27,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
   const [likedNotfications] = useState<any[]>(mockLikedNotifications);
   const navigate = useNavigate(); // Initialize useNavigate hook
   const [mentions] = useState<any[]>(mockMentions);
-  const [notifications, setNotifications] = useState<any[]>([]); // Initialize notifications state
+  //const [notifications, setNotifications] = useState<any[]>([]); // Initialize notifications state
   // const [followNotifications, setFollowNotifications] = useState<any[]>([]);
   // const [postnotifications, setPostNotifications] = useState<any[]>([]);
   // const [commentNotifications, setCommentNotifications] = useState<any[]>([]);

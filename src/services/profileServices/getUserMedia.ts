@@ -20,7 +20,7 @@ export async function fetchUserMedia(userId: number): Promise<string[]> {
 
         return mediaUrls;
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching user media:', error.message);
         return [];
     }

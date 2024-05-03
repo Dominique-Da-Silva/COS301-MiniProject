@@ -1,7 +1,7 @@
 import { test, 
   expect 
 } from 'vitest';
-import { addTweet } from './getTweets'; 
+import { addTweet } from './addTweets'; 
 
 test('addTweet inserts a tweet successfully', async () => {
 ///check the validity of the function addTweet

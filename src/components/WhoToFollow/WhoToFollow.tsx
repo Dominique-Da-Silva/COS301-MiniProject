@@ -69,8 +69,10 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
     const randomUsers = [];
     const repeatedIndexes: number[] = [];
     for (let i = 0; i < 3; i++) {
+      /*
       if (repeatedIndexes.includes(Math.floor(Math.random() * users.length))) {
       }
+      */
       randomUsers.push(users[Math.floor(Math.random() * users.length)]);
       repeatedIndexes.push(Math.floor(Math.random() * users.length));
     }
@@ -100,7 +102,6 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
           </div>
         </CardBody>
         <CardFooter className="cursor-pointer text-sky-500 hover:bg-slate-200">
-          Show more
         </CardFooter>
       </Card>
     </div>

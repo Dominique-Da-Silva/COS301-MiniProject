@@ -27,7 +27,7 @@ import { TbCalendarSearch } from "react-icons/tb";
 import { useEffect} from "react";
 import { isUserLoggedIn } from "@services/index";
 import toast from 'react-hot-toast';
-import { CreateTweetNotification } from "@services/index";
+//import { CreateTweetNotification } from "@services/index";
 
 const CreateTweet = () => {
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
