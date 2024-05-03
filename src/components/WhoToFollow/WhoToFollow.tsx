@@ -24,8 +24,8 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
     const fetchUsersData = async () => {
       try {
         const usersData = await fetchUsers();
-        console.log("Users Data:");
-        console.log(usersData);
+        // console.log("Users Data:");
+        // console.log(usersData);
         setUsers(randomUsers(usersData as any[])); // Add type assertion here
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -38,8 +38,8 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = await getLoggedUserId();
-      console.log("User Data:");
-      console.log(userData);
+      // console.log("User Data:");
+      // console.log(userData);
       setLoggedUserId(userData);
     };
     fetchUserData();
