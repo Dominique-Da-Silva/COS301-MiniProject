@@ -13,6 +13,47 @@ import { NavLink, Link } from "react-router-dom";
 const TweetDetailsPage = () => {
   const { tweetId = '0' } = useParams();
   const [tweetDetails, setTweetDetails] = useState<any>(null);
+  const [commentColor, setCommentColor] = useState(false);
+  const [retweetColor, setRetweetColor] = useState(false);
+  const [likeColor, setLikeColor] = useState(false);
+  const [bookmarkColor, setBookmarkColor] = useState(false);
+
+  const [commentCount, setCommentCount] = useState(0);
+  const [retweetCount, setRetweetCount] = useState(0);
+  const [likeCount, setLikeCount] = useState(0);
+  const [saveCount, setSaveCount] = useState(0);
+
+
+
+  const handleCommentClick = () => {
+    setCommentColor((prevState) => !prevState);
+    setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
+    onOpen();
+  };
+
+  const handleRetweetClick = () => {
+    setRetweetColor((prevState) => !prevState);
+    setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleRetweet function with tweetid and username
+    toggleRetweet(tweetid, userid);
+  };
+
+  const handleLikeClick = () => {
+    setLikeColor((prevState) => !prevState);
+    setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleLike function with tweetid and username
+    toggleLike(tweetid, userid);
+  };
+
+  const handleBookmarkClick = () => {
+    setBookmarkColor((prevState) => !prevState);
+    setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
+
+    // Call the toggleSave function with tweetid and username
+    toggleSave(tweetid, userid);
+  };
 
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
@@ -45,7 +86,7 @@ const TweetDetailsPage = () => {
         const tweet = await getTweet(parseInt(tweetId));
         setTweetDetails(tweet);
         // console.log(tweetId);
-        // console.log(tweet);
+        console.log(tweet);
       } catch (error) {
         console.error('Error fetching tweet details:', error);
       }
@@ -64,14 +105,15 @@ const TweetDetailsPage = () => {
       <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
         <div className="flex flex-col m-0 p-0 justify-center">
           <div>
-            {tweetDetails ? ( 
-              // <div className="avatar">
-              //   <Avatar
-              //     src={}
-              //     alt="User Avatar"
-              //     className="user-avatar min-w-12 min-h-12"
-              //   />
-              // </div>
+            {tweetDetails ? (
+              <>
+                <div className="avatar">
+                  <Avatar
+                    src={tweetDetails?.profile_img}
+                    alt="User Avatar"
+                    className="user-avatar min-w-12 min-h-12"
+                  /> 
+                </div>
               <div className="post flex-col w-full pl-2">
                 <div className="user-info flex">
                   <NavLink
@@ -95,10 +137,49 @@ const TweetDetailsPage = () => {
                   )}
                 </div>
               </div>
-            ) : (
+            </>) : (
               <p>Loading tweet details...</p>
             )}
           </div>
+          <div className="tweet-actions flex flex-row justify-around col text-slate-700">
+          <span
+            className={`action flex items-center cursor-pointer z-3 ${
+              commentColor ? "text-blue-500" : "hover:text-blue-500"
+            }`}
+            onClick={handleCommentClick}
+          >
+            {commentColor ? <FaComment className="w-4 h-4" /> : <FaRegComment className="w-4 h-4" />} &nbsp;{tweetDetails?.comments}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              retweetColor ? "text-green-500" : "hover:text-green-500"
+            }`}
+            onClick={handleRetweetClick}
+          >
+            {retweetColor ? <LuRepeat2 className="w-4 h-4" /> : <LuRepeat2 className="w-4 h-4" />} &nbsp;{tweetDetails?.retweets}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              likeColor ? "text-red-500" : "hover:text-red-500"
+            }`}
+            onClick={handleLikeClick}
+          >
+            {likeColor ? <PiHeartFill className="w-4 h-4" /> : <PiHeartBold className="w-4 h-4" />} &nbsp;{tweetDetails?.likes}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              bookmarkColor ? "text-orange-500" : "hover:text-orange-500"
+            }`}
+            onClick={handleBookmarkClick}
+          >
+            {bookmarkColor ? (
+              <FaBookmark className="w-4 h-4" />
+            ) : (
+              <FaRegBookmark className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{tweetDetails?.saves}
+          </span>
+        </div>
         </div>
       </div>
       <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
