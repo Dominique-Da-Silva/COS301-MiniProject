@@ -9,7 +9,7 @@ import { isUserLoggedIn } from "@services/index";
 interface TwiviaProps { }
 
 const Twivia: React.FC<TwiviaProps> = () => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  // const navigate = useNavigate(); // COMMENT BACK WHEN DONE TESTING
 
   const [showGamePlay, setShowGamePlay] = useState(false);
 
@@ -17,7 +17,7 @@ const Twivia: React.FC<TwiviaProps> = () => {
     setShowGamePlay(true);
   };
 
-  useEffect(() => {
+  /* useEffect(() => { COMMENT BACK WHEN DONE TESTING
     // this is necessary for checking if the user is signed in
     const checkUser = async () => {
       // Check if user is already logged in
@@ -27,7 +27,7 @@ const Twivia: React.FC<TwiviaProps> = () => {
       }
     };
     checkUser();
-  }, [navigate]);
+  }, [navigate]); */
 
   return (
     <div className="w-full h-full flex justify-center align-middle">
@@ -67,11 +67,15 @@ const Twivia: React.FC<TwiviaProps> = () => {
 
 
         <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-          <div className="mb-3">
-            <Search />
-          </div>
-          <TrendingTopics />
-          <WhoToFollow users={[]} />
+          {
+            /* COMMENT BACK WHEN DONE TESTING
+            <div className="mb-3">
+              <Search />
+            </div>
+            <TrendingTopics />
+            <WhoToFollow users={[]} /> 
+            */
+          }
         </div>
       </div>
     </div>
