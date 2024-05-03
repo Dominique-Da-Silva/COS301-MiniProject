@@ -26,6 +26,10 @@ import {countLikes} from "./tweetInteraction/countLikes.ts"
 import {countRetweets} from "./tweetInteraction/countRetweets.ts"
 import {countSaves} from "./tweetInteraction/countSaves.ts"
 import {countComments} from "./tweetInteraction/countComments.ts"
+import { getListOfFiveUsersAvatars, getRandomAvatar, matchAvatarGame } from "./gameServices/matchAvatarGame.ts";
+import { pickRandomIdsFromFollowingList } from "./gameServices/pickRandomIds.ts";
+import { getUserProfiles } from "./gameServices/getUserProfiles.ts";
+import { getRandomTweet, getListOfFiveUsersTweets, whoMadeThisTweetGame } from "./gameServices/whoMadeThisTweetGame.ts";
 
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
@@ -34,5 +38,9 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     fetchUserData, countFollowers, countFollowing, fetchProfileDetails,
     uploadImageAndGetURL,checkIfFollowing, getLoggedUserId, getUserData,
-    getTrendingTopics,toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
+    getTrendingTopics,toggleLike,toggleSave,toggleRetweet, countLikes, countRetweets, 
+    countSaves, countComments, changePassword, getBookmarkedTweets,
+    getListOfFiveUsersAvatars, getRandomAvatar, matchAvatarGame,
+    pickRandomIdsFromFollowingList, getUserProfiles, getRandomTweet, 
+    getListOfFiveUsersTweets, whoMadeThisTweetGame
     };
