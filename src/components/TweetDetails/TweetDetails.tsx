@@ -111,6 +111,7 @@ const TweetDetailsPage = () => {
       </div>
     </div>
   );
+  
 };
 
 export default TweetDetailsPage;
