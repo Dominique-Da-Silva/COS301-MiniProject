@@ -17,6 +17,13 @@ const followerData: FollowerData[] = [
   { id: 'd', name: 'Yashvitha Kanaparthy', photo: 'images/IMG-20240312-WA0076.jpg', isCorrect: false },
 ];
 
+const questions = [ //This will be populated with the real questions
+  "Question 1",
+  "Question 2",
+  "Question 3",
+  "Question 4",
+  "Question 5",
+];
 
 const GamePlay = () => {
   const [selectedOption, setSelectedOption] = useState<string>('');
@@ -24,6 +31,8 @@ const GamePlay = () => {
   const [showNext, setShowNext] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false); // Track if "Submit" button has been clicked
+  const [questionNumber, setQuestionNumber] = useState<number>(0); // Track current question number
+  const [correctCount, setCorrectCount] = useState<number>(0); // Track number of correct answers
 
   const handleOptionChange = (option: string) => {
     if (!submitted) {
@@ -31,7 +40,7 @@ const GamePlay = () => {
     }
   };
 
-  const determineCorrectAnswer = () => {
+  const determineCorrectAnswer = () => { //this will invoke the function that determines the correct answer for that specific question, we will probably need to appropriate this 
     const correctIndex = Math.floor(Math.random() * followerData.length);
     followerData.forEach((follower, index) => {
       follower.isCorrect = index === correctIndex;
@@ -47,15 +56,22 @@ const GamePlay = () => {
       determineCorrectAnswer(); // Placeholder for determining correct answer
       const isCorrect = selectedOption === followerData.find((follower) => follower.isCorrect)?.id;
       setFeedback(isCorrect ? 'correct' : 'incorrect');
+      if (isCorrect) {
+        setCorrectCount(correctCount + 1); // Increment correct count if answer is correct
+      }
     }
   };
 
   const handleNext = () => {
-    setSelectedOption('');
-    setShowNext(false);
-    setShowResult(true);
-    setFeedback(null);
-    setSubmitted(false); // Reset submitted state
+    if (questionNumber < questions.length - 1) {
+      setQuestionNumber(questionNumber + 1); // Go to next question
+      setSelectedOption('');
+      setShowNext(false);
+      setFeedback(null);
+      setSubmitted(false); // Reset submitted state
+    } else {
+      setShowResult(true); // If no more questions, show results
+    }
   };
 
   return (
@@ -66,7 +82,7 @@ const GamePlay = () => {
             Twivia
           </h2>
           <FaTwitter style={{ fontSize: '2rem', color: '#1DA1F2', marginBottom: '1rem' }} />
-          <p className="text-base">1. Who has been following you the longest?</p>
+          <p className="text-base">{questions[questionNumber]}</p>
           <div className="mt-4 flex flex-col">
             {followerData.map((follower) => (
               <div
@@ -131,7 +147,7 @@ const GamePlay = () => {
 
         </>
       ) : (
-        <GameResult />
+        <GameResult correctCount={correctCount} totalQuestions={questions.length} />
       )}
     </Card>
   );
