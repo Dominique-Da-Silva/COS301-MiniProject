@@ -9,6 +9,7 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink, Link } from "react-router-dom";
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 const TweetDetailsPage = () => {
   const { tweetId = '0' } = useParams();
@@ -104,6 +105,12 @@ const TweetDetailsPage = () => {
         </div>
       <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
         <div className="flex flex-col m-0 p-0 justify-center">
+          <h1 className="font-bold text-xl mb-4 flex items-center">
+            <Link to="/Home">
+              <AiOutlineArrowLeft className='w-4 h-4 mr-2'/> 
+            </Link>
+            <span className='ml-4'>Post</span>
+          </h1>
           <div>
             {tweetDetails ? (
               <>
