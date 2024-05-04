@@ -30,6 +30,8 @@ import { getListOfFiveUsersAvatars, getRandomAvatar, matchAvatarGame } from "./g
 import { pickRandomIdsFromFollowingList } from "./gameServices/pickRandomIds.ts";
 import { getUserProfiles } from "./gameServices/getUserProfiles.ts";
 import { getRandomTweet, getListOfFiveUsersTweets, whoMadeThisTweetGame } from "./gameServices/whoMadeThisTweetGame.ts";
+import { getNewestFollowing, getOldestFollowing } from "./gameServices/FollowingPeriod.ts";
+import { whoMadeThisTweetonDateGame, getRandomTweetWithDate, getListOfFiveUsersTweetedOn } from "./gameServices/whoTweetedThisOn.ts";
 
 
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
@@ -42,5 +44,7 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     countSaves, countComments, changePassword, getBookmarkedTweets,
     getListOfFiveUsersAvatars, getRandomAvatar, matchAvatarGame,
     pickRandomIdsFromFollowingList, getUserProfiles, getRandomTweet, 
-    getListOfFiveUsersTweets, whoMadeThisTweetGame
+    getListOfFiveUsersTweets, whoMadeThisTweetGame,
+    getNewestFollowing, getOldestFollowing, whoMadeThisTweetonDateGame,
+    getRandomTweetWithDate, getListOfFiveUsersTweetedOn
     };
