@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Nav, TrendingTopics, Search, WhoToFollow} from '@components/index';
-import { getTweet } from '@services/index';
+import { getComments, getTweet } from '@services/index';
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
@@ -12,6 +12,15 @@ import { NavLink, Link } from "react-router-dom";
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import CreateCommentInput from "../CreateCommentInput/CreateCommentInput";
 
+interface Comment {
+  Comment_Id: number;
+  Content: string;
+  Created_at: string;
+  Tweet_Id: number;
+  User_Id: number;
+}
+
+
 const TweetDetailsPage = () => {
   const { tweetId = '0' } = useParams();
   const [tweetDetails, setTweetDetails] = useState<any>(null);
@@ -19,6 +28,8 @@ const TweetDetailsPage = () => {
   const [retweetColor, setRetweetColor] = useState(false);
   const [likeColor, setLikeColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+
 
   const [commentCount, setCommentCount] = useState(0);
   const [retweetCount, setRetweetCount] = useState(0);
@@ -81,6 +92,24 @@ const TweetDetailsPage = () => {
 
     return timeDisplay;
   };
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getComments(parseInt(tweetId));
+        if (!commentsData) return; // Handle case where data is empty or undefined
+  
+        // Filter comments based on tweetId
+        const filteredComments = commentsData.filter(comment => comment.Tweet_Id === parseInt(tweetId));
+  
+        setComments(filteredComments);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+  
+    fetchComments();
+  }, [tweetId]);
 
   useEffect(() => {
     const fetchTweetDetails = async () => {
@@ -209,6 +238,17 @@ const TweetDetailsPage = () => {
             </div>
             <hr className='mt-4 mb-3'></hr>
             <CreateCommentInput username={tweetDetails?.username} ></CreateCommentInput>
+            <hr className='mb-3'></hr>
+            <div>
+              <p className="p-3 m-0 dark:text-white">
+                {comments.map((comment) => (
+                  <div key={comment.Comment_Id}>
+                    <p>{comment.Content}</p>
+                    <hr className='mt-4 mb-3'></hr>
+                  </div>
+                ))}
+              </p>
+            </div>
           </div>
         </div>
         <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
