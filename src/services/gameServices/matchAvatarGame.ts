@@ -11,7 +11,10 @@ export const matchAvatarGame = async () => {
     const list = await getListOfFiveUsersAvatars(randavt.User_Id);
 
     return {
-        candidate_question: randavt,
+        candidate_question: {
+            question: "Whose avatar from the users you follow does this belong to?",
+            randavt
+        },
         list_options: list,
         answer_user_id: randavt.User_Id
     }

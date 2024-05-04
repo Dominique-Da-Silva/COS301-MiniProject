@@ -15,7 +15,10 @@ export const whoMadeThisTweetGame = async () => {
     }
 
     return {
-        candidate_question: randtweet,
+        candidate_question: {
+            question: "Who made this tweet?",
+            randtweet
+        },
         list_options: list,
         answer_user_id: randtweet.User_Id
     }
