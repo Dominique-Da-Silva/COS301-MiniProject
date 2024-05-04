@@ -11,6 +11,13 @@ import { Avatar } from "@nextui-org/react";
 import { NavLink, Link } from "react-router-dom";
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import CreateCommentInput from "../CreateCommentInput/CreateCommentInput";
+import CreateComment from "../CreateComment/CreateComment";
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+} from "@nextui-org/react";
 
 interface Comment {
   Comment_Id: number;
@@ -29,6 +36,7 @@ const TweetDetailsPage = () => {
   const [likeColor, setLikeColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
+  const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
 
   const [commentCount, setCommentCount] = useState(0);
@@ -197,6 +205,24 @@ const TweetDetailsPage = () => {
                 <p>Loading tweet details...</p>
               )}
             </div>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+              <ModalContent>
+                {() => (
+                  <ModalBody>
+                    <CreateComment
+                      tweet_id={tweetDetails.tweet_id}
+                      user_id={tweetDetails.loggedUserId}
+                      name={tweetDetails.name}
+                      username={tweetDetails.username}
+                      text={tweetDetails.content}
+                      imageUrl={tweetDetails.imageUrl}
+                      profileimageurl={tweetDetails.profile_img}
+                      timeDisplay={tweetDetails.timeDisplay}
+                    ></CreateComment>
+                  </ModalBody>
+                )}
+              </ModalContent>
+            </Modal>
             <div className="tweet-actions flex flex-row justify-around col text-slate-700">
               <span
                 className={`action flex items-center cursor-pointer z-3 ${
