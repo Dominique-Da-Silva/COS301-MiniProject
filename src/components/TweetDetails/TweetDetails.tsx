@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Nav, TrendingTopics, Search, WhoToFollow, Tweet } from '@components/index';
+import { Nav, TrendingTopics, Search, WhoToFollow} from '@components/index';
 import { getTweet } from '@services/index';
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
@@ -10,6 +10,7 @@ import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink, Link } from "react-router-dom";
 import { AiOutlineArrowLeft } from 'react-icons/ai';
+import CreateCommentInput from "../CreateCommentInput/CreateCommentInput";
 
 const TweetDetailsPage = () => {
   const { tweetId = '0' } = useParams();
@@ -207,6 +208,7 @@ const TweetDetailsPage = () => {
               </span>
             </div>
             <hr className='mt-4 mb-3'></hr>
+            <CreateCommentInput username={tweetDetails?.username} ></CreateCommentInput>
           </div>
         </div>
         <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
