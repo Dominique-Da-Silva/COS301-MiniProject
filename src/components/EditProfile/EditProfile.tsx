@@ -7,6 +7,7 @@ import { fetchUserData } from "@services/profileServices/getAuthUser";
 import { fetchProfileDetails } from "@services/profileServices/getProfile";
 import { updateProfileDetails } from "@services/profileServices/updateProfileDetails";
 import { updateUsername } from "@services/profileServices/updateUsername";
+import { uploadImageAndGetURL, uploadProfile } from "@services/index";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
@@ -22,7 +23,7 @@ const EditProfile: React.FC = () => {
         //console.log(userDataX);
         setUserData(userDataX);
         const profileTemp = await fetchProfileDetails(userDataX.User_Id);
-        console.log(profileTemp);
+        // console.log(profileTemp);
         setProfileDetails(profileTemp);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -50,12 +51,17 @@ const EditProfile: React.FC = () => {
     setPD();
   }, [userData]);
   const [editedUsername, setEditedUsername] = useState("");
+  const [userProfileImage, setUserProfileImage] = useState<string>("");
+  const [userProfileBanner, setUserProfileBanner] = useState<string>("");
   const [editedName, setEditedName] = useState("");
   const [editedBio, setEditedBio] = useState("");
   const [editedLocation, setEditedLocation] = useState("");
   const [editedWebsite, setEditedWebsite] = useState("");
   const [editedImage, setEditedImage] = useState<File | null>(null);
+  const [editedImageURL, setEditedImageURL] = useState<string>("");
   const [editedBanner, setEditedBanner] = useState<File | null>(null);
+  const [editedBannerURL, setEditedBannerURL] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   // const handleCancelClick = () => {
   //   // Reset Editing state to close the edit window
   //   setIsEditing(false);
@@ -65,6 +71,21 @@ const EditProfile: React.FC = () => {
     const result = await updateUsername(editedUsername);
     console.log(result);
   };
+
+  const getProfileImage = async (): Promise<string> => {
+    const result = await fetchProfileDetails(userData.User_Id);
+    console.log(result);
+    return result.Img_Url;
+  };
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      const result = await getProfileImage();
+      setUserProfileImage(result);
+    };
+    fetchProfileImage();
+  }, []);
+
   const updateUserData = async (userData: {
     Banner_Url?: string;
     Bio?: string;
@@ -78,18 +99,9 @@ const EditProfile: React.FC = () => {
     console.log(result);
   };
   const handleSaveClick = async () => {
-    // Save the new data
-    //console.log("Save Clicked");
-    //console.log(editedUsername);
-    //console.log(editedName);
-    //console.log(editedBio);
-    //console.log(editedLocation);
-    //console.log(editedWebsite);
-    //console.log(editedImage);
-    //console.log(editedBanner);
-    //console.log(userData.User_Id);
-    //console.log(userData);
     update_Username(editedUsername);
+    uploadImageAndGetURL(editedImage as File, "profile_images");
+    uploadImageAndGetURL(editedBanner as File, "profile_banners");
     updateUserData({
       Banner_Url: editedBanner?.toString() ?? undefined,
       Bio: editedBio,
@@ -100,6 +112,34 @@ const EditProfile: React.FC = () => {
       Website: editedWebsite,
     });
   };
+
+  function capureImage(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files === null) return;
+    setIsLoading(true);
+    const selectedFile = e.target.files[0];
+    setEditedImage(selectedFile);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setEditedImageURL(reader.result as string);
+    };
+    reader.readAsDataURL(selectedFile);
+    setIsLoading(false);
+  }
+
+  function captureBanner(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files === null) return;
+    setIsLoading(true);
+    const selectedFile = e.target.files[0];
+    setEditedBanner(selectedFile);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setEditedBannerURL(reader.result as string);
+    };
+    reader.readAsDataURL(selectedFile);
+    setIsLoading(false);
+  }
 
   if (!userData) {
     return <p>Loading</p>;
@@ -115,7 +155,34 @@ const EditProfile: React.FC = () => {
             </NavLink>
             <h2 className="text-2xl font-bold">Edit Profile</h2>
           </div>
-          <div className="bg-white p-4 shadow rounded-md">
+          <div className="bg-white p-4 shadow">
+            <label htmlFor="profileImage" className="block mb-2 font-semibold">
+              Banner Image
+              <div className="flex justify-center items-center">
+                <div className="w-full h-36 overflow-hidden border border-gray flex justify-center items-center">
+                  {editedBannerURL ? (
+                    <img
+                      src={editedBannerURL}
+                      alt="uploaded-avatar"
+                      className="w-full h-full object cover"
+                    />
+                  ) : (
+                    <img
+                      src={userProfileBanner}
+                      alt="banner"
+                      className="w-full h-full object cover"
+                    />
+                  )}
+                </div>
+              </div>
+              <input
+                id="profileImage"
+                type="file"
+                accept="image/*"
+                onChange={captureBanner}
+                className="hidden"
+              />
+            </label>
             <label htmlFor="name" className="block mb-2 font-semibold">
               Name
             </label>
@@ -173,6 +240,33 @@ const EditProfile: React.FC = () => {
               className="mb-4"
               onChange={(e) => setEditedWebsite(e.target.value)}
             />
+            <label htmlFor="profileImage" className="block mb-2 font-semibold">
+              Profile Image
+              <div className="flex justify-center items-center">
+                <div className="w-36 h-36 rounded-full overflow-hidden border border-gray flex justify-center items-center">
+                  {editedImageURL ? (
+                    <img
+                      src={editedImageURL}
+                      alt="uploaded-avatar"
+                      className="w-full h-full object cover"
+                    />
+                  ) : (
+                    <img
+                      src={userProfileImage}
+                      alt="avatar"
+                      className="w-full h-full object cover"
+                    />
+                  )}
+                </div>
+              </div>
+              <input
+                id="profileImage"
+                type="file"
+                accept="image/*"
+                onChange={capureImage}
+                className="hidden"
+              />
+            </label>
             <Button size="lg" className="w-full" onClick={handleSaveClick}>
               Save
             </Button>

@@ -421,7 +421,7 @@ const ProfileDetails = () => {
                             return (
                               <Tweet
                                 tweet_id={reply.id}
-                                //userid={userData.User_Id}
+                               // userid={userData.User_Id}
                                 key={index}
                                 name={userData.Name}
                                 username={`@${userData.Username}`}
@@ -462,7 +462,7 @@ const ProfileDetails = () => {
                         return(
                           <Tweet
                             tweet_id={tweet.id}
-                            //userid={userData.User_Id}
+                           // userid={userData.User_Id}
                             key={index}
                             name={iUser ? iUser.Name : "Unknown User"}
                             username={iUser ? `@${iUser.Username}` : ""}
