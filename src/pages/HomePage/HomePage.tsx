@@ -156,7 +156,7 @@ const HomePage: React.FC<HomePageProps> = () => {
             > */}
               {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
           {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
-            console.log("Tweet:", tweet);
+            // console.log("Tweet:", tweet);
             // console.log("Users:", users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
             // console.log("User:", user);
