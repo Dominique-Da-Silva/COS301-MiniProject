@@ -25,6 +25,14 @@ interface Comment {
   Created_at: string;
   Tweet_Id: number;
   User_Id: number;
+  User: {
+    Name: string;
+    Username: string;
+    Created_at: string;
+    Profile: {
+      Img_Url: string | null;
+    }[]
+  } | null
 }
 
 
@@ -76,6 +84,15 @@ const TweetDetailsPage = () => {
     toggleSave(tweetid, userid);
   };
 
+  const formatCommentTimestamp = (timestamp: string) => {
+    const parsedTimestamp = new Date(timestamp);
+    const month = parsedTimestamp.toLocaleString("en-us", {
+      month: "short",
+    });
+    const day = parsedTimestamp.getDate();
+    return `${month} ${day}`;
+  };
+
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
     const parsedTimestamp = new Date(timestamp);
@@ -106,11 +123,10 @@ const TweetDetailsPage = () => {
       try {
         const commentsData = await getComments(parseInt(tweetId));
         if (!commentsData) return; // Handle case where data is empty or undefined
-  
         // Filter comments based on tweetId
-        const filteredComments = commentsData.filter(comment => comment.Tweet_Id === parseInt(tweetId));
+        // const filteredComments = commentsData.filter(comment => comment.Tweet_Id === parseInt(tweetId));
   
-        setComments(filteredComments);
+        setComments(commentsData);
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
@@ -267,12 +283,30 @@ const TweetDetailsPage = () => {
             <hr className='mb-3'></hr>
             <div>
               <p className="p-3 m-0 dark:text-white">
-                {comments.map((comment) => (
+              {comments.map((comment) => {
+                console.log(comment);
+                return(
                   <div key={comment.Comment_Id}>
-                    <p>{comment.Content}</p>
-                    <hr className='mt-4 mb-3'></hr>
+                  <div className="flex items-center mb-4">
+                    <Avatar
+                      // @ts-expect-error ProfileArray
+                      src={comment?.User.Profile[0]?.Img_Url}
+                      alt={comment?.User?.Username}
+                      className="user-avatar"
+                      style={{ width: '32px', height: '32px' }}
+                    />
+                    <p className="font-bold ml-2">{comment?.User?.Name}</p>
+                    <p className="ml-2">@{comment?.User?.Username}</p>
+                    <p className="ml-2">
+                      {comment?.User?.Created_at ? formatCommentTimestamp(comment.Created_at) : ''}
+                    </p>
                   </div>
-                ))}
+                  <div className='ml-10 -mt-2'>
+                    <p>{comment.Content}</p>
+                  </div>
+                  <hr className='mt-4 mb-3'></hr>
+                </div>
+              )})}
               </p>
             </div>
           </div>
