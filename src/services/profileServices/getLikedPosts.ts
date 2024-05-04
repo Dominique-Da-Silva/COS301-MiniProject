@@ -28,7 +28,7 @@ export const fetchLikedPosts = async (userId: number): Promise<any> =>{
         }
 
         return likedPostsData;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching liked posts:', error.message);
     }
 }
