@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/profileServices/getAuthUser";
 import { fetchProfileDetails } from "@services/profileServices/getProfile";
 import { updateProfileDetails } from "@services/profileServices/updateProfileDetails";
-import { updateUsername } from "@services/profileServices/updateUsername";
+import { updateUsername } from "@services/index";
 import { uploadImageAndGetURL, uploadProfile } from "@services/index";
 
 const EditProfile: React.FC = () => {
@@ -94,6 +94,7 @@ const EditProfile: React.FC = () => {
     Profile_Type?: string;
     Theme?: boolean;
     Website?: string;
+    Gender?: string;
   }) => {
     const result = await updateProfileDetails(userData);
     console.log(result);
@@ -110,6 +111,7 @@ const EditProfile: React.FC = () => {
       Theme: userData.Theme,
       Location: editedLocation,
       Website: editedWebsite,
+      Gender: userData.Gender,
     });
   };
 

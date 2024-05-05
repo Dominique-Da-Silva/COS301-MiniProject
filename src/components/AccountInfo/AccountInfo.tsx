@@ -1,38 +1,75 @@
-// AccountInfo.tsx
 import React, { useEffect, useState } from "react";
 import {
   fetchProfileDetails,
   fetchUserData,
-  uploadProfile,
   updateProfileDetails,
-  uploadImageAndGetURL,
   updateUsername,
+  updateName,
+  updateEmail,
+  updateSurname,
 } from "@services/index";
 import { Button } from "@nextui-org/react";
-
-const [accountInfo, setAccountInfo] = useState<any>(null);
-const [userData, setUserData] = useState<any>(null);
-const [editedUsername, setEditedUsername] = useState("");
-const [userProfileImage, setUserProfileImage] = useState<string>("");
-const [userProfileBanner, setUserProfileBanner] = useState<string>("");
-const [editedName, setEditedName] = useState("");
-const [editedBio, setEditedBio] = useState("");
-const [editedLocation, setEditedLocation] = useState("");
-const [editedWebsite, setEditedWebsite] = useState("");
-const [editedImage, setEditedImage] = useState<File | null>(null);
-const [editedImageURL, setEditedImageURL] = useState<string>("");
-const [editedBanner, setEditedBanner] = useState<File | null>(null);
-const [editedBannerURL, setEditedBannerURL] = useState<string>("");
-const [editedGender, setEditedGender] = useState("");
-const [editedBirthDate, setEditedBirthDate] = useState("");
+import { Input } from "@nextui-org/react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+} from "@nextui-org/dropdown";
 
 const AccountInfo: React.FC = () => {
+  const [accountInfo, setAccountInfo] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
+  const [editedUsername, setEditedUsername] = useState("");
+  const [editedName, setEditedName] = useState("");
+  const [editedEmail, setEditedEmail] = useState("");
+  const [editedSurname, setEditedSurname] = useState("");
+  const [editedLocation, setEditedLocation] = useState("");
+  const [editedGender, setEditedGender] = useState("");
+
+  const genders = [
+    {
+      key: "0",
+      value: "Male",
+    },
+    {
+      key: "1",
+      value: "Female",
+    },
+    {
+      key: "2",
+      value: "Other",
+    },
+  ];
+
+  const locations = [
+    { key: "0", value: "Nigeria" },
+    { key: "1", value: "United States" },
+    { key: "2", value: "United Kingdom" },
+    { key: "3", value: "Canada" },
+    { key: "4", value: "Germany" },
+    { key: "5", value: "France" },
+    { key: "6", value: "Australia" },
+    { key: "7", value: "South Africa" },
+    { key: "8", value: "Brazil" },
+    { key: "9", value: "India" },
+    { key: "10", value: "China" },
+  ];
+
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replace(/_/g, " "),
+    [selectedKeys]
+  );
   useEffect(() => {
     const fetchData = async () => {
       const userDataX = await fetchUserData();
       const profileDetails = await fetchProfileDetails(userDataX.User_Id);
       setAccountInfo(profileDetails);
+      setUserData(userDataX);
       console.log(profileDetails);
+      console.log(userDataX);
     };
     fetchData();
 
@@ -71,18 +108,32 @@ const AccountInfo: React.FC = () => {
     return timeDisplay;
   };
 
+  const convertDataToAge = (dateString: Date) => {
+    if (!dateString) return null;
+    const today = new Date();
+    const birthDate = new Date(dateString);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const month = today.getMonth() - birthDate.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
   const handleSaveClick = async () => {
     update_Username(editedUsername);
-    uploadImageAndGetURL(editedImage as File, "profile_images");
-    uploadImageAndGetURL(editedBanner as File, "profile_banners");
+    update_Name(editedName);
+    update_Surname(editedSurname);
+    update_Email(editedEmail);
     updateUserData({
-      Banner_Url: editedBanner?.toString() ?? undefined,
-      Bio: editedBio,
-      Img_Url: editedImage?.toString() ?? undefined,
+      Banner_Url: userData.Banner_Url,
+      Bio: userData.Bio,
+      Img_Url: userData.Img_Url,
       Profile_Type: userData.Profile_Type,
       Theme: userData.Theme,
       Location: editedLocation,
-      Website: editedWebsite,
+      Website: userData.Website,
+      Gender: editedGender,
     });
   };
 
@@ -90,38 +141,20 @@ const AccountInfo: React.FC = () => {
     const result = await updateUsername(editedUsername);
     console.log(result);
   };
-
-  const getProfileImage = async (): Promise<string> => {
-    const result = await fetchProfileDetails(userData.User_Id);
+  const update_Name = async (editedName: string) => {
+    const result = await updateName(editedName);
     console.log(result);
-    return result.Img_Url;
   };
 
-  function capureImage(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files === null) return;
+  const update_Surname = async (editedSurname: string) => {
+    const result = await updateSurname(editedSurname);
+    console.log(result);
+  };
 
-    const selectedFile = e.target.files[0];
-    setEditedImage(selectedFile);
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setEditedImageURL(reader.result as string);
-    };
-    reader.readAsDataURL(selectedFile);
-  }
-
-  function captureBanner(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files === null) return;
-
-    const selectedFile = e.target.files[0];
-    setEditedBanner(selectedFile);
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setEditedBannerURL(reader.result as string);
-    };
-    reader.readAsDataURL(selectedFile);
-  }
+  const update_Email = async (editedEmail: string) => {
+    const result = await updateEmail(editedEmail);
+    console.log(result);
+  };
 
   const updateUserData = async (userData: {
     Banner_Url?: string;
@@ -131,118 +164,154 @@ const AccountInfo: React.FC = () => {
     Profile_Type?: string;
     Theme?: boolean;
     Website?: string;
+    Gender?: string;
   }) => {
     const result = await updateProfileDetails(userData);
     console.log(result);
   };
-
-  return (
-    <div className="bg-white text-gray-800">
-      <div className="p-4 border-b border-gray-300">
-        <h4 className="text-gray-600 font-semibold">Account information</h4>
-      </div>
-      <div className="p-4">
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Banner</p>
-          <div className="flex justify-center items-center">
-            <div className="w-full h-36 overflow-hidden border border-gray flex justify-center items-center">
-              {editedBannerURL ? (
-                <img
-                  src={editedBannerURL}
-                  alt="uploaded-avatar"
-                  className="w-full h-full object cover"
-                />
-              ) : (
-                <img
-                  src={userProfileBanner}
-                  alt="banner"
-                  className="w-full h-full object cover"
-                />
-              )}
+  if (!userData) {
+    return <div>Loading...</div>;
+  } else {
+    if (!accountInfo) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div className="bg-white text-gray-800">
+          <div className="p-4 border-b border-gray-300">
+            <h4 className="text-gray-600 font-semibold">Account information</h4>
+          </div>
+          <div className="p-4">
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <label className="font-semibold">Name</label>
+              <Input
+                id="surname"
+                placeholder={
+                  userData.Name ? userData.Name : "Enter your surname"
+                }
+                onChange={(e) => setEditedName(e.target.value)}
+              />
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <label className="font-semibold">Surname</label>
+              <Input
+                id="surname"
+                placeholder={
+                  userData.Surname ? userData.Name : "Enter your surname"
+                }
+                onChange={(e) => setEditedSurname(e.target.value)}
+              />
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <label className="font-semibold">Username</label>
+              <Input
+                id="username"
+                placeholder={
+                  userData.Username ? userData.Username : "Enter your username"
+                }
+                onChange={(e) => setEditedUsername(e.target.value)}
+              />
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <label className="font-semibold">Email</label>
+              <Input
+                id="email"
+                placeholder={
+                  userData.Email ? userData.Email : "Enter your email"
+                }
+                onChange={(e) => setEditedEmail(e.target.value)}
+              />
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <p className="font-semibold">Account creation</p>
+              <p className="text-gray-500">
+                {getTimeDisplay(userData.Created_at)}
+              </p>
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <label className="font-semibold">Location</label>
+              <div>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant="solid" color="primary">
+                      {" "}
+                      {accountInfo.Location
+                        ? accountInfo.Location
+                        : "Select your Location"}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Dynamic Actions" items={locations}>
+                    {(item) => (
+                      <DropdownItem key={item.key}>
+                        <Button onClick={() => setEditedLocation(item.value)}>
+                          {item.value}
+                        </Button>
+                      </DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <p className="font-semibold">Languages</p>
+              <p className="text-gray-500">English</p>
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <label className="font-semibold">Gender</label>
+              <div>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant="solid" color="primary">
+                      {userData.Gender ? userData.Gender : "Select your gender"}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Dynamic Actions"
+                    items={genders}
+                    selectionMode="single"
+                    selectedKeys={selectedKeys}
+                    //  onSelectionChange={setSelectedKeys}
+                  >
+                    {(item) => (
+                      <DropdownItem key={item.key} color="primary">
+                        <Button onClick={() => setEditedGender(item.value)}>
+                          {item.value}
+                        </Button>
+                      </DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <p className="font-semibold">Birth date</p>
+              <p className="text-gray-500">
+                {userData.Data_Of_Birth?.toString() ??
+                  "No Birth Date Available"}
+              </p>
+            </div>
+            <div className="h-1" />
+            <div className="hover:bg-gray-100 p-2 rounded-md">
+              <p className="font-semibold">Age</p>
+              <p className="text-gray-500">
+                {convertDataToAge(userData.Data_Of_Birth)
+                  ? userData.Data_Of_Birth
+                  : "No Age Available"}
+              </p>
             </div>
           </div>
+          <Button onClick={handleSaveClick}>Save Changes</Button>
         </div>
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Profile Image</p>
-          <div className="flex justify-center items-center">
-            <div className="w-full h-36 overflow-hidden border border-gray flex justify-center items-center">
-              {editedImageURL ? (
-                <img
-                  src={editedImageURL}
-                  alt="uploaded-avatar"
-                  className="w-full h-full object cover"
-                />
-              ) : (
-                <img
-                  src={userProfileImage}
-                  alt="banner"
-                  className="w-full h-full object cover"
-                />
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Username</p>
-          <p className="text-gray-500">{userData.Name}</p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Surname</p>
-          <p className="text-gray-500">{userData.Surname}</p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Username</p>
-          <p className="text-gray-500">{userData.Username}</p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Email</p>
-          <p className="text-gray-500">{userData.Email}</p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Account creation</p>
-          <p className="text-gray-500">{getTimeDisplay(userData.Created_at)}</p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Country</p>
-          <p className="text-gray-500">{accountInfo.Location}</p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Languages</p>
-          <p className="text-gray-500">English</p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Gender</p>
-          <p className="text-gray-500">{accountInfo.Gender}</p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Birth date</p>
-          <p className="text-gray-500">{userData.Data_Of_Birth}</p>
-          <p className="text-gray-500">
-            Add your date of birth to your profile.
-          </p>
-        </div>
-        <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Age</p>
-          <p className="text-gray-500">20</p>
-        </div>
-        {/* <div className="h-1" />
-        <div className="hover:bg-gray-100 p-2 rounded-md">
-          <p className="font-semibold">Automation</p>
-          <p className="text-gray-500">Manage your automated account.</p>
-        </div> */}
-      </div>
-      <Button />
-    </div>
-  );
+      );
+    }
+  }
 };
 
 export default AccountInfo;
