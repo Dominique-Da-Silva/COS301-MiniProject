@@ -18,7 +18,7 @@ import { FaRegFaceSmile } from "react-icons/fa6";
 import { TbCalendarSearch } from "react-icons/tb";
 import { useEffect } from "react";
 import { isUserLoggedIn } from "@services/index";
-import Tweet from "../Tweet/Tweet";
+import TweetModal from "../TweetModal/TweetModal";
 import { addComment } from "@services/index";
 
 interface CreateCommentProps {
@@ -105,7 +105,7 @@ const CreateComment: React.FC<CreateCommentProps> = ({
   return (
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
-      <Tweet
+      <TweetModal
         //user_id={user_id}
         tweet_id={tweet_id}
         name={name}
@@ -114,7 +114,7 @@ const CreateComment: React.FC<CreateCommentProps> = ({
         imageUrl={imageUrl}
         profileimageurl={profileimageurl}
         timeDisplay={timeDisplay}
-      ></Tweet>
+      ></TweetModal>
 
       <div className="flex items-center space-x-1">
         <Avatar
