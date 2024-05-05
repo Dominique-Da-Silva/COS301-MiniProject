@@ -52,7 +52,7 @@ const GameResult: React.FC<GameResultProps> = ({ correctCount, totalQuestions })
   const emoji = emojiData.find(e => e.name === level);
 
   return (
-    <Card className="w-full h-screen flex flex-col px-8">
+    <div className="w-full h-screen flex flex-col px-8">
       <div className='flex justify-center'>
         <h2 className="py-6 text-3xl font-bold">
           Twivia
@@ -90,7 +90,7 @@ const GameResult: React.FC<GameResultProps> = ({ correctCount, totalQuestions })
           </Button>
         </Link>
       </div>
-    </Card>
+    </div>
   );
 };
 

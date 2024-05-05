@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { Card, Button, Link } from "@nextui-org/react";
 import { FaTwitter } from 'react-icons/fa';
 import GameResult from '@components/GameResults/GameResults';
+import Confetti from 'react-confetti';
+import './shake.css'; 
+
 
 interface FollowerData {
   id: string;
   name: string;
   photo: string;
-  isCorrect: boolean; 
+  isCorrect: boolean;
 }
 
 const followerData: FollowerData[] = [
@@ -33,6 +36,7 @@ const GamePlay = () => {
   const [submitted, setSubmitted] = useState<boolean>(false); // Track if "Submit" button has been clicked
   const [questionNumber, setQuestionNumber] = useState<number>(0); // Track current question number
   const [correctCount, setCorrectCount] = useState<number>(0); // Track number of correct answers
+  const [shakeScreen, setShakeScreen] = useState<boolean>(false);
 
   const handleOptionChange = (option: string) => {
     if (!submitted) {
@@ -58,6 +62,8 @@ const GamePlay = () => {
       setFeedback(isCorrect ? 'correct' : 'incorrect');
       if (isCorrect) {
         setCorrectCount(correctCount + 1); // Increment correct count if answer is correct
+      } else {
+        setShakeScreen(true); // Trigger screen shake if answer is incorrect
       }
     }
   };
@@ -69,35 +75,43 @@ const GamePlay = () => {
       setShowNext(false);
       setFeedback(null);
       setSubmitted(false); // Reset submitted state
+      setShakeScreen(false); // Reset screen shake state
     } else {
       setShowResult(true); // If no more questions, show results
     }
   };
 
   return (
-    <Card className="w-full h-screen flex flex-col items-center justify-center">
+    <div className={shakeScreen ? 'shake-screen w-full h-screen flex flex-col px-8' : 'w-full h-screen flex flex-col px-8'}>
+    
+      {feedback === 'correct' && <Confetti />} {/* Add Confetti for correct answer */}
       {!showResult ? (
         <>
-          <h2 className="mb-6 text-3xl font-bold">
-            Twivia
-          </h2>
-          <FaTwitter style={{ fontSize: '2rem', color: '#1DA1F2', marginBottom: '1rem' }} />
-          <p className="text-base">{questions[questionNumber]}</p>
+          <div className='flex justify-center'>
+            <h2 className="py-6 text-3xl font-bold">
+              Twivia
+            </h2>
+          </div>
+          <div className="flex items-center justify-center">
+            <FaTwitter style={{ fontSize: '2rem', color: '#1DA1F2', marginBottom: '1rem' }} />
+          </div>
+          <div className="flex items-center justify-center font-bold">
+          {questions[questionNumber]}
+          </div>
           <div className="mt-4 flex flex-col">
             {followerData.map((follower) => (
               <div
                 key={follower.id}
-                className={`flex items-center space-x-2 border rounded-full p-2 mt-2 mb-4 transition-transform transform-gpu ${
-                  selectedOption === follower.id && !submitted
+                className={`flex items-center space-x-2 border rounded-full p-2 mt-2 mb-4 transition-transform transform-gpu ${selectedOption === follower.id && !submitted
                     ? 'hover:scale-105 cursor-pointer border-sky-500'
                     : submitted && follower.isCorrect
                       ? 'bg-white text-green-500 border-green-500'
                       : submitted && selectedOption === follower.id
                         ? 'bg-red-500 text-white border-white'
-                          : selectedOption !== follower.id && !submitted 
+                        : selectedOption !== follower.id && !submitted
                           ? 'hover:scale-105 cursor-pointer border-gray-300'
-                            : ''
-                }`}
+                          : ''
+                  }`}
                 onClick={() => handleOptionChange(follower.id)}
               >
                 <input
@@ -113,12 +127,14 @@ const GamePlay = () => {
                 <span className="text-base font-medium">{follower.name}</span>
               </div>
             ))}
-          </div>
-          {feedback !== null && (
+          </div>{feedback !== null && (
+          <div className='flex justify-center font-bold'>
             <p className={`text-lg ${feedback === 'correct' ? 'text-green-500' : 'text-red-500'}`}>
               {feedback === 'correct' ? 'Correct!' : 'Incorrect!'}
+              {feedback === 'correct' && <Confetti numberOfPieces={100} />}
             </p>
-          )}
+          </div>
+        )}
 
 
 
@@ -149,7 +165,7 @@ const GamePlay = () => {
       ) : (
         <GameResult correctCount={correctCount} totalQuestions={questions.length} />
       )}
-    </Card>
+    </div>
   );
 };
 
