@@ -68,6 +68,7 @@ const App = () => {
         <Route path="/bookmarks" element={<Bookmarks />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/tweet/:tweetId" element={<TweetDetails />} />
+        <Route path="/explore/:searchVal" element={<Explore />} />
       </Routes>
     </Router>
     <Toaster />

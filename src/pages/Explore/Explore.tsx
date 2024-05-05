@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Nav, Search, Tweet, WhoToFollow } from '@components/index';
 import TrendingListFull from '@components/TrendingListFull/TrendingListFull';
 import { FiSettings } from "react-icons/fi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Avatar } from "@nextui-org/react";
 import {Image} from "@nextui-org/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { IoSearch } from 'react-icons/io5';
 import { Tab, Tabs } from '@nextui-org/react';
 import { searchUsers, fetchUsers } from '@services/index';
@@ -16,9 +16,9 @@ import {CircularProgress} from "@nextui-org/react";
 interface ExplorePageProps { }
 
 interface User {
-  UserName: string;
-  Name: string;
-  Surname: string;
+  username: string;
+  name: string;
+  surname: string;
 }
 
 interface handle {
@@ -30,6 +30,8 @@ interface handle {
 }
 
 const Explore: React.FC<ExplorePageProps> = () => {
+  const navigate = useNavigate();
+  const {searchVal = ''} = useParams();
   const [searchResultshandles, setSearchResultshandles] = useState<any[]>([]); // State to store search results
   const [searchResultstweets, setSearchResultstweets] = useState<any[]>([]); // State to store search results
   const [profiles, setProfiles] = useState<any[]>([]);
@@ -39,32 +41,6 @@ const Explore: React.FC<ExplorePageProps> = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [showTabs, setShowTabs] = useState(false); // State to track if tabs should be shown
 
-  useEffect(() => {
-    const getAllProfiles = async () => {
-      try {
-        const profilesData = await fetchAllProfiles();
-        // console.log("Profiles Data:");
-        // console.log(profilesData);
-        setProfiles(profilesData as any); // Update the type of the state variable
-      } catch (error) {
-        console.error('Error fetching profiles:', error);
-      }
-    };
-
-    const fetchData = async () => {
-      try {
-        const usersData = await fetchUsers();
-        // console.log("Users Data:");
-        // console.log(usersData);
-        setUsers(usersData as any[]); // Add type assertion here
-
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
-    fetchData();
-    getAllProfiles();
-  },[]);
 
   const handleSearchChange = (event: any) => {
     setSearchValue(event.target.value);
@@ -116,14 +92,17 @@ const Explore: React.FC<ExplorePageProps> = () => {
   };
 
   const removetabs = () => {
+    
     setSearchValue('');
     handleSearchKeyPress(event)
     setShowTabs(false);
     setIsFocused(false);
+    navigate("/explore");
   };
 
   const handleSearchKeyPress = (event: any) => {
-    if (event.key === 'Enter' && searchValue.trim() !== '') {  
+    if (event.key === 'Enter' && searchValue.trim() !== '') { 
+      navigate("/explore"); 
       getResultsHandles(searchValue);
       getResultsTweets(searchValue);
       setShowTabs(true);
@@ -160,19 +139,21 @@ const Explore: React.FC<ExplorePageProps> = () => {
     );
   };
 
-  const handleTopicClick = async (topicName: any) => {
+  const handleTopicClick = useCallback(async (topicName: any) => {
     setSearchValue(topicName);
+    setShowTabs(false);
     setLoading(true);
+    setIsFocused(false);
     try {
       // Call both functions asynchronously
       await Promise.all([
         getResultsHandles(topicName),
         getResultsTweets(topicName)
       ]);
-
+  
       // Both functions have been executed fully
       setShowTabs(true);
-
+  
       // This will now log the updated searchValue
       console.log("Topic Clicked: " + topicName);
     } catch (error) {
@@ -182,8 +163,50 @@ const Explore: React.FC<ExplorePageProps> = () => {
       // Hide loader regardless of success or failure
       setLoading(false);
     }
+  }, []); // Empty dependency array for useCallback
+  
+
+  useEffect(() => {
+    const getAllProfiles = async () => {
+      try {
+        const profilesData = await fetchAllProfiles();
+        // console.log("Profiles Data:");
+        // console.log(profilesData);
+        setProfiles(profilesData as any); // Update the type of the state variable
+      } catch (error) {
+        console.error('Error fetching profiles:', error);
+      }
+    };
+
+    const fetchData = async () => {
+      try {
+        const usersData = await fetchUsers();
+        // console.log("Users Data:");
+        // console.log(usersData);
+        setUsers(usersData as any[]); // Add type assertion here
+
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
     
-  };
+    const checkSearch = async () => {
+      try {
+        if (searchVal === '') {
+          console.log("emptyyy");
+        }
+        else {
+          handleTopicClick("#"+searchVal);
+        }
+      } catch (error) {
+        console.error('Error geting search results', error)
+      }
+      
+    };
+    fetchData();
+    getAllProfiles();
+    checkSearch();
+  },[handleTopicClick, searchVal]);
 
   return (
     <div className="w-full h-full flex justify-center align-middle">
@@ -242,7 +265,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                         <p className="font-bold text-2xl dark:text-white">People</p>
                       </div>
                     )}
-                  {searchResultshandles?.slice(0, 3).map((handle: handle) => (
+                  {searchResultshandles?.slice(0, 3).map((handle: User) => (
                       <div className="tweet w-full flex hover:bg-neutral-200 cursor-pointer m-0 p-4 dark:border-neutral-800">
                       <div className="avatar">
                         <Avatar
@@ -339,28 +362,13 @@ const Explore: React.FC<ExplorePageProps> = () => {
                   </Tab>
                   <Tab key="Latest" title="Latest" className="p-0">
                     {searchResultstweets?.map(tweet => {
-                      // console.log("Tweet:", tweet);
-                      // console.log("Users:", users);
                       const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-                      // console.log("User:", user);
-
-                      // Check if tweet.Saves is defined and not empty before accessing its properties
                       const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
-                      // console.log("Saves Count:", saves);
-
-                      // Similar checks for Comments, Likes, and Retweets
                       const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
-                      // console.log("Comments Count:", comments);
-
                       const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
-                      // console.log("Likes Count:", likes);
-
                       const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
-                      // console.log("Retweets Count:", retweets);
-
                       const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-                      // console.log("Image URL:", image_url);
-
+                      
                       return (
                         <Tweet
                           key={tweet.Tweet_Id}
@@ -444,29 +452,9 @@ const Explore: React.FC<ExplorePageProps> = () => {
                     <div className="flex justify-center w-full">
                     {searchResultstweets?.some(tweet => tweet.image) ? (
                       searchResultstweets.map(tweet => {
-                        const user = users.find(u => u.User_Id === tweet.User_Id);
-                        const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
-                        const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
-                        const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
-                        const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
-                        const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
 
                         if (tweet.image) {
                           return (
-                            // <Tweet
-                            //   key={tweet.Tweet_Id}
-                            //   tweet_id={tweet.Tweet_Id}
-                            //   name={user ? user.Name : "Unknown User"}
-                            //   username={user ? `@${user.Username}` : ""}
-                            //   text={tweet.content}
-                            //   imageUrl={tweet.image}
-                            //   timeDisplay={getTimeDisplay(tweet.created)}
-                            //   likes={formatCount(likes)}
-                            //   retweets={formatCount(retweets)}
-                            //   saves={formatCount(saves)}
-                            //   comments={formatCount(comments)}
-                            //   profileimageurl={image_url}
-                            // />
                             <Image
                               src={tweet.image}
                               alt="Tweet Image"

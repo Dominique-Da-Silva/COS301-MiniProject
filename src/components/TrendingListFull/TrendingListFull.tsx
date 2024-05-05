@@ -8,8 +8,8 @@ interface ExploreProps {
 
 interface Topic {
   Tag_Id: string;
-  TagName: string;
-  NumPosts: number;
+  Tag_Name: string;
+  tweet_count: number;
 }
     
 const TrendingListFull: React.FC<ExploreProps> = ({ onTopicClick }: ExploreProps) => {

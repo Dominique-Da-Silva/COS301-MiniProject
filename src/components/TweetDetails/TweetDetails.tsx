@@ -47,10 +47,7 @@ const TweetDetailsPage = () => {
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
 
-  const [commentCount, setCommentCount] = useState(0);
-  const [retweetCount, setRetweetCount] = useState(0);
-  const [likeCount, setLikeCount] = useState(0);
-  const [saveCount, setSaveCount] = useState(0);
+  
 
 
 

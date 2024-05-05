@@ -9,6 +9,7 @@ import { fetchAllProfiles } from "@services/profileServices/getProfile";
 
 interface HomePageProps { }
 
+
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
