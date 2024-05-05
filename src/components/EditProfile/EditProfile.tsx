@@ -113,6 +113,7 @@ const EditProfile: React.FC = () => {
       Website: editedWebsite,
       Gender: userData.Gender,
     });
+    alert("Changes saved successfully");
   };
 
   function capureImage(e: React.ChangeEvent<HTMLInputElement>) {
@@ -208,7 +209,7 @@ const EditProfile: React.FC = () => {
             <label htmlFor="bio" className="block mb-2 font-semibold">
               Bio
             </label>
-            <Textarea
+            <Input
               id="bio"
               placeholder={
                 profileDetails.Bio ? profileDetails.Bio : "Enter your bio"
@@ -219,7 +220,7 @@ const EditProfile: React.FC = () => {
             <label htmlFor="location" className="block mb-2 font semibold">
               Location
             </label>
-            <Textarea
+            <Input
               id="location"
               placeholder={
                 profileDetails.Location

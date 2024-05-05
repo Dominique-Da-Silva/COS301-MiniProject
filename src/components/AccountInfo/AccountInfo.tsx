@@ -72,15 +72,6 @@ const AccountInfo: React.FC = () => {
       console.log(userDataX);
     };
     fetchData();
-
-    const profilfeDetails = async () => {
-      try {
-        setAccountInfo(userData);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-    profilfeDetails();
   }, [userData]);
 
   const getTimeDisplay = (timestamp: string) => {
@@ -135,6 +126,7 @@ const AccountInfo: React.FC = () => {
       Website: userData.Website,
       Gender: editedGender,
     });
+    alert("Changes saved successfully");
   };
 
   const update_Username = async (editedUsername: string) => {
@@ -186,7 +178,7 @@ const AccountInfo: React.FC = () => {
               <Input
                 id="surname"
                 placeholder={
-                  userData.Name ? userData.Name : "Enter your surname"
+                  userData.Name ? userData.Name : "Enter your name"
                 }
                 onChange={(e) => setEditedName(e.target.value)}
               />
@@ -197,7 +189,7 @@ const AccountInfo: React.FC = () => {
               <Input
                 id="surname"
                 placeholder={
-                  userData.Surname ? userData.Name : "Enter your surname"
+                  userData.Surname ? userData.Surname : "Enter your surname"
                 }
                 onChange={(e) => setEditedSurname(e.target.value)}
               />
@@ -268,7 +260,7 @@ const AccountInfo: React.FC = () => {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant="solid" color="primary">
-                      {userData.Gender ? userData.Gender : "Select your gender"}
+                      {accountInfo.Gender ? accountInfo.Gender : "Select your gender"}
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
