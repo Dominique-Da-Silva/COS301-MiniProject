@@ -30,25 +30,6 @@ const EditProfile: React.FC = () => {
       }
     };
     fetchData();
-
-    const setPD = async () => {
-      try {
-        setProfileDetails(userData);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
-    // //console.log(userData);
-    // const profileSub = async () => {
-    //   try {
-
-    //   } catch (error) {
-    //       console.error("Error fetching data: ", error);
-    //   }
-    // }
-    // profileSub();
-    setPD();
   }, [userData]);
   const [editedUsername, setEditedUsername] = useState("");
   const [userProfileImage, setUserProfileImage] = useState<string>("");
@@ -104,9 +85,9 @@ const EditProfile: React.FC = () => {
     uploadImageAndGetURL(editedImage as File, "profile_images");
     uploadImageAndGetURL(editedBanner as File, "profile_banners");
     updateUserData({
-      Banner_Url: editedBanner?.toString() ?? undefined,
+      Banner_Url: editedBannerURL,
       Bio: editedBio,
-      Img_Url: editedImage?.toString() ?? undefined,
+      Img_Url: editedImageURL,
       Profile_Type: userData.Profile_Type,
       Theme: userData.Theme,
       Location: editedLocation,
@@ -116,7 +97,7 @@ const EditProfile: React.FC = () => {
     alert("Changes saved successfully");
   };
 
-  function capureImage(e: React.ChangeEvent<HTMLInputElement>) {
+  function captureImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files === null) return;
     setIsLoading(true);
     const selectedFile = e.target.files[0];
@@ -159,33 +140,38 @@ const EditProfile: React.FC = () => {
             <h2 className="text-2xl font-bold">Edit Profile</h2>
           </div>
           <div className="bg-white p-4 shadow">
-            <label htmlFor="profileImage" className="block mb-2 font-semibold">
-              Banner Image
-              <div className="flex justify-center items-center">
-                <div className="w-full h-36 overflow-hidden border border-gray flex justify-center items-center">
-                  {editedBannerURL ? (
-                    <img
-                      src={editedBannerURL}
-                      alt="uploaded-avatar"
-                      className="w-full h-full object cover"
-                    />
-                  ) : (
-                    <img
-                      src={userProfileBanner}
-                      alt="banner"
-                      className="w-full h-full object cover"
-                    />
-                  )}
+            <div>
+              <label
+                htmlFor="profileImage"
+                className="block mb-2 font-semibold"
+              >
+                Banner Image
+                <div className="flex justify-center items-center">
+                  <div className="w-full h-36 overflow-hidden border border-gray flex justify-center items-center">
+                    {editedBannerURL ? (
+                      <img
+                        src={editedBannerURL}
+                        alt="uploaded-avatar"
+                        className="w-full h-full object cover"
+                      />
+                    ) : (
+                      <img
+                        src={userProfileBanner}
+                        alt="banner"
+                        className="w-full h-full object cover"
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-              <input
-                id="profileImage"
-                type="file"
-                accept="image/*"
-                onChange={captureBanner}
-                className="hidden"
-              />
-            </label>
+                <input
+                  id="banner"
+                  type="file"
+                  accept="image/*"
+                  onChange={captureBanner}
+                  className="hidden"
+                />
+              </label>
+            </div>
             <label htmlFor="name" className="block mb-2 font-semibold">
               Name
             </label>
@@ -266,7 +252,7 @@ const EditProfile: React.FC = () => {
                 id="profileImage"
                 type="file"
                 accept="image/*"
-                onChange={capureImage}
+                onChange={captureImage}
                 className="hidden"
               />
             </label>
