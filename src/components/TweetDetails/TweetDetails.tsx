@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Nav, TrendingTopics, Search, WhoToFollow, Tweet } from '@components/index';
-import { getTweet } from '@services/index';
+import { Nav, TrendingTopics, Search, WhoToFollow} from '@components/index';
+import { getComments, getTweet } from '@services/index';
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
@@ -10,6 +10,31 @@ import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink, Link } from "react-router-dom";
 import { AiOutlineArrowLeft } from 'react-icons/ai';
+import CreateCommentInput from "../CreateCommentInput/CreateCommentInput";
+import CreateComment from "../CreateComment/CreateComment";
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+} from "@nextui-org/react";
+
+interface Comment {
+  Comment_Id: number;
+  Content: string;
+  Created_at: string;
+  Tweet_Id: number;
+  User_Id: number;
+  User: {
+    Name: string;
+    Username: string;
+    Created_at: string;
+    Profile: {
+      Img_Url: string | null;
+    }[]
+  } | null
+}
+
 
 const TweetDetailsPage = () => {
   const { tweetId = '0' } = useParams();
@@ -18,6 +43,9 @@ const TweetDetailsPage = () => {
   const [retweetColor, setRetweetColor] = useState(false);
   const [likeColor, setLikeColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const { isOpen, onOpenChange, onOpen } = useDisclosure();
+
 
   const [commentCount, setCommentCount] = useState(0);
   const [retweetCount, setRetweetCount] = useState(0);
@@ -56,6 +84,15 @@ const TweetDetailsPage = () => {
     toggleSave(tweetid, userid);
   };
 
+  const formatCommentTimestamp = (timestamp: string) => {
+    const parsedTimestamp = new Date(timestamp);
+    const month = parsedTimestamp.toLocaleString("en-us", {
+      month: "short",
+    });
+    const day = parsedTimestamp.getDate();
+    return `${month} ${day}`;
+  };
+
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
     const parsedTimestamp = new Date(timestamp);
@@ -80,6 +117,23 @@ const TweetDetailsPage = () => {
 
     return timeDisplay;
   };
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getComments(parseInt(tweetId));
+        if (!commentsData) return; // Handle case where data is empty or undefined
+        // Filter comments based on tweetId
+        // const filteredComments = commentsData.filter(comment => comment.Tweet_Id === parseInt(tweetId));
+  
+        setComments(commentsData);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+  
+    fetchComments();
+  }, [tweetId]);
 
   useEffect(() => {
     const fetchTweetDetails = async () => {
@@ -167,6 +221,24 @@ const TweetDetailsPage = () => {
                 <p>Loading tweet details...</p>
               )}
             </div>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+              <ModalContent>
+                {() => (
+                  <ModalBody>
+                    <CreateComment
+                      tweet_id={tweetDetails.tweet_id}
+                      user_id={tweetDetails.loggedUserId}
+                      name={tweetDetails.name}
+                      username={tweetDetails.username}
+                      text={tweetDetails.content}
+                      imageUrl={tweetDetails.imageUrl}
+                      profileimageurl={tweetDetails.profile_img}
+                      timeDisplay={tweetDetails.timeDisplay}
+                    ></CreateComment>
+                  </ModalBody>
+                )}
+              </ModalContent>
+            </Modal>
             <div className="tweet-actions flex flex-row justify-around col text-slate-700">
               <span
                 className={`action flex items-center cursor-pointer z-3 ${
@@ -207,6 +279,36 @@ const TweetDetailsPage = () => {
               </span>
             </div>
             <hr className='mt-4 mb-3'></hr>
+            <CreateCommentInput username={tweetDetails?.username} ></CreateCommentInput>
+            <hr className='mb-3'></hr>
+            <div>
+              <p className="p-3 m-0 dark:text-white">
+              {comments.map((comment) => {
+                console.log(comment);
+                return(
+                  <div key={comment.Comment_Id}>
+                  <div className="flex items-center mb-4">
+                    <Avatar
+                      // @ts-expect-error ProfileArray
+                      src={comment?.User.Profile[0]?.Img_Url}
+                      alt={comment?.User?.Username}
+                      className="user-avatar"
+                      style={{ width: '32px', height: '32px' }}
+                    />
+                    <p className="font-bold ml-2">{comment?.User?.Name}</p>
+                    <p className="ml-2">@{comment?.User?.Username}</p>
+                    <p className="ml-2">
+                      {comment?.User?.Created_at ? formatCommentTimestamp(comment.Created_at) : ''}
+                    </p>
+                  </div>
+                  <div className='ml-10 -mt-2'>
+                    <p>{comment.Content}</p>
+                  </div>
+                  <hr className='mt-4 mb-3'></hr>
+                </div>
+              )})}
+              </p>
+            </div>
           </div>
         </div>
         <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">

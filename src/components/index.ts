@@ -16,6 +16,7 @@ import LikeNotification from "./PostNotification/LikedNotification";
 import Mention from "./Mentions/Mention";
 import UserCard from "./UserCard/UserCard";
 import TweetDetails from "./TweetDetails/TweetDetails";
+import CreateCommentInput from "./CreateCommentInput/CreateCommentInput";
 
 export {
   EditProfile,
@@ -35,5 +36,6 @@ export {
   ChangePassword,
   MutedNotifications,
   UserCard,
-  TweetDetails
+  TweetDetails,
+  CreateCommentInput
 };
