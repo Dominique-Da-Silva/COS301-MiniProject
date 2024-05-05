@@ -1,6 +1,6 @@
 import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn, addUserToDatabase  } from "./auth/auth.ts";
 import { uploadProfile } from "./storage/storage.ts";
-import { updateUsername } from './profileServices/updateUsername.ts';
+import { updateUsername, updateEmail, updateName, updateSurname } from './profileServices/updateUserDetails.ts';
 import {fetchUsers} from "./homeServices/getUsersData.ts";
 import {fetchTweets}  from "./homeServices/getTweets.ts";
 import {fetchUserByUsername}  from "./usersProfileServices/getUserByUsername.ts";
@@ -37,7 +37,7 @@ import {searchTweet} from "./tweetInteraction/searchTweet.ts";
 import { CreateFollowNotification,CreateLikeNotification,CreateCommentNotification,
     CreateRetweetNotification,CreateTweetNotification,updateNotifications,getUserNotifications } from "./homeServices/notifications.ts";
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
-    signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername,
+    signUpNewUser, isUserLoggedIn, uploadProfile, updateUsername, updateEmail, updateName, updateSurname,
     fetchUsers, fetchTweets, fetchUserByUsername, addTweet,
     followUser, unfollowUser, insertProfileDetails, updateProfileDetails, addUserToDatabase,
     uploadImageAndGetURL,searchUsers,searchTweet,
