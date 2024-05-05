@@ -173,7 +173,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
   // }
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
-      <Link to={`/tweet/${tweetid}`} key={tweetid} className="tweet-link w-full flex">
+      <Link to={`/tweet/${tweet_id}`} key={tweet_id} className="tweet-link w-full flex">
       <div className="avatar">
         <Avatar
           src={profileimageurl}

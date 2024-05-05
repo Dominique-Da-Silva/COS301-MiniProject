@@ -4,6 +4,7 @@ import TrendingListFull from '@components/TrendingListFull/TrendingListFull';
 import { FiSettings } from "react-icons/fi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Avatar } from "@nextui-org/react";
+import {Image} from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
 import { IoSearch } from 'react-icons/io5';
 import { Tab, Tabs } from '@nextui-org/react';
@@ -18,6 +19,14 @@ interface User {
   UserName: string;
   Name: string;
   Surname: string;
+}
+
+interface handle {
+  bio: string;
+  img_url: string;
+  name: string;
+  surname: string;
+  username: string;
 }
 
 const Explore: React.FC<ExplorePageProps> = () => {
@@ -114,7 +123,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
   };
 
   const handleSearchKeyPress = (event: any) => {
-    if (event.key === 'Enter'  && searchValue.trim() !== '') {  
+    if (event.key === 'Enter' && searchValue.trim() !== '') {  
       getResultsHandles(searchValue);
       getResultsTweets(searchValue);
       setShowTabs(true);
@@ -126,7 +135,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
   const getResultsHandles = async (searchValue: any) => {
     try {
       const results = await searchUsers(searchValue);
-      // console.log('Results:', results); // Check the results in the console
+      console.log('Results:', results); // Check the results in the console
       setSearchResultshandles(results);
     } catch (error) {
       console.error('Error fetching handles:', error);
@@ -136,7 +145,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
   const getResultsTweets = async (searchValue: any) => {
     try {
       const results = await searchTweet(searchValue);
-      // console.log('Results:', results); // Check the results in the console
+      console.log('Results:', results); // Check the results in the console
       setSearchResultstweets(results);
     } catch (error) {
       console.error('Error fetching tweets:', error);
@@ -165,7 +174,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
       setShowTabs(true);
 
       // This will now log the updated searchValue
-      console.log("Topic Clicked: " + searchValue);
+      console.log("Topic Clicked: " + topicName);
     } catch (error) {
       // Handle errors if any
       console.error("Error:", error);
@@ -233,12 +242,12 @@ const Explore: React.FC<ExplorePageProps> = () => {
                         <p className="font-bold text-2xl dark:text-white">People</p>
                       </div>
                     )}
-                  {searchResultshandles?.slice(0, 3).map((handle: User) => (
+                  {searchResultshandles?.slice(0, 3).map((handle: handle) => (
                       <div className="tweet w-full flex hover:bg-neutral-200 cursor-pointer m-0 p-4 dark:border-neutral-800">
                       <div className="avatar">
                         <Avatar
-                        src={"https://gravatar.com/avatar/2b57c362077cd0cc478fbae93f08f2b1?s=400&d=robohash&r=x"}
-                          //src={handle.img_url} img_url does not exist on handle
+                        // src={"https://gravatar.com/avatar/2b57c362077cd0cc478fbae93f08f2b1?s=400&d=robohash&r=x"}
+                          src={handle.img_url} 
                           alt="User Avatar"
                           className="user-avatar min-w-12 min-h-12"
                         />
@@ -247,7 +256,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                         <div className="p-0 m-0 h-5">
                           <NavLink
                             to={{
-                              pathname: `/profile/${handle.UserName.substring(1)}`, //sets the url path
+                              pathname: `/profile/${handle.username}`, //sets the url path
                               //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
                               /*
                               To retrieve this data when navigating to the next page:
@@ -262,18 +271,18 @@ const Explore: React.FC<ExplorePageProps> = () => {
                             }}
                             className="font-semibold p-0 m-0 dark:text-white"
                           >
-                            {handle.Name}
+                            {handle.name}
                           </NavLink>
                         </div>
                         <div className="p-0 m-0 h-5">
                           <NavLink
                             to={{
-                              pathname: `/profile/${handle.UserName.substring(1)}`,
+                              pathname: `/profile/${handle.username}`,
                               //state: { username: username.substring(1) } -> is this valid, please verify
                             }}
                             className="text-slate-700 p-0 m-0 dark:text-gray-400"
                           >
-                            @{handle.UserName}
+                            @{handle.username}
                           </NavLink>
                         </div>     
                         <div>
@@ -376,12 +385,12 @@ const Explore: React.FC<ExplorePageProps> = () => {
                     )}
                   </Tab>
                   <Tab key="People" title="People" className="p-0">
-                    {searchResultshandles?.map((handle: User) => (
+                    {searchResultshandles?.map((handle: handle) => (
                       <div className="tweet w-full flex border-b hover:bg-neutral-200 cursor-pointer m-0 p-4 dark:border-neutral-800">
                       <div className="avatar">
                         <Avatar
-                          src={"https://gravatar.com/avatar/2b57c362077cd0cc478fbae93f08f2b1?s=400&d=robohash&r=x"}
-                          //src={handle.img_url} //img_url does not exist on handle
+                          // src={"https://gravatar.com/avatar/2b57c362077cd0cc478fbae93f08f2b1?s=400&d=robohash&r=x"}
+                          src={handle.img_url} //img_url does not exist on handle
                           alt="User Avatar"
                           className="user-avatar min-w-12 min-h-12"
                         />
@@ -390,7 +399,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                         <div className="p-0 m-0 h-5">
                           <NavLink
                             to={{
-                              pathname: `/profile/${handle.UserName.substring(1)}`, //sets the url path
+                              pathname: `/profile/${handle.username}`, //sets the url path
                               //state: { username: username.substring(1) } //passes the state -> is this valid, please verify
                               /*
                               To retrieve this data when navigating to the next page:
@@ -405,22 +414,22 @@ const Explore: React.FC<ExplorePageProps> = () => {
                             }}
                             className="font-semibold p-0 m-0 dark:text-white"
                           >
-                            {handle.Name}
+                            {handle.name}
                           </NavLink>
                         </div>
                         <div className="p-0 m-0 h-5">
                           <NavLink
                             to={{
-                              pathname: `/profile/${handle.UserName.substring(1)}`,
+                              pathname: `/profile/${handle.username}`,
                               //state: { username: username.substring(1) } -> is this valid, please verify
                             }}
                             className="text-slate-700 p-0 m-0 dark:text-gray-400"
                           >
-                            @{handle.UserName}
+                            @{handle.username}
                           </NavLink>
                         </div>     
                         <div>
-                          <p className="p-0 m-0 dark:text-white">bio not available</p>{/*handle.bio bio does not exist on handle*/}
+                          <p className="p-0 m-0 dark:text-white">{handle.bio}</p>{/*handle.bio bio does not exist on handle*/}
                         </div>             
                       </div>
                     </div>
@@ -431,7 +440,8 @@ const Explore: React.FC<ExplorePageProps> = () => {
                       </div>
                     )}
                   </Tab>
-                  <Tab key="Media" title="Media" className="p-0">
+                  <Tab key="Media" title="Media" className="p-0 just">
+                    <div className="flex justify-center w-full">
                     {searchResultstweets?.some(tweet => tweet.image) ? (
                       searchResultstweets.map(tweet => {
                         const user = users.find(u => u.User_Id === tweet.User_Id);
@@ -443,22 +453,29 @@ const Explore: React.FC<ExplorePageProps> = () => {
 
                         if (tweet.image) {
                           return (
-                            <Tweet
-                              key={tweet.Tweet_Id}
-                              tweet_id={tweet.Tweet_Id}
-                              name={user ? user.Name : "Unknown User"}
-                              username={user ? `@${user.Username}` : ""}
-                              text={tweet.content}
-                              imageUrl={tweet.image}
-                              timeDisplay={getTimeDisplay(tweet.created)}
-                              likes={formatCount(likes)}
-                              retweets={formatCount(retweets)}
-                              saves={formatCount(saves)}
-                              comments={formatCount(comments)}
-                              profileimageurl={image_url}
+                            // <Tweet
+                            //   key={tweet.Tweet_Id}
+                            //   tweet_id={tweet.Tweet_Id}
+                            //   name={user ? user.Name : "Unknown User"}
+                            //   username={user ? `@${user.Username}` : ""}
+                            //   text={tweet.content}
+                            //   imageUrl={tweet.image}
+                            //   timeDisplay={getTimeDisplay(tweet.created)}
+                            //   likes={formatCount(likes)}
+                            //   retweets={formatCount(retweets)}
+                            //   saves={formatCount(saves)}
+                            //   comments={formatCount(comments)}
+                            //   profileimageurl={image_url}
+                            // />
+                            <Image
+                              src={tweet.image}
+                              alt="Tweet Image"
+                              className="tweet-image w-1/2"
+                              style={{ borderRadius: "10px" }}
                             />
                           );
                         }
+                        
                         return null; // Return null if tweet has no image
                       })
                     ) : (
@@ -466,6 +483,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                         <p className="font-bold text-4xl dark:text-white">No results for"{searchValue}"</p>
                       </div>
                     )}
+                    </div>
                   </Tab>
                 </Tabs>
               </div>
