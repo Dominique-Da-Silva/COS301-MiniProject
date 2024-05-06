@@ -1,4 +1,4 @@
-import { useState, Suspense, useEffect } from "react";
+import { useState, Suspense, useEffect, useRef } from "react";
 import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
@@ -19,7 +19,7 @@ import { fetchAllProfiles } from "@services/profileServices/getProfile";
 // import { getAuthIdFromSession } from "@services/index";
 import { fetchUserByUsername } from "@services/index";
 // interface Tweet {
-//   key: number;
+//   key: number;.
 //   name: string;
 //   username: string;
 //   text: string;
@@ -87,6 +87,7 @@ const ProfileDetails = () => {
   
   // const location = useLocation();
   const { username } = useParams<{ username: string }>();
+  const userDataRef = useRef(null);
 
   useEffect(() => {
     const getUD = async () => {
@@ -101,33 +102,37 @@ const ProfileDetails = () => {
         // userDataX = await fetchUserData();
         setExternal(true);
       }
-      setUserData(userDataX);      
+      userDataRef.current = userDataX;
+      setUserData(userDataX);    
     }
     getUD();   
 
     const profileSub = async () => {
       try {
-        const profileTemp = await fetchProfileDetails(userData.User_Id);
-        const followerTemp = await countFollowers(userData.User_Id);
-        const followingTemp = await countFollowing(userData.User_Id);
-        const userDataX = await fetchUserData();
-        const imageURLs = await fetchUserMedia(userData.User_Id);
-        setUserFollowers(followerTemp);
-        setUserFollowing(followingTemp);
-        setUserData(userDataX);
-        setProfileDetails(profileTemp);
-        setUserMedia(imageURLs);
+        if (userDataRef.current) {
+          const profileTemp = await fetchProfileDetails(userDataRef.current.User_Id);
+          const followerTemp = await countFollowers(userDataRef.current.User_Id);
+          const followingTemp = await countFollowing(userDataRef.current.User_Id);
+          const imageURLs = await fetchUserMedia(userDataRef.current.User_Id);
+          setUserFollowers(followerTemp);
+          setUserFollowing(followingTemp);
+          setUserData(userDataRef.current);
+          setProfileDetails(profileTemp);
+          setUserMedia(imageURLs);
+        }
       } catch (error) {
-          console.error("Error fetching data: ", error);
+        console.error("Error fetching data: ", error);
       }
     } 
     profileSub(); 
 
     const getLikes = async () => {
       try {
-        const likes = await fetchLikedPosts(userData.User_Id);
-        //console.log(likes);
-        setLikedTweets(likes);
+        if (userDataRef.current) {
+          const likes = await fetchLikedPosts(userDataRef.current.User_Id);
+          //console.log(likes);
+          setLikedTweets(likes);
+        }
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -136,8 +141,10 @@ const ProfileDetails = () => {
 
     const getCurrUserTweets = async () => {
       try {
-        const tempTweets = await getUserTweets(userData.User_Id);
-        setUserTweets(tempTweets);
+        if (userDataRef.current) {
+          const tempTweets = await getUserTweets(userDataRef.current.User_Id);
+          setUserTweets(tempTweets);
+        }
       }
       catch (error) {
         console.error("Error fetching data: ", error);
@@ -147,8 +154,10 @@ const ProfileDetails = () => {
 
     const getUserReplies = async () => {
       try {
-        const replies = await getUserComments(userData.User_Id);
-        setUserReplies(replies);
+        if (userDataRef.current) {
+          const replies = await getUserComments(userDataRef.current.User_Id);
+          setUserReplies(replies);
+        }
       }
       catch (error) {
         console.error("Error fetching data: ", error);
@@ -189,7 +198,7 @@ const ProfileDetails = () => {
     }
     checkUser();
 
-  }, [activeTab, userData.User_Id, username, likedTweets, tweetCollection, navigate])
+  }, [activeTab, username, likedTweets, tweetCollection, navigate])
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
@@ -203,7 +212,6 @@ const ProfileDetails = () => {
   const handleButtonClick = () => {
     setFollowing(!following);
   }
-
   return (
     <div className="container flex">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
@@ -213,7 +221,7 @@ const ProfileDetails = () => {
         <div className="flex flex-col w-full m-0 p-0 justify-center">
           <div className="banner m-0">
             <img
-              src={profileDetails.Banner_Url}
+              src={profileDetails.Banner_Url || mockProfileDetails.Banner_Url}
               alt="Banner"
               className="w-full h-48 m-0"
             />
