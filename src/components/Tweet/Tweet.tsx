@@ -173,7 +173,6 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
   // }
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
-      <Link to={`/tweet/${tweet_id}`} key={tweet_id} className="tweet-link w-full flex">
       <div className="avatar">
         <Avatar
           src={profileimageurl}
@@ -197,7 +196,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
                 // Use the username to render the profile
               };
               */
-            }}
+           }}
             className="font-semibold p-0 m-0 dark:text-white"
           >
             {name}
@@ -224,17 +223,19 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
             </NavLink>
           </div>
         )}
-        <div>
-          <p className="p-0 m-0 dark:text-white">{text}</p>
-          {imageUrl && (
-            <Image
-              src={imageUrl}
-              alt="Tweet Image"
-              className="tweet-image w-auto h-full"
-              style={{ borderRadius: "10px" }}
-            />
-          )}
-        </div>
+        <Link to={`/tweet/${tweet_id}`} key={tweet_id} className="tweet-link">
+          <div>
+            <p className="p-0 m-0 dark:text-white">{text}</p>
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                alt="Tweet Image"
+                className="tweet-image w-auto h-full"
+                style={{ borderRadius: "10px" }}
+              />
+            )}
+          </div>
+        </Link>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
             {() => (
@@ -254,6 +255,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
           </ModalContent>
         </Modal>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
+
           <span
             className={`action flex items-center cursor-pointer z-3 ${
               commentColor ? "text-blue-500" : "hover:text-blue-500"
@@ -308,9 +310,9 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
           </span>
         </div>
       </div>
-      </Link>
     </div>
   );
 };
 
 export default Tweet;
+
