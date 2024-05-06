@@ -16,7 +16,7 @@ import LikeNotification from "./PostNotification/LikedNotification";
 import Mention from "./Mentions/Mention";
 import UserCard from "./UserCard/UserCard";
 import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
-
+import TweetModal from "./TweetModal/TweetModal";
 export {
   EditProfile,
   HomeImage,
@@ -36,4 +36,5 @@ export {
   MutedNotifications,
   UserCard,
   RecommendedUsers
+  TweetModal,
 };
