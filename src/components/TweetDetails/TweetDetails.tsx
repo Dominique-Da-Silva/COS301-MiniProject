@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Nav, TrendingTopics, Search, WhoToFollow} from '@components/index';
-import { getComments, getTweet } from '@services/index';
+import React, { useEffect, useState } from "react";
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
@@ -9,8 +6,6 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink, Link } from "react-router-dom";
-import { AiOutlineArrowLeft } from 'react-icons/ai';
-import CreateCommentInput from "../CreateCommentInput/CreateCommentInput";
 import CreateComment from "../CreateComment/CreateComment";
 import {
   Modal,
@@ -19,53 +14,71 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-interface Comment {
-  Comment_Id: number;
-  Content: string;
-  Created_at: string;
-  Tweet_Id: number;
-  User_Id: number;
-  User: {
-    Name: string;
-    Username: string;
-    Created_at: string;
-    Profile: {
-      Img_Url: string | null;
-    }[]
-  } | null
+import {
+  getLoggedUserId,
+  likeTweet,
+  unlikeTweet,
+  checkIfLiked,
+  retweet,
+  checkIfRetweeted,
+  save,
+  unSave,
+  checkIfSaved,
+  unReweet,
+} from "@services/index";
+
+interface TweetProps {
+  tweet_id: number;
+  //userid: number;
+  name: string;
+  username: string;
+  text: string;
+  imageUrl?: string;
+  profileimageurl?: string;
+  timeDisplay: string;
+  likes?: number | string;
+  retweets?: number | string;
+  comments?: number | string;
+  saves?: number | string;
+  bookmarked?: boolean;
+  author?: string;
 }
+const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
 
 
-const TweetDetailsPage = () => {
-  const { tweetId = '0' } = useParams();
-  const [tweetDetails, setTweetDetails] = useState<any>(null);
   const [commentColor, setCommentColor] = useState(false);
   const [retweetColor, setRetweetColor] = useState(false);
   const [likeColor, setLikeColor] = useState(false);
-  const [bookmarkColor, setBookmarkColor] = useState(false);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [bookmarkColor, setBookmarkColor] = useState(bookmarked || false);
+  const [loggedUserId, setLoggedUserId] = useState<any>();
+  const [commentCount, setCommentCount] = useState(Number(comments) || 0);
+  const [retweetCount, setRetweetCount] = useState(Number(retweets) || 0);
+  const [likeCount, setLikeCount] = useState(Number(likes) || 0);
+  const [saveCount, setSaveCount] = useState(Number(saves) || 0);
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
-
-
-  const [commentCount, setCommentCount] = useState(0);
-  const [retweetCount, setRetweetCount] = useState(0);
-  const [likeCount, setLikeCount] = useState(0);
-  const [saveCount, setSaveCount] = useState(0);
-
-
 
   const handleCommentClick = () => {
     setCommentColor((prevState) => !prevState);
-    setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
+    setCommentCount((prevCount) =>
+      commentColor ? prevCount - 1 : prevCount + 1
+    );
     onOpen();
   };
 
   const handleRetweetClick = () => {
     setRetweetColor((prevState) => !prevState);
-    setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
+    setRetweetCount((prevCount) =>
+      retweetColor ? prevCount - 1 : prevCount + 1
+    );
 
+    check_retweet().then((result) => {
+      if (result===false) {
+        add_retweet();
+      } else {
+        un_retweet();
+      }
+    });
     // Call the toggleRetweet function with tweetid and username
-    toggleRetweet(tweetid, userid);
   };
 
   const handleLikeClick = () => {
@@ -73,255 +86,232 @@ const TweetDetailsPage = () => {
     setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
 
     // Call the toggleLike function with tweetid and username
-    toggleLike(tweetid, userid);
+    check_like().then((result) => {
+      if (result===false) {
+        add_like();
+      } else {
+        un_like();
+      }
+    });
   };
 
   const handleBookmarkClick = () => {
     setBookmarkColor((prevState) => !prevState);
-    setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
+    setSaveCount((prevCount) =>
+      bookmarkColor ? prevCount - 1 : prevCount + 1
+    );
 
     // Call the toggleSave function with tweetid and username
-    toggleSave(tweetid, userid);
-  };
-
-  const formatCommentTimestamp = (timestamp: string) => {
-    const parsedTimestamp = new Date(timestamp);
-    const month = parsedTimestamp.toLocaleString("en-us", {
-      month: "short",
+    check_save().then((result) => {
+      if (result===false) {
+        add_save();
+      } else {
+        un_save();
+      }
     });
-    const day = parsedTimestamp.getDate();
-    return `${month} ${day}`;
-  };
-
-  const getTimeDisplay = (timestamp: string) => {
-    const currentTime = new Date();
-    const parsedTimestamp = new Date(timestamp);
-
-    const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
-    const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
-
-    let timeDisplay;
-    if (minutesDiff < 60) {
-      timeDisplay = `${minutesDiff}m`;
-    } else {
-      const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
-      if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
-      else {
-        const month = parsedTimestamp.toLocaleString("en-us", {
-          month: "short",
-        });
-        const day = parsedTimestamp.getDate();
-        timeDisplay = `${month} ${day}`;
-      }
-    }
-
-    return timeDisplay;
   };
 
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const commentsData = await getComments(parseInt(tweetId));
-        if (!commentsData) return; // Handle case where data is empty or undefined
-        // Filter comments based on tweetId
-        // const filteredComments = commentsData.filter(comment => comment.Tweet_Id === parseInt(tweetId));
-  
-        setComments(commentsData);
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
+    const fetchLoggedInUser = async () => {
+      const userData = await getLoggedUserId();
+      setLoggedUserId(userData);
     };
-  
-    fetchComments();
-  }, [tweetId]);
+    fetchLoggedInUser();
+  }, []);
 
-  useEffect(() => {
-    const fetchTweetDetails = async () => {
-      try {
-        const tweet = await getTweet(parseInt(tweetId));
-        setTweetDetails(tweet);
-        // console.log(tweetId);
-        console.log(tweet);
-      } catch (error) {
-        console.error('Error fetching tweet details:', error);
-      }
-    };
+  const add_like = async () => {
+    const result = await likeTweet(tweet_id, loggedUserId);
+    console.log(result);
+  };
+  const check_like = async () => {
+    const result = await checkIfLiked(tweet_id, loggedUserId);
+    console.log(result);
+    return result;
+  };
+  const un_like = async () => {
+    const result = await unlikeTweet(tweet_id, loggedUserId);
+    console.log(result);
+  };
 
-    fetchTweetDetails();
-  }, [tweetId]);
-  console.log(tweetDetails?.name);
-  
+  const add_retweet = async () => {
+    const result = await retweet(tweet_id, loggedUserId);
+    console.log(result);
+  };
+
+  const check_retweet = async () => {
+    const result = await checkIfRetweeted(tweet_id, loggedUserId);
+    console.log(result);
+    console.log(tweet_id, loggedUserId);
+    return result;
+  };
+
+  const un_retweet = async () => {
+    const result = await unReweet(tweet_id, loggedUserId);
+    console.log(result);
+  };
+
+  const add_save = async () => {
+    const result = await save(tweet_id, loggedUserId);
+    console.log(result);
+  };
+
+  const check_save = async () => {
+    const result = await checkIfSaved(tweet_id, loggedUserId);
+    console.log(result);
+    return result;
+  };
+
+  const un_save = async () => {
+    const result = await unSave(tweet_id, loggedUserId);
+    console.log(result);
+  };
+
+
+  // const add_comment = async()=>{
+  //   const result = await toggleComment(tweetid, loggedUserId);
+  //   console.log(result);
+  // }
   return (
-    <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-          <Nav />
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
+      <div className="avatar">
+        <Avatar
+          src={profileimageurl}
+          alt="User Avatar"
+          className="user-avatar min-w-12 min-h-12"
+        />
+      </div>
+      <div className="post flex-col w-full pl-2">
+        <div className="user-info flex">
+          <NavLink
+            to={{
+              // pathname: `/profile/${username.substring(1)}`, //sets the url path
+              // state: { username: username.substring(1) } //passes the state -> is this valid, please verify
+              /*
+              To retrieve this data when navigating to the next page:
+              import { useLocation } from 'react-router-dom';
+              const ProfileComponent = () => {
+                const location = useLocation();
+                const username = location.state?.username;
+
+                // Use the username to render the profile
+              };
+              */
+           }}
+            className="font-semibold p-0 m-0 dark:text-white"
+          >
+            {name}
+          </NavLink>
+          <NavLink
+            to={{
+              pathname: `/profile/${username.substring(1)}`,
+              //state: { username: username.substring(1) } -> is this valid, please verify
+            }}
+            className="text-slate-700 p-0 m-0 dark:text-gray-400"
+          >
+            @{username.substring(1)} &nbsp;· {timeDisplay}
+          </NavLink>
         </div>
-        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
-          <div className="flex flex-col m-0 p-0 justify-center">
-            <h1 className="font-bold text-xl mb-4 mt-4 flex items-center">
-              <Link to="/Home">
-                <AiOutlineArrowLeft className='w-4 h-4 mr-2 ml-4'/> 
-              </Link>
-              <span className='ml-4'>Post</span>
-            </h1>
-            <div>
-              {tweetDetails ? (
-                <>
-                  <div className="post flex-col w-full mt-2">
-                    <div className="user-info flex items-center">
-                      <Avatar
-                        src={tweetDetails?.profile_img}
-                        alt="User Avatar"
-                        className="user-avatar min-w-12 min-h-12 ml-2"
-                      />
-                      <div>
-                        <p>
-                          <NavLink
-                            to={{
-                              pathname: `/profile/${tweetDetails.username}`
-                            }}
-                            className="text-slate-700 p-0 m-0 font-bold ml-2"
-                          >
-                            {tweetDetails?.name}
-                          </NavLink>
-                        </p>
-                        <p>
-                          <NavLink
-                            to={{
-                              pathname: `/profile/${tweetDetails.username}`
-                            }}
-                            className="text-slate-700 p-0 m-0 dark:text-gray-400 ml-2"
-                          >
-                            @{tweetDetails?.username}
-                          </NavLink>
-                        </p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="p-3 m-0 dark:text-white">{tweetDetails.content}</p>
-                      {tweetDetails.img_url && (
-                        <div className='p-4'>
-                          <Image
-                            src={tweetDetails.img_url}
-                            alt="Tweet Image"
-                            className="tweet-image w-auto h-full"
-                            style={{ borderRadius: "10px" }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                    <span className="text-gray-500 text-sm ml-2">
-                        {getTimeDisplay(tweetDetails?.created_at)}
-                    </span>
-                    <hr className='mt-4 mb-3'></hr>
-                  </div>
-                </>
-              ) : (
-                <p>Loading tweet details...</p>
-              )}
-            </div>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-              <ModalContent>
-                {() => (
-                  <ModalBody>
-                    <CreateComment
-                      tweet_id={tweetDetails.tweet_id}
-                      user_id={tweetDetails.loggedUserId}
-                      name={tweetDetails.name}
-                      username={tweetDetails.username}
-                      text={tweetDetails.content}
-                      imageUrl={tweetDetails.imageUrl}
-                      profileimageurl={tweetDetails.profile_img}
-                      timeDisplay={tweetDetails.timeDisplay}
-                    ></CreateComment>
-                  </ModalBody>
-                )}
-              </ModalContent>
-            </Modal>
-            <div className="tweet-actions flex flex-row justify-around col text-slate-700">
-              <span
-                className={`action flex items-center cursor-pointer z-3 ${
-                  commentColor ? "text-blue-500" : "hover:text-blue-500"
-                }`}
-                onClick={handleCommentClick}
-              >
-                {commentColor ? <FaComment className="w-4 h-4" /> : <FaRegComment className="w-4 h-4" />} &nbsp;{tweetDetails?.comments}
-              </span>
-              <span
-                className={`action flex items-center cursor-pointer ${
-                  retweetColor ? "text-green-500" : "hover:text-green-500"
-                }`}
-                onClick={handleRetweetClick}
-              >
-                {retweetColor ? <LuRepeat2 className="w-4 h-4" /> : <LuRepeat2 className="w-4 h-4" />} &nbsp;{tweetDetails?.retweets}
-              </span>
-              <span
-                className={`action flex items-center cursor-pointer ${
-                  likeColor ? "text-red-500" : "hover:text-red-500"
-                }`}
-                onClick={handleLikeClick}
-              >
-                {likeColor ? <PiHeartFill className="w-4 h-4" /> : <PiHeartBold className="w-4 h-4" />} &nbsp;{tweetDetails?.likes}
-              </span>
-              <span
-                className={`action flex items-center cursor-pointer ${
-                  bookmarkColor ? "text-orange-500" : "hover:text-orange-500"
-                }`}
-                onClick={handleBookmarkClick}
-              >
-                {bookmarkColor ? (
-                  <FaBookmark className="w-4 h-4" />
-                ) : (
-                  <FaRegBookmark className="w-4 h-4" />
-                )}{" "}
-                &nbsp;{tweetDetails?.saves}
-              </span>
-            </div>
-            <hr className='mt-4 mb-3'></hr>
-            <CreateCommentInput username={tweetDetails?.username} ></CreateCommentInput>
-            <hr className='mb-3'></hr>
-            <div>
-              <p className="p-3 m-0 dark:text-white">
-              {comments.map((comment) => {
-                console.log(comment);
-                return(
-                  <div key={comment.Comment_Id}>
-                  <div className="flex items-center mb-4">
-                    <Avatar
-                      // @ts-expect-error ProfileArray
-                      src={comment?.User.Profile[0]?.Img_Url}
-                      alt={comment?.User?.Username}
-                      className="user-avatar"
-                      style={{ width: '32px', height: '32px' }}
-                    />
-                    <p className="font-bold ml-2">{comment?.User?.Name}</p>
-                    <p className="ml-2">@{comment?.User?.Username}</p>
-                    <p className="ml-2">
-                      {comment?.User?.Created_at ? formatCommentTimestamp(comment.Created_at) : ''}
-                    </p>
-                  </div>
-                  <div className='ml-10 -mt-2'>
-                    <p>{comment.Content}</p>
-                  </div>
-                  <hr className='mt-4 mb-3'></hr>
-                </div>
-              )})}
-              </p>
-            </div>
+        {author && (
+          <div>
+            <NavLink
+              to={{
+                pathname: `/profile/${author.substring(0)}`,
+              }}
+              className="text-slate-700 p-0 m-0 block text-left"
+            >
+              replying to @{author.substring(1)} &nbsp;
+            </NavLink>
           </div>
-        </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
-          <div className="mb-3">
-            <Search />
+        )}
+        <Link to={`/tweet/${tweet_id}`} key={tweet_id} className="tweet-link">
+          <div>
+            <p className="p-0 m-0 dark:text-white">{text}</p>
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                alt="Tweet Image"
+                className="tweet-image w-auto h-full"
+                style={{ borderRadius: "10px" }}
+              />
+            )}
           </div>
-          <TrendingTopics />
-          <WhoToFollow users={[]} />
+        </Link>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <ModalContent>
+            {() => (
+              <ModalBody>
+                <CreateComment
+                  tweet_id={tweet_id}
+                  user_id={loggedUserId}
+                  name={name}
+                  username={username}
+                  text={text}
+                  imageUrl={imageUrl}
+                  profileimageurl={profileimageurl}
+                  timeDisplay={timeDisplay}
+                ></CreateComment>
+              </ModalBody>
+            )}
+          </ModalContent>
+        </Modal>
+        <div className="tweet-actions flex flex-row justify-around col text-slate-700">
+
+          <span
+            className={`action flex items-center cursor-pointer z-3 ${
+              commentColor ? "text-blue-500" : "hover:text-blue-500"
+            }`}
+            onClick={handleCommentClick}
+          >
+            {commentColor ? (
+              <FaComment className="w-4 h-4" />
+            ) : (
+              <FaRegComment className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{commentCount}{" "}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              retweetColor ? "text-green-500" : "hover:text-green-500"
+            }`}
+            onClick={handleRetweetClick}
+          >
+            {retweetColor ? (
+              <LuRepeat2 className="w-4 h-4" />
+            ) : (
+              <LuRepeat2 className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{retweetCount}{" "}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              likeColor ? "text-red-500" : "hover:text-red-500"
+            }`}
+            onClick={handleLikeClick}
+          >
+            {likeColor ? (
+              <PiHeartFill className="w-4 h-4" />
+            ) : (
+              <PiHeartBold className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{likeCount}{" "}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              bookmarkColor ? "text-orange-500" : "hover:text-orange-500"
+            }`}
+            onClick={handleBookmarkClick}
+          >
+            {bookmarkColor ? (
+              <FaBookmark className="w-4 h-4" />
+            ) : (
+              <FaRegBookmark className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{saveCount}{" "}
+          </span>
         </div>
       </div>
     </div>
   );
-  
 };
 
-export default TweetDetailsPage;
+export default Tweet;
