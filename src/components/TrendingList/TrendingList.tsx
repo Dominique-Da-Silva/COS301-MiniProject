@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // import { mockTrending } from '../../mockData/mockData';
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import { getTrendingTopics } from '@services/index';
-import { useNavigate } from 'react-router-dom'; 
+// import { useNavigate } from 'react-router-dom'; 
 
 
 interface Topic {
@@ -25,9 +25,12 @@ const formatCount = (count: number): string | number => {
 
 
     
-const TrendingList: React.FC<ExploreProps> = () => {
+const TrendingList: React.FC<ExploreProps> = ({ onNavigate }) => {
   const [topics, setTopics] = useState<any[]>([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const handleTopicClick = (topicName: string) => {
+    onNavigate(`/explore/${topicName}`); // Call the passed navigation function
+  };
 
   useEffect(() => {
     const fetchTagsData = async () => {
@@ -42,9 +45,9 @@ const TrendingList: React.FC<ExploreProps> = () => {
     fetchTagsData();
   }, []);
 
-  const handleTopicClick = (topicName: string) => {
-    navigate(`/explore/${topicName}`);
-  };
+  // const handleTopicClick = (topicName: string) => {
+  //   navigate(`/explore/${topicName}`);
+  // };
 
   return (
     <div>

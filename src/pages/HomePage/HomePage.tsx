@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
+import { useNavigate } from 'react-router-dom';
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
@@ -15,6 +16,12 @@ const HomePage: React.FC<HomePageProps> = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [currentUser, setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+ 
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
@@ -216,7 +223,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           <div className="mb-3">
             <Search />
           </div>
-          <TrendingTopics />
+          <TrendingTopics onNavigate={handleNavigation} />
           <WhoToFollow users={[]} />
         </div>
       </div>
