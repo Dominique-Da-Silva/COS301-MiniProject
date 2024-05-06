@@ -5,6 +5,7 @@ import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
 import { twitterLogo, chevron, defaultavater, profile1, profile2, profile3} from "@assets/index";
 import { createDateObject } from '@utils/index';
+import { RecommendedUsers } from "@components/index";
 
 
 //The Name, Email and Date Capture
@@ -548,31 +549,7 @@ const Flow6 = () => {
         <h2 className="text-xl font-bold mb-8">Follow one or more accounts</h2>
       </div>
       <div className="flex flex-col gap-6">
-        {suggestedUsers.map((user, index) => (
-          <div key={index} className="flex items-center gap-1">
-            <div className="w-12 h-12 overflow-hidden rounded-full">
-              <img src={user.profilePic} alt="profile-pic" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h3 className="text-base font-semibold mb-3">{user.name}</h3>
-              <p className="text-gray-600 mb-3">{user.username}</p>
-              <p className="text-gray-600 text-xs">{user.bio}</p>
-            </div>
-            <Button 
-              radius="full" 
-              variant="bordered" 
-              className="ml-auto font-semibold text-blue-500 border-blue-500" 
-              style={{ 
-                padding: '5px 10px', 
-                fontSize: '12px', 
-                width: '80px', 
-                height: '30px'
-              }}
-            >
-              Follow
-            </Button>
-          </div>
-        ))}
+        <RecommendedUsers users={[]}/>
       </div>
       <form className="w-full flex flex-col gap-10 pt-2">
         <Button
