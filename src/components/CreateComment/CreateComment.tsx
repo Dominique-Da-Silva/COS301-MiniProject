@@ -128,7 +128,7 @@ const CreateComment: React.FC<CreateCommentProps> = ({
           variant="underlined"
           placeholder="What is happening?!"
           className="p-2"
-          style={{ width: "150px" }}
+          // style={{ width: "150px" }}
           value={commentText}
           onChange={(event: any) => setCommentText(event.target.value)}
         />
