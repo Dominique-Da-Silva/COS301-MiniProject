@@ -1,5 +1,4 @@
 import { useState, Suspense, useEffect } from "react";
-import { supabase } from "@config/supabase";
 import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
@@ -12,13 +11,13 @@ import { getUserComments } from "@services/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink, useNavigate, useLocation, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Search } from "@components/index";
 import { isUserLoggedIn } from "@services/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
-import { getAuthIdFromSession } from "@services/index";
-
+// import { getAuthIdFromSession } from "@services/index";
+import { fetchUserByUsername } from "@services/index";
 // interface Tweet {
 //   key: number;
 //   name: string;
@@ -80,42 +79,34 @@ const ProfileDetails = () => {
   //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
   //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
   const [external, setExternal] = useState(true);
-
   const [following, setFollowing] = useState(false);
   const [userTweets, setUserTweets] = useState<any[]>([]);
   const [userMedia, setUserMedia] = useState<string[]>([]);
   const [userReplies, setUserReplies] = useState<any[]>([]);
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
-
   
   // const location = useLocation();
+  const { username } = useParams<{ username: string }>();
 
   useEffect(() => {
-    
     const getUD = async () => {
-    //  console.log("Username from path : " + usernameP);
-      const userDataX = await fetchUserData();
-      setUserData(userDataX);
-      const sAID = await getAuthIdFromSession();
-      console.log("said "+sAID);
-        if (sAID === userDataX.auth_id) {
-          setExternal(false);
-          console.log("Reaction 1")
-        }
-        else {
-          setExternal(false);
-          console.log("Reaction 2");
-        }
-      // console.log("UX : " + userDataX.auth_id);
-      // const logged_user = await supabase.auth.getSession();
-      // console.log(logged_user.data?.session?.user?.id);
+      let userDataX;
+      if (!username) {
+        // userDataX = await fetchUserByUsername(username);
+        userDataX = await fetchUserData();
+        setExternal(false);
+      }
+      else {
+        userDataX = await fetchUserByUsername(username);
+        // userDataX = await fetchUserData();
+        setExternal(true);
+      }
+      setUserData(userDataX);      
     }
-    getUD();
+    getUD();   
 
     const profileSub = async () => {
       try {
-        // const usernameP = location.state?.username;
-        // console.log("Username from path : " + usernameP);
         const profileTemp = await fetchProfileDetails(userData.User_Id);
         const followerTemp = await countFollowers(userData.User_Id);
         const followingTemp = await countFollowing(userData.User_Id);
@@ -130,8 +121,8 @@ const ProfileDetails = () => {
           console.error("Error fetching data: ", error);
       }
     } 
-    profileSub();
-    
+    profileSub(); 
+
     const getLikes = async () => {
       try {
         const likes = await fetchLikedPosts(userData.User_Id);
@@ -189,27 +180,22 @@ const ProfileDetails = () => {
       }
     }
     getTweets();
-  }, [activeTab, userData.User_Id, likedTweets, tweetCollection]);
 
-  useEffect(() => {
-    // this is necessary for checking if the user is signed in
     const checkUser = async () => {
-      // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (!result) {
-        navigate("/home"); // Redirect to home page if user is not logged in
+        navigate("/home");
       }
     }
-    
-    // Call the async function
     checkUser();
-  }, [navigate]);
+
+  }, [activeTab, userData.User_Id, username, likedTweets, tweetCollection, navigate])
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
 
-  if (!profileDetails || !userProfile) {
+  if (!profileDetails || !userProfile || !tweetCollection) {
     console.log("Log");
     return <div>Loading...</div>;
   }

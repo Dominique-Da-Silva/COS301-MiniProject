@@ -124,7 +124,7 @@ const Tweet: React.FC<TweetProps> = ({ tweetid, userid, name, username, text, im
           <div>
             <NavLink
               to={{
-                pathname: `/profile/${author.substring(0)}`,
+                pathname: `/profile/${author.substring(1)}`,
               }}
               className="text-slate-700 p-0 m-0 block text-left"
             >

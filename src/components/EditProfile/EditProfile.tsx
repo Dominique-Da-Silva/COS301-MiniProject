@@ -5,11 +5,13 @@ import React,{ useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/profileServices/getAuthUser";
 import { fetchProfileDetails } from "@services/profileServices/getProfile";
-import {updateProfileDetails } from "@services/profileServices/updateProfileDetails"
+import { updateProfileDetails } from "@services/profileServices/updateProfileDetails"
+import { useNavigate } from "react-router-dom";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
   // const [isEditing, setIsEditing] = useState(false);.
+  const navigate = useNavigate();
   const [profileDetails, setProfileDetails] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
 
@@ -31,12 +33,13 @@ const EditProfile: React.FC = () => {
     // console.log("XXXXX: " + user_data.Bio);
     if (result === 'success') {
       // The profile details were successfully updated
-      console.log('Profile details updated successfully');
+      //console.log('Profile details updated successfully');
     } else {
       // There was an error updating the profile details
-      console.log('Error updating profile details');
+      //console.log('Error updating profile details');
     }
-    
+    navigate("/profile");
+
   };
 
 
