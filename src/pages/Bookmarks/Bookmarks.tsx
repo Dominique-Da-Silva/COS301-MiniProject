@@ -1,5 +1,5 @@
 import { isUserLoggedIn, getLoggedUserId, 
-  //getBookmarkedTweets, 
+  getBookmarkedTweets, 
   fetchUsers } from '@services/index';
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 import { useEffect } from 'react';
@@ -11,7 +11,7 @@ import {useState} from "react";
 const Bookmarks = () => {
 
   // const [tweets] = useState<any[]>(mockTweets);
-  const [tweets, ] = useState<any[]>([]);//setTweets
+  const [tweets, setTweets] = useState<any[]>([]);//setTweets
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const [savesCount] = useState<any>(mockSavesCount);
@@ -98,8 +98,8 @@ const Bookmarks = () => {
         // Fetch tweets only if user ID is available
         if (id) {
           //this doesn't work anymore
-          //const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
-          //setTweets(tweetData);
+          const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
+          setTweets(tweetData);
         }
         else{
           throw "could not fetch tweet data"
