@@ -25,6 +25,7 @@ import {
   unSave,
   checkIfSaved,
   unReweet,
+  currentuserimg
 } from "@services/index";
 
 interface TweetProps {
@@ -42,8 +43,9 @@ interface TweetProps {
   saves?: number | string;
   bookmarked?: boolean;
   author?: string;
+  currentuserimg?: string;
 }
-const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
+const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author, currentuserimg}) => {
   
 
   const [commentColor, setCommentColor] = useState(false);
@@ -113,11 +115,17 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
 
   useEffect(() => {
     const fetchLoggedInUser = async () => {
-      const userData = await getLoggedUserId();
-      setLoggedUserId(userData);
+      try {
+        const id = await getLoggedUserId();
+        setLoggedUserId(id);
+      } catch (error) {
+        console.error('Error fetching userid:', error);
+      }
     };
+
     fetchLoggedInUser();
   }, []);
+
 
   const add_like = async () => {
     const result = await likeTweet(tweet_id, loggedUserId);
@@ -249,6 +257,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
                   imageUrl={imageUrl}
                   profileimageurl={profileimageurl}
                   timeDisplay={timeDisplay}
+                  userimg={currentuserimg}
                 ></CreateComment>
               </ModalBody>
             )}

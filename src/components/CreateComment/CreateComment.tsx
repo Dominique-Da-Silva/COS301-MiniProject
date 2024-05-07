@@ -30,6 +30,7 @@ interface CreateCommentProps {
   imageUrl?: string;
   profileimageurl?: string;
   timeDisplay: string;
+  userimg: string;
 }
 const CreateComment: React.FC<CreateCommentProps> = ({
   user_id,
@@ -40,11 +41,13 @@ const CreateComment: React.FC<CreateCommentProps> = ({
   imageUrl,
   profileimageurl,
   timeDisplay,
+  userimg
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [commentText, setCommentText] = useState("");
   const [selectedImage, setSelectedImage] = useState<any>();
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
+  
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -53,7 +56,6 @@ const CreateComment: React.FC<CreateCommentProps> = ({
       const result = await isUserLoggedIn();
       setUserAuthStatus(result);
     };
-
     // Call the async function
     checkUser();
   }, []);
@@ -118,7 +120,7 @@ const CreateComment: React.FC<CreateCommentProps> = ({
 
       <div className="flex items-center space-x-1">
         <Avatar
-          // src={imageUrl} // profile image url to be replaced
+          src={userimg} // profile image url to be replaced
           alt="User Avatar"
           className="user-avatar min-w-12 min-h-12"
           // style={{ minWidth: '48px', minHeight: '48px' }}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Nav, TrendingTopics, Search, WhoToFollow} from '@components/index';
-import { getComments, getTweet, getLoggedUserId } from '@services/index';
+import { getComments, getTweet, getLoggedUserId, fetchProfileDetails } from '@services/index';
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
@@ -51,7 +51,8 @@ const TweetDetailsPage = () => {
   const [retweetCount, setRetweetCount] = useState(0);
   const [likeCount, setLikeCount] = useState(0);
   const [saveCount, setSaveCount] = useState(0);
-  const [currentUser, setCurrentUser] = useState(0);
+  const [currentUser, setCurrentUser] = useState<any>();
+  const [currentuserimg, setcurrentuserimg] = useState("");
 
 
 
@@ -84,6 +85,8 @@ const TweetDetailsPage = () => {
     // Call the toggleSave function with tweetid and username
     toggleSave(tweetid, userid);
   };
+
+  
 
   const formatCommentTimestamp = (timestamp: string) => {
     const parsedTimestamp = new Date(timestamp);
@@ -140,10 +143,22 @@ const TweetDetailsPage = () => {
       }
     };
 
+    // const getuserimg = async () => {
+    //   try {
+    //     const profimg = await fetchProfileDetails(currentUser)
+    //     console.log(currentUser);
+    //     console.log(profimg);
+    //     setcurrentuserimg(profimg.Img_Url);
+    //   } catch (error) {
+    //     console.error('Error fetching userimg:', error);
+    //   }
+    // }
+
     const getCurrentUser = async () => {
       try {
         const id = await getLoggedUserId();
         setCurrentUser(id);
+        console.log(id);
       } catch (error) {
         console.error('Error fetching userid:', error);
       }
@@ -151,6 +166,7 @@ const TweetDetailsPage = () => {
   
     fetchComments();
     getCurrentUser();
+    // getuserimg();
   }, [tweetId]);
 
   useEffect(() => {
@@ -167,7 +183,7 @@ const TweetDetailsPage = () => {
 
     fetchTweetDetails();
   }, [tweetId]);
-  console.log(tweetDetails);
+  // console.log(tweetDetails);
   
   return (
     <div className="w-full h-full flex justify-center align-middle">
@@ -252,6 +268,7 @@ const TweetDetailsPage = () => {
                       imageUrl={tweetDetails.imageUrl}
                       profileimageurl={tweetDetails.profile_img}
                       timeDisplay={tweetDetails.timeDisplay}
+                      userimg={currentuserimg}
                     ></CreateComment>
                   </ModalBody>
                 )}
@@ -302,7 +319,7 @@ const TweetDetailsPage = () => {
             <div>
               <p className="p-3 m-0 dark:text-white">
               {comments.map((comment) => {
-                console.log(comment);
+                // console.log(comment);
                 return(
                   <div key={comment.Comment_Id}>
                   <div className="flex items-center mb-4">
