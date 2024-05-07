@@ -1,83 +1,59 @@
-//import { render } from '@testing-library/react';
-//import ProfilePage from './ProfilePage';
+import { render } from '@testing-library/react';
+import { describe, expect, test } from 'vitest';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ProfilePage from './ProfilePage';
 
-import { test, describe } from "vitest";
 
-// Importing the supabase module to mock it
-//import { supabase } from '@config/supabase';
-
-test('renders without crashing', () => {
-    //render(<ProfilePage />);
-});
-
-/* All tests in this file are failing, please verify the code and fix the tests
-//ReferenceError: jest is not defined
-// Mocking the supabase module to avoid actual API calls during testing
-jest.mock('@config/supabase', () => ({
-    // Mocking the supabase client object
-    supabase: {
-        // Mocking the auth object of the supabase client
-        auth: {
-            getUser: jest.fn().mockResolvedValue({ data: { user: { id: 1 } } }) as jest.Mock,
-            
-        },
-
-        from: () => ({
-            // Mocking the Select method to simulate a Select query 
-            select: () => ({
-                eq: () => ({ 
-                    single: () => Promise.resolve({ data: {} })
-                })
-            }),
-
-            // Mocking the update method to simulate an update query
-            update: () => ({
-                eq: () => ({
-                    single: () => Promise.resolve({ data: {} })
-                })
-            }),
-
-            // Mocking the storage object of supabase to simulate storage operations
-            storage: {
-                from: () => ({
-                    upload: () => Promise.resolve({ data: { path: 'mock/path' } }),
-                    getPublicUrl: () => Promise.resolve({ data: { publicUrl: 'mock/url' } })
-                })
-            }
-        })
+describe('Profile component', () => {
+    test("renders without crashing", () => {
+      render(
+        <Router>
+            <Routes>
+              <Route path="/" element={<ProfilePage />} />
+            </Routes>
+        </Router>);
+    })
+  })
+  
+  const getTimeDisplay = (timestamp: string) => {
+    const currentTime = new Date();
+    const parsedTimestamp = new Date(timestamp);
+  
+    const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); 
+    const minutesDiff = Math.floor(timeDiff / 60000);
+  
+    let timeDisplay;
+    if (minutesDiff < 60) {
+      timeDisplay = `${minutesDiff}m`;
+    } else {
+      const hoursDiff = Math.floor(minutesDiff / 60); 
+      if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
+      else {
+        const month = parsedTimestamp.toLocaleString("en-us", {
+          month: "short",
+        });
+        const day = parsedTimestamp.getDate();
+        timeDisplay = `${month} ${day}`;
+      }
     }
-}));
+  
+    return timeDisplay;
+  };
 
-console.error = jest.fn();
-*/
+  test('getTimeDisplay returns correct time display for timestamps within the last hour', () => {
+    const currentTimestamp = new Date().getTime();
+    const oneMinuteAgo = new Date(currentTimestamp - 60000).toISOString();
+    expect(getTimeDisplay(oneMinuteAgo)).toBe('1m');
+  });
 
-describe('fetchUserProfile', () => {
-    test('fetches user profile data successfully', async () => {
-        // Render ProfilePage component
-        /*render(<ProfilePage />);
-        
-        // Wait for Profile page to be mounted
-        await new Promise((resolve) => setTimeout(resolve, 0));
+  test('getTimeDisplay returns correct time display for timestamps within the last 24 hours', () => {
+    const currentTimestamp = new Date().getTime();
+    const oneHourAgo = new Date(currentTimestamp - 3600000).toISOString();
+    expect(getTimeDisplay(oneHourAgo)).toBe('1h');
+  });
 
-        // Ensure that getUser and related methods are called, the ones we mocked earlier 
-        expect(supabase.from('User').select().eq('User','User_Id').single).toHaveBeenCalled();
-        expect(supabase.auth.getUser).toHaveBeenCalled();
+  test('getTimeDisplay returns correct time display for timestamps beyond 24 hours', () => {
+    const timestamp = '2022-01-01T00:00:00.000Z';
+    expect(getTimeDisplay(timestamp)).toBe('Jan 1');
+  });
 
-        // make sure no error is called
-        expect(console.error).not.toHaveBeenCalled();*/
-    });
-
-    /*test('handles errors gracefully', async () => {
-        // Render ProfilePage component
-        render(<ProfilePage />);
-
-        // Wait for ProfilePage component to be mounted and ensure that fetchUserProfile function is called
-        await new Promise((resolve) => setTimeout(resolve, 0));
-
-        // Ensure that getUser and related methods are called
-        expect(supabase.auth.getUser).toHaveBeenCalled();
-
-        // Ensure that console.error is called with the correct error message
-        expect(console.error).toHaveBeenCalledWith('Error fetching user profile:', 'getUser error');
-    });*/
-});

@@ -29,7 +29,7 @@ const UserCard: React.FC<User> = ({
   const [buttonText, setButtonText] = useState<string>("Follow");
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
 
-  const follow_User = async () => {
+  const FollowUser = async () => {
     console.log("Followed", username);
     const currentUser = await getCurrentUser();
     if (currentUser !== undefined) {
@@ -50,7 +50,7 @@ const UserCard: React.FC<User> = ({
   }
   };
 
-  const unFollow_User = async () => {
+  const UnFollowUser = async () => {
     console.log("Unfollowed", username);
     const following = await checkIfFollowing(logged_in_user_id, user_id);
     if (following) {
@@ -127,7 +127,7 @@ const UserCard: React.FC<User> = ({
         <Button
           className="ml-auto font-bold text-white bg-black h-7"
           radius="full"
-          onClick={isFollowing ? () => unFollow_User() : () => follow_User()}
+          onClick={isFollowing ? () => UnFollowUser() : () => FollowUser()}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

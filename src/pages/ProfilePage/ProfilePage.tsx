@@ -423,8 +423,8 @@ const ProfileDetails = () => {
                               const _retweets = originalTweet.Retweets[0].count || 0;
                               return (
                                 <Tweet
-                                  tweetid={tweet.Tweet_Id}
-                                  userid={userData.User_Id}
+                                  tweet_id={tweet.Tweet_Id}
+                                  //userid={userData.User_Id}
                                   key={index}
                                   name={userData.Name}
                                   username={`@${userData.Username}`}
@@ -491,8 +491,8 @@ const ProfileDetails = () => {
                             const image_url = profileDetails.Img_Url;
                             return (
                               <Tweet
-                                tweetid={reply.id}
-                                userid={userData.User_Id}
+                                tweet_id={reply.id}
+                               // userid={userData.User_Id}
                                 key={index}
                                 name={userData.Name}
                                 username={`@${userData.Username}`}
@@ -532,8 +532,8 @@ const ProfileDetails = () => {
                           const _retweets = originalTweet.Retweets[0].count || 0;
                         return(
                           <Tweet
-                            tweetid={tweet.id}
-                            userid={userData.User_Id}
+                            tweet_id={tweet.id}
+                           // userid={userData.User_Id}
                             key={index}
                             name={iUser ? iUser.Name : "Unknown User"}
                             username={iUser ? `@${iUser.Username}` : ""}
@@ -560,7 +560,7 @@ const ProfileDetails = () => {
         <div className="mb-3">
           <Search />
         </div>
-        <TrendingTopics />
+        <TrendingTopics onNavigate={handleNavigation} />
         <WhoToFollow users={[]} />
       </div>
     </div>

@@ -5,6 +5,12 @@ import { getTrendingTopics } from '@services/index';
 interface ExploreProps {
   onTopicClick: (topicName: string) => void;
 }
+
+interface Topic {
+  Tag_Id: string;
+  Tag_Name: string;
+  tweet_count: number;
+}
     
 const TrendingListFull: React.FC<ExploreProps> = ({ onTopicClick }: ExploreProps) => {
 

@@ -1,6 +1,6 @@
 import { supabase } from '@config/supabase';
 
-export async function getUserComments(userId: number): Promise<any[]> {
+export async function getUserComments(userId: number){
     try {
         // Fetch comments made by the user with the provided user ID
         const { data: userComments, error } = await supabase
@@ -18,7 +18,7 @@ export async function getUserComments(userId: number): Promise<any[]> {
         }
 
         return userComments;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching user comments:', error.message);
     }
 }
