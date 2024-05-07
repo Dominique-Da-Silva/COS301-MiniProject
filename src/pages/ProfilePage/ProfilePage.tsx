@@ -95,13 +95,10 @@ const ProfileDetails = () => {
   const userStash = useRef(null);
 
   const followUserButton = async () => {
-    console.log("Followed", username);
     const currentUser = await getCurrentUser();
     if (currentUser !== undefined) {
-      const following = await checkIfFollowing(stash.User_Id, userData.User_Id);      
-    // console.log(logged_in_user_id);
-    // console.log(user_id);
-    if (!following) {
+      const followingCheck = await checkIfFollowing(stash.User_Id, userData.User_Id);      
+    if (!followingCheck) {
       const result = await followUser(stash.User_Id, userData.User_Id);
       console.log(result);
     }
@@ -115,9 +112,8 @@ const ProfileDetails = () => {
   };
 
   const unFollowUser = async () => {
-    console.log("Unfollowed", username);
-    const following = await checkIfFollowing(stash.User_Id, userData.User_Id);
-    if (following) {
+    const followingCheck = await checkIfFollowing(stash.User_Id, userData.User_Id);
+    if (followingCheck) {
       const result = await unfollowUser(stash.User_Id, userData.User_Id);
       console.log(result);
     }
@@ -154,11 +150,13 @@ const ProfileDetails = () => {
         if (following) {
           setFollowing(true);
           setButtonText("Following");
-
+          setIsFollowing(true);
         }
         else {
           setFollowing(false);
           setButtonText("Follow");
+          setIsFollowing(false);
+
         }
       }
       userDataRef.current = userDataX;
@@ -270,9 +268,10 @@ const ProfileDetails = () => {
     return <div>Loading...</div>;
   }
 
-  const handleButtonClick = () => {
-    setFollowing(!following);
-  }
+  // const handleButtonClick = () => {
+  //   setFollowing(!following);
+  // }
+
   return (
     <div className="container flex">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
