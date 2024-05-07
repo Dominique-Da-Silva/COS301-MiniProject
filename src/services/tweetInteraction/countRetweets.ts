@@ -1,18 +1,14 @@
 import { supabase } from '@config/supabase';
 
-export async function countRetweets(tweetId: number): Promise<number> {
+export async function countRetweets(tweetId: number){
     try {
-        const { data: retweets, error } = await supabase
+        const { count} = await supabase
             .from('Retweets')
-            .select('Tweet_Id')
+            .select('Tweet_Id',{count: 'exact'})
             .eq('Tweet_Id', tweetId);
 
-        if (error) {
-            throw error;
-        }
-
-        return retweets.length || 0;
-    } catch (error) {
+        return count ?? 0;
+    } catch (error: any) {
         console.error('Error counting retweets:', error.message);
     }
 }

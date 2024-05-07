@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings } from '@pages/index';
-import { EditProfile } from '@components/index';
+import { EditProfile, TweetDetails} from '@components/index';
 import "./styles/tailwind.css";
 import { useEffect, useRef, useState  } from 'react';
 import { supabase } from '@config/index';
@@ -67,6 +67,8 @@ const App = () => {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/bookmarks" element={<Bookmarks />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/tweet/:tweetId" element={<TweetDetails />} />
+        <Route path="/explore/:searchVal" element={<Explore />} />
       </Routes>
     </Router>
     // <Toaster />
