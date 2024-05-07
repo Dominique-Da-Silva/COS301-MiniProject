@@ -13,11 +13,12 @@ import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Search } from "@components/index";
-import { isUserLoggedIn } from "@services/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 // import { getAuthIdFromSession } from "@services/index";
 import { fetchUserByUsername } from "@services/index";
+import { isUserLoggedIn, checkIfFollowing, followUser, unfollowUser } from "@services/index";
+import { getCurrentUser } from "@services/auth/auth";
 // interface Tweet {
 //   key: number;.
 //   name: string;
@@ -65,6 +66,7 @@ const ProfileDetails = () => {
   const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(mockUserProfile);
+  const [stash, setStash] = useState<any>(mockUserProfile);
   const [userFollowers, setUserFollowers] = useState<any>(null);
   const [userFollowing, setUserFollowing] = useState<any>(null);
   const [users, setUsers] = useState<any[]>([]);
@@ -84,14 +86,61 @@ const ProfileDetails = () => {
   const [userMedia, setUserMedia] = useState<string[]>([]);
   const [userReplies, setUserReplies] = useState<any[]>([]);
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
-  
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [buttonText, setButtonText] = useState<string>("Follow");
+
   // const location = useLocation();
   const { username } = useParams<{ username: string }>();
   const userDataRef = useRef(null);
+  const userStash = useRef(null);
+
+  const followUserButton = async () => {
+    console.log("Followed", username);
+    const currentUser = await getCurrentUser();
+    if (currentUser !== undefined) {
+      const following = await checkIfFollowing(stash.User_Id, userData.User_Id);      
+    // console.log(logged_in_user_id);
+    // console.log(user_id);
+    if (!following) {
+      const result = await followUser(stash.User_Id, userData.User_Id);
+      console.log(result);
+    }
+    setButtonText("Following");
+    setIsFollowing(true);
+  }
+  else
+  {
+    console.log("User not found");
+  }
+  };
+
+  const unFollowUser = async () => {
+    console.log("Unfollowed", username);
+    const following = await checkIfFollowing(stash.User_Id, userData.User_Id);
+    if (following) {
+      const result = await unfollowUser(stash.User_Id, userData.User_Id);
+      console.log(result);
+    }
+    setButtonText("Follow");
+    setIsFollowing(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (isFollowing) {
+      setButtonText("Unfollow");
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isFollowing) {
+      setButtonText("Following");
+    }
+  };
 
   useEffect(() => {
     const getUD = async () => {
       let userDataX;
+      let userDataS;
       if (!username) {
         // userDataX = await fetchUserByUsername(username);
         userDataX = await fetchUserData();
@@ -99,10 +148,22 @@ const ProfileDetails = () => {
       }
       else {
         userDataX = await fetchUserByUsername(username);
-        // userDataX = await fetchUserData();
+        userDataS = await fetchUserData();
         setExternal(true);
+        const following = await checkIfFollowing(stash.User_Id, userData.User_Id);
+        if (following) {
+          setFollowing(true);
+          setButtonText("Following");
+
+        }
+        else {
+          setFollowing(false);
+          setButtonText("Follow");
+        }
       }
       userDataRef.current = userDataX;
+      userStash.current = userDataS;
+      setStash(userDataS);
       setUserData(userDataX);    
     }
     getUD();   
@@ -198,7 +259,7 @@ const ProfileDetails = () => {
     }
     checkUser();
 
-  }, [activeTab, username, likedTweets, tweetCollection, navigate])
+  }, [activeTab, likedTweets, tweetCollection, navigate])
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
@@ -238,14 +299,14 @@ const ProfileDetails = () => {
                   />
                   {external ? (
                     <Button
-                    className={`ml-auto text-base font-semibold rounded-full border ${
-                      following ? 'bg-blue-400 text-white border-blue-400' : 'bg-white border-gray-300 text-blue-400'
-                    } h-9 items-center`}
-                    style={{ borderColor: following ? '#1DA1F2' : '#DADADA', color: following ? '#FFFFFF' : '#1DA1F2' }}
-                    onClick={handleButtonClick}
-                    >
-                      {following ? 'Following' : 'Follow'}
-                    </Button>
+                    className="ml-auto font-bold text-white bg-black h-7"
+                    radius="full"
+                    onClick={isFollowing ? () => unFollowUser() : () => followUserButton()}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {buttonText}
+                  </Button>
                   ) : (
                     <NavLink to="/editProfile">
                       <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
