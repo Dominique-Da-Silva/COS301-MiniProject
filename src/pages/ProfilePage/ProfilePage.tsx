@@ -95,6 +95,10 @@ const ProfileDetails = () => {
   const userStash = useRef(null);
   const userExt = useRef(false);
 
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+  
   const followUserButton = async () => {
     const currentUser = await getCurrentUser();
     if (currentUser !== undefined) {
