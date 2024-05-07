@@ -46,7 +46,7 @@ const Nav = () => {
         if (!userId) return;
         const profileData = await fetchProfileDetails(userId);
         setProfileDetails(profileData);
-        console.log('Profile Data:', profileData); // Log the profile data
+        // console.log('Profile Data:', profileData); // Log the profile data
       } catch (error) {
         console.error('Error fetching profile details:', error);
       }
@@ -85,9 +85,9 @@ const Nav = () => {
     const fetchUserData = async () => {
 
       //option 2
-      console.log('Fetching ID');
+      // console.log('Fetching ID');
       const userId = await getLoggedUserId();
-      console.log('ID: ', userId);
+      // console.log('ID: ', userId);
       if (userId) {
         try {
           // Fetch user data

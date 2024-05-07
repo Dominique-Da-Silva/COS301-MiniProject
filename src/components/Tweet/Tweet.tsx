@@ -5,7 +5,7 @@ import { LuRepeat2 } from "react-icons/lu";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import CreateComment from "../CreateComment/CreateComment";
 import {
   Modal,
@@ -173,6 +173,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
   // }
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
+      <Link to={`/tweet/${tweet_id}`} key={tweet_id} className="tweet-link w-full flex">
       <div className="avatar">
         <Avatar
           src={profileimageurl}
@@ -254,7 +255,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
         </Modal>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
           <span
-            className={`action flex items-center cursor-pointer ${
+            className={`action flex items-center cursor-pointer z-3 ${
               commentColor ? "text-blue-500" : "hover:text-blue-500"
             }`}
             onClick={handleCommentClick}
@@ -307,6 +308,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
           </span>
         </div>
       </div>
+      </Link>
     </div>
   );
 };

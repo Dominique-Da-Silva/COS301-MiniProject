@@ -4,16 +4,24 @@ import React, { useState, useEffect } from "react";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
+import { useNavigate } from 'react-router-dom';
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
 interface HomePageProps { }
+
 
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [currentUser, setCurrentUser] = useState<any>(false);
   const [profiles, setProfiles] = useState<any[]>([]);
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+ 
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
@@ -43,6 +51,15 @@ const HomePage: React.FC<HomePageProps> = () => {
         // console.log("Users Data:");
         // console.log(usersData);
         setUsers(usersData as any[]); // Add type assertion here
+
+        const tweetData = await fetchTweets();
+        setTweets(tweetData);
+
+        const user = await isUserLoggedIn();
+        setCurrentUser(user);
+
+        const profilesData = await fetchAllProfiles();
+        setProfiles(profilesData as any);
 
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -182,7 +199,8 @@ const HomePage: React.FC<HomePageProps> = () => {
                 retweets={formatCount(retweets)}
                 saves={formatCount(saves)}
                 comments={formatCount(comments)}
-                profileimageurl={image_url}            />
+                profileimageurl={image_url}  
+                          />
             );
           })}
 
@@ -205,7 +223,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           <div className="mb-3">
             <Search />
           </div>
-          <TrendingTopics />
+          <TrendingTopics onNavigate={handleNavigation} />
           <WhoToFollow users={[]} />
         </div>
       </div>

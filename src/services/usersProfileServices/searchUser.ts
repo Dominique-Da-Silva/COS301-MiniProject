@@ -32,8 +32,8 @@ export async function searchUsers(query: string){
                 bio: profileData?.Bio || '',
                 img_url: profileData?.Img_Url || '',
             };
-            // console.log(userProfile);
-            profiles.push(JSON.stringify(userProfile));
+            console.log(userProfile);
+            profiles.push(userProfile);
         }
 
         return profiles;
