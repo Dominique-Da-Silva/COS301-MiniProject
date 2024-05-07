@@ -93,6 +93,7 @@ const ProfileDetails = () => {
   const { username } = useParams<{ username: string }>();
   const userDataRef = useRef(null);
   const userStash = useRef(null);
+  const userExt = useRef(false);
 
   const followUserButton = async () => {
     const currentUser = await getCurrentUser();
@@ -137,15 +138,18 @@ const ProfileDetails = () => {
     const getUD = async () => {
       let userDataX;
       let userDataS;
+      let ext;
       if (!username) {
         // userDataX = await fetchUserByUsername(username);
         userDataX = await fetchUserData();
-        setExternal(false);
+        ext = false;
+        // setExternal(false);
       }
       else {
         userDataX = await fetchUserByUsername(username);
         userDataS = await fetchUserData();
-        setExternal(true);
+        ext = true;
+        // setExternal(true);
         const following = await checkIfFollowing(stash.User_Id, userData.User_Id);
         if (following) {
           setFollowing(true);
@@ -158,11 +162,17 @@ const ProfileDetails = () => {
           setIsFollowing(false);
 
         }
+        if (stash.User_Id === userData.User_Id) {
+          // setExternal(false);
+          ext = false;
+        }
       }
       userDataRef.current = userDataX;
       userStash.current = userDataS;
+      userExt.current = ext;
       setStash(userDataS);
-      setUserData(userDataX);    
+      setUserData(userDataX);
+      setExternal(ext);
     }
     getUD();   
 
@@ -296,7 +306,7 @@ const ProfileDetails = () => {
                     alt={userData.Name}
                     size="lg"
                   />
-                  {external ? (
+                  {external? (
                     <Button
                     className="ml-auto font-bold text-white bg-black h-7"
                     radius="full"
