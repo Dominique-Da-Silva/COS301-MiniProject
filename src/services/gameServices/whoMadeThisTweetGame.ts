@@ -3,7 +3,6 @@ import { getUserData, getUserProfiles, pickRandomIdsFromFollowingList } from '@s
 
 export const whoMadeThisTweetGame = async () => {
     const randtweet = await getRandomTweet();
-    
     //check errors
     if(typeof randtweet === "string"){
         return randtweet;
@@ -57,6 +56,7 @@ export const getRandomTweet = async () => {
     if (err) {
         return err.message;
     }
+    console.log(tweet);
     return tweet;
 
     //the two tables of tweets and followers should be joined so that we only select users who have made tweets that the user is following
