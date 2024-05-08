@@ -72,7 +72,7 @@ const ProfileDetails = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [tweetCollection, setTweetCollection] = useState<any[]>([]);
-  const [createdAt] = useState<any>(
+  const [createdAt, setCreated_At] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
       year: "numeric",
@@ -95,7 +95,7 @@ const ProfileDetails = () => {
   const userStash = useRef(null);
   const userExt = useRef(false);
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path: any) => {
     navigate(path);
   };
   
@@ -138,153 +138,162 @@ const ProfileDetails = () => {
     }
   };
 
-  useEffect(() => {
-    const getUD = async () => {
-      let userDataX;
-      let userDataS;
-      let ext;
-      if (!username) {
-        // userDataX = await fetchUserByUsername(username);
-        userDataX = await fetchUserData();
-        ext = false;
-        // setExternal(false);
+  const getUD = async () => {
+    let userDataX;
+    let userDataS;
+    let ext;
+    if (!username) {
+      // userDataX = await fetchUserByUsername(username);
+      userDataX = await fetchUserData();
+      ext = false;
+      // setExternal(false);
+    }
+    else {
+      userDataX = await fetchUserByUsername(username);
+      userDataS = await fetchUserData();
+      ext = true;
+      // setExternal(true);
+      const following = await checkIfFollowing(stash.User_Id, userData.User_Id);
+      if (following) {
+        setFollowing(true);
+        setButtonText("Following");
+        setIsFollowing(true);
       }
       else {
-        userDataX = await fetchUserByUsername(username);
-        userDataS = await fetchUserData();
-        ext = true;
-        // setExternal(true);
-        const following = await checkIfFollowing(stash.User_Id, userData.User_Id);
-        if (following) {
-          setFollowing(true);
-          setButtonText("Following");
-          setIsFollowing(true);
-        }
-        else {
-          setFollowing(false);
-          setButtonText("Follow");
-          setIsFollowing(false);
+        setFollowing(false);
+        setButtonText("Follow");
+        setIsFollowing(false);
 
-        }
-        if (stash.User_Id === userData.User_Id) {
-          // setExternal(false);
-          ext = false;
-        }
       }
-      userDataRef.current = userDataX;
-      userStash.current = userDataS;
-      userExt.current = ext;
-      setStash(userDataS);
-      setUserData(userDataX);
-      setExternal(ext);
-    }
-    getUD();   
-
-    const profileSub = async () => {
-      try {
-        if (userDataRef.current) {
-          const profileTemp = await fetchProfileDetails(userDataRef.current.User_Id);
-          const followerTemp = await countFollowers(userDataRef.current.User_Id);
-          const followingTemp = await countFollowing(userDataRef.current.User_Id);
-          const imageURLs = await fetchUserMedia(userDataRef.current.User_Id);
-          setUserFollowers(followerTemp);
-          setUserFollowing(followingTemp);
-          setUserData(userDataRef.current);
-          setProfileDetails(profileTemp);
-          setUserMedia(imageURLs);
-        }
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    } 
-    profileSub(); 
-
-    const getLikes = async () => {
-      try {
-        if (userDataRef.current) {
-          const likes = await fetchLikedPosts(userDataRef.current.User_Id);
-          //console.log(likes);
-          setLikedTweets(likes);
-        }
-      } catch (error) {
-        console.error("Error fetching data: ", error);
+      if (stash.User_Id === userData.User_Id) {
+        // setExternal(false);
+        ext = false;
       }
     }
-    getLikes();
+    userDataRef.current = userDataX;
+    userStash.current = userDataS;
+    userExt.current = ext;
+    setStash(userDataS);
+    setUserData(userDataX);
+    setExternal(ext);
+  }
 
-    const getCurrUserTweets = async () => {
-      try {
-        if (userDataRef.current) {
-          const tempTweets = await getUserTweets(userDataRef.current.User_Id);
-          setUserTweets(tempTweets);
-        }
+  const profileSub = async () => {
+    try {
+      if (userDataRef.current) {
+        const profileTemp = await fetchProfileDetails(userDataRef.current.User_Id);
+        const followerTemp = await countFollowers(userDataRef.current.User_Id);
+        const followingTemp = await countFollowing(userDataRef.current.User_Id);
+        const imageURLs = await fetchUserMedia(userDataRef.current.User_Id);
+        setUserFollowers(followerTemp);
+        setUserFollowing(followingTemp);
+        setUserData(userDataRef.current);
+        setProfileDetails(profileTemp);
+        setUserMedia(imageURLs);
       }
-      catch (error) {
-        console.error("Error fetching data: ", error);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  } 
+
+  const getLikes = async () => {
+    try {
+      if (userDataRef.current && likedTweets.length === 0) {
+        const likes = await fetchLikedPosts(userDataRef.current.User_Id);
+        //console.log(likes);
+        setLikedTweets(likes);
+      }
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+
+  const getCurrUserTweets = async () => {
+    try {
+      if (userDataRef.current && userTweets.length === 0) {
+        const tempTweets = await getUserTweets(userDataRef.current.User_Id);
+        setUserTweets(tempTweets);
       }
     }
-    getCurrUserTweets();
-
-    const getUserReplies = async () => {
-      try {
-        if (userDataRef.current) {
-          const replies = await getUserComments(userDataRef.current.User_Id);
-          setUserReplies(replies);
-        }
-      }
-      catch (error) {
-        console.error("Error fetching data: ", error);
+    catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+  
+  const getUserReplies = async () => {
+    try {
+      if (userDataRef.current && userReplies.length === 0) {
+        const replies = await getUserComments(userDataRef.current.User_Id);
+        setUserReplies(replies);
       }
     }
-    getUserReplies();
-
-    const getUsers= async() => {
-      try {
-        const usersFetched = await fetchUsers();
-        const profilesFetched = await fetchAllProfiles();
-        setUsers(usersFetched as any[]);
-        setProfiles(profilesFetched as any[]);
-      }
-      catch (error) {
-        console.error("Error fetching data: ", error);
-      }
+    catch (error) {
+      console.error("Error fetching data: ", error);
     }
-    getUsers();
+  }
 
-    const getTweets = async() => {
-      try {
-        const tweetsFetched = await fetchTweets();
-        setTweetCollection(tweetsFetched as any[]);
-        // console.log(tweetCollection);
-      }
-      catch (error) {
-        console.error("Error fetching data: ", error);
-      }
+  const getUsers= async() => {
+    try {
+      const usersFetched = await fetchUsers();
+      const profilesFetched = await fetchAllProfiles();
+      setUsers(usersFetched as any[]);
+      setProfiles(profilesFetched as any[]);
     }
-    getTweets();
+    catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
 
+  const getTweets = async() => {
+    try {
+      const tweetsFetched = await fetchTweets();
+      setTweetCollection(tweetsFetched as any[]);
+      // console.log(tweetCollection);
+    }
+    catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    //return date as "December 2013" form
+    return date.toLocaleString("en-US", { month: "long", year: "numeric" });
+}
+
+  useEffect(() => {
     const checkUser = async () => {
       const result = await isUserLoggedIn();
       if (!result) {
         navigate("/home");
       }
+      else {
+        //get user data
+        await getUD(); 
+        await profileSub(); 
+        await getCurrUserTweets();
+      }
     }
+
     checkUser();
 
-  }, [activeTab, likedTweets, tweetCollection, navigate])
+  }, [])
 
   const handleTabClick = (tabName: string) => {
+    if (tabName === "tweets") {
+      getCurrUserTweets();
+    }
+    else if (tabName === "replies") {
+      getUserReplies();
+    }
+    else if (tabName === "likes") {
+      getLikes();
+    }
+    else if (tabName === "media") {
+      // getUserMedia(); media was already fetched in profileSub
+    }
     setActiveTab(tabName);
   };
-
-  if (!profileDetails || !userProfile || !tweetCollection) {
-    console.log("Log");
-    return <div>Loading...</div>;
-  }
-
-  // const handleButtonClick = () => {
-  //   setFollowing(!following);
-  // }
 
   return (
     <div className="container flex">
@@ -337,7 +346,7 @@ const ProfileDetails = () => {
                 <p className="mb-2">{profileDetails.Bio}</p>
                 <p className="text-gray-500 flex items-center">
                   <BiCalendar className="mr-1" />
-                  Joined {createdAt}
+                  Joined {formatDate(userData.Created_at)}
                 </p>
               </div>
               {/* Profile Details */}
