@@ -127,7 +127,7 @@ const GamePlay = () => {
       setShowResult(true);
     }
   };
-
+  
   return (
     <div className={shakeScreen ? 'shake-screen w-full h-screen flex flex-col px-8' : 'w-full h-screen flex flex-col px-8'}>
       {feedback === 'correct' && <Confetti />}
@@ -147,30 +147,30 @@ const GamePlay = () => {
           <div className="mt-4 flex flex-col">
             {questionData.list_options.map((option: any) => (
               <div
-                key={option.id}
-                className={`flex items-center space-x-2 border rounded-full p-2 mt-2 mb-4 transition-transform transform-gpu ${selectedOption === option.id && !submitted
+                key={option.User_Id}
+                className={`flex items-center space-x-2 border rounded-full p-2 mt-2 mb-4 transition-transform transform-gpu ${selectedOption === option.User_Id && !submitted
                   ? 'hover:scale-105 cursor-pointer border-sky-500'
-                  : submitted && option.isCorrect
+                  : submitted && option.User_Id === questionData.answer_user_id
                     ? 'bg-white text-green-500 border-green-500'
-                    : submitted && selectedOption === option.id
+                    : submitted && selectedOption === option.User_Id
                       ? 'bg-red-500 text-white border-white'
-                      : selectedOption !== option.id && !submitted
+                      : selectedOption !== option.User_Id && !submitted
                         ? 'hover:scale-105 cursor-pointer border-gray-300'
                         : ''
-                  }`}
-                onClick={() => handleOptionChange(option.id)}
+                }`}
+                onClick={() => handleOptionChange(option.User_Id)}
               >
                 <input
                   type="radio"
-                  id={option.id}
-                  value={option.id}
-                  checked={selectedOption === option.id}
-                  onChange={() => handleOptionChange(option.id)}
+                  id={option.User_Id}
+                  value={option.User_Id}
+                  checked={selectedOption === option.User_Id}
+                  onChange={() => handleOptionChange(option.User_Id)}
                   className="mr-2"
                   disabled={submitted}
                 />
-                <img src={option.photo} alt={option.name} className="w-8 h-8 rounded-full mr-2" />
-                <span className="text-base font-medium">{option.name}</span>
+                {option.Img_Url && <img src={option.Img_Url} alt={option.Username} className="w-8 h-8 rounded-full mr-2" />}
+                <span className="text-base font-medium">{option.Username}</span>
               </div>
             ))}
           </div>
@@ -208,7 +208,7 @@ const GamePlay = () => {
         <GameResult correctCount={correctCount} totalQuestions={5} />
       )}
     </div>
-  );
+  );  
 };
 
 export default GamePlay;
