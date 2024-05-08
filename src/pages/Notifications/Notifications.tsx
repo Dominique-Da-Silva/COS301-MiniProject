@@ -5,7 +5,7 @@ import {
   WhoToFollow,
   Search,
   PostNotification,
-  LikeNotification,
+  LikedNotification,
   Mention,
   FollowNotifications
 } from "@components/index";
@@ -198,7 +198,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         notifications
                           .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                           .map((notification, index) => (
-                            <PostNotification
+                            <LikedNotification
                               key={index}
                               id={index}
                               description={notification.Content}
@@ -251,7 +251,6 @@ const Notifications: React.FC<NotificationsProps> = () => {
                               id={index}
                               description={notification.Content}
                               avatarUrl={notification.avatarUrl}
-                              
                             />
                         ))
                       )}
@@ -309,12 +308,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         likedNotifications
                         .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                         .map((notification, index) => (
-                          <PostNotification
+                          <LikedNotification
                           key={index}
                           id={index}
                           description={notification.Content}
                           avatarUrl={notification.avatarUrl}
-                          dateCreated={getTimeDisplay(notification.Created_at)}
+                          tweet={notification.tweet}
                         />
                         ))
                       )}
