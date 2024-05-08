@@ -1,7 +1,7 @@
 import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet } from "@components/index";
 import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
-import { fetchTweets, fetchUsers } from "@services/index";
+import { fetchTweets, fetchUsers, fetchProfileDetails, getLoggedUserId } from "@services/index";
 import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 import { useNavigate } from 'react-router-dom';
@@ -15,13 +15,14 @@ const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [currentUser, setCurrentUser] = useState<any>(false);
+  // const [userId, setUserId] = useState(0);
   const [profiles, setProfiles] = useState<any[]>([]);
+  const [userimg, setuserimg] = useState<any>(null);
   const navigate = useNavigate();
 
   const handleNavigation = (path) => {
     navigate(path);
   };
- 
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
@@ -77,6 +78,26 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
+    // const getuser = async () => {
+    //   try {
+    //     const id = await getLoggedUserId();
+    //     setUserId(id);
+    //   } catch (error) {
+    //     console.error('Error fetching userid:', error);
+    //   }
+    // }
+
+    const getuserimg = async () => {
+      try {
+        const id = await getLoggedUserId();
+        const profimg = await fetchProfileDetails(id)
+        console.log(id);
+        setuserimg(profimg.Img_Url);
+      } catch (error) {
+        console.error('Error fetching userimg:', error);
+      }
+    };
+
     const getAllProfiles = async () => {
       try {
         const profilesData = await fetchAllProfiles();
@@ -87,11 +108,14 @@ const HomePage: React.FC<HomePageProps> = () => {
         console.error('Error fetching profiles:', error);
       }
     };
+    
     // // Call both fetch functions when the component mounts
     fetchTweetData();
     fetchData();
     getCurrentUser();
     getAllProfiles();
+    // getuser();
+    getuserimg();
   }, [setCurrentUser]);
 
   //testing
@@ -202,6 +226,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                 saves={formatCount(saves)}
                 comments={formatCount(comments)}
                 profileimageurl={image_url}  
+                currentuserimg={userimg}
                           />
             );
           })}
