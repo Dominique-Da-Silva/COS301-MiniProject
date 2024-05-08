@@ -26,6 +26,7 @@ const GamePlay = () => {
   const [correctCount, setCorrectCount] = useState<number>(0);
   const [shakeScreen, setShakeScreen] = useState<boolean>(false);
   const [followingCount, setFollowingCount] = useState<number>(0); 
+  const [type, setType] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,26 +63,34 @@ const GamePlay = () => {
   const fetchQuestionData = async () => {
     try {
       let questionFunction;
+      let typeName; // Variable to store the type name
       switch (questionNumber) {
         case 0:
           questionFunction = whoMadeThisTweetGame;
+          typeName = 'whoMadeThisTweetGame'; // Set the type name
           break;
         case 1:
           questionFunction = matchAvatarGame;
+          typeName = 'matchAvatarGame'; // Set the type name
           break;
         case 2:
           questionFunction = whoMadeThisTweetonDateGame;
+          typeName = 'whoMadeThisTweetonDateGame'; // Set the type name
           break;
         case 3:
           questionFunction = getOldestFollowing;
+          typeName = 'getOldestFollowing'; // Set the type name
           break;
         case 4:
           questionFunction = getNewestFollowing;
+          typeName = 'getNewestFollowing'; // Set the type name
           break;
         default:
           questionFunction = null;
+          typeName = ''; // Set the type name to empty string for default case
       }
       if (questionFunction) {
+        setType(typeName); // Set the type state
         const questionData = await questionFunction();
         console.log('game question data: ', questionData);
         setQuestionData(questionData);
@@ -92,6 +101,7 @@ const GamePlay = () => {
       console.error('Error fetching question data:', error);
     }
   };
+  
 
   const handleOptionChange = (option: string) => {
     if (!submitted) {
@@ -116,6 +126,7 @@ const GamePlay = () => {
   };
 
   const handleNext = () => {
+    console.log('game question number: ', questionNumber);
     if (questionNumber < 4) {
       setQuestionNumber(questionNumber + 1);
       setSelectedOption('');
@@ -143,8 +154,10 @@ const GamePlay = () => {
             <FaTwitter style={{ fontSize: '2rem', color: '#1DA1F2', marginBottom: '1rem' }} />
           </div>
           <div className="flex items-center justify-center font-bold">
-            {questionData?.candidate_question.question}
-            {/**output actual question here maybe? */}
+            {questionData?.candidate_question?.question}<br/>
+            {/**render the content as a tweet format please*/}
+            {questionData?.candidate_question?.randObj?.Content}
+            {type === "matchAvatarGame" && questionData?.candidate_question?.randObj?.Img_Url && <img src={questionData?.candidate_question?.randObj?.Img_Url} className="w-8 h-8 rounded-full mr-2" />}
           </div>
           <div className="mt-4 flex flex-col">
             {questionData?.list_options.map((option: any) => (

@@ -17,7 +17,7 @@ export const whoMadeThisTweetonDateGame = async () => {
     return {
         candidate_question: {
             question: `Who made this tweet on ${randtweet.Created_at}?`,
-            randtweet
+            randObj: randtweet
         },
         list_options: list,
         answer_user_id: randtweet.User_Id

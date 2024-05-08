@@ -13,7 +13,7 @@ export const matchAvatarGame = async () => {
     return {
         candidate_question: {
             question: "Whose avatar from the users you follow does this belong to?",
-            randavt
+            randObj: randavt
         },
         list_options: list,
         answer_user_id: randavt.User_Id
