@@ -15,12 +15,6 @@ import {CircularProgress} from "@nextui-org/react";
 
 interface ExplorePageProps { }
 
-interface User {
-  username: string;
-  name: string;
-  surname: string;
-}
-
 interface handle {
   bio: string;
   img_url: string;
@@ -265,7 +259,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                         <p className="font-bold text-2xl dark:text-white">People</p>
                       </div>
                     )}
-                  {searchResultshandles?.slice(0, 3).map((handle: User) => (
+                  {searchResultshandles?.slice(0, 3).map((handle: handle) => (
                       <div className="tweet w-full flex hover:bg-neutral-200 cursor-pointer m-0 p-4 dark:border-neutral-800">
                       <div className="avatar">
                         <Avatar
