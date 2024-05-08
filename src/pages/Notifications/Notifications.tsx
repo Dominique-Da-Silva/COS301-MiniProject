@@ -7,9 +7,9 @@ import {
   PostNotification,
   LikeNotification,
   Mention,
+  FollowNotifications
 } from "@components/index";
 import { Button } from "@nextui-org/react";
-import { FiSettings } from "react-icons/fi";
 import {
   mockNotifications,
   mockLikedNotifications,
@@ -68,59 +68,53 @@ const Notifications: React.FC<NotificationsProps> = () => {
   };
 
   useEffect(() => {
-    // this is necessary for checking if the user is signed in
     const checkUser = async () => {
-      // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (!result) {
-        navigate("/home"); // Redirect to home page if user is not logged in
+        navigate("/home");
+        return;
       }
       
       const userData = await getUserData();
       if (!userData) {
         navigate("/home");
+        return;
       }
+      
       console.log(userData?.user_metadata.user_id);
-      setNotifications(await getUserNotifications(userData?.user_metadata.user_id));
-      console.log(notifications);
-      for (let i = 0; i < (notifications?.length ?? 0); i++) {
-        console.log(notifications[i].Type_Id);
-        switch (notifications?.[i]?.Type_Id ?? "") {
-          case 1: //New_Follow
-            setFollowNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          case 2: //New_Post
-            setPostNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          case 3: //New_Comment
-            setCommentNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          case 4: //New_Like
-            setLikedNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          case 5: //Retweet
-            setRetweetNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          default:
-            break;
-        }
-      }
-
-      // CreateCommentNotification(94, 27);
-      // CreateFollowNotification(27, 27);
-      // CreateLikeNotification(94, 27);
-      // CreateRetweetNotification(94, 27);
-      // CreateTweetNotification(94);
-      // console.log(followNotifications);
-      // console.log(postnotifications);
-      // console.log(commentNotifications);
-      // console.log(likedNotfications);
-      // console.log(retweetNotifications);
-    }
-    // Call the async function
+      const fetchedNotifications = await getUserNotifications(userData?.user_metadata.user_id);
+      setNotifications(fetchedNotifications);
+    };
+  
     checkUser();
-
   }, [navigate]);
+  
+  useEffect(() => {
+    // Processing notifications when notifications state changes
+    console.log(notifications);
+    for (let i = 0; i < (notifications?.length ?? 0); i++) {
+      console.log(notifications[i].Type_Id);
+      switch (notifications?.[i]?.Type_Id ?? "") {
+        case 1: //New_Follow
+          setFollowNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        case 2: //New_Post
+          setPostNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        case 3: //New_Comment
+          setCommentNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        case 4: //New_Like
+          setLikedNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        case 5: //Retweet
+          setRetweetNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        default:
+          break;
+      }
+    }
+  }, [notifications, setFollowNotifications, setPostNotifications, setCommentNotifications, setLikedNotifications, setRetweetNotifications]);
   // need to add tabs: Likes, Follows, Comments, Retweets, Posts
   // Need to modify the layout of data being passed for different types of tweets
   return (
@@ -134,9 +128,6 @@ const Notifications: React.FC<NotificationsProps> = () => {
             {/* Notification Header */}
             <div className="flex justify-between items-center p-2 dark:text-white">
               <h1 className="text-2xl font-bold">Notifications</h1>
-              <Button >
-                <FiSettings size={18} />
-              </Button>
             </div>
             {/* Notifications Tabs */} 
             {/* // console.log(followNotifications);
@@ -149,7 +140,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                 <div className="flex ">
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "all" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "all" ? "text-cyan-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("all")}
                   >
@@ -157,7 +148,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "verified" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "verified" ? "text-cyan-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("follows")}
                   >
@@ -165,7 +156,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "mentions" ? "text-cyan-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("posts")}
                   >
@@ -173,7 +164,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "mentions" ? "text-cyan-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("comments")}
                   >
@@ -181,7 +172,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "mentions" ? "text-cyan-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("likes")}
                   >
@@ -189,7 +180,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "mentions" ? "text-cyan-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("retweets")}
                   >
@@ -255,12 +246,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         followNotifications
                         .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                         .map((notification, index) => (
-                          <PostNotification
+                          <FollowNotifications
                               key={index}
                               id={index}
                               description={notification.Content}
                               avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
+                              
                             />
                         ))
                       )}
