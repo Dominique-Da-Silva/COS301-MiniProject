@@ -162,7 +162,9 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-              {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
+            {/*This is unstyled which is why we are rendering create tweet which already has a button that is greyed out that tells the user to login if they wna to post*/}
+              {/*currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>*/}
+            <CreateTweet/>
           {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
             // console.log("Tweet:", tweet);
             // console.log("Users:", users);
