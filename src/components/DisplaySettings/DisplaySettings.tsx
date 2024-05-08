@@ -49,8 +49,8 @@ const DisplaySettings = () => {
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold mb-4">Display</h2>
+    <div className="bg-white p-6 rounded-lg shadow-md dark:bg-black">
+      <h2 className="text-lg font-semibold mb-4 dark:text-white">Display</h2>
       <p className="text-gray-600 mb-6">
         Manage your font size, color, and background. These settings affect all the X accounts on this browser.
       </p>
@@ -88,26 +88,32 @@ const DisplaySettings = () => {
       </div>
       <div>
         <label className="block text-gray-700 font-semibold mb-2">Background</label>
-        <div>
-      <label>
-        <input
-          type="radio"
-          value="default"
-          checked={!isDarkTheme}
-          onChange={() => handleThemeChange(false)}
-        />
-        Default
-      </label>
-      <label>
-        <input
-          type="radio"
-          value="dark"
-          checked={isDarkTheme}
-          onChange={() => handleThemeChange(true)}
-        />
-        Dark
-      </label>
-    </div>
+        <div className="flex gap-8 mt-4">
+          <div className="h-12 w-40 border rounded-sm flex py-4 pl-6">
+            <label className="inline-flex items-center space-x-4">
+              <input
+                type="radio"
+                value="default"
+                checked={!isDarkTheme}
+                onChange={() => handleThemeChange(false)}
+                className="form-radio text-blue-500 focus:ring-blue-500 h-4 w-4 mr-3"
+              />
+              <span className="text-gray-700">Default</span>
+           </label>
+          </div>
+          <div className="h-12 w-40 border rounded-sm flex py-4 pl-6">
+            <label className="inline-flex items-center space-x-4">
+              <input
+                type="radio"
+                value="dark"
+                checked={isDarkTheme}
+                onChange={() => handleThemeChange(true)}
+                className="form-radio text-blue-500 focus:ring-blue-500 h-4 w-4 mr-3"
+              />
+              <span className="text-gray-700 dark">Dark</span>
+            </label>
+          </div>  
+        </div>
       </div>
     </div>
   );
