@@ -29,7 +29,7 @@ export const getRandomTweet = async () => {
     if(User === null){
         return "User not found or user is not logged in";
     }
-    
+    // console.log(User);
     const { data, error } = await supabase
     .from('Followers')
     .select('Followed_Id')
@@ -37,13 +37,14 @@ export const getRandomTweet = async () => {
     if (error) {
         return error.message;
     }
-
+    // console.log(data);
     //randomly choose a user
     const randomIndex = Math.floor(Math.random() * data.length);
-
+    // console.log(randomIndex);
     //check if followed is null
-    const id = data[randomIndex].Followed_Id;
-    if(id === null){
+    const id = data[randomIndex]?.Followed_Id;
+    // console.log(id);
+    if(id === null || id === undefined){
         return "No users found";
     }
 
