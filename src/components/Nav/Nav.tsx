@@ -126,7 +126,7 @@ const Nav = () => {
   }, []);
 
   return (
-    <div className="sidebar h-full bg-white dark:bg-black py-12 dark:text-white fixed">
+    <div className="sidebar h-full bg-inherit dark:bg-black py-12 dark:text-white fixed">
       {/* Logo */}
       <NavLink
         to="/home"

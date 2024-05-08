@@ -209,7 +209,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
   },[handleTopicClick, searchVal]);
 
   return (
-    <div className="w-full h-full flex justify-center align-middle">
+    <div className="w-full h-screen flex justify-center align-middle bg-inherit dark:bg-black">
       <div className="container flex w-full justify-center dark:bg-black">
       
         <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
@@ -219,8 +219,8 @@ const Explore: React.FC<ExplorePageProps> = () => {
           <div className='searchbar px-4 py-1 flex items-center justify-between w-full dark:bg-black'>
             <div className="flex justify-between items-center w-11/12">
               {isFocused || searchValue ? (
-                <div onChange={handleSearchChange} onClick={removetabs} className='hover:bg-slate-200 p-3 mr-5 rounded-full cursor-pointer hover-t'>
-                  <FaArrowLeft size={18} onClick={removetabs} />
+                <div onChange={handleSearchChange} onClick={removetabs} className='hover:bg-slate-200 dark:hover:bg-neutral-900 p-3 mr-5 rounded-full cursor-pointer hover-t'>
+                  <FaArrowLeft size={18} onClick={removetabs} className="dark:text-white"/>
                 </div>
               ) : null}
               <div className={`flex bg-gray-100 dark:bg-neutral-900 py-2 focus:ring-2 rounded-full items-center pl-4 w-full ${isFocused || searchValue ? 'border border-sky-500' : 'border-gray-200'}`}>
@@ -233,7 +233,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
                   onBlur={handleSearchBlur}
                   onKeyPress={handleSearchKeyPress}
                   placeholder="Search..."
-                  className="w-full bg-transparent outline-0 border-none text-lg"
+                  className="w-full bg-transparent outline-0 border-none text-lg dark:text-white"
                 />
               </div>
             </div>
@@ -241,7 +241,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
               <FiSettings size={18} />
             </div>
           </div>
-          {loading && <Loader />}
+          {loading && <Loader className="dark:bg-black"/>}
           {!showTabs && !loading && (
             <>
               <p className='pl-3 mt-1 text-[21px] font-bold dark:text-white'>Trends for you</p>
@@ -256,17 +256,17 @@ const Explore: React.FC<ExplorePageProps> = () => {
                 <Tabs variant="underlined" aria-label="Tabs variants"  classNames={{
                   tabList: "w-full relative rounded-none p-0 border-b border-divider flex",
                   cursor: "w-14 bg-sky-500 h-1 rounded-full",
-                  tab: "px-0 m-0 h-12 font-semibold hover:bg-gray-200",
-                  tabContent: "group-data-[selected=true]:text-black text-gray-500",
+                  tab: "px-0 m-0 h-12 font-semibold dark:hover:bg-neutral-900  hover:bg-gray-200",
+                  tabContent: "group-data-[selected=true]:text-black dark:group-data-[selected=true]:text-white dark:text-white text-gray-500",
                 }}>
-                  <Tab key="Top" title="Top" className="p-0">
+                  <Tab key="Top" title="Top" className="p-0 dark:text-white">
                     {searchResultshandles?.length > 0 && (
                       <div className="no-tweets pl-4 py-3 text-black">
                         <p className="font-bold text-2xl dark:text-white">People</p>
                       </div>
                     )}
                   {searchResultshandles?.slice(0, 3).map((handle: User) => (
-                      <div className="tweet w-full flex hover:bg-neutral-200 cursor-pointer m-0 p-4 dark:border-neutral-800">
+                      <div className="tweet w-full flex hover:bg-neutral-200 dark:hover:bg-neutral-900 cursor-pointer m-0 p-4 dark:border-neutral-800">
                       <div className="avatar">
                         <Avatar
                         // src={"https://gravatar.com/avatar/2b57c362077cd0cc478fbae93f08f2b1?s=400&d=robohash&r=x"}

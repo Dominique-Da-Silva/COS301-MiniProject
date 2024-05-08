@@ -216,17 +216,17 @@ const ProfileDetails = () => {
   }
 
   return (
-    <div className="container flex">
+    <div className="container flex dark:bg-black">
       <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
         <Nav />
       </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border">
+      <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
         <div className="flex flex-col w-full m-0 p-0 justify-center">
-          <div className="banner m-0">
+          <div className="banner m-0 border-b border-inherit dark:border-neutral-800">
             <img
               src={profileDetails.Banner_Url}
               alt="Banner"
-              className="w-full h-48 m-0"
+              className="w-full h-48 m-0 "
             />
           </div>
           {/* Profile  Header} */}
@@ -251,19 +251,19 @@ const ProfileDetails = () => {
                     </Button>
                   ) : (
                     <NavLink to="/editProfile">
-                      <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
-                        <IoMdSettings className="mr-1" />
+                      <Button className="ml-auto text-base font-semibold rounded-full border hover:bg-gray-200 bg-inherit dark:text-white dark:hover:bg-neutral-900 border-gray-300 h-9 items-center">
+                        {/* <IoMdSettings className="mr-1 dark:text-black" /> */}
                         Edit profile
                       </Button>
                     </NavLink>
                   )}
                 </div>
-                <h2 className="font-bold text-xl">
+                <h2 className="font-bold text-xl dark:text-white">
                   {userData.Name}
                 </h2>
 
                 <p className="text-gray-500 mb-5">@{userData.Username}</p>
-                <p className="mb-2">{profileDetails.Bio}</p>
+                <p className="mb-2 dark:text-white">{profileDetails.Bio}</p>
                 <p className="text-gray-500 flex items-center">
                   <BiCalendar className="mr-1" />
                   Joined {createdAt}
@@ -278,22 +278,22 @@ const ProfileDetails = () => {
                       <p className="text-gray-500">0</p>
                     </div> */}
                     <div className="flex">
-                      <p className="font-semibold">{userFollowing}&nbsp;</p>
+                      <p className="font-semibold dark:text-white">{userFollowing}&nbsp;</p>
                       <h3 className="text-base text-gray-500">Following</h3>
                     </div>
                     <div className="flex">
-                      <p className="font-semibold">{userFollowers}&nbsp;</p>
+                      <p className="font-semibold dark:text-white">{userFollowers}&nbsp;</p>
                       <h3 className="text-base text-gray-500">Followers</h3>
                     </div>
                   </div>
                 </div>
               </div>
                 <div>
-                  <div className="flex justify-around border-b border-gray-200">
+                  <div className="flex justify-around border-b border-gray-200 dark:border-neutral-800">
                     <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                         activeTab === "tweets"
-                          ? "text-black border-b-3 border-blue-500"
+                          ? "text-black dark:text-white border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("tweets")}
@@ -302,9 +302,9 @@ const ProfileDetails = () => {
                     </button>
 
                     <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                         activeTab === "replies"
-                          ? "text-black border-b-3 border-blue-500"
+                          ? "text-black dark:text-white border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("replies")}
@@ -312,9 +312,9 @@ const ProfileDetails = () => {
                       Replies
                     </button>
                     <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                         activeTab === "media"
-                          ? "text-black border-b-3 border-blue-500"
+                          ? "text-black dark:text-white border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("media")}
@@ -322,9 +322,9 @@ const ProfileDetails = () => {
                       Media
                     </button>
                     <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                         activeTab === "likes"
-                          ? "text-black border-b-3 border-blue-500"
+                          ? "text-blac dark:text-white border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("likes")}

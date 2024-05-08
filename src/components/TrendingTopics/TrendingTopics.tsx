@@ -10,7 +10,7 @@ const TrendingTopics: React.FC<TrendingTopicsProps> = ({ onNavigate }) => {
 
   return (
     <div>
-      <Card className="bg-gray-50 shadow-none w-11/12 dark:bg-neutral-900">
+      <Card className="bg-inherit shadow-none w-11/12 border dark:border-neutral-800">
         <CardHeader className="flex gap-1 pb-0">
           <h2 className="text-lg font-bold mb-4">Trending Topics</h2>
         </CardHeader>

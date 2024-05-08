@@ -113,7 +113,7 @@ const UserCard: React.FC<User> = ({
   //   });
 
   return (
-    <div key={user_id} className="flex items-center hover:bg-slate-200 p-3">
+    <div key={user_id} className="flex items-center hover:bg-slate-200 dark:hover:bg-neutral-900 p-3">
       <Avatar src={avatarUrl} alt={name} size="md" className="p-0 m-0" />
       <div className="ml-4">
         <NavLink to={`/profile/${username}`}>
@@ -125,7 +125,7 @@ const UserCard: React.FC<User> = ({
       </div>
       {userAuthStatus ? (
         <Button
-          className="ml-auto font-bold text-white bg-black h-7"
+          className="ml-auto font-bold text-white bg-black h-7 dark:bg-white dark:text-black"
           radius="full"
           onClick={isFollowing ? () => UnFollowUser() : () => FollowUser()}
           onMouseEnter={handleMouseEnter}
@@ -135,7 +135,7 @@ const UserCard: React.FC<User> = ({
         </Button>
       ) : (
         <Button
-          className="ml-auto font-bold text-white bg-black h-7"
+          className="ml-auto font-bold text-white bg-black h-7 dark:bg-white dark:text-black"
           radius="full"
           isDisabled
         >

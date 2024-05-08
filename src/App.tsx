@@ -61,7 +61,7 @@ const App = () => {
   }, [auth_state])
 
   return (
-    <main className={`w-full h-screen ${isDarkTheme ? 'dark' : ''}`}>
+    <main className={`w-full h-full ${isDarkTheme ? 'dark bg-black' : ''}`}>
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />

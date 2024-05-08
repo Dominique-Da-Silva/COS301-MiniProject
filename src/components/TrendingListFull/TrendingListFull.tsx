@@ -63,13 +63,13 @@ const TrendingListFull: React.FC<ExploreProps> = ({ onTopicClick }: ExploreProps
     <div>
       {topics.map((topic: Topic) => (
       <div key={topic.Tag_Id} 
-        className="items-center justify-between p-3 hover:bg-gray-100 dark:bg-black cursor-pointer" 
+        className="items-center justify-between p-3 dark:hover:bg-neutral-900 hover:bg-gray-100 dark:bg-black cursor-pointer" 
         onClick={() => handleTopicClick("#"+topic.Tag_Name)}
       >
         <div className="flex justify-between items-center">
           <h3 className="text-[16px] font-medium">#{topic.Tag_Name}</h3>
-          <div className="h-10 w-10 flex justify-center rounded-full align-middle items-center hover:text-sky-600 hover:bg-blue-100 p-0 m-0 cursor-pointer">
-              <MdOutlineMoreHoriz size={20}/>
+          <div className="h-10 w-10 flex justify-center rounded-full align-middle items-center hover:text-sky-600 p-0 m-0 cursor-pointer">
+              {/* <MdOutlineMoreHoriz size={20}/> */}
           </div>
         </div>
         <p className="text-[13.5px] text-gray-500 -mt-1">{formatCount(topic.tweet_count)} posts</p>

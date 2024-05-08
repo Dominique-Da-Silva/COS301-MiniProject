@@ -124,7 +124,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
   // need to add tabs: Likes, Follows, Comments, Retweets, Posts
   // Need to modify the layout of data being passed for different types of tweets
   return (
-    <div className="w-full h-full flex justify-center align-middle">
+    <div className="w-full h-screen flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
         <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
           <Nav />
@@ -148,7 +148,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
               <div className="w-full">
                 <div className="flex ">
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                       activeTab === "all" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("all")}
@@ -156,7 +156,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                     All
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                       activeTab === "verified" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("follows")}
@@ -164,7 +164,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                     Follows
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                       activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("posts")}
@@ -172,7 +172,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                     Posts
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                       activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("comments")}
@@ -180,7 +180,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                     Comments
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                       activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("likes")}
@@ -188,7 +188,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                     Likes
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                       activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("retweets")}
