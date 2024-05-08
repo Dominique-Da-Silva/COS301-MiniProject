@@ -8,6 +8,7 @@ import { fetchProfileDetails } from "@services/profileServices/getProfile";
 import { updateProfileDetails } from "@services/profileServices/updateProfileDetails";
 import { updateUsername, updateName } from "@services/index";
 import { uploadImageAndGetURL, uploadProfile } from "@services/index";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
@@ -77,20 +78,22 @@ const EditProfile: React.FC = () => {
     const result = await updateProfileDetails(userData);
     console.log(result);
   };
+  const history = useNavigate();
   const handleSaveClick = async () => {
-    update_Username(editedUsername);
-    update_Name(editedName);
+    update_Username(editedUsername ? editedUsername : userData.Username);
+    update_Name(editedName ? editedName : userData.Name);
     uploadImageAndGetURL(editedImage as File, "profile_images");
     updateUserData({
-      Banner_Url: userData.Banner_Url,
-      Bio: editedBio,
-      Img_Url: editedImageURL,
+      Banner_Url: "src/assets/twitter_logo_banner_12.jpg",
+      Bio: editedBio ? editedBio : profileDetails.Bio,
+      Img_Url: editedImageURL ? editedImageURL : profileDetails.Img_Url,
       Profile_Type: userData.Profile_Type,
       Theme: userData.Theme,
-      Location: editedLocation,
-      Website: editedWebsite,
+      Location: editedLocation ? editedLocation : profileDetails.Location,
+      Website: editedWebsite ? editedWebsite : profileDetails.Website,
       Gender: userData.Gender,
     });
+    history("/profile");
   };
   const update_Name = async (editedName: string) => {
     const result = await updateName(editedName);
@@ -210,11 +213,11 @@ const EditProfile: React.FC = () => {
                 className="hidden"
               />
             </label>
-            <NavLink to={"/profile"}>
-              <Button size="lg" className="w-full" onClick={handleSaveClick}>
-                Save
-              </Button>
-            </NavLink>
+            {/* <NavLink to={"/profile"}> */}
+            <Button size="lg" className="w-full" onClick={handleSaveClick}>
+              Save
+            </Button>
+            {/* </NavLink> */}
           </div>
         </div>
       );
