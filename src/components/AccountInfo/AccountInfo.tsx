@@ -68,8 +68,8 @@ const AccountInfo: React.FC = () => {
       const profileDetails = await fetchProfileDetails(userDataX.User_Id);
       setAccountInfo(profileDetails);
       setUserData(userDataX);
-      console.log(profileDetails);
-      console.log(userDataX);
+      // console.log(profileDetails);
+      // console.log(userDataX);
     };
     fetchData();
   }, [userData]);

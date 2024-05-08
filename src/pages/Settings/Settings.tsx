@@ -45,7 +45,7 @@ const Settings = () => {
   }, [navigate]);
 
   return (
-    <div className="w-full h-full flex justify-center align-middle overflow-y-scroll">
+    <div className="w-full h-full flex justify-center align-middle overflow-y-scroll dark:bg-black">
       <div className="container flex w-full justify-center dark:bg-black">
         <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
         <Nav />

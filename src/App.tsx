@@ -4,7 +4,7 @@ import { EditProfile, TweetDetails} from '@components/index';
 import "./styles/tailwind.css";
 import { useEffect, useRef, useState  } from 'react';
 import { supabase } from '@config/index';
-import { addUserToDatabase, signOut } from '@services/index';
+import { addUserToDatabase, signOut, getTheme } from '@services/index';
 import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -12,6 +12,7 @@ const App = () => {
   const isMountedRef = useRef(true); // Flag to track component mount status
   const isEffectExecutedRef = useRef(false); // Flag to track whether useEffect has been executed
   const [auth_state, setAuthState] = useState<AuthChangeEvent>('SIGNED_OUT');
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   useEffect(() => {
     const handleAuthStateChange = async(event: AuthChangeEvent, session: Session | null) => {
@@ -48,31 +49,38 @@ const App = () => {
         }
       }
     }
-
+    const checkTheme = async () => {
+      const theme = await getTheme();
+      setIsDarkTheme(theme.Darkmode);
+      console.log(theme);
+    }
+    
+    // Call the async function
+    checkTheme();
     checkUserAuthState();
   }, [auth_state])
 
   return (
-    // <main className="w-full h-screen dark">
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/:username" element={<ProfilePage />} />
-        <Route path="/editProfile" element={<EditProfile />} />
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/tweet/:tweetId" element={<TweetDetails />} />
-        <Route path="/explore/:searchVal" element={<Explore />} />
-      </Routes>
-    </Router>
-    // <Toaster />
-    // </main>
+    <main className={`w-full h-screen ${isDarkTheme ? 'dark' : ''}`}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:username" element={<ProfilePage />} />
+          <Route path="/editProfile" element={<EditProfile />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/bookmarks" element={<Bookmarks />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/tweet/:tweetId" element={<TweetDetails />} />
+          <Route path="/explore/:searchVal" element={<Explore />} />
+        </Routes>
+      </Router>
+      <Toaster />
+    </main>
   );
 };
 

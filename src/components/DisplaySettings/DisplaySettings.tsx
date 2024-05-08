@@ -1,6 +1,6 @@
-// import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {RadioGroup, Radio, cn} from "@nextui-org/react";
-
+import { setTheme, getTheme } from "@services/index"
 export const CustomRadio = (props: any) => {
   const {children, ...otherProps} = props;
 
@@ -22,6 +22,32 @@ export const CustomRadio = (props: any) => {
 
 
 const DisplaySettings = () => {
+  const [isDarkTheme, setIsDarkTheme] = useState(null);
+
+  useEffect(() => {
+    const checkTheme = async () => {
+      const theme = await getTheme();
+      setIsDarkTheme(theme.Darkmode);
+      console.log(theme);
+    }
+    
+    // Call the async function
+    checkTheme();
+  }, []);
+
+
+  // console.log(isDarkTheme);
+  const handleThemeChange = async (theme :boolean) => {
+    try {
+      setIsDarkTheme(theme);
+      const themechange = await setTheme(theme);
+      console.log(themechange);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error changing theme', error);
+    }
+  }
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-lg font-semibold mb-4">Display</h2>
@@ -62,14 +88,26 @@ const DisplaySettings = () => {
       </div>
       <div>
         <label className="block text-gray-700 font-semibold mb-2">Background</label>
-        <RadioGroup orientation="horizontal">
-          <CustomRadio value="free">
-            Default
-          </CustomRadio>
-          <CustomRadio value="pro">
-            Dark
-          </CustomRadio>
-        </RadioGroup>
+        <div>
+      <label>
+        <input
+          type="radio"
+          value="default"
+          checked={!isDarkTheme}
+          onChange={() => handleThemeChange(false)}
+        />
+        Default
+      </label>
+      <label>
+        <input
+          type="radio"
+          value="dark"
+          checked={isDarkTheme}
+          onChange={() => handleThemeChange(true)}
+        />
+        Dark
+      </label>
+    </div>
       </div>
     </div>
   );
