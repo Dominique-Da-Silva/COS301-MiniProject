@@ -4,10 +4,12 @@ import React, { useState, useEffect } from "react";
 import { fetchTweets, fetchUsers, fetchProfileDetails, getLoggedUserId } from "@services/index";
 import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
+import { useNavigate } from 'react-router-dom';
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
 interface HomePageProps { }
+
 
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
@@ -16,7 +18,11 @@ const HomePage: React.FC<HomePageProps> = () => {
   // const [userId, setUserId] = useState(0);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [userimg, setuserimg] = useState<any>(null);
-  
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
@@ -180,7 +186,9 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-              {currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>}
+            {/*This is unstyled which is why we are rendering create tweet which already has a button that is greyed out that tells the user to login if they wna to post*/}
+              {/*currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>*/}
+            <CreateTweet/>
           {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
             // console.log("Tweet:", tweet);
             // console.log("Users:", users);
@@ -242,7 +250,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           <div className="mb-3">
             <Search />
           </div>
-          <TrendingTopics />
+          <TrendingTopics onNavigate={handleNavigation} />
           <WhoToFollow users={[]} />
         </div>
       </div>

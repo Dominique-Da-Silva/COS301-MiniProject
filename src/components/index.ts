@@ -17,7 +17,8 @@ import Mention from "./Mentions/Mention";
 import UserCard from "./UserCard/UserCard";
 import TweetDetails from "./TweetDetails/TweetDetails";
 import CreateCommentInput from "./CreateCommentInput/CreateCommentInput";
-
+import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
+import TweetModal from "./TweetModal/TweetModal";
 export {
   EditProfile,
   HomeImage,
@@ -37,5 +38,7 @@ export {
   MutedNotifications,
   UserCard,
   TweetDetails,
-  CreateCommentInput
+  CreateCommentInput,
+  RecommendedUsers,
+  TweetModal,
 };

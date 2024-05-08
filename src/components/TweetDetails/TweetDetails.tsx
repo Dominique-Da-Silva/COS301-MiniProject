@@ -45,16 +45,12 @@ const TweetDetailsPage = () => {
   const [bookmarkColor, setBookmarkColor] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
-
-
   const [commentCount, setCommentCount] = useState(0);
   const [retweetCount, setRetweetCount] = useState(0);
   const [likeCount, setLikeCount] = useState(0);
   const [saveCount, setSaveCount] = useState(0);
   const [currentUser, setCurrentUser] = useState<any>();
   const [currentuserimg, setcurrentuserimg] = useState("");
-
-
 
   const handleCommentClick = () => {
     setCommentColor((prevState) => !prevState);
