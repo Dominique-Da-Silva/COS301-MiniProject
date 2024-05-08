@@ -31,9 +31,8 @@ export const getRandomTweet = async () => {
     }
     // console.log(User);
     const { data, error } = await supabase
-    .from('Followers')
-    .select('Followed_Id')
-    .eq('Following_Id', User.user_metadata.user_id);
+    .from('Tweets')
+    .select('User_Id');
     if (error) {
         return error.message;
     }
@@ -42,7 +41,7 @@ export const getRandomTweet = async () => {
     const randomIndex = Math.floor(Math.random() * data.length);
     // console.log(randomIndex);
     //check if followed is null
-    const id = data[randomIndex]?.Followed_Id;
+    const id = data[randomIndex].User_Id;
     // console.log(id);
     if(id === null || id === undefined){
         return "No users found";
@@ -52,12 +51,12 @@ export const getRandomTweet = async () => {
     .from('Tweets')
     .select('User_Id,Content,Img_Url')
     .eq('User_Id', id.toString())
-    .single();
+    .limit(1);
     if (err) {
         return err.message;
     }
-    console.log(tweet);
-    return tweet;
+    console.log(tweet[0]);
+    return tweet[0];
 
     //the two tables of tweets and followers should be joined so that we only select users who have made tweets that the user is following
     //please refactor @michael

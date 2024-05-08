@@ -51,11 +51,14 @@ export const getRandomTweetWithDate = async () => {
     .from('Tweets')
     .select('User_Id,Content,Img_Url,Created_at')
     .eq('User_Id', id.toString())
-    .single();
+    .limit(1);
     if (err) {
         return err.message;
     }
-    return tweet;
+    if(tweet.length === 0){
+        return "No users found";
+    }
+    return tweet[0];
 
     //the two tables of tweets and followers should be joined so that we only select users who have made tweets that the user is following
     //please refactor @michael

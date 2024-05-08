@@ -47,11 +47,14 @@ export const getRandomAvatar = async () => {
     .from('Profile')
     .select('User_Id,Img_Url')
     .eq('User_Id', id.toString())
-    .single();
+    .limit(1);
     if (err) {
         return err.message;
     }
-    return avatar_data;
+    if(avatar_data.length === 0){
+        return "No users found";
+    }
+    return avatar_data[0];
 
     //the two tables of profile and followers should be joined so that we only select a user who have made profiles that the user is following
     //please refactor @michael

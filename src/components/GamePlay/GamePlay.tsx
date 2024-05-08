@@ -54,7 +54,7 @@ const GamePlay = () => {
     if (count >= 5) {
       await fetchQuestionData(); // Await here to ensure the question data is fetched before proceeding
     } else {
-      alert('You need to follow at least 5 users to play the game.' + 'You are currently following ' + followingCount + ' users.');
+      alert('You need to follow at least 5 users to play the game.' + 'You are currently following ' + count + ' users.');
     }
   };
   
@@ -144,6 +144,7 @@ const GamePlay = () => {
           </div>
           <div className="flex items-center justify-center font-bold">
             {questionData?.candidate_question.question}
+            {/**output actual question here maybe? */}
           </div>
           <div className="mt-4 flex flex-col">
             {questionData?.list_options.map((option: any) => (
