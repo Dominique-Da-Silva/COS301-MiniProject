@@ -13,7 +13,8 @@ export const whoMadeThisTweetGame = async () => {
     if(list.length === 0){
         return "No users found";
     }
-
+    console.log(list);
+    console.log(randtweet);
     return {
         candidate_question: {
             question: "Who made this tweet?",

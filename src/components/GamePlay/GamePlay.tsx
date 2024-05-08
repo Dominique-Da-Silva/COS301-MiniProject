@@ -13,6 +13,7 @@ import {
   countFollowing,
 } from '@services/index';
 import { getLoggedUserId } from '@services/index';
+import { c } from '@vitest/runner/dist/tasks-_kyNRBhz.js';
 
 const GamePlay = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -127,7 +128,7 @@ const GamePlay = () => {
       setShowResult(true);
     }
   };
-  
+
   return (
     <div className={shakeScreen ? 'shake-screen w-full h-screen flex flex-col px-8' : 'w-full h-screen flex flex-col px-8'}>
       {feedback === 'correct' && <Confetti />}
@@ -142,10 +143,10 @@ const GamePlay = () => {
             <FaTwitter style={{ fontSize: '2rem', color: '#1DA1F2', marginBottom: '1rem' }} />
           </div>
           <div className="flex items-center justify-center font-bold">
-            {questionData.candidate_question.question}
+            {questionData?.candidate_question.question}
           </div>
           <div className="mt-4 flex flex-col">
-            {questionData.list_options.map((option: any) => (
+            {questionData?.list_options.map((option: any) => (
               <div
                 key={option.User_Id}
                 className={`flex items-center space-x-2 border rounded-full p-2 mt-2 mb-4 transition-transform transform-gpu ${selectedOption === option.User_Id && !submitted
