@@ -12,9 +12,10 @@ import {
   getNewestFollowing,
   countFollowing,
 } from '@services/index';
+import { getLoggedUserId } from '@services/index';
 
 const GamePlay = () => {
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState('');
   const [showResult, setShowResult] = useState(false);
   const [showNext, setShowNext] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -23,35 +24,42 @@ const GamePlay = () => {
   const [questionNumber, setQuestionNumber] = useState<number>(0);
   const [correctCount, setCorrectCount] = useState<number>(0);
   const [shakeScreen, setShakeScreen] = useState<boolean>(false);
-  const [followingCount, setFollowingCount] = useState<number>(0); // State to store following count
+  const [followingCount, setFollowingCount] = useState<number>(0); 
 
   useEffect(() => {
-    startGame(); // Call startGame function when component mounts
+    const fetchData = async () => {
+      await fetchFollowingCount();
+    };
+    fetchData();
   }, []);
-
+  
   const fetchFollowingCount = async () => {
     try {
-      const userId = ''; // Replace with the user's ID
+      const userId = await getLoggedUserId();
+      console.log('game ID: ', userId);
       const count = await countFollowing(userId);
-      setFollowingCount(count as number);
+      console.log('game count: ', count);
+      if (count !== undefined) {
+        setFollowingCount(count);
+        console.log('game following count: ', followingCount);
+        startGame(count);
+      }
     } catch (error) {
       console.error('Error fetching following count:', error);
     }
   };
-
-  const startGame = () => {
-    fetchFollowingCount(); // Fetch following count when starting the game
-    if (followingCount >= 5) {
-      fetchQuestionData(); // Start the game if the user follows at least 5 users
+  
+  const startGame = async (count: number) => {
+    if (count >= 5) {
+      await fetchQuestionData(); // Await here to ensure the question data is fetched before proceeding
     } else {
-      alert('You need to follow at least 5 users to play the game.' + 'You are currently following ' + followingCount + ' users.'); // Show an alert if the user follows less than 5 users
-      window.location.href = "/home"; // Redirect to the home page
+      alert('You need to follow at least 5 users to play the game.' + 'You are currently following ' + followingCount + ' users.');
     }
   };
+  
 
   const fetchQuestionData = async () => {
     try {
-      // Fetch question data based on the current question number
       let questionFunction;
       switch (questionNumber) {
         case 0:
@@ -74,9 +82,9 @@ const GamePlay = () => {
       }
       if (questionFunction) {
         const questionData = await questionFunction();
+        console.log('game question data: ', questionData);
         setQuestionData(questionData);
       } else {
-        // No more questions, show results
         setShowResult(true);
       }
     } catch (error) {
@@ -94,35 +102,35 @@ const GamePlay = () => {
     if (!selectedOption) {
       alert('Please select an answer.');
     } else {
-      setSubmitted(true); // Mark as submitted
+      setSubmitted(true);
       setShowNext(true);
       const isCorrect = selectedOption === questionData.answer_user_id;
       setFeedback(isCorrect ? 'correct' : 'incorrect');
       if (isCorrect) {
-        setCorrectCount(correctCount + 1); // Increment correct count if answer is correct
+        setCorrectCount(correctCount + 1);
       } else {
-        setShakeScreen(true); // Trigger screen shake if answer is incorrect
+        setShakeScreen(true);
       }
     }
   };
 
   const handleNext = () => {
     if (questionNumber < 4) {
-      setQuestionNumber(questionNumber + 1); // Go to next question
+      setQuestionNumber(questionNumber + 1);
       setSelectedOption('');
       setShowNext(false);
       setFeedback(null);
-      setSubmitted(false); // Reset submitted state
-      setShakeScreen(false); // Reset screen shake state
-      fetchQuestionData(); // Fetch data for the next question
+      setSubmitted(false);
+      setShakeScreen(false);
+      fetchQuestionData();
     } else {
-      setShowResult(true); // If no more questions, show results
+      setShowResult(true);
     }
   };
 
   return (
     <div className={shakeScreen ? 'shake-screen w-full h-screen flex flex-col px-8' : 'w-full h-screen flex flex-col px-8'}>
-      {feedback === 'correct' && <Confetti />} {/* Add Confetti for correct answer */}
+      {feedback === 'correct' && <Confetti />}
       {!showResult && questionData && (
         <>
           <div className='flex justify-center'>
@@ -159,7 +167,7 @@ const GamePlay = () => {
                   checked={selectedOption === option.id}
                   onChange={() => handleOptionChange(option.id)}
                   className="mr-2"
-                  disabled={submitted} // Disable radio button when submitted
+                  disabled={submitted}
                 />
                 <img src={option.photo} alt={option.name} className="w-8 h-8 rounded-full mr-2" />
                 <span className="text-base font-medium">{option.name}</span>
