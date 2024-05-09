@@ -7,7 +7,8 @@ export const updateProfileDetails = async(user_data:  {
         Location?: string,
         Profile_Type?: string,
         Theme?: boolean, 
-        Website?: string
+        Website?: string,
+        Gender?: string
     }
 ) => 
 {
@@ -29,6 +30,7 @@ export const updateProfileDetails = async(user_data:  {
             Profile_Type: user_data.Profile_Type,
             Theme: user_data.Theme,
             Website: user_data.Website,
+            Gender: user_data.Gender,
         })
         .eq('User_Id', id.data[0].User_Id);
 
@@ -48,7 +50,8 @@ export const insertProfileDetails = async(user_data:  {
         Location?: string,
         Profile_Type?: string,
         Theme?: boolean, 
-        Website?: string
+        Website?: string,
+        Gender?: string
     }
 ) => 
 {
@@ -71,6 +74,7 @@ export const insertProfileDetails = async(user_data:  {
             Theme: user_data.Theme,
             User_Id: id.data[0].User_Id,
             Website: user_data.Website,
+            Gender: user_data.Gender,
         });
 
     return error ? "error" : "success";

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, button, user } from "@nextui-org/react";
-import { fetchUsers } from "@services/index";
+import {
+  fetchUsers,
+  getLoggedUserId,
+} from "@services/index";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
-import { isUserLoggedIn } from "@services/index";
+import { UserCard } from "@components/index";
 
 interface User {
   user_id: number;
@@ -16,16 +18,14 @@ interface WhoToFollowProps {
 }
 const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   const [users, setUsers] = useState<any[]>([]);
-  const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
-  const [isFollowing, setIsFollowing] = useState<boolean>(false);
-  const [buttonText, setButtonText] = useState<string>("Follow");
+  const [loggedUserId, setLoggedUserId] = useState<any>();
 
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
         const usersData = await fetchUsers();
-        console.log("Users Data:");
-        console.log(usersData);
+        // console.log("Users Data:");
+        // console.log(usersData);
         setUsers(randomUsers(usersData as any[])); // Add type assertion here
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -35,48 +35,49 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
     fetchUsersData();
   }, []);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await getLoggedUserId();
+      // console.log("User Data:");
+      // console.log(userData);
+      setLoggedUserId(userData);
+    };
+    fetchUserData();
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await fetchUserByUsername("tester1000");
+  //     if (result) {
+  //       console.log(result);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
+  // useEffect(() => {
+  //   const fecthData = async () => {
+  //     const result = await followUser(13, 27);
+  //     if (result) {
+  //       console.log(result);
+  //     }
+  //   };
+  //   fecthData();
+  // }, []);
+
   const randomUsers = (users: any[]) => {
     const randomUsers = [];
+    const repeatedIndexes: number[] = [];
     for (let i = 0; i < 3; i++) {
+      /*
+      if (repeatedIndexes.includes(Math.floor(Math.random() * users.length))) {
+      }
+      */
       randomUsers.push(users[Math.floor(Math.random() * users.length)]);
+      repeatedIndexes.push(Math.floor(Math.random() * users.length));
     }
     return randomUsers;
   };
-
-  const followUser = (user: User) => {
-    console.log("Followed", user);
-    setIsFollowing(true);
-  };
-
-  const unFollowUser = (user: User) => {
-    console.log("Unfollowed", user);
-    setButtonText("Follow");
-    setIsFollowing(false);
-  };
-
-  const handleMouseEnter = () => {
-    if (isFollowing) {
-      setButtonText("Unfollow");
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (isFollowing) {
-      setButtonText("Following");
-    }
-  };
-
-  useEffect(() => {
-    // this is necessary for checking if the user is signed in
-    const checkUser = async () => {
-      // Check if user is already logged in
-      const result = await isUserLoggedIn();
-      setUserAuthStatus(result);
-    };
-
-    // Call the async function
-    checkUser();
-  }, []);
 
   return (
     <div>
@@ -88,45 +89,19 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
           <div className="m-0 p-0">
             {" "}
             {users.map((user) => (
-              <div
+              <UserCard
                 key={user.User_Id}
-                className="flex items-center hover:bg-slate-200 p-3"
-              >
-                <Avatar
-                  src={user.avatarUrl}
-                  alt={user.Name}
-                  size="md"
-                  className="p-0 m-0"
-                />
-                <div className="ml-4">
-                  <h3 className="text-base font-medium p-0 m-0">{user.Name}</h3>
-                  <p className="text-gray-500 p-0 m-0">@{user.Username}</p>
-                </div>
-                {userAuthStatus ? (
-                  <Button
-                    className="ml-auto font-bold text-white bg-black h-7"
-                    radius="full"
-                    onClick={isFollowing ? () => unFollowUser(user) : () => followUser(user)}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {buttonText}
-                  </Button>
-                ) : (
-                  <Button
-                    className="ml-auto font-bold text-white bg-black h-7"
-                    radius="full"
-                    isDisabled
-                  >
-                    Follow
-                  </Button>
-                )}
-              </div>
+                logged_in_user_id={loggedUserId}
+                user_id={user.User_Id}
+                name={user.Name}
+                surname={user.Surname}
+                username={user.Username}
+                avatarUrl={user.Img_Url}
+              />
             ))}
           </div>
         </CardBody>
         <CardFooter className="cursor-pointer text-sky-500 hover:bg-slate-200">
-          Show more
         </CardFooter>
       </Card>
     </div>

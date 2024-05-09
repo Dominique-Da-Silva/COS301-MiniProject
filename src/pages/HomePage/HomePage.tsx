@@ -1,25 +1,34 @@
 import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet } from "@components/index";
 import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
-import { fetchTweets, fetchUsers } from "@services/index";
+import { fetchTweets, fetchUsers, fetchProfileDetails, getLoggedUserId } from "@services/index";
 import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
+import { useNavigate } from 'react-router-dom';
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
 interface HomePageProps { }
 
+
 const HomePage: React.FC<HomePageProps> = () => {
   const [tweets, setTweets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
-  const [setCurrentUser] = useState<any>(false);
+  const [currentUser, setCurrentUser] = useState<any>(false);
+  // const [userId, setUserId] = useState(0);
   const [profiles, setProfiles] = useState<any[]>([]);
+  const [userimg, setuserimg] = useState<any>(null);
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
   // const [retweetsCount, setRetweetsCount] = useState<any>(0);
   // const [likesCount, setLikesCount] = useState<any>(0);
-  //const [user] = useState<any>(null); // State variable to store current user
+  // const [currentUser] = useState<any>(null); // State variable to store current user
 
   // FETCHING THE TWEETS FROM TWEETS AND USERS TABLE
   //uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
@@ -29,7 +38,7 @@ const HomePage: React.FC<HomePageProps> = () => {
       try {
         const tweetData = await fetchTweets();
         // console.log("Tweet Data:");
-        // console.log(tweetData);
+        console.log(tweetData);
         setTweets(tweetData);
       } catch (error) {
         console.error('Error fetching tweets:', error);
@@ -44,6 +53,15 @@ const HomePage: React.FC<HomePageProps> = () => {
         // console.log(usersData);
         setUsers(usersData as any[]); // Add type assertion here
 
+        const tweetData = await fetchTweets();
+        setTweets(tweetData);
+
+        const user = await isUserLoggedIn();
+        setCurrentUser(user);
+
+        const profilesData = await fetchAllProfiles();
+        setProfiles(profilesData as any);
+
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -52,30 +70,53 @@ const HomePage: React.FC<HomePageProps> = () => {
     const getCurrentUser = async () => {
       try {
         const user = await isUserLoggedIn();
-         console.log("Current User:");
-         console.log(user);
-        setCurrentUser(user);
+        //  console.log("Current User:");
+        //  console.log(user);
+         setCurrentUser(user);
       } catch (error) {
         console.error('Error fetching current user:', error);
+      }
+    };
+
+    // const getuser = async () => {
+    //   try {
+    //     const id = await getLoggedUserId();
+    //     setUserId(id);
+    //   } catch (error) {
+    //     console.error('Error fetching userid:', error);
+    //   }
+    // }
+
+    const getuserimg = async () => {
+      try {
+        const id = await getLoggedUserId();
+        const profimg = await fetchProfileDetails(id)
+        console.log(id);
+        setuserimg(profimg.Img_Url);
+      } catch (error) {
+        console.error('Error fetching userimg:', error);
       }
     };
 
     const getAllProfiles = async () => {
       try {
         const profilesData = await fetchAllProfiles();
-        console.log("Profiles Data:");
-        console.log(profilesData);
+        // console.log("Profiles Data:");
+        // console.log(profilesData);
         setProfiles(profilesData as any); // Update the type of the state variable
       } catch (error) {
         console.error('Error fetching profiles:', error);
       }
     };
+    
     // // Call both fetch functions when the component mounts
     fetchTweetData();
     fetchData();
     getCurrentUser();
     getAllProfiles();
-  }, []);
+    // getuser();
+    getuserimg();
+  }, [setCurrentUser]);
 
   //testing
 
@@ -120,12 +161,12 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="w-full flex justify-center align-middle">
+    <div className="w-full h-full flex justify-center align-middle">
       <div className="container flex w-full justify-center dark:bg-black">
         <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
           <Nav />
         </div>
-        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
+        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
           <div className="flex flex-col m-0 p-0 justify-center">
             {/* <Tabs 
             aria-label="Options" 
@@ -145,22 +186,36 @@ const HomePage: React.FC<HomePageProps> = () => {
               }
               className="text-md p-0"
             > */}
-          <CreateTweet />
+            {/*This is unstyled which is why we are rendering create tweet which already has a button that is greyed out that tells the user to login if they wna to post*/}
+              {/*currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>*/}
+            <CreateTweet/>
           {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
-            // console.log("Tweet:");
-            // console.log(tweet);
-            // console.log("Users:");
-            // console.log(users);
+            // console.log("Tweet:", tweet);
+            // console.log("Users:", users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-            const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
-            const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
-            const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
-            const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
+            // console.log("User:", user);
+
+            // Check if tweet.Saves is defined and not empty before accessing its properties
+            const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
+            // console.log("Saves Count:", saves);
+
+            // Similar checks for Comments, Likes, and Retweets
+            const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
+            // console.log("Comments Count:", comments);
+
+            const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
+            // console.log("Likes Count:", likes);
+
+            const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
+            // console.log("Retweets Count:", retweets);
+
             const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-            //console.log("Image URL:", image_url);
+            // console.log("Image URL:", image_url);
+
             return (
               <Tweet
                 key={tweet.Tweet_Id}
+                tweet_id={tweet.Tweet_Id}
                 name={user ? user.Name : "Unknown User"}
                 username={user ? `@${user.Username}` : ""}
                 text={tweet.Content}
@@ -170,10 +225,13 @@ const HomePage: React.FC<HomePageProps> = () => {
                 retweets={formatCount(retweets)}
                 saves={formatCount(saves)}
                 comments={formatCount(comments)}
-                profileimageurl={image_url}
-              />
+                profileimageurl={image_url}  
+                currentuserimg={userimg}
+                          />
             );
           })}
+
+
           {/* </Tab>
             <Tab
               title={
@@ -188,16 +246,15 @@ const HomePage: React.FC<HomePageProps> = () => {
           </Tabs> */}
           </div>
         </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
           <div className="mb-3">
             <Search />
           </div>
-          <TrendingTopics />
+          <TrendingTopics onNavigate={handleNavigation} />
           <WhoToFollow users={[]} />
         </div>
       </div>
-    </div>
-    
+    </div>    
   );
 };
 
