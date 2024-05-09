@@ -1,8 +1,8 @@
-//import { supabase } from "@config/supabase";
+import { supabase } from "@config/supabase";
 
 export async function searchTweet(query: string){
-    return ["the search tweet function is currently not functional", query];
-    /*try {
+    // return ["the search tweet function is currently not functional", query];
+    try {
         const { data: tweetsData, error: tweetsError } = await supabase
             .from('Tweets')
             .select(`User_Id, Content, Img_Url, Created_at,
@@ -61,5 +61,5 @@ export async function searchTweet(query: string){
     } catch (error: any) {
         console.error('Error searching for tweets:', error.message);
         return [];
-    }*/
+    }
 }
