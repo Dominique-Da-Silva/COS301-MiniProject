@@ -15,8 +15,10 @@ import PostNotification from "./PostNotification/PostNotification";
 import LikeNotification from "./PostNotification/LikedNotification";
 import Mention from "./Mentions/Mention";
 import UserCard from "./UserCard/UserCard";
+import TweetDetails from "./TweetDetails/TweetDetails";
+import CreateCommentInput from "./CreateCommentInput/CreateCommentInput";
+import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
 import TweetModal from "./TweetModal/TweetModal";
-
 export {
   EditProfile,
   HomeImage,
@@ -35,5 +37,8 @@ export {
   ChangePassword,
   MutedNotifications,
   UserCard,
+  TweetDetails,
+  CreateCommentInput,
+  RecommendedUsers,
   TweetModal,
 };

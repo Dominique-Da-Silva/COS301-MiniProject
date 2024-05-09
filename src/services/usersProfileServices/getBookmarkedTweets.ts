@@ -40,7 +40,8 @@ export async function getBookmarkedTweets(userId: number){
             Comments(
               count()
             )`)
-            .in('Tweet_Id', tweetIds);
+            .in('Tweet_Id', tweetIds)
+            .order('Created_at', { ascending: false });
 
         if (tweetsError) {
             //console.error('Error fetching details of bookmarked tweets.');

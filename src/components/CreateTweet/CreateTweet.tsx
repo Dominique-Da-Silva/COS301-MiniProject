@@ -137,7 +137,7 @@ const CreateTweet = () => {
           variant="underlined"
           placeholder="What is happening?!"
           className="p-2"
-          style={{ width: "150px" }}
+          // style={{ width: "150px" }}
           value={tweetText}
           onChange={(event: any) => setTweetText(event.target.value)}
         />

@@ -86,6 +86,10 @@ const ProfileDetails = () => {
   const [userReplies, setUserReplies] = useState<any[]>([]);
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
 
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   
   // const location = useLocation();
 
@@ -220,7 +224,7 @@ const ProfileDetails = () => {
         <div className="flex flex-col w-full m-0 p-0 justify-center">
           <div className="banner m-0">
             <img
-              src={profileDetails.Banner_Url}
+              src="src/assets/twitter_logo_banner_12.jpg"
               alt="Banner"
               className="w-full h-48 m-0"
             />
@@ -421,7 +425,7 @@ const ProfileDetails = () => {
                             return (
                               <Tweet
                                 tweet_id={reply.id}
-                                //userid={userData.User_Id}
+                               // userid={userData.User_Id}
                                 key={index}
                                 name={userData.Name}
                                 username={`@${userData.Username}`}
@@ -462,7 +466,7 @@ const ProfileDetails = () => {
                         return(
                           <Tweet
                             tweet_id={tweet.id}
-                            //userid={userData.User_Id}
+                           // userid={userData.User_Id}
                             key={index}
                             name={iUser ? iUser.Name : "Unknown User"}
                             username={iUser ? `@${iUser.Username}` : ""}
@@ -489,7 +493,7 @@ const ProfileDetails = () => {
         <div className="mb-3">
           <Search />
         </div>
-        <TrendingTopics />
+        <TrendingTopics onNavigate={handleNavigation} />
         <WhoToFollow users={[]} />
       </div>
     </div>
