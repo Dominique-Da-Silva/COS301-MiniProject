@@ -6,8 +6,9 @@ import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/profileServices/getAuthUser";
 import { fetchProfileDetails } from "@services/profileServices/getProfile";
 import { updateProfileDetails } from "@services/profileServices/updateProfileDetails";
-import { updateUsername } from "@services/index";
+import { updateUsername, updateName } from "@services/index";
 import { uploadImageAndGetURL, uploadProfile } from "@services/index";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
@@ -33,15 +34,12 @@ const EditProfile: React.FC = () => {
   }, [userData]);
   const [editedUsername, setEditedUsername] = useState("");
   const [userProfileImage, setUserProfileImage] = useState<string>("");
-  const [userProfileBanner, setUserProfileBanner] = useState<string>("");
   const [editedName, setEditedName] = useState("");
   const [editedBio, setEditedBio] = useState("");
   const [editedLocation, setEditedLocation] = useState("");
   const [editedWebsite, setEditedWebsite] = useState("");
   const [editedImage, setEditedImage] = useState<File | null>(null);
   const [editedImageURL, setEditedImageURL] = useState<string>("");
-  const [editedBanner, setEditedBanner] = useState<File | null>(null);
-  const [editedBannerURL, setEditedBannerURL] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   // const handleCancelClick = () => {
   //   // Reset Editing state to close the edit window
@@ -80,23 +78,27 @@ const EditProfile: React.FC = () => {
     const result = await updateProfileDetails(userData);
     console.log(result);
   };
+  const history = useNavigate();
   const handleSaveClick = async () => {
-    update_Username(editedUsername);
+    update_Username(editedUsername ? editedUsername : userData.Username);
+    update_Name(editedName ? editedName : userData.Name);
     uploadImageAndGetURL(editedImage as File, "profile_images");
-    uploadImageAndGetURL(editedBanner as File, "profile_banners");
     updateUserData({
-      Banner_Url: editedBannerURL,
-      Bio: editedBio,
-      Img_Url: editedImageURL,
+      Banner_Url: "src/assets/twitter_logo_banner_12.jpg",
+      Bio: editedBio ? editedBio : profileDetails.Bio,
+      Img_Url: editedImageURL ? editedImageURL : profileDetails.Img_Url,
       Profile_Type: userData.Profile_Type,
       Theme: userData.Theme,
-      Location: editedLocation,
-      Website: editedWebsite,
+      Location: editedLocation ? editedLocation : profileDetails.Location,
+      Website: editedWebsite ? editedWebsite : profileDetails.Website,
       Gender: userData.Gender,
     });
-    alert("Changes saved successfully");
+    history("/profile");
   };
-
+  const update_Name = async (editedName: string) => {
+    const result = await updateName(editedName);
+    console.log(result);
+  };
   function captureImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files === null) return;
     setIsLoading(true);
@@ -106,20 +108,6 @@ const EditProfile: React.FC = () => {
     const reader = new FileReader();
     reader.onload = () => {
       setEditedImageURL(reader.result as string);
-    };
-    reader.readAsDataURL(selectedFile);
-    setIsLoading(false);
-  }
-
-  function captureBanner(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files === null) return;
-    setIsLoading(true);
-    const selectedFile = e.target.files[0];
-    setEditedBanner(selectedFile);
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setEditedBannerURL(reader.result as string);
     };
     reader.readAsDataURL(selectedFile);
     setIsLoading(false);
@@ -140,38 +128,7 @@ const EditProfile: React.FC = () => {
             <h2 className="text-2xl font-bold">Edit Profile</h2>
           </div>
           <div className="bg-white p-4 shadow">
-            <div>
-              <label
-                htmlFor="profileImage"
-                className="block mb-2 font-semibold"
-              >
-                Banner Image
-                <div className="flex justify-center items-center">
-                  <div className="w-full h-36 overflow-hidden border border-gray flex justify-center items-center">
-                    {editedBannerURL ? (
-                      <img
-                        src={editedBannerURL}
-                        alt="uploaded-avatar"
-                        className="w-full h-full object cover"
-                      />
-                    ) : (
-                      <img
-                        src={userProfileBanner}
-                        alt="banner"
-                        className="w-full h-full object cover"
-                      />
-                    )}
-                  </div>
-                </div>
-                <input
-                  id="banner"
-                  type="file"
-                  accept="image/*"
-                  onChange={captureBanner}
-                  className="hidden"
-                />
-              </label>
-            </div>
+            <div></div>
             <label htmlFor="name" className="block mb-2 font-semibold">
               Name
             </label>
@@ -256,9 +213,11 @@ const EditProfile: React.FC = () => {
                 className="hidden"
               />
             </label>
+            {/* <NavLink to={"/profile"}> */}
             <Button size="lg" className="w-full" onClick={handleSaveClick}>
               Save
             </Button>
+            {/* </NavLink> */}
           </div>
         </div>
       );
