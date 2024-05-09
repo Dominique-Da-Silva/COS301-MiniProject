@@ -19,7 +19,7 @@ describe('checkIfLiked', () => {
   test('should return true if the tweet has been liked by the user', async () => {
     const result = await checkIfLiked(1, 1);
     let result2 = result;
-    if(result2 != true){
+    if(result2 !== true){
         result2 =true;
     }
     expect(result2).toBe(true);
