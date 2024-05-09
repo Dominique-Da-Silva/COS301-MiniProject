@@ -66,10 +66,6 @@ const Settings = () => {
                 </div>
               )
             }
-            <div className={`hover:bg-gray-100 dark:hover:bg-neutral-900 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "Notifications" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Notifications")}>
-                <p>Notification settings</p>
-                <IoIosArrowForward className="dark:text-gray-500" />
-            </div>
             <div className={`hover:bg-gray-100 dark:hover:bg-neutral-900 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "Display" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Display")}>
                 <p>Display</p>  
                 <IoIosArrowForward className="dark:text-gray-500" />           
