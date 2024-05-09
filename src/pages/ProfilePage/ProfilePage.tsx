@@ -224,7 +224,7 @@ const ProfileDetails = () => {
         <div className="flex flex-col w-full m-0 p-0 justify-center">
           <div className="banner m-0 border-b border-inherit dark:border-neutral-800">
             <img
-              src={profileDetails.Banner_Url}
+              src="src/assets/twitter_logo_banner_12.jpg"
               alt="Banner"
               className="w-full h-48 m-0 "
             />

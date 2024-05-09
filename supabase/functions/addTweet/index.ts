@@ -19,27 +19,10 @@ Deno.serve(async (req) => {
     //console.log(request);
     if(request.tweetData.Img_file)
       {
-        //console.log("From add tweet: "+tweetData.Img_file);
-        const { data: uploadedImage, error: imageError } = await supabase.storage
-        .from('media')
-        .upload(`tweet_images/${request.tweetData.Img_filename}`, request.tweetData.Img_file, { upsert: false});
-  
-      if (imageError) {
-        throw imageError;
-      }
-  
-      
-      console.log("uploaded in media");
-      console.log(uploadedImage);
-  
-      const {data:image_url} = supabase.storage.from("media").getPublicUrl(uploadedImage.path);
-      console.log(image_url);
-  
-  
       const tweet = {
         User_Id:request.tweetData.User_Id,
         Content:request.tweetData.Content,
-        Img_Url: image_url.publicUrl
+        Img_Url: request.tweetData.Img_file
       };
       // Insert tweet data into the database
       const { data: insertedTweet, error: tweetError } = await supabase

@@ -26,12 +26,15 @@ import { FaRegFaceSmile } from "react-icons/fa6";
 import { TbCalendarSearch } from "react-icons/tb";
 import { useEffect} from "react";
 import { isUserLoggedIn } from "@services/index";
+import { addComment } from "@services/index";
 
 interface TweetProps {
     username: string;
+    tweed_id: number;
+    user_id: number;
   }
 
-const CreateCommentInput: React.FC<TweetProps> = ({username}) => {
+const CreateCommentInput: React.FC<TweetProps> = ({username, tweet_id, user_id}) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [commentText, setCommentText] = useState("");
   const [selectedImage, setSelectedImage] = useState<any>();
@@ -65,6 +68,7 @@ const CreateCommentInput: React.FC<TweetProps> = ({username}) => {
       // console.log("Current User Auth ID:", currentUser?.auth_id);
       if (currentUser !== undefined) {
         //todo: add comment
+        add_comment();
         window.location.reload();
       }else
       {
@@ -72,6 +76,15 @@ const CreateCommentInput: React.FC<TweetProps> = ({username}) => {
       }
     } catch (error) {
       console.error('Error fetching users:', error);
+    }
+  };
+
+  const add_comment = async () => {
+    const result = await addComment(user_id, tweet_id, commentText);
+    if (result) {
+      console.log("Comment added successfully");
+    } else {
+      console.log("Error adding comment");
     }
   };
 
@@ -106,7 +119,7 @@ const CreateCommentInput: React.FC<TweetProps> = ({username}) => {
           variant="underlined"
           placeholder="Post your reply"
           className="p-2"
-          style={{ width: "150px" }}
+          // style={{ width: "150px" }}
           value={commentText}
           onChange={(event: any) => setCommentText(event.target.value)}
         />
