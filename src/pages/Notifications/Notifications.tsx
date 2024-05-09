@@ -7,7 +7,8 @@ import {
   PostNotification,
   LikedNotification,
   Mention,
-  FollowNotifications
+  FollowNotifications,
+  RetweetNotifications
 } from "@components/index";
 import { Button } from "@nextui-org/react";
 import {
@@ -198,7 +199,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         notifications
                           .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                           .map((notification, index) => (
-                            <LikedNotification
+                            <RetweetNotifications
                               key={index}
                               id={index}
                               description={notification.Content}
@@ -329,12 +330,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         retweetNotifications
                         .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                         .map((notification, index) => (
-                          <PostNotification
+                          <RetweetNotifications
                           key={index}
                           id={index}
                           description={notification.Content}
                           avatarUrl={notification.avatarUrl}
-                          dateCreated={getTimeDisplay(notification.Created_at)}
+                          tweet={notification.avatarUrl}
                         />
                         ))
                       )}

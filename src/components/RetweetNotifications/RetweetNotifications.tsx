@@ -1,14 +1,14 @@
 import React from "react";
 import { Avatar } from "@nextui-org/react";
-import { GoHeartFill } from "react-icons/go";
-interface LikeNotificationProp {
+import { FaRetweet } from "react-icons/fa6";
+interface RetweetNotificationProp {
   id: number;
   description: string;
   tweet: string;
   avatarUrl: string;
 }
 
-const LikedNotification: React.FC<LikeNotificationProp> = ({
+const RetweetNotifications: React.FC<RetweetNotificationProp> = ({
   description,
   tweet,
   avatarUrl,
@@ -16,7 +16,7 @@ const LikedNotification: React.FC<LikeNotificationProp> = ({
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
       <div className="flex-col w-auto dark:text-white ">
-        <GoHeartFill color="#E61C84" />{" "}
+        <FaRetweet color="#53A47F" />{" "}
       </div>
       <div>
         <div className="avatar mx-2 mb-2">
@@ -41,4 +41,4 @@ const LikedNotification: React.FC<LikeNotificationProp> = ({
   );
 };
 
-export default LikedNotification;
+export default RetweetNotifications;

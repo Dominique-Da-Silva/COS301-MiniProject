@@ -16,6 +16,7 @@ import LikedNotification from "./PostNotification/LikedNotification";
 import Mention from "./Mentions/Mention";
 import UserCard from "./UserCard/UserCard";
 import FollowNotifications from "./FollowNotifications/FollowNotifications";
+import RetweetNotifications from "./RetweetNotifications/RetweetNotifications";
 
 export {
   EditProfile,
@@ -36,4 +37,5 @@ export {
   MutedNotifications,
   UserCard,
   FollowNotifications,
+  RetweetNotifications
 };
