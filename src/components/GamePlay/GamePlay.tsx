@@ -14,6 +14,7 @@ import {
 } from '@services/index';
 import { getLoggedUserId } from '@services/index';
 import { c } from '@vitest/runner/dist/tasks-_kyNRBhz.js';
+import { BeatLoader } from 'react-spinners';
 
 const GamePlay = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -27,6 +28,7 @@ const GamePlay = () => {
   const [shakeScreen, setShakeScreen] = useState<boolean>(false);
   const [followingCount, setFollowingCount] = useState<number>(0); 
   const [type, setType] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +38,7 @@ const GamePlay = () => {
   }, []);
   
   const fetchFollowingCount = async () => {
+    setIsLoading(true);
     try {
       const userId = await getLoggedUserId();
       console.log('game ID: ', userId);
@@ -46,6 +49,7 @@ const GamePlay = () => {
         console.log('game following count: ', followingCount);
         startGame(count);
       }
+      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching following count:', error);
     }
@@ -62,6 +66,7 @@ const GamePlay = () => {
 
   const fetchQuestionData = async () => {
     try {
+      setIsLoading(true);
       let questionFunction;
       let typeName; // Variable to store the type name
       switch (questionNumber) {
@@ -98,6 +103,7 @@ const GamePlay = () => {
       } else {
         setShowResult(true);
       }
+      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching question data:', error);
     }
@@ -143,6 +149,12 @@ const GamePlay = () => {
 
   return (
     <div className={shakeScreen ? 'shake-screen w-full h-screen flex flex-col px-8' : 'w-full h-screen flex flex-col px-8'}>
+      {isLoading ? (
+      <div className="flex justify-center items-center h-full">
+        <BeatLoader color="#1DA1F2" /> {/* Display loading spinner when data is loading */}
+      </div>
+    ) : (
+      <> 
       {feedback === 'correct' && <Confetti />}
       {!showResult && questionData && (
         <>
@@ -160,6 +172,10 @@ const GamePlay = () => {
             {questionData?.candidate_question?.randObj?.Content}
             {type === "matchAvatarGame" && questionData?.candidate_question?.randObj?.Img_Url && <img src={questionData?.candidate_question?.randObj?.Img_Url} className="w-8 h-8 rounded-full mr-2" />}
           </div>
+          <div className="flex items-center justify-center">
+
+          </div>
+
           <div className="mt-4 flex flex-col">
             {questionData?.list_options.map((option: any) => (
               <div
@@ -223,6 +239,8 @@ const GamePlay = () => {
       {showResult && (
         <GameResult correctCount={correctCount} totalQuestions={5} />
       )}
+      </>
+    )}
     </div>
   );  
 };

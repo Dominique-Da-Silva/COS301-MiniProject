@@ -16,7 +16,7 @@ export const whoMadeThisTweetGame = async () => {
     console.log(randtweet);
     return {
         candidate_question: {
-            question: "Who made this tweet?",
+            question: "Who made the tweet with the following text?",
             randObj: randtweet
         },
         list_options: list,
