@@ -23,7 +23,7 @@ const PostNotification: React.FC<PostNotificationProp> = ({
           />
         </div>
         {/* Display the name of the user of the post */}
-        <p className="font-bold mx-2">Name</p>
+        <p className="font-bold">Name</p>
         {/* Display the tweet */}
         <p className="text-slate-500 mx-2">Tweet</p>
       </div>

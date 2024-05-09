@@ -21,6 +21,8 @@ import TweetDetails from "./TweetDetails/TweetDetails";
 import CreateCommentInput from "./CreateCommentInput/CreateCommentInput";
 import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
 import TweetModal from "./TweetModal/TweetModal";
+import CommentNotification from "./CommentNotifications/CommentNotifications";
+
 export {
   EditProfile,
   HomeImage,
@@ -45,4 +47,5 @@ export {
   CreateCommentInput,
   RecommendedUsers,
   TweetModal,
+  CommentNotification,
 };

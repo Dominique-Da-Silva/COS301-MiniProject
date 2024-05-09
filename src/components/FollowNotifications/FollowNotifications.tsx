@@ -1,13 +1,13 @@
 import React from "react";
 import { Avatar } from "@nextui-org/react";
 import { FaUser } from "react-icons/fa6";
-interface PostNotificationProp {
+interface FollowNotificationProp {
   id: number;
   description: string;
   avatarUrl: string;
 }
 
-const FollowNotifications: React.FC<PostNotificationProp> = ({
+const FollowNotifications: React.FC<FollowNotificationProp> = ({
   description,
   avatarUrl,
 }) => {

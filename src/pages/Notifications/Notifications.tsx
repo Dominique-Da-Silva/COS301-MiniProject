@@ -8,7 +8,8 @@ import {
   LikedNotification,
   Mention,
   FollowNotifications,
-  RetweetNotifications
+  RetweetNotifications, 
+  CommentNotification,
 } from "@components/index";
 import { Button } from "@nextui-org/react";
 import {
@@ -115,6 +116,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
           break;
       }
     }
+
   }, [notifications, setFollowNotifications, setPostNotifications, setCommentNotifications, setLikedNotifications, setRetweetNotifications]);
   // need to add tabs: Likes, Follows, Comments, Retweets, Posts
   // Need to modify the layout of data being passed for different types of tweets
@@ -199,12 +201,10 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         notifications
                           .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                           .map((notification, index) => (
-                            <PostNotification
+                            <CommentNotification
                               key={index}
                               id={index}
-                              description={notification.Content}
                               avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
                             />
                           ))
                       )}
@@ -286,12 +286,10 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         commentNotifications
                         .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                         .map((notification, index) => (
-                          <PostNotification
+                          <CommentNotification
                               key={index}
                               id={index}
-                              description={notification.Content}
                               avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
                             />
                         ))
                       )}
