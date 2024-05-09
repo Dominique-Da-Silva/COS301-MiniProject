@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Nav, TrendingTopics, Search, WhoToFollow} from '@components/index';
-import { getComments, getTweet } from '@services/index';
+import { getComments, getTweet, getLoggedUserId, fetchProfileDetails } from '@services/index';
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
@@ -45,11 +45,12 @@ const TweetDetailsPage = () => {
   const [bookmarkColor, setBookmarkColor] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
-
-
-  
-
-
+  const [commentCount, setCommentCount] = useState(0);
+  const [retweetCount, setRetweetCount] = useState(0);
+  const [likeCount, setLikeCount] = useState(0);
+  const [saveCount, setSaveCount] = useState(0);
+  const [currentUser, setCurrentUser] = useState<any>();
+  const [currentuserimg, setcurrentuserimg] = useState("");
 
   const handleCommentClick = () => {
     setCommentColor((prevState) => !prevState);
@@ -81,13 +82,21 @@ const TweetDetailsPage = () => {
     toggleSave(tweetid, userid);
   };
 
+  
+
   const formatCommentTimestamp = (timestamp: string) => {
     const parsedTimestamp = new Date(timestamp);
+  
+    const hours = parsedTimestamp.getHours() % 12; // Get 12-hour format
+    const minutes = parsedTimestamp.getMinutes().toString().padStart(2, '0'); // Pad minutes with leading zero
+    const meridian = parsedTimestamp.getHours() >= 12 ? 'PM' : 'AM';
+  
     const month = parsedTimestamp.toLocaleString("en-us", {
       month: "short",
     });
     const day = parsedTimestamp.getDate();
-    return `${month} ${day}`;
+  
+    return `${hours}:${minutes} ${meridian} · ${month} ${day}, ${parsedTimestamp.getFullYear()}`;
   };
 
   const getTimeDisplay = (timestamp: string) => {
@@ -124,12 +133,36 @@ const TweetDetailsPage = () => {
         // const filteredComments = commentsData.filter(comment => comment.Tweet_Id === parseInt(tweetId));
   
         setComments(commentsData);
+        console.log(commentsData);
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
     };
+
+    // const getuserimg = async () => {
+    //   try {
+    //     const profimg = await fetchProfileDetails(currentUser)
+    //     console.log(currentUser);
+    //     console.log(profimg);
+    //     setcurrentuserimg(profimg.Img_Url);
+    //   } catch (error) {
+    //     console.error('Error fetching userimg:', error);
+    //   }
+    // }
+
+    const getCurrentUser = async () => {
+      try {
+        const id = await getLoggedUserId();
+        setCurrentUser(id);
+        console.log(id);
+      } catch (error) {
+        console.error('Error fetching userid:', error);
+      }
+    }
   
     fetchComments();
+    getCurrentUser();
+    // getuserimg();
   }, [tweetId]);
 
   useEffect(() => {
@@ -146,7 +179,7 @@ const TweetDetailsPage = () => {
 
     fetchTweetDetails();
   }, [tweetId]);
-  console.log(tweetDetails?.name);
+  // console.log(tweetDetails);
   
   return (
     <div className="w-full h-full flex justify-center align-middle">
@@ -157,7 +190,7 @@ const TweetDetailsPage = () => {
         <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
           <div className="flex flex-col m-0 p-0 justify-center">
             <h1 className="font-bold text-xl mb-4 mt-4 flex items-center">
-              <Link to="/Home">
+              <Link to="/home">
                 <AiOutlineArrowLeft className='w-4 h-4 mr-2 ml-4'/> 
               </Link>
               <span className='ml-4'>Post</span>
@@ -209,7 +242,7 @@ const TweetDetailsPage = () => {
                       )}
                     </div>
                     <span className="text-gray-500 text-sm ml-2">
-                        {getTimeDisplay(tweetDetails?.created_at)}
+                        {formatCommentTimestamp(tweetDetails?.created_at)}
                     </span>
                     <hr className='mt-4 mb-3'></hr>
                   </div>
@@ -223,14 +256,15 @@ const TweetDetailsPage = () => {
                 {() => (
                   <ModalBody>
                     <CreateComment
-                      tweet_id={tweetDetails.tweet_id}
-                      user_id={tweetDetails.loggedUserId}
+                      tweet_id={tweetDetails.tweetid}
+                      user_id={currentUser}
                       name={tweetDetails.name}
                       username={tweetDetails.username}
                       text={tweetDetails.content}
                       imageUrl={tweetDetails.imageUrl}
                       profileimageurl={tweetDetails.profile_img}
                       timeDisplay={tweetDetails.timeDisplay}
+                      userimg={currentuserimg}
                     ></CreateComment>
                   </ModalBody>
                 )}
@@ -276,12 +310,12 @@ const TweetDetailsPage = () => {
               </span>
             </div>
             <hr className='mt-4 mb-3'></hr>
-            <CreateCommentInput username={tweetDetails?.username} ></CreateCommentInput>
+          <CreateCommentInput username={tweetDetails?.username} tweet_id={tweetDetails?.tweetid} user_id={currentUser} ></CreateCommentInput>
             <hr className='mb-3'></hr>
             <div>
               <p className="p-3 m-0 dark:text-white">
               {comments.map((comment) => {
-                console.log(comment);
+                // console.log(comment);
                 return(
                   <div key={comment.Comment_Id}>
                   <div className="flex items-center mb-4">
@@ -295,7 +329,7 @@ const TweetDetailsPage = () => {
                     <p className="font-bold ml-2">{comment?.User?.Name}</p>
                     <p className="ml-2">@{comment?.User?.Username}</p>
                     <p className="ml-2">
-                      {comment?.User?.Created_at ? formatCommentTimestamp(comment.Created_at) : ''}
+                    · {comment?.User?.Created_at ? getTimeDisplay(comment.Created_at) : ''}
                     </p>
                   </div>
                   <div className='ml-10 -mt-2'>
