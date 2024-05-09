@@ -69,7 +69,7 @@ const GamePlay = () => {
           questionFunction = whoMadeThisTweetGame;
           typeName = 'whoMadeThisTweetGame'; // Set the type name
           break;
-        case 1:
+        /*case 1: these 2 games give errors sometimes and i don't know exactly why
           questionFunction = matchAvatarGame;
           typeName = 'matchAvatarGame'; // Set the type name
           break;
@@ -77,11 +77,12 @@ const GamePlay = () => {
           questionFunction = whoMadeThisTweetonDateGame;
           typeName = 'whoMadeThisTweetonDateGame'; // Set the type name
           break;
-        case 3:
+          */
+        case 1: //these two questions dont actually work correctly because it doesnt recognize the Followed_date in the Followers table.
           questionFunction = getOldestFollowing;
           typeName = 'getOldestFollowing'; // Set the type name
           break;
-        case 4:
+        case 2:
           questionFunction = getNewestFollowing;
           typeName = 'getNewestFollowing'; // Set the type name
           break;
