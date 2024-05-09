@@ -32,7 +32,7 @@ const RetweetNotifications: React.FC<RetweetNotificationProp> = ({
             <p className="font-semibold p-0 m-0 dark:text-white">{description}</p>
           </div>
           <div className="p-0 m-0">
-            <p className="text-slate-700 p-0 m-0 dark:text-white">{tweet}</p>
+            <p className="text-slate-500 p-0 m-0 dark:text-white">{tweet}</p>
           </div>
         </div>
       </div>

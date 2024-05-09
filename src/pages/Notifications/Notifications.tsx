@@ -199,7 +199,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         notifications
                           .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                           .map((notification, index) => (
-                            <RetweetNotifications
+                            <PostNotification
                               key={index}
                               id={index}
                               description={notification.Content}
@@ -270,9 +270,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                           <PostNotification
                               key={index}
                               id={index}
-                              description={notification.Content}
                               avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
                             />
                         ))
                       )}
