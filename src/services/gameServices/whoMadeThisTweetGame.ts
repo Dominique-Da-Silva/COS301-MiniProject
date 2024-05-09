@@ -2,13 +2,15 @@ import {supabase} from '@config/supabase';
 import { getUserData, getUserProfiles, pickRandomIdsFromFollowingList } from '@services/index';
 
 export const whoMadeThisTweetGame = async () => {
-    const randtweet = await getRandomTweet();
+    var randtweet = await getRandomTweet();
     //check errors
     if(typeof randtweet === "string"){
         return randtweet;
     }
-    const list = await getListOfFiveUsersTweets(randtweet.User_Id);
 
+    
+    const list = await getListOfFiveUsersTweets(randtweet.User_Id);
+    randtweet.Content = '"'+randtweet.Content+'"';
     if(list.length === 0){
         return "No users found";
     }
@@ -16,7 +18,7 @@ export const whoMadeThisTweetGame = async () => {
     console.log(randtweet);
     return {
         candidate_question: {
-            question: "Who made the tweet with the following text?",
+            question: "Who made a tweet with the following text?",
             randObj: randtweet
         },
         list_options: list,

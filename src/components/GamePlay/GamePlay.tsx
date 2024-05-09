@@ -169,8 +169,10 @@ const GamePlay = () => {
           <div className="flex items-center justify-center font-bold">
             {questionData?.candidate_question?.question}<br/>
             {/**render the content as a tweet format please*/}
-            {questionData?.candidate_question?.randObj?.Content}
             {type === "matchAvatarGame" && questionData?.candidate_question?.randObj?.Img_Url && <img src={questionData?.candidate_question?.randObj?.Img_Url} className="w-8 h-8 rounded-full mr-2" />}
+          </div>
+          <div className="flex items-center justify-center">
+          {questionData?.candidate_question?.randObj?.Content}
           </div>
           <div className="flex items-center justify-center">
 

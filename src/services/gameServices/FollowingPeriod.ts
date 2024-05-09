@@ -68,7 +68,7 @@ export const getNewestFollowing = async () => {
     
     return {
         candidate_question: {
-            question: "Who have you not been following longest?",
+            question: "Who is the person you most recently started following?",
         },
         list_options: users,
         answer_user_id: newest_following[0].Followed_Id
