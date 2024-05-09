@@ -4,10 +4,14 @@ import { PiStarFourFill } from "react-icons/pi";
 interface PostNotificationProp {
   id: number;
   avatarUrl: string;
+  description: string;
+  tweet: string;
 }
 
 const PostNotification: React.FC<PostNotificationProp> = ({
-  avatarUrl,
+  avatarUrl, 
+  description, 
+  tweet,
 }) => {
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
@@ -22,11 +26,11 @@ const PostNotification: React.FC<PostNotificationProp> = ({
             className="user-avatar min-w-10 min-h-10"
           />
         </div>
-        {/* Display the name of the user of the post */}
-        <p className="font-bold">Name</p>
         {/* Display the tweet */}
-        <p className="text-slate-500 mx-2">Tweet</p>
+        <p className="text-slate-500 mx-2">{tweet}</p>
       </div>
+        {/* Display description */}
+        <p className="font-bold my-1 mx-1">{description}</p>
     </div>
   );
 };
