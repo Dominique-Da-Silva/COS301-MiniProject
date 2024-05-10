@@ -59,7 +59,7 @@ const getTimeDisplay = (timestamp: string) => {
   return timeDisplay;
 };
 
-const ProfileDetails = () => {
+const ProfilePage = () => {
 
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
@@ -300,11 +300,7 @@ const ProfileDetails = () => {
   };
 
   return (
-    <div className="container flex">
-      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
-        <Nav />
-      </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border">
+    <>
         <div className="flex flex-col w-full m-0 p-0 justify-center">
           <div className="banner m-0">
             <img
@@ -573,24 +569,8 @@ const ProfileDetails = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
-        </div>
-        <TrendingTopics onNavigate={handleNavigation} />
-        <WhoToFollow users={[]} />
-      </div>
-    </div>
+    </>
   ); 
-};
-
-const ProfilePage = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProfileDetails />
-    </Suspense>
-  );
 };
 
 export default ProfilePage;
