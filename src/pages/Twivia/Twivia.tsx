@@ -1,7 +1,7 @@
 import { Nav } from "@components/index";
 import React, { useEffect, useState } from "react";
 import { Button, Link } from "@nextui-org/react";
-import { TrendingTopics, WhoToFollow, Search, GamePlay } from "@components/index";
+import { GamePlay } from "@components/index";
 import { useNavigate } from "react-router-dom";
 import { FaTwitter } from 'react-icons/fa';
 import { isUserLoggedIn } from "@services/index";
@@ -17,7 +17,7 @@ const Twivia: React.FC<TwiviaProps> = () => {
     setShowGamePlay(true);
   };
 
-   useEffect(() => { 
+  /* useEffect(() => { 
     // this is necessary for checking if the user is signed in
     const checkUser = async () => {
       // Check if user is already logged in
@@ -27,15 +27,10 @@ const Twivia: React.FC<TwiviaProps> = () => {
       }
     };
     checkUser();
-  }, [navigate]); 
+  }, [navigate]); */
 
   return (
     <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-          <Nav />
-        </div>
-        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 flex justify-center items-center h-screen">
           <div className="w-full flex flex-col items-center justify-center">
             {!showGamePlay ? (
               <>
@@ -62,18 +57,6 @@ const Twivia: React.FC<TwiviaProps> = () => {
             )}
           </div>
         </div>
-
-
-
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-            <div className="mb-3">
-              <Search />
-            </div>
-            <TrendingTopics />
-            <WhoToFollow users={[]} /> 
-        </div>
-      </div>
-    </div>
   );
 };
 
