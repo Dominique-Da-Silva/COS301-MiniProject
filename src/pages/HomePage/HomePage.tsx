@@ -1,4 +1,4 @@
-import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet } from "@components/index";
+import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet, TweetSkeleton } from "@components/index";
 import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 import { fetchTweets, fetchUsers, fetchProfileDetails, getLoggedUserId } from "@services/index";
@@ -161,8 +161,8 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
+    <div className="w-full h-screen flex justify-center align-middle bg-inherit">
+      <div className="container h-full flex w-full justify-center bg-inherit">
         <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
           <Nav />
         </div>
@@ -189,7 +189,10 @@ const HomePage: React.FC<HomePageProps> = () => {
             {/*This is unstyled which is why we are rendering create tweet which already has a button that is greyed out that tells the user to login if they wna to post*/}
               {/*currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>*/}
             <CreateTweet/>
-          {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
+            <TweetSkeleton/>
+            <TweetSkeleton/>
+            <TweetSkeleton/>
+          {/* {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
             // console.log("Tweet:", tweet);
             // console.log("Users:", users);
             const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
@@ -229,7 +232,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                 currentuserimg={userimg}
                           />
             );
-          })}
+          })} */}
 
 
           {/* </Tab>
@@ -250,8 +253,8 @@ const HomePage: React.FC<HomePageProps> = () => {
           <div className="mb-3">
             <Search />
           </div>
-          <TrendingTopics onNavigate={handleNavigation} />
-          <WhoToFollow users={[]} />
+          {/* <TrendingTopics onNavigate={handleNavigation} />
+          <WhoToFollow users={[]} /> */}
         </div>
       </div>
     </div>    

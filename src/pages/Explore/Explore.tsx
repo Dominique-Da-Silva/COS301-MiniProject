@@ -235,7 +235,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
               <FiSettings size={18} />
             </div>
           </div>
-          {loading && <Loader className="dark:bg-black"/>}
+          {loading && <Loader />}
           {!showTabs && !loading && (
             <>
               <p className='pl-3 mt-1 text-[21px] font-bold dark:text-white'>Trends for you</p>
