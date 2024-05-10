@@ -35,7 +35,8 @@ import { getComments } from "./homeServices/getComments.ts";
 import {searchUsers} from "./usersProfileServices/searchUser.ts";
 import {searchTweet} from "./tweetInteraction/searchTweet.ts";
 import { getTweet } from './tweetInteraction/getTweet.ts'
-
+import { getAllComments } from './homeServices/getComments.ts'
+import { fetchAllProfiles } from './profileServices/getProfile.ts'
 import { CreateFollowNotification,CreateLikeNotification,CreateCommentNotification,
     CreateRetweetNotification,CreateTweetNotification,updateNotifications,getUserNotifications } from "./homeServices/notifications.ts";
 export { signInWithGithub, signInWithGoogle, signOut, signInUser,
@@ -48,6 +49,6 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     checkIfFollowing, getLoggedUserId, getUserData, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
     ,getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
     CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments,
-    fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia, getTweet
+    fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia, getTweet, getAllComments, fetchAllProfiles
 };
 

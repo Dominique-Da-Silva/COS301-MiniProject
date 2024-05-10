@@ -1,22 +1,22 @@
 import React from "react";
 import { Avatar } from "@nextui-org/react";
-import { PiStarFourFill } from "react-icons/pi";
-interface PostNotificationProp {
+import { FaRetweet } from "react-icons/fa6";
+interface RetweetNotificationProp {
   id: number;
-  avatarUrl: string;
   description: string;
   tweet: string;
+  avatarUrl: string;
 }
 
-const PostNotification: React.FC<PostNotificationProp> = ({
-  avatarUrl, 
-  description, 
+const RetweetNotifications: React.FC<RetweetNotificationProp> = ({
+  description,
   tweet,
+  avatarUrl,
 }) => {
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
-      <div className="flex-col w-auto dark:text-white">
-        <PiStarFourFill color="#774CC5"/>{" "}
+      <div className="flex-col w-auto dark:text-white ">
+        <FaRetweet color="#53A47F" />{" "}
       </div>
       <div>
         <div className="avatar mb-2 mx-2">
@@ -35,4 +35,4 @@ const PostNotification: React.FC<PostNotificationProp> = ({
   );
 };
 
-export default PostNotification;
+export default RetweetNotifications;
