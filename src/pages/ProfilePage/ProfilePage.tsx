@@ -319,8 +319,8 @@ const ProfilePage = () => {
                     alt={userData.Name}
                     size="lg"
                   />
-                  {external === null ? <></>
-                    : external === false ? (
+                  {external === null ? <>hi</>
+                    : external === true ? (
                     <Button
                     className="ml-auto font-bold text-white bg-black h-7"
                     radius="full"
