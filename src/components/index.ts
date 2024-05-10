@@ -22,6 +22,8 @@ import CreateCommentInput from "./CreateCommentInput/CreateCommentInput";
 import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
 import TweetModal from "./TweetModal/TweetModal";
 import CommentNotification from "./CommentNotifications/CommentNotifications";
+import GamePlay from "./GamePlay/GamePlay";
+import GameResults from "./GameResults/GameResults";
 
 export {
   EditProfile,
@@ -48,4 +50,6 @@ export {
   RecommendedUsers,
   TweetModal,
   CommentNotification,
+  GamePlay,
+  GameResults
 };
