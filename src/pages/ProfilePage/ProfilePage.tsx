@@ -80,14 +80,13 @@ const ProfileDetails = () => {
   );
   //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
   //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
-  const [external, setExternal] = useState(true);
-  const [following, setFollowing] = useState(false);
+  const [external, setExternal] = useState<null | boolean>(null);
   const [userTweets, setUserTweets] = useState<any[]>([]);
   const [userMedia, setUserMedia] = useState<string[]>([]);
   const [userReplies, setUserReplies] = useState<any[]>([]);
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
-  const [buttonText, setButtonText] = useState<string>("Follow");
+  const [buttonText, setButtonText] = useState<string>("");
 
   // const location = useLocation(); 
   // const { pathname } = location;
@@ -108,9 +107,9 @@ const ProfileDetails = () => {
     if (!followingCheck) {
       const result = await followUser(stash.User_Id, userData.User_Id);
       console.log(result);
+      setButtonText("Following");
+      setIsFollowing(true);
     }
-    setButtonText("Following");
-    setIsFollowing(true);
   }
   else
   {
@@ -153,22 +152,23 @@ const ProfileDetails = () => {
     else {
       userDataX = await fetchUserByUsername(username);
       userDataS = await fetchUserData();
-      ext = true;
-      setExternal(true);
-      const following = await checkIfFollowing(stash.User_Id, userData.User_Id);
+      ext = null;
+      setExternal(null);
+      const following = await checkIfFollowing(userDataS.User_Id, userDataX.User_Id);
+      setIsFollowing(following);
+      console.log("Following - " +following)
       if (following) {
-        setFollowing(true);
+        //setFollowing(true);
         setButtonText("Following");
-        setIsFollowing(true);
+        // setIsFollowing(true);
       }
       else {
-        setFollowing(false);
+        //setFollowing(false);
         setButtonText("Follow");
-        setIsFollowing(false);
-
+        // setIsFollowing(false);
       }
       if (stash.User_Id === userData.User_Id) {
-        // setExternal(false);
+        setExternal(false);
         ext = false;
       }
     }
@@ -323,7 +323,8 @@ const ProfileDetails = () => {
                     alt={userData.Name}
                     size="lg"
                   />
-                  {external? (
+                  {external === null ? <></>
+                    : external === false ? (
                     <Button
                     className="ml-auto font-bold text-white bg-black h-7"
                     radius="full"
