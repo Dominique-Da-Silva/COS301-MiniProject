@@ -92,7 +92,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
       fetchTweets().then((tweetNotifications) => {
         // Update tweet notifications state
         setTweetNotifications(tweetNotifications);
-        // console.log(tweetNotifications);
+        console.log(tweetNotifications);
         
       }); 
       const users = await fetchAllProfiles();
@@ -121,14 +121,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
     for (let i = 0; i < (notifications?.length ?? 0); i++) {
       console.log(notifications[i].Type_Id);
     
-      const { Type_Id, Tweet_Id } = notifications[i];
-
       // Find the tweet corresponding to the notification
-      const tweet = tweetNotifications.find((tweet) => tweet.Id === Tweet_Id);
+      const tweet = tweetNotifications.find((tweet) => tweet.Tweet_Id === notifications[i].Tweet_Id);
       notifications[i].avatarUrl = allUsers.find((user) => user.User_Id === notifications[i].Avatar_Url_Id);
       // Update notification with tweet content if found
       if (tweet) {
-        notifications.tweet = tweet.Content;
+        notifications[i].tweet = tweet.Content;
       }
       switch (notifications?.[i]?.Type_Id ?? "") {
         case 1: //New_Follow
