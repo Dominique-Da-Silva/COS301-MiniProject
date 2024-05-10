@@ -1,38 +1,34 @@
 import React from "react";
 import { Avatar } from "@nextui-org/react";
-import { PiStarFourFill } from "react-icons/pi";
-interface PostNotificationProp {
+import { FaUser } from "react-icons/fa6";
+interface FollowNotificationProp {
   id: number;
-  avatarUrl: string;
   description: string;
-  tweet: string;
+  avatarUrl: string;
 }
 
-const PostNotification: React.FC<PostNotificationProp> = ({
-  avatarUrl, 
-  description, 
-  tweet,
+const FollowNotifications: React.FC<FollowNotificationProp> = ({
+  description,
+  avatarUrl,
 }) => {
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
       <div className="flex-col w-auto dark:text-white">
-        <PiStarFourFill color="#774CC5"/>{" "}
+        <FaUser color="#1DA1F2" style={{ marginRight: "10px" }}/>{" "}
       </div>
       <div>
-        <div className="avatar mb-2 mx-2">
+        <div className="avatar">
           <Avatar
             src={avatarUrl} // profile image url to be replaced
             alt="User Avatar"
             className="user-avatar min-w-10 min-h-10"
           />
         </div>
-        {/* Display the tweet */}
-        <p className="text-slate-500 mx-2">{tweet}</p>
       </div>
         {/* Display description */}
-        <p className="font-bold my-1 mx-1">{description}</p>
+        <p className="font-bold my-1 mx-2">{description}</p>
     </div>
   );
 };
 
-export default PostNotification;
+export default FollowNotifications;
