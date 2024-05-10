@@ -46,7 +46,7 @@ const getColor = (percentage: number) => {
 };
 
 const GameResult: React.FC<GameResultProps> = ({ correctCount }) => {
-  const percentage = Math.round((correctCount / 4) * 100); //just manually made this 4 because somewhere totalquestions is not correctly updating
+  const percentage = Math.round((correctCount / 5) * 100); //just manually made this 5 because somewhere totalquestions is not correctly updating
   const { level, text } = getSkillLevel(percentage);
   const emoji = emojiData.find(e => e.name === level);
 

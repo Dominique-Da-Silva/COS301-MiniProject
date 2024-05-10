@@ -9,6 +9,7 @@ import {
   getOldestFollowing,
   getNewestFollowing,
   countFollowing,
+  matchAvatarGame
 } from '@services/index';
 import { getLoggedUserId } from '@services/index';
 import { BeatLoader } from 'react-spinners';
@@ -71,20 +72,20 @@ const GamePlay = () => {
           questionFunction = whoMadeThisTweetGame;
           typeName = 'whoMadeThisTweetGame'; // Set the type name
           break;
-        /*case 1: these 2 games give errors sometimes and i don't know exactly why
+        case 1:
           questionFunction = matchAvatarGame;
           typeName = 'matchAvatarGame'; // Set the type name
           break;
-        case 2:
+       /* case 2:
           questionFunction = whoMadeThisTweetonDateGame;
           typeName = 'whoMadeThisTweetonDateGame'; // Set the type name
           break;
-          */
-        case 1: //these two questions dont actually work correctly because it doesnt recognize the Followed_date in the Followers table.
+         */ 
+        case 2: //these two questions dont actually work correctly because it doesnt recognize the Followed_date in the Followers table.
           questionFunction = getOldestFollowing;
           typeName = 'getOldestFollowing'; // Set the type name
           break;
-        case 2:
+        case 3:
           questionFunction = getNewestFollowing;
           typeName = 'getNewestFollowing'; // Set the type name
           break;
@@ -165,9 +166,10 @@ const GamePlay = () => {
           </div>
           <div className="flex items-center justify-center font-bold">
             {questionData?.candidate_question?.question}<br/>
-            {/**render the content as a tweet format please*/}
-            {type === "matchAvatarGame" && questionData?.candidate_question?.randObj?.Img_Url && <img src={questionData?.candidate_question?.randObj?.Img_Url} className="w-8 h-8 rounded-full mr-2" />}
           </div>
+          <div className="flex items-center justify-center pt-4">
+          {type === "matchAvatarGame" && questionData?.candidate_question?.randObj?.Img_Url && <img src={questionData?.candidate_question?.randObj?.Img_Url} className="w-8 h-8 rounded-full mr-2" />}
+            </div>
           <div className="flex items-center justify-center">
           {questionData?.candidate_question?.randObj?.Content}
           </div>
@@ -176,34 +178,34 @@ const GamePlay = () => {
           </div>
 
           <div className="mt-4 flex flex-col">
-            {questionData?.list_options.map((option: any) => (
-              <div
-                key={option.User_Id}
-                className={`flex items-center space-x-2 border rounded-full p-2 mt-2 mb-4 transition-transform transform-gpu ${selectedOption === option.User_Id && !submitted
-                  ? 'hover:scale-105 cursor-pointer border-sky-500'
-                  : submitted && option.User_Id === questionData.answer_user_id
-                    ? 'bg-white text-green-500 border-green-500'
-                    : submitted && selectedOption === option.User_Id
-                      ? 'bg-red-500 text-white border-white'
-                      : selectedOption !== option.User_Id && !submitted
-                        ? 'hover:scale-105 cursor-pointer border-gray-300'
-                        : ''
-                }`}
-                onClick={() => handleOptionChange(option.User_Id)}
-              >
-                <input
-                  type="radio"
-                  id={option.User_Id}
-                  value={option.User_Id}
-                  checked={selectedOption === option.User_Id}
-                  onChange={() => handleOptionChange(option.User_Id)}
-                  className="mr-2"
-                  disabled={submitted}
-                />
-                {option.Img_Url && <img src={option.Img_Url} alt={option.Username} className="w-8 h-8 rounded-full mr-2" />}
-                <span className="text-base font-medium">{option.Username}</span>
-              </div>
-            ))}
+          {questionData?.list_options.map((option: any) => (
+  <div
+    key={option.User_Id}
+    className={`flex items-center space-x-2 border rounded-full p-2 mt-2 mb-4 transition-transform transform-gpu ${selectedOption === option.User_Id && !submitted
+      ? 'hover:scale-105 cursor-pointer border-sky-500'
+      : submitted && option.User_Id === questionData.answer_user_id
+        ? 'bg-white text-green-500 border-green-500'
+        : submitted && selectedOption === option.User_Id
+          ? 'bg-red-500 text-white border-white'
+          : selectedOption !== option.User_Id && !submitted
+            ? 'hover:scale-105 cursor-pointer border-gray-300'
+            : ''
+    }`}
+    onClick={() => handleOptionChange(option.User_Id)}
+  >
+    <input
+      type="radio"
+      id={option.User_Id}
+      value={option.User_Id}
+      checked={selectedOption === option.User_Id}
+      onChange={() => handleOptionChange(option.User_Id)}
+      className="mr-2"
+      disabled={submitted}
+    />
+    {type !== "matchAvatarGame" && option.Img_Url && <img src={option.Img_Url} alt={option.Username} className="w-8 h-8 rounded-full mr-2" />}
+    <span className="text-base font-medium">{option.Username}</span>
+  </div>
+))}
           </div>
           {feedback !== null && (
             <div className='flex justify-center font-bold'>
@@ -236,7 +238,7 @@ const GamePlay = () => {
         </>
       )}
       {showResult && (
-        <GameResult correctCount={correctCount} totalQuestions={5} />
+        <GameResult correctCount={correctCount} />
       )}
       </>
     )}
