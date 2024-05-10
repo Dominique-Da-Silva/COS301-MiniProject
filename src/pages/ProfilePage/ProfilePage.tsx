@@ -167,10 +167,8 @@ const ProfilePage = () => {
         setButtonText("Follow");
         // setIsFollowing(false);
       }
-      if (stash.User_Id === userData.User_Id) {
-        setExternal(false);
-        ext = false;
-      }
+      setExternal(true);
+      ext = true;
     }
     userDataRef.current = userDataX;
     userStash.current = userDataS;
@@ -319,7 +317,7 @@ const ProfilePage = () => {
                     alt={userData.Name}
                     size="lg"
                   />
-                  {external === null ? <>hi</>
+                  {external === null ? <></>
                     : external === true ? (
                     <Button
                     className="ml-auto font-bold text-white bg-black h-7"
