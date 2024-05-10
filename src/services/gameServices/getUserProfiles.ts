@@ -1,7 +1,7 @@
 import { supabase } from "@config/supabase";
 
 export const getUserProfiles = async(ids_to_fetch: number[]) => {
-    let users = [];
+    const users = [];
 
     const {data: res, error: err} = await supabase
     .from("Profile")

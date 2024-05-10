@@ -2,7 +2,7 @@ import {supabase} from '@config/supabase';
 import { getUserData, getUserProfiles, pickRandomIdsFromFollowingList } from '@services/index';
 
 export const whoMadeThisTweetGame = async () => {
-    var randtweet = await getRandomTweet();
+    const randtweet = await getRandomTweet();
     //check errors
     if(typeof randtweet === "string"){
         return randtweet;

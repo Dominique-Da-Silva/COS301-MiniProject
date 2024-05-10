@@ -149,11 +149,11 @@ const GamePlay = () => {
     <div className={shakeScreen ? 'shake-screen w-full h-screen flex flex-col px-8' : 'w-full h-screen flex flex-col px-8'}>
       {isLoading ? (
       <div className="flex justify-center items-center h-full">
-        <BeatLoader color="#1DA1F2" /> {/* Display loading spinner when data is loading */}
+        <BeatLoader color="#1DA1F2" /> 
       </div>
     ) : (
       <> 
-      {feedback === 'correct' && <Confetti />}
+      {feedback === 'correct' && <Confetti width={window.outerWidth} height={window.outerHeight}/>}
       {!showResult && questionData && (
         <>
           <div className='flex justify-center'>

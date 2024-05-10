@@ -1,15 +1,13 @@
-import { Nav } from "@components/index";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Link } from "@nextui-org/react";
 import { GamePlay } from "@components/index";
-import { useNavigate } from "react-router-dom";
 import { FaTwitter } from 'react-icons/fa';
-import { isUserLoggedIn } from "@services/index";
+
 
 interface TwiviaProps { }
 
 const Twivia: React.FC<TwiviaProps> = () => {
-   const navigate = useNavigate();
+  
 
   const [showGamePlay, setShowGamePlay] = useState(false);
 

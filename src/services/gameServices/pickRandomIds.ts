@@ -14,7 +14,7 @@ export const pickRandomIdsFromFollowingList = async(chosen_answer_id: number) =>
         return error.message;
     }
 
-    let ids_to_fetch: number[] = [];
+    const ids_to_fetch: number[] = [];
     let count = 0;
     const maxCount = 4;
     for(let i = 0; i < data.length; i++){
