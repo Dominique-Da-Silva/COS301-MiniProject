@@ -1,6 +1,6 @@
 import { supabase } from '@config/supabase';
 
-export async function getBookmarkedTweets(userId: number): Promise<any[]> {
+export async function getBookmarkedTweets(userId: number){
     try {
         // Fetch all tweets (ids) bookmarked by the user
         const { data: bookmarkedTweets, error } = await supabase
@@ -40,7 +40,8 @@ export async function getBookmarkedTweets(userId: number): Promise<any[]> {
             Comments(
               count()
             )`)
-            .in('Tweet_Id', tweetIds);
+            .in('Tweet_Id', tweetIds)
+            .order('Created_at', { ascending: false });
 
         if (tweetsError) {
             //console.error('Error fetching details of bookmarked tweets.');
@@ -54,7 +55,7 @@ export async function getBookmarkedTweets(userId: number): Promise<any[]> {
 
         return tweetsData;
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching bookmarked tweets:', error.message);
     }
 }

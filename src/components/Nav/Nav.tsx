@@ -44,10 +44,10 @@ const Nav = () => {
     const fetchProfile = async () => {
       try {
         const userId = await getLoggedUserId();
-        if (userId === null) return;
+        if (!userId) return;
         const profileData = await fetchProfileDetails(userId);
         setProfileDetails(profileData);
-        console.log('Profile Data:', profileData); // Log the profile data
+        // console.log('Profile Data:', profileData); // Log the profile data
       } catch (error) {
         console.error('Error fetching profile details:', error);
       }
@@ -86,14 +86,16 @@ const Nav = () => {
     const fetchUserData = async () => {
 
       //option 2
-      console.log('Fetching ID');
+      // console.log('Fetching ID');
       const userId = await getLoggedUserId();
-      console.log('ID: ', userId);
+      // console.log('ID: ', userId);
       if (userId) {
         try {
           // Fetch user data
           const userData = await fetchUsers();
-
+          if(!userData){
+            throw "userData array is undefined";
+          }
           // Find the user object with the matching User_Id
           const user = userData.find(user => user.User_Id === userId);
 

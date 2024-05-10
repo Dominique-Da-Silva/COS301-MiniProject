@@ -2,16 +2,14 @@ import { useState, useEffect } from 'react';
 // import { mockTrending } from '../../mockData/mockData';
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import { getTrendingTopics } from '@services/index';
+// import { useNavigate } from 'react-router-dom'; 
 
 
 interface Topic {
-    Trending_Id: string;
-    TagName: string;
-    NumPosts: number;
-  }
-
- interface ExploreProps {}
-
+  Tag_Id: string;
+  Tag_Name: string;
+  tweet_count: number;
+}
 
 const formatCount = (count: number): string | number => {
   if (count < 1000) {
@@ -27,15 +25,19 @@ const formatCount = (count: number): string | number => {
 
 
     
-const TrendingList: React.FC<ExploreProps> = () => {
+const TrendingList: React.FC<ExploreProps> = ({ onNavigate }) => {
   const [topics, setTopics] = useState<any[]>([]);
+  // const navigate = useNavigate();
+  const handleTopicClick = (topicName: string) => {
+    onNavigate(`/explore/${topicName}`); // Call the passed navigation function
+  };
 
   useEffect(() => {
     const fetchTagsData = async () => {
       try {
         const tagsData = await getTrendingTopics();
         setTopics(tagsData);
-        console.log(tagsData);
+        // console.log(tagsData);
       } catch (error) {
         console.error('Error fetching tags:', error);
       }
@@ -43,25 +45,14 @@ const TrendingList: React.FC<ExploreProps> = () => {
     fetchTagsData();
   }, []);
 
-//   useEffect(() => {
-//     const fetchTopics = async () => {
-//       try {
-//         const tagsData = await getTrendingTopics();
-//         setTags(tagsData);
-//         // console.log(tagsData);
-//       } catch (error) {
-//         console.error('Error fetching tags:', error);
-//       }
-//     }
-
-//     fetchTopics();
-//   },[]);
-//     console.log(Tags);
+  // const handleTopicClick = (topicName: string) => {
+  //   navigate(`/explore/${topicName}`);
+  // };
 
   return (
     <div>
         {topics.slice(0, 5).map((topic: Topic) => (
-        <div key={topic.Tag_Id} className="items-center justify-between p-3 hover:bg-gray-100 dark:bg-neutral-900">
+        <div key={topic.Tag_Id} className="tagItem items-center cursor-pointer justify-between p-3 hover:bg-gray-100 dark:bg-neutral-900" onClick={() => handleTopicClick(topic.Tag_Name)}>
           <div className="flex justify-between items-center">
             <h3 className="text-[16px] font-medium">#{topic.Tag_Name}</h3>
             <div className="h-10 w-10 flex justify-center rounded-full align-middle items-center hover:text-sky-600 hover:bg-blue-100 p-0 m-0 cursor-pointer">
