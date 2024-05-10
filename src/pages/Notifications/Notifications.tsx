@@ -154,12 +154,9 @@ const Notifications: React.FC<NotificationsProps> = () => {
   // need to add tabs: Likes, Follows, Comments, Retweets, Posts
   // Need to modify the layout of data being passed for different types of tweets
   return (
-    <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-          <Nav />
-        </div>
-        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800">
+   
+        
+        <div className="main-content m-0 p-0 border dark:border-neutral-800">
           <div className="flex flex-col w-full m-0 p-0 justify-center">
             {/* Notification Header */}
             <div className="flex justify-between items-center p-2 dark:text-white">
@@ -380,15 +377,8 @@ const Notifications: React.FC<NotificationsProps> = () => {
             </div>
           </div>
         </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-          <div className="mb-3">
-            <Search />
-          </div>
-          <TrendingTopics />
-          <WhoToFollow users={[]} />
-        </div>
-      </div>
-    </div>
+        
+     
     
   );
 };
