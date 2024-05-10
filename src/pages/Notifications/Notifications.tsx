@@ -92,16 +92,16 @@ const Notifications: React.FC<NotificationsProps> = () => {
       fetchTweets().then((tweetNotifications) => {
         // Update tweet notifications state
         setTweetNotifications(tweetNotifications);
-        console.log(tweetNotifications);
+        // console.log(tweetNotifications);
         
       }); 
       const users = await fetchAllProfiles();
       setAllUsers(users);
       const comments = await getAllComments();
       setAllComments(comments);
-      console.log(userData?.user_metadata.user_id);
+      // console.log(userData?.user_metadata.user_id);
       const fetchedNotifications = await getUserNotifications(userData?.user_metadata.user_id);
-      console.log(fetchedNotifications);
+      // console.log(fetchedNotifications);
       setNotifications(fetchedNotifications);
       
       
@@ -117,9 +117,9 @@ const Notifications: React.FC<NotificationsProps> = () => {
   useEffect(() => {
    
     // Processing notifications when notifications state changes
-    console.log(notifications);
+    // console.log(notifications);
     for (let i = 0; i < (notifications?.length ?? 0); i++) {
-      console.log(notifications[i].Type_Id);
+      // console.log(notifications[i].Type_Id);
     
       // Find the tweet corresponding to the notification
       const tweet = tweetNotifications.find((tweet) => tweet.Tweet_Id === notifications[i].Tweet_Id);
@@ -149,7 +149,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
           break;
       }
     }
-    console.log(notifications);
+    // console.log(notifications);
   }, [notifications, setFollowNotifications, setPostNotifications, setCommentNotifications, setLikedNotifications, setRetweetNotifications]);
   // need to add tabs: Likes, Follows, Comments, Retweets, Posts
   // Need to modify the layout of data being passed for different types of tweets
