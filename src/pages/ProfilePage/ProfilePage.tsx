@@ -271,6 +271,8 @@ const ProfileDetails = () => {
         //get user data
         await getUD(); 
         await profileSub(); 
+        await getTweets();
+        await getUsers();
         await getCurrUserTweets();
       }
     }
@@ -428,7 +430,7 @@ const ProfileDetails = () => {
                             const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
                           
                             if (!originalTweet) {
-                              window.location.reload();
+                              console.log("original tweet not found");
                             } else {
                               const _likes = originalTweet.Likes[0].count || 0;
                               const _saves = originalTweet.Saves[0].count || 0;
