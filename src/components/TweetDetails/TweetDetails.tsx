@@ -182,175 +182,159 @@ const TweetDetailsPage = () => {
   // console.log(tweetDetails);
   
   return (
-    <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-          <Nav />
-        </div>
-        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
-          <div className="flex flex-col m-0 p-0 justify-center">
-            <h1 className="font-bold text-xl mb-4 mt-4 flex items-center">
-              <Link to="/home">
-                <AiOutlineArrowLeft className='w-4 h-4 mr-2 ml-4'/> 
-              </Link>
-              <span className='ml-4'>Post</span>
-            </h1>
-            <div>
-              {tweetDetails ? (
-                <>
-                  <div className="post flex-col w-full mt-2">
-                    <div className="user-info flex items-center">
-                      <Avatar
-                        src={tweetDetails?.profile_img}
-                        alt="User Avatar"
-                        className="user-avatar min-w-12 min-h-12 ml-2"
-                      />
-                      <div>
-                        <p>
-                          <NavLink
-                            to={{
-                              pathname: `/profile/${tweetDetails.username}`
-                            }}
-                            className="text-slate-700 p-0 m-0 font-bold ml-2"
-                          >
-                            {tweetDetails?.name}
-                          </NavLink>
-                        </p>
-                        <p>
-                          <NavLink
-                            to={{
-                              pathname: `/profile/${tweetDetails.username}`
-                            }}
-                            className="text-slate-700 p-0 m-0 dark:text-gray-400 ml-2"
-                          >
-                            @{tweetDetails?.username}
-                          </NavLink>
-                        </p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="p-3 m-0 dark:text-white">{tweetDetails.content}</p>
-                      {tweetDetails.img_url && (
-                        <div className='p-4'>
-                          <Image
-                            src={tweetDetails.img_url}
-                            alt="Tweet Image"
-                            className="tweet-image w-auto h-full"
-                            style={{ borderRadius: "10px" }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                    <span className="text-gray-500 text-sm ml-2">
-                        {formatCommentTimestamp(tweetDetails?.created_at)}
-                    </span>
-                    <hr className='mt-4 mb-3'></hr>
-                  </div>
-                </>
-              ) : (
-                <p>Loading tweet details...</p>
-              )}
-            </div>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-              <ModalContent>
-                {() => (
-                  <ModalBody>
-                    <CreateComment
-                      tweet_id={tweetDetails.tweetid}
-                      user_id={currentUser}
-                      name={tweetDetails.name}
-                      username={tweetDetails.username}
-                      text={tweetDetails.content}
-                      imageUrl={tweetDetails.imageUrl}
-                      profileimageurl={tweetDetails.profile_img}
-                      timeDisplay={tweetDetails.timeDisplay}
-                      userimg={currentuserimg}
-                    ></CreateComment>
-                  </ModalBody>
-                )}
-              </ModalContent>
-            </Modal>
-            <div className="tweet-actions flex flex-row justify-around col text-slate-700">
-              <span
-                className={`action flex items-center cursor-pointer z-3 ${
-                  commentColor ? "text-blue-500" : "hover:text-blue-500"
-                }`}
-                onClick={handleCommentClick}
-              >
-                {commentColor ? <FaComment className="w-4 h-4" /> : <FaRegComment className="w-4 h-4" />} &nbsp;{tweetDetails?.comments}
-              </span>
-              <span
-                className={`action flex items-center cursor-pointer ${
-                  retweetColor ? "text-green-500" : "hover:text-green-500"
-                }`}
-                onClick={handleRetweetClick}
-              >
-                {retweetColor ? <LuRepeat2 className="w-4 h-4" /> : <LuRepeat2 className="w-4 h-4" />} &nbsp;{tweetDetails?.retweets}
-              </span>
-              <span
-                className={`action flex items-center cursor-pointer ${
-                  likeColor ? "text-red-500" : "hover:text-red-500"
-                }`}
-                onClick={handleLikeClick}
-              >
-                {likeColor ? <PiHeartFill className="w-4 h-4" /> : <PiHeartBold className="w-4 h-4" />} &nbsp;{tweetDetails?.likes}
-              </span>
-              <span
-                className={`action flex items-center cursor-pointer ${
-                  bookmarkColor ? "text-orange-500" : "hover:text-orange-500"
-                }`}
-                onClick={handleBookmarkClick}
-              >
-                {bookmarkColor ? (
-                  <FaBookmark className="w-4 h-4" />
-                ) : (
-                  <FaRegBookmark className="w-4 h-4" />
-                )}{" "}
-                &nbsp;{tweetDetails?.saves}
-              </span>
-            </div>
-            <hr className='mt-4 mb-3'></hr>
-          <CreateCommentInput username={tweetDetails?.username} tweet_id={tweetDetails?.tweetid} user_id={currentUser} ></CreateCommentInput>
-            <hr className='mb-3'></hr>
-            <div>
-              <p className="p-3 m-0 dark:text-white">
-              {comments.map((comment) => {
-                // console.log(comment);
-                return(
-                  <div key={comment.Comment_Id}>
-                  <div className="flex items-center mb-4">
-                    <Avatar
-                      // @ts-expect-error ProfileArray
-                      src={comment?.User.Profile[0]?.Img_Url}
-                      alt={comment?.User?.Username}
-                      className="user-avatar"
-                      style={{ width: '32px', height: '32px' }}
-                    />
-                    <p className="font-bold ml-2">{comment?.User?.Name}</p>
-                    <p className="ml-2">@{comment?.User?.Username}</p>
-                    <p className="ml-2">
-                    · {comment?.User?.Created_at ? getTimeDisplay(comment.Created_at) : ''}
+      <div className="flex flex-col m-0 p-0 justify-center">
+        <h1 className="font-bold text-xl mb-4 mt-4 flex items-center">
+          <Link to="/home">
+            <AiOutlineArrowLeft className='w-4 h-4 mr-2 ml-4'/> 
+          </Link>
+          <span className='ml-4'>Post</span>
+        </h1>
+        <div>
+          {tweetDetails ? (
+            <>
+              <div className="post flex-col w-full mt-2">
+                <div className="user-info flex items-center">
+                  <Avatar
+                    src={tweetDetails?.profile_img}
+                    alt="User Avatar"
+                    className="user-avatar min-w-12 min-h-12 ml-2"
+                  />
+                  <div>
+                    <p>
+                      <NavLink
+                        to={{
+                          pathname: `/profile/${tweetDetails.username}`
+                        }}
+                        className="text-slate-700 p-0 m-0 font-bold ml-2"
+                      >
+                        {tweetDetails?.name}
+                      </NavLink>
+                    </p>
+                    <p>
+                      <NavLink
+                        to={{
+                          pathname: `/profile/${tweetDetails.username}`
+                        }}
+                        className="text-slate-700 p-0 m-0 dark:text-gray-400 ml-2"
+                      >
+                        @{tweetDetails?.username}
+                      </NavLink>
                     </p>
                   </div>
-                  <div className='ml-10 -mt-2'>
-                    <p>{comment.Content}</p>
-                  </div>
-                  <hr className='mt-4 mb-3'></hr>
                 </div>
-              )})}
-              </p>
-            </div>
-          </div>
+                <div>
+                  <p className="p-3 m-0 dark:text-white">{tweetDetails.content}</p>
+                  {tweetDetails.img_url && (
+                    <div className='p-4'>
+                      <Image
+                        src={tweetDetails.img_url}
+                        alt="Tweet Image"
+                        className="tweet-image w-auto h-full"
+                        style={{ borderRadius: "10px" }}
+                      />
+                    </div>
+                  )}
+                </div>
+                <span className="text-gray-500 text-sm ml-2">
+                    {formatCommentTimestamp(tweetDetails?.created_at)}
+                </span>
+                <hr className='mt-4 mb-3'></hr>
+              </div>
+            </>
+          ) : (
+            <p>Loading tweet details...</p>
+          )}
         </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
-          <div className="mb-3">
-            <Search />
-          </div>
-          <TrendingTopics />
-          <WhoToFollow users={[]} />
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <ModalContent>
+            {() => (
+              <ModalBody>
+                <CreateComment
+                  tweet_id={tweetDetails.tweetid}
+                  user_id={currentUser}
+                  name={tweetDetails.name}
+                  username={tweetDetails.username}
+                  text={tweetDetails.content}
+                  imageUrl={tweetDetails.imageUrl}
+                  profileimageurl={tweetDetails.profile_img}
+                  timeDisplay={tweetDetails.timeDisplay}
+                  userimg={currentuserimg}
+                ></CreateComment>
+              </ModalBody>
+            )}
+          </ModalContent>
+        </Modal>
+        <div className="tweet-actions flex flex-row justify-around col text-slate-700">
+          <span
+            className={`action flex items-center cursor-pointer z-3 ${
+              commentColor ? "text-blue-500" : "hover:text-blue-500"
+            }`}
+            onClick={handleCommentClick}
+          >
+            {commentColor ? <FaComment className="w-4 h-4" /> : <FaRegComment className="w-4 h-4" />} &nbsp;{tweetDetails?.comments}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              retweetColor ? "text-green-500" : "hover:text-green-500"
+            }`}
+            onClick={handleRetweetClick}
+          >
+            {retweetColor ? <LuRepeat2 className="w-4 h-4" /> : <LuRepeat2 className="w-4 h-4" />} &nbsp;{tweetDetails?.retweets}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              likeColor ? "text-red-500" : "hover:text-red-500"
+            }`}
+            onClick={handleLikeClick}
+          >
+            {likeColor ? <PiHeartFill className="w-4 h-4" /> : <PiHeartBold className="w-4 h-4" />} &nbsp;{tweetDetails?.likes}
+          </span>
+          <span
+            className={`action flex items-center cursor-pointer ${
+              bookmarkColor ? "text-orange-500" : "hover:text-orange-500"
+            }`}
+            onClick={handleBookmarkClick}
+          >
+            {bookmarkColor ? (
+              <FaBookmark className="w-4 h-4" />
+            ) : (
+              <FaRegBookmark className="w-4 h-4" />
+            )}{" "}
+            &nbsp;{tweetDetails?.saves}
+          </span>
+        </div>
+        <hr className='mt-4 mb-3'></hr>
+      <CreateCommentInput username={tweetDetails?.username} tweet_id={tweetDetails?.tweetid} user_id={currentUser} ></CreateCommentInput>
+        <hr className='mb-3'></hr>
+        <div>
+          <p className="p-3 m-0 dark:text-white">
+          {comments.map((comment) => {
+            // console.log(comment);
+            return(
+              <div key={comment.Comment_Id}>
+              <div className="flex items-center mb-4">
+                <Avatar
+                  // @ts-expect-error ProfileArray
+                  src={comment?.User.Profile[0]?.Img_Url}
+                  alt={comment?.User?.Username}
+                  className="user-avatar"
+                  style={{ width: '32px', height: '32px' }}
+                />
+                <p className="font-bold ml-2">{comment?.User?.Name}</p>
+                <p className="ml-2">@{comment?.User?.Username}</p>
+                <p className="ml-2">
+                · {comment?.User?.Created_at ? getTimeDisplay(comment.Created_at) : ''}
+                </p>
+              </div>
+              <div className='ml-10 -mt-2'>
+                <p>{comment.Content}</p>
+              </div>
+              <hr className='mt-4 mb-3'></hr>
+            </div>
+          )})}
+          </p>
         </div>
       </div>
-    </div>
   );
   
 };

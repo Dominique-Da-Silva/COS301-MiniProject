@@ -124,247 +124,230 @@ const Notifications: React.FC<NotificationsProps> = () => {
   // need to add tabs: Likes, Follows, Comments, Retweets, Posts
   // Need to modify the layout of data being passed for different types of tweets
   return (
-    <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-          <Nav />
+      <div className="flex flex-col w-full m-0 p-0 justify-center">
+        {/* Notification Header */}
+        <div className="flex justify-between items-center p-2 dark:text-white">
+          <h1 className="text-2xl font-bold">Notifications</h1>
+          <Button >
+            <FiSettings size={18} />
+          </Button>
         </div>
-        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800">
-          <div className="flex flex-col w-full m-0 p-0 justify-center">
-            {/* Notification Header */}
-            <div className="flex justify-between items-center p-2 dark:text-white">
-              <h1 className="text-2xl font-bold">Notifications</h1>
-              <Button >
-                <FiSettings size={18} />
-              </Button>
+        {/* Notifications Tabs */} 
+        {/* // console.log(followNotifications);
+            // console.log(postnotifications);
+            // console.log(commentNotifications);
+            // console.log(likedNotfications);
+            // console.log(retweetNotifications); */}
+        <div className="flex w-full justify-around border-b border-gray-200 dark:border-neutral-800 items-center">
+          <div className="w-full">
+            <div className="flex ">
+              <button
+                className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                  activeTab === "all" ? "text-blue-500" : "text-gray-500"
+                }`}
+                onClick={() => handleTabClick("all")}
+              >
+                All
+              </button>
+              <button
+                className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                  activeTab === "verified" ? "text-blue-500" : "text-gray-500"
+                }`}
+                onClick={() => handleTabClick("follows")}
+              >
+                Follows
+              </button>
+              <button
+                className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                  activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                }`}
+                onClick={() => handleTabClick("posts")}
+              >
+                Posts
+              </button>
+              <button
+                className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                  activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                }`}
+                onClick={() => handleTabClick("comments")}
+              >
+                Comments
+              </button>
+              <button
+                className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                  activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                }`}
+                onClick={() => handleTabClick("likes")}
+              >
+                Likes
+              </button>
+              <button
+                className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
+                  activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                }`}
+                onClick={() => handleTabClick("retweets")}
+              >
+                Retweets
+              </button>
             </div>
-            {/* Notifications Tabs */} 
-            {/* // console.log(followNotifications);
-                // console.log(postnotifications);
-                // console.log(commentNotifications);
-                // console.log(likedNotfications);
-                // console.log(retweetNotifications); */}
-            <div className="flex w-full justify-around border-b border-gray-200 dark:border-neutral-800 items-center">
-              <div className="w-full">
-                <div className="flex ">
-                  <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "all" ? "text-blue-500" : "text-gray-500"
-                    }`}
-                    onClick={() => handleTabClick("all")}
-                  >
-                    All
-                  </button>
-                  <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "verified" ? "text-blue-500" : "text-gray-500"
-                    }`}
-                    onClick={() => handleTabClick("follows")}
-                  >
-                    Follows
-                  </button>
-                  <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
-                    }`}
-                    onClick={() => handleTabClick("posts")}
-                  >
-                    Posts
-                  </button>
-                  <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
-                    }`}
-                    onClick={() => handleTabClick("comments")}
-                  >
-                    Comments
-                  </button>
-                  <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
-                    }`}
-                    onClick={() => handleTabClick("likes")}
-                  >
-                    Likes
-                  </button>
-                  <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
-                    }`}
-                    onClick={() => handleTabClick("retweets")}
-                  >
-                    Retweets
-                  </button>
-                </div>
+            <div>
+              {activeTab === "all" && (
                 <div>
-                  {activeTab === "all" && (
-                    <div>
-                      {notifications.length === 0 ? ( //{notifications.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          You have no notifications
-                        </p>
-                      ) : (
-                        notifications
-                          .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
-                          .map((notification, index) => (
-                            <PostNotification
-                              key={index}
-                              id={index}
-                              description={notification.Content}
-                              avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
-                            />
-                          ))
-                      )}
-                      {/* {" "}
-                      {likedNotfications.map((notification, index) => (
-                        <LikeNotification
-                          key={index}
-                          id={index}
-                          description={notification.message}
-                          tweet={notification.tweet}
-                          avatarUrl={notification.avatarUrl}
-                        />
-                      ))}{" "}
-                      {" "}
-                      {mentions.map((mention, index) => (
-                        <Mention
-                          key={index}
-                          id={index}
-                          name={mention.Name}
-                          username={mention.Username}
-                          text={mention.Content}
-                          imageUrl={mention.avatarUrl}
-                          replyToUsername={mention.MentionedUser}
-                          saves={1000}
-                          comments={100}
-                          retweets={100}
-                          likes={100}
-                          timeDisplay={getTimeDisplay(mention.Created_at)}
-                        />
-                      ))} */}
-                    </div>
-                  )}
-                  {activeTab === "follows" && (
-                    <div>
-                      {followNotifications.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          You have no notifications
-                        </p>
-                      ) : (
-                        followNotifications
-                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
-                        .map((notification, index) => (
-                          <PostNotification
-                              key={index}
-                              id={index}
-                              description={notification.Content}
-                              avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
-                            />
-                        ))
-                      )}
-                    </div>
-                  )}
-                  {activeTab === "posts" && (
-                    <div>
-                     {postNotifications.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          You have no notifications
-                        </p>
-                      ) : (
-                        postNotifications
-                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
-                        .map((notification, index) => (
-                          <PostNotification
-                              key={index}
-                              id={index}
-                              description={notification.Content}
-                              avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
-                            />
-                        ))
-                      )}
-                    </div>
-                  )}
-                  {activeTab === "comments" && (
-                    <div>
-                      {commentNotifications.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          You have no notifications
-                        </p>
-                      ) : (
-                        commentNotifications
-                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
-                        .map((notification, index) => (
-                          <PostNotification
-                              key={index}
-                              id={index}
-                              description={notification.Content}
-                              avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
-                            />
-                        ))
-                      )}
-                    </div>
-                  )}
-                  {activeTab === "likes" && (
-                    <div>
-                      {likedNotifications.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          You have no notifications
-                        </p>
-                      ) : (
-                        likedNotifications
-                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
-                        .map((notification, index) => (
-                          <PostNotification
+                  {notifications.length === 0 ? ( //{notifications.length === 0 ? (
+                    <p className="text-center text-gray-500">
+                      You have no notifications
+                    </p>
+                  ) : (
+                    notifications
+                      .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                      .map((notification, index) => (
+                        <PostNotification
                           key={index}
                           id={index}
                           description={notification.Content}
                           avatarUrl={notification.avatarUrl}
                           dateCreated={getTimeDisplay(notification.Created_at)}
                         />
-                        ))
-                      )}
-                    </div>
+                      ))
                   )}
-                  {activeTab === "retweets" && (
-                    <div>
-                      {retweetNotifications.length === 0 ? (
-                        <p className="text-center text-gray-500">
-                          You have no notifications
-                        </p>
-                      ) : (
-                        retweetNotifications
-                        .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
-                        .map((notification, index) => (
-                          <PostNotification
+                  {/* {" "}
+                  {likedNotfications.map((notification, index) => (
+                    <LikeNotification
+                      key={index}
+                      id={index}
+                      description={notification.message}
+                      tweet={notification.tweet}
+                      avatarUrl={notification.avatarUrl}
+                    />
+                  ))}{" "}
+                  {" "}
+                  {mentions.map((mention, index) => (
+                    <Mention
+                      key={index}
+                      id={index}
+                      name={mention.Name}
+                      username={mention.Username}
+                      text={mention.Content}
+                      imageUrl={mention.avatarUrl}
+                      replyToUsername={mention.MentionedUser}
+                      saves={1000}
+                      comments={100}
+                      retweets={100}
+                      likes={100}
+                      timeDisplay={getTimeDisplay(mention.Created_at)}
+                    />
+                  ))} */}
+                </div>
+              )}
+              {activeTab === "follows" && (
+                <div>
+                  {followNotifications.length === 0 ? (
+                    <p className="text-center text-gray-500">
+                      You have no notifications
+                    </p>
+                  ) : (
+                    followNotifications
+                    .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                    .map((notification, index) => (
+                      <PostNotification
                           key={index}
                           id={index}
                           description={notification.Content}
                           avatarUrl={notification.avatarUrl}
                           dateCreated={getTimeDisplay(notification.Created_at)}
                         />
-                        ))
-                      )}
-                    </div>
+                    ))
                   )}
                 </div>
-              </div>
+              )}
+              {activeTab === "posts" && (
+                <div>
+                  {postNotifications.length === 0 ? (
+                    <p className="text-center text-gray-500">
+                      You have no notifications
+                    </p>
+                  ) : (
+                    postNotifications
+                    .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                    .map((notification, index) => (
+                      <PostNotification
+                          key={index}
+                          id={index}
+                          description={notification.Content}
+                          avatarUrl={notification.avatarUrl}
+                          dateCreated={getTimeDisplay(notification.Created_at)}
+                        />
+                    ))
+                  )}
+                </div>
+              )}
+              {activeTab === "comments" && (
+                <div>
+                  {commentNotifications.length === 0 ? (
+                    <p className="text-center text-gray-500">
+                      You have no notifications
+                    </p>
+                  ) : (
+                    commentNotifications
+                    .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                    .map((notification, index) => (
+                      <PostNotification
+                          key={index}
+                          id={index}
+                          description={notification.Content}
+                          avatarUrl={notification.avatarUrl}
+                          dateCreated={getTimeDisplay(notification.Created_at)}
+                        />
+                    ))
+                  )}
+                </div>
+              )}
+              {activeTab === "likes" && (
+                <div>
+                  {likedNotifications.length === 0 ? (
+                    <p className="text-center text-gray-500">
+                      You have no notifications
+                    </p>
+                  ) : (
+                    likedNotifications
+                    .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                    .map((notification, index) => (
+                      <PostNotification
+                      key={index}
+                      id={index}
+                      description={notification.Content}
+                      avatarUrl={notification.avatarUrl}
+                      dateCreated={getTimeDisplay(notification.Created_at)}
+                    />
+                    ))
+                  )}
+                </div>
+              )}
+              {activeTab === "retweets" && (
+                <div>
+                  {retweetNotifications.length === 0 ? (
+                    <p className="text-center text-gray-500">
+                      You have no notifications
+                    </p>
+                  ) : (
+                    retweetNotifications
+                    .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
+                    .map((notification, index) => (
+                      <PostNotification
+                      key={index}
+                      id={index}
+                      description={notification.Content}
+                      avatarUrl={notification.avatarUrl}
+                      dateCreated={getTimeDisplay(notification.Created_at)}
+                    />
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           </div>
-        </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-          <div className="mb-3">
-            <Search />
-          </div>
-          <TrendingTopics />
-          <WhoToFollow users={[]} />
         </div>
       </div>
-    </div>
-    
   );
 };
 
