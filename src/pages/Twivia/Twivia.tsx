@@ -1,6 +1,6 @@
 import { Nav } from "@components/index";
 import React, { useEffect, useState } from "react";
-import { Card, Button, Link } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { TrendingTopics, WhoToFollow, Search, GamePlay } from "@components/index";
 import { useNavigate } from "react-router-dom";
 import { FaTwitter } from 'react-icons/fa';

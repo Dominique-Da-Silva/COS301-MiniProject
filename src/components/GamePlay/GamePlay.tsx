@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Button, Link } from "@nextui-org/react";
+import { useState, useEffect } from 'react';
+import { Button, Link } from "@nextui-org/react";
 import { FaTwitter } from 'react-icons/fa';
 import GameResult from '@components/GameResults/GameResults';
 import Confetti from 'react-confetti';
 import './shake.css';
 import {
   whoMadeThisTweetGame,
-  matchAvatarGame,
-  whoMadeThisTweetonDateGame,
   getOldestFollowing,
   getNewestFollowing,
   countFollowing,
 } from '@services/index';
 import { getLoggedUserId } from '@services/index';
-import { c } from '@vitest/runner/dist/tasks-_kyNRBhz.js';
 import { BeatLoader } from 'react-spinners';
 
 const GamePlay = () => {

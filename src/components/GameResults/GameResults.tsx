@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card, Button, Link } from "@nextui-org/react";
+import { Button, Link } from "@nextui-org/react";
 import { FaTwitter } from 'react-icons/fa';
 
 interface GameResultProps {
   correctCount: number;
-  totalQuestions: number;
 }
 
 interface EmojiData {
@@ -46,7 +45,7 @@ const getColor = (percentage: number) => {
   return 'red';
 };
 
-const GameResult: React.FC<GameResultProps> = ({ correctCount, totalQuestions }) => {
+const GameResult: React.FC<GameResultProps> = ({ correctCount }) => {
   const percentage = Math.round((correctCount / 4) * 100); //just manually made this 4 because somewhere totalquestions is not correctly updating
   const { level, text } = getSkillLevel(percentage);
   const emoji = emojiData.find(e => e.name === level);
