@@ -11,7 +11,7 @@ import { getUserComments } from "@services/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams, useLocation } from "react-router-dom";
 import { Search } from "@components/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
@@ -89,7 +89,9 @@ const ProfileDetails = () => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [buttonText, setButtonText] = useState<string>("Follow");
 
-  // const location = useLocation();
+  const location = useLocation(); 
+  const { pathname } = location;
+
   const { username } = useParams<{ username: string }>();
   const userDataRef = useRef(null);
   const userStash = useRef(null);
@@ -279,7 +281,7 @@ const ProfileDetails = () => {
 
     checkUser();
 
-  }, [])
+  }, [pathname, getCurrUserTweets, getUD, navigate])
 
   const handleTabClick = (tabName: string) => {
     if (tabName === "tweets") {
