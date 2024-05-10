@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings } from '@pages/index';
 import { EditProfile, TweetDetails} from '@components/index';
+import { AppLayout } from '@layouts/index';
 import "./styles/tailwind.css";
 import { useEffect, useRef, useState  } from 'react';
 import { supabase } from '@config/index';
@@ -59,16 +60,22 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/:username" element={<ProfilePage />} />
         <Route path="/editProfile" element={<EditProfile />} />
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/tweet/:tweetId" element={<TweetDetails />} />
         <Route path="/explore/:searchVal" element={<Explore />} />
+        <Route path="/*" element={
+          <AppLayout>
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/:username" element={<ProfilePage />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/bookmarks" element={<Bookmarks />} />
+            <Route path="/tweet/:tweetId" element={<TweetDetails />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </AppLayout>}>
+        </Route>
       </Routes>
     </Router>
     <Toaster />
