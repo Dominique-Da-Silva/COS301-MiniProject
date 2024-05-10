@@ -89,8 +89,8 @@ const ProfileDetails = () => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [buttonText, setButtonText] = useState<string>("Follow");
 
-  const location = useLocation(); 
-  const { pathname } = location;
+  // const location = useLocation(); 
+  // const { pathname } = location;
 
   const { username } = useParams<{ username: string }>();
   const userDataRef = useRef(null);
@@ -281,7 +281,7 @@ const ProfileDetails = () => {
 
     checkUser();
 
-  }, [pathname, getCurrUserTweets, getUD, navigate])
+  }, [])
 
   const handleTabClick = (tabName: string) => {
     if (tabName === "tweets") {
