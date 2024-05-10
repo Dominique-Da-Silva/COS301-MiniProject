@@ -11,7 +11,7 @@ export const getOldestFollowing = async () => {
     .from('Followers')
     .select('Followed_Id')
     .eq('Following_Id', User.user_metadata.user_id)
-    //.order('Follow_date', {ascending: true})
+    .order('Follow_date', {ascending: true})
     .limit(1);
 
     if (error) {
@@ -48,7 +48,7 @@ export const getNewestFollowing = async () => {
     .from('Followers')
     .select('Followed_Id')
     .eq('Following_Id', User.user_metadata.user_id)
-    //.order('Follow_date', {ascending: false})
+    .order('Follow_date', {ascending: false})
     .limit(1);
 
     if (error) {

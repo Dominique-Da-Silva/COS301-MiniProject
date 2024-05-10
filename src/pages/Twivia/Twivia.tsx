@@ -9,7 +9,7 @@ import { isUserLoggedIn } from "@services/index";
 interface TwiviaProps { }
 
 const Twivia: React.FC<TwiviaProps> = () => {
-  // const navigate = useNavigate(); // COMMENT BACK WHEN DONE TESTING
+   const navigate = useNavigate();
 
   const [showGamePlay, setShowGamePlay] = useState(false);
 
@@ -17,7 +17,7 @@ const Twivia: React.FC<TwiviaProps> = () => {
     setShowGamePlay(true);
   };
 
-  /* useEffect(() => { COMMENT BACK WHEN DONE TESTING
+   useEffect(() => { 
     // this is necessary for checking if the user is signed in
     const checkUser = async () => {
       // Check if user is already logged in
@@ -27,7 +27,7 @@ const Twivia: React.FC<TwiviaProps> = () => {
       }
     };
     checkUser();
-  }, [navigate]); */
+  }, [navigate]); 
 
   return (
     <div className="w-full h-full flex justify-center align-middle">
@@ -46,7 +46,6 @@ const Twivia: React.FC<TwiviaProps> = () => {
                 <p style={{ fontSize: '1rem', marginBottom: '0rem', color: "GrayText" }}>Where Twitter meets Trivia! How well do you know your followers?</p>
                 <p style={{ fontSize: '1rem', marginBottom: '1rem', color: "GrayText" }}>Press Play to find out...</p>
                 <Button
-                  auto
                   size="lg"
                   className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 bg-sky-500`}
                   onClick={handlePlay}
@@ -67,15 +66,11 @@ const Twivia: React.FC<TwiviaProps> = () => {
 
 
         <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-          {
-            /* COMMENT BACK WHEN DONE TESTING
             <div className="mb-3">
               <Search />
             </div>
             <TrendingTopics />
             <WhoToFollow users={[]} /> 
-            */
-          }
         </div>
       </div>
     </div>
