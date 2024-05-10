@@ -24,8 +24,7 @@ import {
   save,
   unSave,
   checkIfSaved,
-  unReweet,
-  currentuserimg
+  unReweet
 } from "@services/index";
 
 interface TweetProps {
@@ -257,7 +256,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
                   imageUrl={imageUrl}
                   profileimageurl={profileimageurl}
                   timeDisplay={timeDisplay}
-                  userimg={currentuserimg}
+                  {...(currentuserimg ? { userimg: currentuserimg } : {})}
                 ></CreateComment>
               </ModalBody>
             )}

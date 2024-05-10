@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Nav, TrendingTopics, Search, WhoToFollow} from '@components/index';
-import { getComments, getTweet, getLoggedUserId, fetchProfileDetails } from '@services/index';
+import { getComments, getTweet, getLoggedUserId, toggleComment } from '@services/index';
+// import { toggleLike, toggleSave, toggleRetweet } from '@services/index';
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
 import { LuRepeat2 } from "react-icons/lu";
@@ -50,7 +50,7 @@ const TweetDetailsPage = () => {
   const [likeCount, setLikeCount] = useState(0);
   const [saveCount, setSaveCount] = useState(0);
   const [currentUser, setCurrentUser] = useState<any>();
-  const [currentuserimg, setcurrentuserimg] = useState("");
+  // const [currentuserimg, setcurrentuserimg] = useState("");
 
   const handleCommentClick = () => {
     setCommentColor((prevState) => !prevState);
@@ -63,7 +63,7 @@ const TweetDetailsPage = () => {
     setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
 
     // Call the toggleRetweet function with tweetid and username
-    toggleRetweet(tweetid, userid);
+    // toggleRetweet(tweetId, userid);
   };
 
   const handleLikeClick = () => {
@@ -71,7 +71,7 @@ const TweetDetailsPage = () => {
     setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
 
     // Call the toggleLike function with tweetid and username
-    toggleLike(tweetid, userid);
+    // toggleLike(tweetId, userid);
   };
 
   const handleBookmarkClick = () => {
@@ -79,7 +79,7 @@ const TweetDetailsPage = () => {
     setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
 
     // Call the toggleSave function with tweetid and username
-    toggleSave(tweetid, userid);
+    // toggleSave(tweetId, userid);
   };
 
   
@@ -258,7 +258,7 @@ const TweetDetailsPage = () => {
                   imageUrl={tweetDetails.imageUrl}
                   profileimageurl={tweetDetails.profile_img}
                   timeDisplay={tweetDetails.timeDisplay}
-                  userimg={currentuserimg}
+                  // userimg={currentuserimg}
                 ></CreateComment>
               </ModalBody>
             )}

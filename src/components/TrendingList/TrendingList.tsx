@@ -9,6 +9,7 @@ interface Topic {
   Tag_Id: string;
   Tag_Name: string;
   tweet_count: number;
+  onNavigate: any;
 }
 
 const formatCount = (count: number): string | number => {
@@ -25,7 +26,7 @@ const formatCount = (count: number): string | number => {
 
 
     
-const TrendingList: React.FC<ExploreProps> = ({ onNavigate }) => {
+const TrendingList: React.FC<Topic> = ({ onNavigate }) => {
   const [topics, setTopics] = useState<any[]>([]);
   // const navigate = useNavigate();
   const handleTopicClick = (topicName: string) => {

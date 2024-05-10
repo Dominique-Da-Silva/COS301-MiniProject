@@ -3,12 +3,8 @@ import React from "react";
 import {Card, CardHeader} from "@nextui-org/react";
 import TrendingList from "@components/TrendingList/TrendingList";
 
-interface TrendingTopicsProps {
-  onNavigate: any
-}
 
-
-const TrendingTopics: React.FC<TrendingTopicsProps> = ({ onNavigate }) => {
+const TrendingTopics = ({ onNavigate }) => {
 
   return (
     <div>

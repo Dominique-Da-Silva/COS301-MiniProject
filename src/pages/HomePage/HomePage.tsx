@@ -1,4 +1,4 @@
-import { Tweet, TrendingTopics, WhoToFollow, Nav, Search, CreateTweet } from "@components/index";
+import { Tweet, CreateTweet } from "@components/index";
 import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 import { fetchTweets, fetchUsers, fetchProfileDetails, getLoggedUserId } from "@services/index";
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
-interface HomePageProps { }
+interface HomePageProps {}
 
 
 const HomePage: React.FC<HomePageProps> = () => {
@@ -20,7 +20,7 @@ const HomePage: React.FC<HomePageProps> = () => {
   const [userimg, setuserimg] = useState<any>(null);
   const navigate = useNavigate();
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path : string) => {
     navigate(path);
   };
   // const HomePage: React.FC<HomePageProps> = () => {

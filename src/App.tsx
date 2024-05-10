@@ -61,7 +61,7 @@ const App = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/editProfile" element={<EditProfile />} />
-        <Route path="/explore/:searchVal" element={<Explore />} />
+
         <Route path="/*" element={
           <AppLayout>
           <Routes>
@@ -69,6 +69,7 @@ const App = () => {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/profile/:username" element={<ProfilePage />} />
             <Route path="/explore" element={<Explore />} />
+            <Route path="/explore/:searchVal" element={<Explore />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/tweet/:tweetId" element={<TweetDetails />} />

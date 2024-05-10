@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Nav, Search, Tweet, WhoToFollow } from '@components/index';
+import { Tweet} from '@components/index';
 import TrendingListFull from '@components/TrendingListFull/TrendingListFull';
 import { FiSettings } from "react-icons/fi";
 import { FaArrowLeft } from "react-icons/fa";

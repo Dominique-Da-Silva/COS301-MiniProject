@@ -30,7 +30,7 @@ import { addComment } from "@services/index";
 
 interface TweetProps {
     username: string;
-    tweed_id: number;
+    tweet_id: number;
     user_id: number;
   }
 

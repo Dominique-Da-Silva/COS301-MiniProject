@@ -4,7 +4,7 @@ import { isUserLoggedIn, getLoggedUserId,
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Nav, Tweet, TrendingTopics , WhoToFollow, Search} from '@components/index';
+import { Tweet } from '@components/index';
 // import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 import {useState} from "react";
   
