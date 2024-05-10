@@ -1,7 +1,7 @@
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { IoMdArrowBack } from "react-icons/io";
 // import { supabase } from "@config/supabase";
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/profileServices/getAuthUser";
 import { fetchProfileDetails } from "@services/profileServices/getProfile";
@@ -12,9 +12,39 @@ import { useNavigate } from "react-router-dom";
 
 const EditProfile: React.FC = () => {
   // const [userProfile, setUserProfile] = useState<any>(null);
-  // const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);.
+  const navigate = useNavigate();
   const [profileDetails, setProfileDetails] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
+
+  const handleClick = async () => {
+    const user_data: {
+      Name?: string;
+      Username?: string;
+      Bio?: string;
+      Location?: string;
+      Website?: string;
+    } = {};
+
+    if (editedName !== '') user_data.Name = editedName;
+    if (editedUsername !== '') user_data.Username = editedUsername;
+    if (editedBio !== '') user_data.Bio = editedBio;
+    if (editedLocation !== '') user_data.Location = editedLocation;
+    if (editedWebsite !== '') user_data.Website = editedWebsite;
+    const result = await updateProfileDetails(user_data);
+    // console.log("XXXXX: " + user_data.Bio);
+    if (result === 'success') {
+      // The profile details were successfully updated
+      //console.log('Profile details updated successfully');
+    } else {
+      // There was an error updating the profile details
+      //console.log('Error updating profile details');
+    }
+    navigate("/profile");
+
+  };
+
+
 
   useEffect(() => {
     const fetchData = async () => {

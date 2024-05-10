@@ -223,7 +223,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
           <div>
             <NavLink
               to={{
-                pathname: `/profile/${author.substring(0)}`,
+                pathname: `/profile/${author.substring(1)}`,
               }}
               className="text-slate-700 p-0 m-0 block text-left"
             >
