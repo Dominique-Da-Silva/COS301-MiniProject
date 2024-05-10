@@ -148,13 +148,13 @@ const ProfileDetails = () => {
       // userDataX = await fetchUserByUsername(username);
       userDataX = await fetchUserData();
       ext = false;
-      // setExternal(false);
+      setExternal(false);
     }
     else {
       userDataX = await fetchUserByUsername(username);
       userDataS = await fetchUserData();
       ext = true;
-      // setExternal(true);
+      setExternal(true);
       const following = await checkIfFollowing(stash.User_Id, userData.User_Id);
       if (following) {
         setFollowing(true);
