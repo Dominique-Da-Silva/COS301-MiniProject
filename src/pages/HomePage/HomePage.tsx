@@ -161,100 +161,86 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-          <Nav />
-        </div>
-        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800 dark:bg-black">
-          <div className="flex flex-col m-0 p-0 justify-center">
-            {/* <Tabs 
-            aria-label="Options" 
-            variant="underlined"
-            classNames={{
-              tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider justify-center",
-              cursor: "max-w-24 rounded-full h-1 bg-[#22d3ee]",
-              tab: "max-w-full h-2 px-0 h-12",
-              tabContent: "group-data-[selected=true]:text-[#000000] font-semibold"
-            }}
-          >
-            <Tab
-              title={
-                <div className="flex items-center space-x-2">
-                  <span>For you</span>
-                </div>
-              }
-              className="text-md p-0"
-            > */}
-            {/*This is unstyled which is why we are rendering create tweet which already has a button that is greyed out that tells the user to login if they wna to post*/}
-              {/*currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>*/}
-            <CreateTweet/>
-          {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
-            // console.log("Tweet:", tweet);
-            // console.log("Users:", users);
-            const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-            // console.log("User:", user);
+    <>
+      <div className="flex flex-col m-0 p-0 justify-center">
+        {/* <Tabs 
+        aria-label="Options" 
+        variant="underlined"
+        classNames={{
+          tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider justify-center",
+          cursor: "max-w-24 rounded-full h-1 bg-[#22d3ee]",
+          tab: "max-w-full h-2 px-0 h-12",
+          tabContent: "group-data-[selected=true]:text-[#000000] font-semibold"
+        }}
+      >
+        <Tab
+          title={
+            <div className="flex items-center space-x-2">
+              <span>For you</span>
+            </div>
+          }
+          className="text-md p-0"
+        > */}
+        {/*This is unstyled which is why we are rendering create tweet which already has a button that is greyed out that tells the user to login if they wna to post*/}
+          {/*currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>*/}
+        <CreateTweet/>
+      {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
+        // console.log("Tweet:", tweet);
+        // console.log("Users:", users);
+        const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+        // console.log("User:", user);
 
-            // Check if tweet.Saves is defined and not empty before accessing its properties
-            const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
-            // console.log("Saves Count:", saves);
+        // Check if tweet.Saves is defined and not empty before accessing its properties
+        const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
+        // console.log("Saves Count:", saves);
 
-            // Similar checks for Comments, Likes, and Retweets
-            const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
-            // console.log("Comments Count:", comments);
+        // Similar checks for Comments, Likes, and Retweets
+        const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
+        // console.log("Comments Count:", comments);
 
-            const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
-            // console.log("Likes Count:", likes);
+        const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
+        // console.log("Likes Count:", likes);
 
-            const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
-            // console.log("Retweets Count:", retweets);
+        const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
+        // console.log("Retweets Count:", retweets);
 
-            const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-            // console.log("Image URL:", image_url);
+        const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+        // console.log("Image URL:", image_url);
 
-            return (
-              <Tweet
-                key={tweet.Tweet_Id}
-                tweet_id={tweet.Tweet_Id}
-                name={user ? user.Name : "Unknown User"}
-                username={user ? `@${user.Username}` : ""}
-                text={tweet.Content}
-                imageUrl={tweet.Img_Url}
-                timeDisplay={getTimeDisplay(tweet.Created_at)}
-                likes={formatCount(likes)}
-                retweets={formatCount(retweets)}
-                saves={formatCount(saves)}
-                comments={formatCount(comments)}
-                profileimageurl={image_url}  
-                currentuserimg={userimg}
-                          />
-            );
-          })}
+        return (
+          <Tweet
+            key={tweet.Tweet_Id}
+            tweet_id={tweet.Tweet_Id}
+            name={user ? user.Name : "Unknown User"}
+            username={user ? `@${user.Username}` : ""}
+            text={tweet.Content}
+            imageUrl={tweet.Img_Url}
+            timeDisplay={getTimeDisplay(tweet.Created_at)}
+            likes={formatCount(likes)}
+            retweets={formatCount(retweets)}
+            saves={formatCount(saves)}
+            comments={formatCount(comments)}
+            profileimageurl={image_url}  
+            currentuserimg={userimg}
+                      />
+        );
+      })}
 
 
-          {/* </Tab>
-            <Tab
-              title={
-                <div className="flex items-center space-x-2">
-                  <span>Following</span>
-                </div>
-              }
-              className="text-md"
-            >
-              <CreateTweet></CreateTweet>
-            </Tab>
-          </Tabs> */}
-          </div>
-        </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2 hidden md:block">
-          <div className="mb-3">
-            <Search />
-          </div>
-          <TrendingTopics onNavigate={handleNavigation} />
-          <WhoToFollow users={[]} />
-        </div>
+      {/* </Tab>
+        <Tab
+          title={
+            <div className="flex items-center space-x-2">
+              <span>Following</span>
+            </div>
+          }
+          className="text-md"
+        >
+          <CreateTweet></CreateTweet>
+        </Tab>
+      </Tabs> */}
       </div>
-    </div>    
+    </>    
   );
 };
 
