@@ -34,9 +34,9 @@ import {searchUsers} from "./usersProfileServices/searchUser.ts";
 import {searchTweet} from "./tweetInteraction/searchTweet.ts";
 import { getTweet } from './tweetInteraction/getTweet.ts'
 import { getAllComments } from './homeServices/getComments.ts'
-import { fetchAllProfiles } from './profileServices/getProfile.ts'import { setTheme } from './settingsServices/setTheme.ts'
+import { fetchAllProfiles } from './profileServices/getProfile.ts';
+import { setTheme } from './settingsServices/setTheme.ts'
 import { getTheme } from "./homeServices/getTheme.ts";
-
 import { CreateFollowNotification,CreateLikeNotification,CreateCommentNotification,
     CreateRetweetNotification,CreateTweetNotification,updateNotifications,getUserNotifications } from "./homeServices/notifications.ts";
 import {countSaves} from "./tweetInteraction/countSaves.ts"

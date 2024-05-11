@@ -188,7 +188,7 @@ const Nav = () => {
               className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/twivia' ? 'font-bold active-tab' : ''
                 }`}
             >
-              <IoGameControllerOutline size={28} className="mr-5" style={{ color: 'black' }} />
+              <IoGameControllerOutline size={28} className="mr-5" />
               Twivia
             </NavLink>
           }
