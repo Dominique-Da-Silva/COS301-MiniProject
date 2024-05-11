@@ -20,6 +20,7 @@ import CreateCommentInput from "./CreateCommentInput/CreateCommentInput";
 import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
 import TweetModal from "./TweetModal/TweetModal";
 import TweetSkeleton from "./TweetSkeleton/TweetSkeleton"
+import TopicSkeleton from "./TopicSkeleton/TopicSkeleton"
 export {
   EditProfile,
   HomeImage,
@@ -42,5 +43,6 @@ export {
   CreateCommentInput,
   RecommendedUsers,
   TweetModal,
-  TweetSkeleton
+  TweetSkeleton,
+  TopicSkeleton
 };

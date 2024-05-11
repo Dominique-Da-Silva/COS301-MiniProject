@@ -1,6 +1,6 @@
 import { useState, Suspense, useEffect } from "react";
 
-import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
+import { Tweet, TrendingTopics, WhoToFollow, Nav, TweetSkeleton } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
@@ -70,6 +70,7 @@ const ProfileDetails = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [tweetCollection, setTweetCollection] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [createdAt] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
@@ -94,7 +95,6 @@ const ProfileDetails = () => {
   // const location = useLocation();
 
   useEffect(() => {
-    
     const getUD = async () => {
     //  console.log("Username from path : " + usernameP);
       const userDataX = await fetchUserData();
@@ -144,7 +144,7 @@ const ProfileDetails = () => {
       }
       catch (error) {
         console.error("Error fetching data: ", error);
-      }
+      } 
     }
     getCurrUserTweets();
 
@@ -176,17 +176,20 @@ const ProfileDetails = () => {
     getUsers();
 
     const getTweets = async() => {
+      // setIsLoading(true);
       try {
         const tweetsFetched = await fetchTweets();
         setTweetCollection(tweetsFetched as any[]);
-        // console.log(tweetCollection);
+        console.log(tweetCollection);
       }
       catch (error) {
         console.error("Error fetching data: ", error);
       }
     }
     getTweets();
+    
   }, [activeTab, userData.User_Id, likedTweets, tweetCollection]);
+  
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -214,6 +217,14 @@ const ProfileDetails = () => {
   const handleButtonClick = () => {
     setFollowing(!following);
   }
+
+  const Loader = () => {
+    const skeletons = [];
+    for(let i = 0; i < 10; i++) {
+      skeletons.push(<TweetSkeleton key={i} />);
+    }
+    return skeletons;
+  };
 
   return (
     <div className="container flex dark:bg-black">
@@ -335,6 +346,7 @@ const ProfileDetails = () => {
                   
                   {activeTab === "tweets" && (
                   <>
+                    {isLoading && <Loader />}
                     <div>
                       {userTweets.length === 0 ? (
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '800px' }}>

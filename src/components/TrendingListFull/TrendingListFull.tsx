@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import { getTrendingTopics } from '@services/index';
+import { TopicSkeleton } from "@components/index"
 
 interface ExploreProps {
   onTopicClick: (topicName: string) => void;
@@ -15,19 +16,31 @@ interface Topic {
 const TrendingListFull: React.FC<ExploreProps> = ({ onTopicClick }: ExploreProps) => {
 
   const [topics, setTopics] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchTagsData = async () => {
+      setIsLoading(true);
       try {
         const tagsData = await getTrendingTopics();
         setTopics(tagsData);
         console.log(tagsData);
       } catch (error) {
         console.error('Error fetching tags:', error);
+      } finally {
+        setIsLoading(false); // Set isLoading to false once all data has been fetched
       }
     }
     fetchTagsData();
   }, []);
+
+  const Loader = () => {
+    const skeletons = [];
+    for(let i = 0; i < 10; i++) {
+      skeletons.push(<TopicSkeleton key={i} />);
+    }
+    return skeletons;
+};
 
   const formatCount = (count: number): string | number => {
     if (count < 1000) {
@@ -61,6 +74,7 @@ const TrendingListFull: React.FC<ExploreProps> = ({ onTopicClick }: ExploreProps
 
   return (
     <div>
+      {isLoading && <Loader />}
       {topics.map((topic: Topic) => (
       <div key={topic.Tag_Id} 
         className="items-center justify-between p-3 dark:hover:bg-neutral-900 hover:bg-gray-100 dark:bg-black cursor-pointer" 

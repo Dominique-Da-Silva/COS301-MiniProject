@@ -19,6 +19,7 @@ const HomePage: React.FC<HomePageProps> = () => {
   const [profiles, setProfiles] = useState<any[]>([]);
   const [userimg, setuserimg] = useState<any>(null);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -34,23 +35,22 @@ const HomePage: React.FC<HomePageProps> = () => {
   //uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
   useEffect(() => {
     //FETCHING THE TWEETS FROM TWEETS TABLE
-    const fetchTweetData = async () => {
-      try {
-        const tweetData = await fetchTweets();
-        // console.log("Tweet Data:");
-        console.log(tweetData);
-        setTweets(tweetData);
-      } catch (error) {
-        console.error('Error fetching tweets:', error);
-      }
-    };
+    // const fetchTweetData = async () => {
+    //   try {
+    //     const tweetData = await fetchTweets();
+    //     // console.log("Tweet Data:");
+    //     console.log(tweetData);
+    //     setTweets(tweetData);
+    //   } catch (error) {
+    //     console.error('Error fetching tweets:', error);
+    //   }
+    // };
 
     // FETCHING THE USERS FROM THE USER TABLE
     const fetchData = async () => {
+      setIsLoading(true); // Set isLoading to true before fetching data
       try {
         const usersData = await fetchUsers();
-        // console.log("Users Data:");
-        // console.log(usersData);
         setUsers(usersData as any[]); // Add type assertion here
 
         const tweetData = await fetchTweets();
@@ -61,9 +61,10 @@ const HomePage: React.FC<HomePageProps> = () => {
 
         const profilesData = await fetchAllProfiles();
         setProfiles(profilesData as any);
-
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false); // Set isLoading to false once all data has been fetched
       }
     };
 
@@ -98,25 +99,33 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    const getAllProfiles = async () => {
-      try {
-        const profilesData = await fetchAllProfiles();
-        // console.log("Profiles Data:");
-        // console.log(profilesData);
-        setProfiles(profilesData as any); // Update the type of the state variable
-      } catch (error) {
-        console.error('Error fetching profiles:', error);
-      }
-    };
+    // const getAllProfiles = async () => {
+    //   try {
+    //     const profilesData = await fetchAllProfiles();
+    //     // console.log("Profiles Data:");
+    //     // console.log(profilesData);
+    //     setProfiles(profilesData as any); // Update the type of the state variable
+    //   } catch (error) {
+    //     console.error('Error fetching profiles:', error);
+    //   }
+    // };
     
     // // Call both fetch functions when the component mounts
-    fetchTweetData();
+    // fetchTweetData();
     fetchData();
     getCurrentUser();
-    getAllProfiles();
+    // getAllProfiles();
     // getuser();
     getuserimg();
   }, [setCurrentUser]);
+
+  const Loader = () => {
+      const skeletons = [];
+      for(let i = 0; i < 10; i++) {
+        skeletons.push(<TweetSkeleton key={i} />);
+      }
+      return skeletons;
+  };
 
   //testing
 
@@ -161,7 +170,7 @@ const HomePage: React.FC<HomePageProps> = () => {
   // TWEET DISPLAY
 
   return (
-    <div className="w-full h-screen flex justify-center align-middle bg-inherit">
+    <div className="w-full h-full flex justify-center align-middle bg-inherit">
       <div className="container h-full flex w-full justify-center bg-inherit">
         <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
           <Nav />
@@ -189,50 +198,48 @@ const HomePage: React.FC<HomePageProps> = () => {
             {/*This is unstyled which is why we are rendering create tweet which already has a button that is greyed out that tells the user to login if they wna to post*/}
               {/*currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>*/}
             <CreateTweet/>
-            <TweetSkeleton/>
-            <TweetSkeleton/>
-            <TweetSkeleton/>
-          {/* {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
-            // console.log("Tweet:", tweet);
-            // console.log("Users:", users);
-            const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
-            // console.log("User:", user);
+            {isLoading && <Loader />}
+            {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
+              // console.log("Tweet:", tweet);
+              // console.log("Users:", users);
+              const user = users.find(u => u.User_Id === tweet.User_Id); // Assuming there's a user_id in tweets data
+              // console.log("User:", user);
 
-            // Check if tweet.Saves is defined and not empty before accessing its properties
-            const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
-            // console.log("Saves Count:", saves);
+              // Check if tweet.Saves is defined and not empty before accessing its properties
+              const saves = tweet.Saves && tweet.Saves.length > 0 ? tweet.Saves[0]?.count || 0 : 0;
+              // console.log("Saves Count:", saves);
 
-            // Similar checks for Comments, Likes, and Retweets
-            const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
-            // console.log("Comments Count:", comments);
+              // Similar checks for Comments, Likes, and Retweets
+              const comments = tweet.Comments && tweet.Comments.length > 0 ? tweet.Comments[0]?.count || 0 : 0;
+              // console.log("Comments Count:", comments);
 
-            const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
-            // console.log("Likes Count:", likes);
+              const likes = tweet.Likes && tweet.Likes.length > 0 ? tweet.Likes[0]?.count || 0 : 0;
+              // console.log("Likes Count:", likes);
 
-            const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
-            // console.log("Retweets Count:", retweets);
+              const retweets = tweet.Retweets && tweet.Retweets.length > 0 ? tweet.Retweets[0]?.count || 0 : 0;
+              // console.log("Retweets Count:", retweets);
 
-            const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-            // console.log("Image URL:", image_url);
+              const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+              // console.log("Image URL:", image_url);
 
-            return (
-              <Tweet
-                key={tweet.Tweet_Id}
-                tweet_id={tweet.Tweet_Id}
-                name={user ? user.Name : "Unknown User"}
-                username={user ? `@${user.Username}` : ""}
-                text={tweet.Content}
-                imageUrl={tweet.Img_Url}
-                timeDisplay={getTimeDisplay(tweet.Created_at)}
-                likes={formatCount(likes)}
-                retweets={formatCount(retweets)}
-                saves={formatCount(saves)}
-                comments={formatCount(comments)}
-                profileimageurl={image_url}  
-                currentuserimg={userimg}
-                          />
-            );
-          })} */}
+              return (
+                <Tweet
+                  key={tweet.Tweet_Id}
+                  tweet_id={tweet.Tweet_Id}
+                  name={user ? user.Name : "Unknown User"}
+                  username={user ? `@${user.Username}` : ""}
+                  text={tweet.Content}
+                  imageUrl={tweet.Img_Url}
+                  timeDisplay={getTimeDisplay(tweet.Created_at)}
+                  likes={formatCount(likes)}
+                  retweets={formatCount(retweets)}
+                  saves={formatCount(saves)}
+                  comments={formatCount(comments)}
+                  profileimageurl={image_url}  
+                  currentuserimg={userimg}
+                            />
+              );
+            })}
 
 
           {/* </Tab>
@@ -253,8 +260,8 @@ const HomePage: React.FC<HomePageProps> = () => {
           <div className="mb-3">
             <Search />
           </div>
-          {/* <TrendingTopics onNavigate={handleNavigation} />
-          <WhoToFollow users={[]} /> */}
+          <TrendingTopics onNavigate={handleNavigation} />
+          <WhoToFollow users={[]} />
         </div>
       </div>
     </div>    
