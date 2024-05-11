@@ -6,8 +6,8 @@ import { NavLink } from "react-router-dom";
 import { fetchUserData } from "@services/profileServices/getAuthUser";
 import { fetchProfileDetails } from "@services/profileServices/getProfile";
 import { updateProfileDetails } from "@services/profileServices/updateProfileDetails";
-import { updateUsername, updateName } from "@services/index";
-import { uploadImageAndGetURL, uploadProfile } from "@services/index";
+import {  updateName } from "@services/index";
+import { uploadImageAndGetURL } from "@services/index";
 import { useNavigate } from "react-router-dom";
 
 const EditProfile: React.FC = () => {
@@ -70,13 +70,13 @@ const EditProfile: React.FC = () => {
   const [editedWebsite, setEditedWebsite] = useState("");
   const [editedImage, setEditedImage] = useState<File | null>(null);
   const [editedImageURL, setEditedImageURL] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
   // const handleCancelClick = () => {
   //   // Reset Editing state to close the edit window
   //   setIsEditing(false);
   // };
 
-  const update_Username = async (editedUsername: string) => {
+  const updateUsername = async (editedUsername: string) => {
     const result = await updateUsername(editedUsername);
     console.log(result);
   };
@@ -110,8 +110,8 @@ const EditProfile: React.FC = () => {
   };
   const history = useNavigate();
   const handleSaveClick = async () => {
-    update_Username(editedUsername ? editedUsername : userData.Username);
-    update_Name(editedName ? editedName : userData.Name);
+    updateUsername(editedUsername ? editedUsername : userData.Username);
+    updateName(editedName ? editedName : userData.Name);
     uploadImageAndGetURL(editedImage as File, "profile_images");
     updateUserData({
       Banner_Url: "src/assets/twitter_logo_banner_12.jpg",
@@ -125,13 +125,13 @@ const EditProfile: React.FC = () => {
     });
     history("/profile");
   };
-  const update_Name = async (editedName: string) => {
+  const updateName = async (editedName: string) => {
     const result = await updateName(editedName);
     console.log(result);
   };
   function captureImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files === null) return;
-    setIsLoading(true);
+    //setIsLoading(true);
     const selectedFile = e.target.files[0];
     setEditedImage(selectedFile);
 
@@ -140,7 +140,7 @@ const EditProfile: React.FC = () => {
       setEditedImageURL(reader.result as string);
     };
     reader.readAsDataURL(selectedFile);
-    setIsLoading(false);
+    //setIsLoading(false);
   }
 
   if (!userData) {

@@ -3,10 +3,6 @@ import {
   fetchProfileDetails,
   fetchUserData,
   updateProfileDetails,
-  updateUsername,
-  updateName,
-  updateEmail,
-  updateSurname,
 } from "@services/index";
 import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
@@ -14,7 +10,6 @@ import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownSection,
   DropdownItem,
 } from "@nextui-org/dropdown";
 
@@ -57,11 +52,11 @@ const AccountInfo: React.FC = () => {
     { key: "10", value: "China" },
   ];
 
-  const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys).join(", ").replace(/_/g, " "),
-    [selectedKeys]
-  );
+   const [selectedKeys] = useState(new Set(["text"]));
+  // const selectedValue = React.useMemo(
+  //   () => Array.from(selectedKeys).join(", ").replace(/_/g, " "),
+  //   [selectedKeys]
+  // );
   useEffect(() => {
     const fetchData = async () => {
       const userDataX = await fetchUserData();
@@ -112,10 +107,10 @@ const AccountInfo: React.FC = () => {
   };
 
   const handleSaveClick = async () => {
-    update_Username(editedUsername);
-    update_Name(editedName);
-    update_Surname(editedSurname);
-    update_Email(editedEmail);
+    updateUsername(editedUsername);
+    updateName(editedName);
+    updateSurname(editedSurname);
+    updateEmail(editedEmail);
     updateUserData({
       Banner_Url: userData.Banner_Url,
       Bio: userData.Bio,
@@ -129,21 +124,21 @@ const AccountInfo: React.FC = () => {
     alert("Changes saved successfully");
   };
 
-  const update_Username = async (editedUsername: string) => {
+  const updateUsername = async (editedUsername: string) => {
     const result = await updateUsername(editedUsername);
     console.log(result);
   };
-  const update_Name = async (editedName: string) => {
+  const updateName = async (editedName: string) => {
     const result = await updateName(editedName);
     console.log(result);
   };
 
-  const update_Surname = async (editedSurname: string) => {
+  const updateSurname = async (editedSurname: string) => {
     const result = await updateSurname(editedSurname);
     console.log(result);
   };
 
-  const update_Email = async (editedEmail: string) => {
+  const updateEmail = async (editedEmail: string) => {
     const result = await updateEmail(editedEmail);
     console.log(result);
   };
