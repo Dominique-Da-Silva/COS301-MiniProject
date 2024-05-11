@@ -6,7 +6,6 @@ export const countFollowing = async (userId: string) => {
     try {
       const {count} = await supabase.from('Followers')
       .select('Followed_Id', {count: 'exact'}).eq('Following_Id', userId);
-
       return count ?? 0;
 
     } catch (error) {

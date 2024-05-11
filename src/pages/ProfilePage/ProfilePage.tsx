@@ -1,6 +1,5 @@
-import { useState, Suspense, useEffect } from "react";
-
-import { Tweet, TrendingTopics, WhoToFollow, Nav, TweetSkeleton } from "@components/index";
+import { useState, Suspense, useEffect, useRef } from "react";
+import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
@@ -12,14 +11,16 @@ import { getUserComments } from "@services/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink, useNavigate } from "react-router-dom";//useLocation, useParams
+import { NavLink, useNavigate, useParams, useLocation } from "react-router-dom";
 import { Search } from "@components/index";
-import { isUserLoggedIn } from "@services/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
-
+// import { getAuthIdFromSession } from "@services/index";
+import { fetchUserByUsername } from "@services/index";
+import { isUserLoggedIn, checkIfFollowing, followUser, unfollowUser } from "@services/index";
+import { getCurrentUser } from "@services/auth/auth";
 // interface Tweet {
-//   key: number;
+//   key: number;.
 //   name: string;
 //   username: string;
 //   text: string;
@@ -58,20 +59,21 @@ const getTimeDisplay = (timestamp: string) => {
   return timeDisplay;
 };
 
-const ProfileDetails = () => {
+const ProfilePage = () => {
 
   const [activeTab, setActiveTab] = useState("tweets");
   const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(mockUserProfile);
+  const [stash, setStash] = useState<any>(mockUserProfile);
   const [userFollowers, setUserFollowers] = useState<any>(null);
   const [userFollowing, setUserFollowing] = useState<any>(null);
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [tweetCollection, setTweetCollection] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [createdAt] = useState<any>(
+  const [createdAt, setCreated_At] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
       year: "numeric",
@@ -79,163 +81,229 @@ const ProfileDetails = () => {
   );
   //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
   //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
-  const [external, setExternal] = useState(true);
-
-  const [following, setFollowing] = useState(false);
+  const [external, setExternal] = useState<null | boolean>(null);
   const [userTweets, setUserTweets] = useState<any[]>([]);
   const [userMedia, setUserMedia] = useState<string[]>([]);
   const [userReplies, setUserReplies] = useState<any[]>([]);
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [buttonText, setButtonText] = useState<string>("");
 
-  const handleNavigation = (path) => {
+  // const location = useLocation(); 
+  // const { pathname } = location;
+
+  const { username } = useParams<{ username: string }>();
+  const userDataRef = useRef(null);
+  const userStash = useRef(null);
+  const userExt = useRef(false);
+
+  const handleNavigation = (path: any) => {
     navigate(path);
   };
-
   
-  // const location = useLocation();
-
-  useEffect(() => {
-    const getUD = async () => {
-    //  console.log("Username from path : " + usernameP);
-      const userDataX = await fetchUserData();
-      setUserData(userDataX);
+  const followUserButton = async () => {
+    const currentUser = await getCurrentUser();
+    if (currentUser !== undefined) {
+      const followingCheck = await checkIfFollowing(stash.User_Id, userData.User_Id);      
+    if (!followingCheck) {
+      const result = await followUser(stash.User_Id, userData.User_Id);
+      console.log(result);
+      setButtonText("Following");
+      setIsFollowing(true);
     }
-    getUD();
+  }
+  else
+  {
+    console.log("User not found");
+  }
+  };
 
-    const profileSub = async () => {
-      try {
-        // const usernameP = location.state?.username;
-        // console.log("Username from path : " + usernameP);
-        const profileTemp = await fetchProfileDetails(userData.User_Id);
-        const followerTemp = await countFollowers(userData.User_Id);
-        const followingTemp = await countFollowing(userData.User_Id);
-        const userDataX = await fetchUserData();
-        const imageURLs = await fetchUserMedia(userData.User_Id);
-        setExternal(false);
+  const unFollowUser = async () => {
+    const followingCheck = await checkIfFollowing(stash.User_Id, userData.User_Id);
+    if (followingCheck) {
+      const result = await unfollowUser(stash.User_Id, userData.User_Id);
+      console.log(result);
+    }
+    setButtonText("Follow");
+    setIsFollowing(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (isFollowing) {
+      setButtonText("Unfollow");
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isFollowing) {
+      setButtonText("Following");
+    }
+  };
+
+  const getUD = async () => {
+    let userDataX;
+    let userDataS;
+    let ext;
+    if (!username) {
+      // userDataX = await fetchUserByUsername(username);
+      userDataX = await fetchUserData();
+      ext = false;
+      setExternal(false);
+    }
+    else {
+      userDataX = await fetchUserByUsername(username);
+      userDataS = await fetchUserData();
+      ext = null;
+      setExternal(null);
+      const following = await checkIfFollowing(userDataS.User_Id, userDataX.User_Id);
+      setIsFollowing(following);
+      console.log("Following - " +following)
+      if (following) {
+        //setFollowing(true);
+        setButtonText("Following");
+        // setIsFollowing(true);
+      }
+      else {
+        //setFollowing(false);
+        setButtonText("Follow");
+        // setIsFollowing(false);
+      }
+      setExternal(true);
+      ext = true;
+    }
+    userDataRef.current = userDataX;
+    userStash.current = userDataS;
+    userExt.current = ext;
+    setStash(userDataS);
+    setUserData(userDataX);
+    setExternal(ext);
+  }
+
+  const profileSub = async () => {
+    try {
+      if (userDataRef.current) {
+        const profileTemp = await fetchProfileDetails(userDataRef.current.User_Id);
+        const followerTemp = await countFollowers(userDataRef.current.User_Id);
+        const followingTemp = await countFollowing(userDataRef.current.User_Id);
+        const imageURLs = await fetchUserMedia(userDataRef.current.User_Id);
         setUserFollowers(followerTemp);
         setUserFollowing(followingTemp);
-        setUserData(userDataX);
+        setUserData(userDataRef.current);
         setProfileDetails(profileTemp);
         setUserMedia(imageURLs);
-      } catch (error) {
-          console.error("Error fetching data: ", error);
       }
-    } 
-    profileSub();
-    
-    const getLikes = async () => {
-      try {
-        const likes = await fetchLikedPosts(userData.User_Id);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  } 
+
+  const getLikes = async () => {
+    try {
+      if (userDataRef.current && likedTweets.length === 0) {
+        const likes = await fetchLikedPosts(userDataRef.current.User_Id);
         //console.log(likes);
         setLikedTweets(likes);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
       }
+    } catch (error) {
+      console.error("Error fetching data: ", error);
     }
-    getLikes();
+  }
 
-    const getCurrUserTweets = async () => {
-      try {
-        const tempTweets = await getUserTweets(userData.User_Id);
-        if(!tempTweets){
-          throw "user tweets are undefined";
-        }
+  const getCurrUserTweets = async () => {
+    try {
+      if (userDataRef.current && userTweets.length === 0) {
+        const tempTweets = await getUserTweets(userDataRef.current.User_Id);
         setUserTweets(tempTweets);
       }
-      catch (error) {
-        console.error("Error fetching data: ", error);
-      } 
     }
-    getCurrUserTweets();
-
-    const getUserReplies = async () => {
-      try {
-        const replies = await getUserComments(userData.User_Id);
-        if(!replies){
-          throw "comments are undefined";
-        }
+    catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+  
+  const getUserReplies = async () => {
+    try {
+      if (userDataRef.current && userReplies.length === 0) {
+        const replies = await getUserComments(userDataRef.current.User_Id);
         setUserReplies(replies);
       }
-      catch (error) {
-        console.error("Error fetching data: ", error);
-      }
     }
-    getUserReplies();
+    catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
 
-    const getUsers= async() => {
-      try {
-        const usersFetched = await fetchUsers();
-        const profilesFetched = await fetchAllProfiles();
-        setUsers(usersFetched as any[]);
-        setProfiles(profilesFetched as any[]);
-      }
-      catch (error) {
-        console.error("Error fetching data: ", error);
-      }
+  const getUsers= async() => {
+    try {
+      const usersFetched = await fetchUsers();
+      const profilesFetched = await fetchAllProfiles();
+      setUsers(usersFetched as any[]);
+      setProfiles(profilesFetched as any[]);
     }
-    getUsers();
+    catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
 
-    const getTweets = async() => {
-      // setIsLoading(true);
-      try {
-        const tweetsFetched = await fetchTweets();
-        setTweetCollection(tweetsFetched as any[]);
-        console.log(tweetCollection);
-      }
-      catch (error) {
-        console.error("Error fetching data: ", error);
-      }
+  const getTweets = async() => {
+    try {
+      const tweetsFetched = await fetchTweets();
+      setTweetCollection(tweetsFetched as any[]);
+      // console.log(tweetCollection);
     }
-    getTweets();
-    
-  }, [activeTab, userData.User_Id, likedTweets, tweetCollection]);
-  
+    catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    //return date as "December 2013" form
+    return date.toLocaleString("en-US", { month: "long", year: "numeric" });
+}
 
   useEffect(() => {
-    // this is necessary for checking if the user is signed in
     const checkUser = async () => {
-      // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (!result) {
-        navigate("/home"); // Redirect to home page if user is not logged in
+        navigate("/home");
+      }
+      else {
+        //get user data
+        await getUD(); 
+        await profileSub(); 
+        await getTweets();
+        await getUsers();
+        await getCurrUserTweets();
       }
     }
-    
-    // Call the async function
+
     checkUser();
-  }, [navigate]);
+
+  }, [])
 
   const handleTabClick = (tabName: string) => {
+    if (tabName === "tweets") {
+      getCurrUserTweets();
+    }
+    else if (tabName === "replies") {
+      getUserReplies();
+    }
+    else if (tabName === "likes") {
+      getLikes();
+    }
+    else if (tabName === "media") {
+      // getUserMedia(); media was already fetched in profileSub
+    }
     setActiveTab(tabName);
   };
 
-  if (!profileDetails || !userProfile) {
-    console.log("Log");
-    return <div>Loading...</div>;
-  }
-
-  const handleButtonClick = () => {
-    setFollowing(!following);
-  }
-
-  const Loader = () => {
-    const skeletons = [];
-    for(let i = 0; i < 10; i++) {
-      skeletons.push(<TweetSkeleton key={i} />);
-    }
-    return skeletons;
-  };
-
   return (
-    <div className="container flex dark:bg-black">
-      <div className="nav flex justify-end w-1/4 m-0 p-0 mr-[3vh] pr-10">
-        <Nav />
-      </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
+    <>
         <div className="flex flex-col w-full m-0 p-0 justify-center">
           <div className="banner m-0 border-b border-inherit dark:border-neutral-800">
             <img
-              src="src/assets/twitter_logo_banner_12.jpg"
+              src={profileDetails.Banner_Url || mockProfileDetails.Banner_Url}
               alt="Banner"
               className="w-full h-48 m-0 "
             />
@@ -250,16 +318,17 @@ const ProfileDetails = () => {
                     alt={userData.Name}
                     size="lg"
                   />
-                  {external ? (
+                  {external === null ? <></>
+                    : external === true ? (
                     <Button
-                    className={`ml-auto text-base font-semibold rounded-full border ${
-                      following ? 'bg-blue-400 text-white border-blue-400' : 'bg-white border-gray-300 text-blue-400'
-                    } h-9 items-center`}
-                    style={{ borderColor: following ? '#1DA1F2' : '#DADADA', color: following ? '#FFFFFF' : '#1DA1F2' }}
-                    onClick={handleButtonClick}
-                    >
-                      {following ? 'Following' : 'Follow'}
-                    </Button>
+                    className="ml-auto font-bold text-white bg-black h-7"
+                    radius="full"
+                    onClick={isFollowing ? () => unFollowUser() : () => followUserButton()}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {buttonText}
+                  </Button>
                   ) : (
                     <NavLink to="/editProfile">
                       <Button className="ml-auto text-base font-semibold rounded-full border hover:bg-gray-200 bg-inherit dark:text-white dark:hover:bg-neutral-900 border-gray-300 h-9 items-center">
@@ -277,7 +346,7 @@ const ProfileDetails = () => {
                 <p className="mb-2 dark:text-white">{profileDetails.Bio}</p>
                 <p className="text-gray-500 flex items-center">
                   <BiCalendar className="mr-1" />
-                  Joined {createdAt}
+                  Joined {formatDate(userData.Created_at)}
                 </p>
               </div>
               {/* Profile Details */}
@@ -360,7 +429,7 @@ const ProfileDetails = () => {
                             const originalTweet = tweetCollection.find((u: { Tweet_Id: string }) => tweet.Tweet_Id === u.Tweet_Id);
                           
                             if (!originalTweet) {
-                              window.location.reload();
+                              console.log("original tweet not found");
                             } else {
                               const _likes = originalTweet.Likes[0].count || 0;
                               const _saves = originalTweet.Saves[0].count || 0;
@@ -500,24 +569,8 @@ const ProfileDetails = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-        <div className="mb-3">
-          <Search />
-        </div>
-        <TrendingTopics onNavigate={handleNavigation} />
-        <WhoToFollow users={[]} />
-      </div>
-    </div>
+    </>
   ); 
-};
-
-const ProfilePage = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProfileDetails />
-    </Suspense>
-  );
 };
 
 export default ProfilePage;

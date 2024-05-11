@@ -5,24 +5,30 @@ import {
   WhoToFollow,
   Search,
   PostNotification,
-  LikeNotification,
+  LikedNotification,
   Mention,
+  FollowNotifications,
+  RetweetNotifications, 
+  CommentNotification,
 } from "@components/index";
 import { Button } from "@nextui-org/react";
-import { FiSettings } from "react-icons/fi";
 import {
   mockNotifications,
   mockLikedNotifications,
   mockMentions,
 } from "mockData/mockData";
 import { useNavigate } from "react-router-dom";
-import { isUserLoggedIn, getUserData } from "@services/index";
+import { isUserLoggedIn, getUserData, fetchTweets } from "@services/index";
 import { getUserNotifications, 
   CreateCommentNotification,
   CreateFollowNotification,
   CreateLikeNotification,
- CreateRetweetNotification,
- CreateTweetNotification } from "@services/index";
+  CreateRetweetNotification,
+  CreateTweetNotification,
+  getAllComments,
+  fetchAllProfiles,
+   } from "@services/index";
+import { create } from "zustand";
 
 
 interface NotificationsProps {}
@@ -38,6 +44,9 @@ const Notifications: React.FC<NotificationsProps> = () => {
   const [commentNotifications, setCommentNotifications] = useState<any[]>([]);
   const [likedNotifications, setLikedNotifications] = useState<any[]>([]);
   const [retweetNotifications, setRetweetNotifications] = useState<any[]>([]);
+  const [tweetNotifications, setTweetNotifications] = useState<any[]>([]);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
+  const [allComments, setAllComments] = useState<any[]>([]);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
@@ -68,75 +77,90 @@ const Notifications: React.FC<NotificationsProps> = () => {
   };
 
   useEffect(() => {
-    // this is necessary for checking if the user is signed in
     const checkUser = async () => {
-      // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (!result) {
-        navigate("/home"); // Redirect to home page if user is not logged in
+        navigate("/home");
+        return;
       }
       
       const userData = await getUserData();
       if (!userData) {
         navigate("/home");
+        return;
       }
-      console.log(userData?.user_metadata.user_id);
-      setNotifications(await getUserNotifications(userData?.user_metadata.user_id));
-      console.log(notifications);
-      for (let i = 0; i < (notifications?.length ?? 0); i++) {
-        console.log(notifications[i].Type_Id);
-        switch (notifications?.[i]?.Type_Id ?? "") {
-          case 1: //New_Follow
-            setFollowNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          case 2: //New_Post
-            setPostNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          case 3: //New_Comment
-            setCommentNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          case 4: //New_Like
-            setLikedNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          case 5: //Retweet
-            setRetweetNotifications((prev) => [...prev, notifications[i]]);
-            break;
-          default:
-            break;
-        }
-      }
-
-      // CreateCommentNotification(94, 27);
-      // CreateFollowNotification(27, 27);
-      // CreateLikeNotification(94, 27);
-      // CreateRetweetNotification(94, 27);
-      // CreateTweetNotification(94);
-      // console.log(followNotifications);
-      // console.log(postnotifications);
-      // console.log(commentNotifications);
-      // console.log(likedNotfications);
-      // console.log(retweetNotifications);
-    }
-    // Call the async function
+      fetchTweets().then((tweetNotifications) => {
+        // Update tweet notifications state
+        setTweetNotifications(tweetNotifications);
+        // console.log(tweetNotifications);
+        
+      }); 
+      const users = await fetchAllProfiles();
+      setAllUsers(users);
+      const comments = await getAllComments();
+      setAllComments(comments);
+      // console.log(userData?.user_metadata.user_id);
+      const fetchedNotifications = await getUserNotifications(userData?.user_metadata.user_id);
+      // console.log(fetchedNotifications);
+      setNotifications(fetchedNotifications);
+      
+      
+    };
+    // CreateFollowNotification(5000, 57);
+    // CreateLikeNotification(484, 5000);
+    // CreateCommentNotification(484, 5000);
+    // CreateRetweetNotification(484, 5000);
+    // CreateTweetNotification(484);
     checkUser();
-
   }, [navigate]);
+  
+  useEffect(() => {
+   
+    // Processing notifications when notifications state changes
+    // console.log(notifications);
+    for (let i = 0; i < (notifications?.length ?? 0); i++) {
+      // console.log(notifications[i].Type_Id);
+    
+      // Find the tweet corresponding to the notification
+      const tweet = tweetNotifications.find((tweet) => tweet.Tweet_Id === notifications[i].Tweet_Id);
+      notifications[i].avatarUrl = allUsers.find((user) => user.User_Id === notifications[i].Avatar_Url_Id);
+      // Update notification with tweet content if found
+      if (tweet) {
+        notifications[i].tweet = tweet.Content;
+      }
+      switch (notifications?.[i]?.Type_Id ?? "") {
+        case 1: //New_Follow
+          setFollowNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        case 2: //New_Post
+          setPostNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        case 3: //New_Comment
+          notifications[i].comment = allComments.find((user) => user.User_Id === notifications[i].Comment_Id && user.Tweet_Id === notifications[i].Tweet_Id);
+          setCommentNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        case 4: //New_Like
+          setLikedNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        case 5: //Retweet
+          setRetweetNotifications((prev) => [...prev, notifications[i]]);
+          break;
+        default:
+          break;
+      }
+    }
+    // console.log(notifications);
+  }, [notifications, setFollowNotifications, setPostNotifications, setCommentNotifications, setLikedNotifications, setRetweetNotifications]);
   // need to add tabs: Likes, Follows, Comments, Retweets, Posts
   // Need to modify the layout of data being passed for different types of tweets
   return (
-    <div className="w-full h-screen flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-          <Nav />
-        </div>
-        <div className="main-content w-2/5 m-0 p-0 border dark:border-neutral-800">
+   
+        
+        <div className="main-content m-0 p-0 border dark:border-neutral-800">
           <div className="flex flex-col w-full m-0 p-0 justify-center">
             {/* Notification Header */}
             <div className="flex justify-between items-center p-2 dark:text-white">
               <h1 className="text-2xl font-bold">Notifications</h1>
-              <Button >
-                <FiSettings size={18} />
-              </Button>
             </div>
             {/* Notifications Tabs */} 
             {/* // console.log(followNotifications);
@@ -207,12 +231,11 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         notifications
                           .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                           .map((notification, index) => (
-                            <PostNotification
+                            <FollowNotifications
                               key={index}
                               id={index}
+                              avatarUrl={notification.avatarUrl?.Img_Url}
                               description={notification.Content}
-                              avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
                             />
                           ))
                       )}
@@ -255,12 +278,11 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         followNotifications
                         .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                         .map((notification, index) => (
-                          <PostNotification
+                          <FollowNotifications
                               key={index}
                               id={index}
                               description={notification.Content}
-                              avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
+                              avatarUrl={notification.avatarUrl?.Img_Url}
                             />
                         ))
                       )}
@@ -279,9 +301,9 @@ const Notifications: React.FC<NotificationsProps> = () => {
                           <PostNotification
                               key={index}
                               id={index}
+                              avatarUrl={notification.avatarUrl?.Img_Url}
                               description={notification.Content}
-                              avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
+                              tweet={notification.tweet}
                             />
                         ))
                       )}
@@ -297,12 +319,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         commentNotifications
                         .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                         .map((notification, index) => (
-                          <PostNotification
+                          <CommentNotification
                               key={index}
                               id={index}
+                              avatarUrl={notification.avatarUrl?.Img_Url}
                               description={notification.Content}
-                              avatarUrl={notification.avatarUrl}
-                              dateCreated={getTimeDisplay(notification.Created_at)}
+                              comment={notification?.comment?.Content?.length > 20 ? notification?.comment?.Content.slice(0, 20) + '...' : notification?.comment?.Content}
                             />
                         ))
                       )}
@@ -318,12 +340,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         likedNotifications
                         .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                         .map((notification, index) => (
-                          <PostNotification
+                          <LikedNotification
                           key={index}
                           id={index}
                           description={notification.Content}
-                          avatarUrl={notification.avatarUrl}
-                          dateCreated={getTimeDisplay(notification.Created_at)}
+                          avatarUrl={notification.avatarUrl?.Img_Url}
+                          tweet={notification.tweet}
                         />
                         ))
                       )}
@@ -339,12 +361,12 @@ const Notifications: React.FC<NotificationsProps> = () => {
                         retweetNotifications
                         .sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime())
                         .map((notification, index) => (
-                          <PostNotification
+                          <RetweetNotifications
                           key={index}
                           id={index}
                           description={notification.Content}
-                          avatarUrl={notification.avatarUrl}
-                          dateCreated={getTimeDisplay(notification.Created_at)}
+                          avatarUrl={notification.avatarUrl?.Img_Url}
+                          tweet={notification.tweet}
                         />
                         ))
                       )}
@@ -355,15 +377,8 @@ const Notifications: React.FC<NotificationsProps> = () => {
             </div>
           </div>
         </div>
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-          <div className="mb-3">
-            <Search />
-          </div>
-          <TrendingTopics />
-          <WhoToFollow users={[]} />
-        </div>
-      </div>
-    </div>
+        
+     
     
   );
 };

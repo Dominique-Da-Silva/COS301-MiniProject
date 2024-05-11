@@ -1,4 +1,6 @@
+import { Tweet } from '@components/index';
 import { supabase } from '@config/supabase';
+import { Avatar, user } from '@nextui-org/react';
 //import { user } from '@nextui-org/react';
 
 //tweet id:94 95 96 : userid: 27 - testing
@@ -37,7 +39,8 @@ const CreateFollowNotification = async (followingId:number,followedId:number) =>
                               User_Id: followedId,
                               Type_Id: 1,
                               Content: Content,
-                              Read: false
+                              Read: false,
+                              Avatar_Url_Id: followingId
                           }
                       ]);
 
@@ -103,7 +106,9 @@ const CreateLikeNotification = async (tweetId:number,userId: number) => {
                               User_Id: tweet[0].User_Id,
                               Type_Id: 4,
                               Content: Content,
-                              Read: false
+                              Read: false,
+                              Tweet_Id: tweetId,
+                              Avatar_Url_Id: userId
                           }
                       ]);
 
@@ -167,7 +172,9 @@ const CreateRetweetNotification = async (tweetId:number,userId: number) => {
                               User_Id: tweet[0].User_Id,
                               Type_Id: 5,
                               Content: Content,
-                              Read: false
+                              Read: false,
+                              Tweet_Id: tweetId,
+                              Avatar_Url_Id: userId
                           }
                       ]);
 
@@ -230,6 +237,8 @@ const CreateTweetNotification = async (tweetId:number) => {
               Type_Id: 2, // Assuming Type_Id 2 represents a new post notification
               Content: Content,
               Read: false,
+              Tweet_Id: tweetId,
+              Avatar_Url_Id: tweet[0].User_Id,
             },
           ])
           .select();
@@ -263,7 +272,7 @@ const CreateCommentNotification = async (tweetId:number,userId: number) => {
     const { data: username, error: userError } = await supabase
       .from('User')
       .select('Username')
-      .eq('User_Id', tweet[0].User_Id);
+      .eq('User_Id', userId);
 
     if (userError) throw userError;
 
@@ -272,10 +281,13 @@ const CreateCommentNotification = async (tweetId:number,userId: number) => {
     const { data: notifs,error} = await supabase
       .from("Notification")
       .insert([{
-        User_Id: userId,
+        User_Id: tweet[0].User_Id,
         Type_Id: 3, // Assuming Type_Id 3 represents a comment notification
         Content: Content,
         Read: false,
+        Tweet_Id: tweetId,
+        Comment_Id: userId,
+        Avatar_Url_Id: userId
       }])
       .select();
       
