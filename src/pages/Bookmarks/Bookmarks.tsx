@@ -99,7 +99,12 @@ const Bookmarks = () => {
         if (id) {
           //this doesn't work anymore
           const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
-          setTweets(tweetData);
+
+          if(tweetData !== undefined){
+            setTweets(tweetData);
+          } else {
+            console.error('Tweet data is undefined');
+          }
         }
         else{
           throw "could not fetch tweet data"
