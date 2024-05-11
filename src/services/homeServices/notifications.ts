@@ -1,6 +1,4 @@
-import { Tweet } from '@components/index';
 import { supabase } from '@config/supabase';
-import { Avatar, user } from '@nextui-org/react';
 //import { user } from '@nextui-org/react';
 
 //tweet id:94 95 96 : userid: 27 - testing
