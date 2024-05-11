@@ -1,5 +1,5 @@
 import { useState, Suspense, useEffect, useRef } from "react";
-import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
+import { Tweet, TrendingTopics, WhoToFollow, Nav, TweetSkeleton } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
@@ -88,6 +88,7 @@ const ProfilePage = () => {
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [buttonText, setButtonText] = useState<string>("");
+  
 
   // const location = useLocation(); 
   // const { pathname } = location;
@@ -253,6 +254,8 @@ const ProfilePage = () => {
     }
     catch (error) {
       console.error("Error fetching data: ", error);
+    } finally {
+      setIsLoading(false); // Set isLoading to false once all data has been fetched
     }
   }
 
@@ -269,6 +272,7 @@ const ProfilePage = () => {
         navigate("/home");
       }
       else {
+        setIsLoading(true);
         //get user data
         await getUD(); 
         await profileSub(); 
@@ -296,6 +300,14 @@ const ProfilePage = () => {
       // getUserMedia(); media was already fetched in profileSub
     }
     setActiveTab(tabName);
+  };
+
+  const Loader = () => {
+    const skeletons = [];
+    for(let i = 0; i < 12; i++) {
+      skeletons.push(<TweetSkeleton key={i} />);
+    }
+    return skeletons;
   };
 
   return (

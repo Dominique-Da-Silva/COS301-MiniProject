@@ -46,16 +46,15 @@ const Settings = () => {
 
   return (
       <>
-      <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
-        <div className="flex flex-col m-0 p-0">
+      <div className="main-content flex w-1/4 h-screen m-0 p-0 border dark:border-neutral-800">
+        <div className="flex flex-col m-0 p-0 w-full">
           <div className="p-4 border-b border-gray-300 dark:border-neutral-800">
-            <h2 className="text-gray-600 font-semibold">SETTINGS</h2>
+            <h2 className="text-gray-600 font-semibold dark:text-white">SETTINGS</h2>
           </div>
-          <div className="mt-4">
-            <div className="hover:bg-gray-100 p-2 rounded-md">
-              <Link href="#" onClick={() => setActiveTab("account")}>
+          <div className="mt-4 w-full">
+          <div className={`hover:bg-gray-100 dark:hover:bg-neutral-900 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "account" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("account")}>
                 <p className="font-semibold">Your account</p>
-              </Link>
+                <IoIosArrowForward className="dark:text-gray-500" />
             </div>
             {
               auth_method === "email" && (

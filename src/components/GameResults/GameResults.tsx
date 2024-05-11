@@ -53,21 +53,21 @@ const GameResult: React.FC<GameResultProps> = ({ correctCount }) => {
   return (
     <div className="w-full h-screen flex flex-col px-8">
       <div className='flex justify-center'>
-        <h2 className="py-6 text-3xl font-bold">
+        <h2 className="py-6 text-3xl font-bold dark:text-white">
           Twivia
         </h2>
       </div>
       <div className="flex items-center justify-center">
         <FaTwitter style={{ fontSize: '2rem', color: '#1DA1F2', marginBottom: '1rem' }} />
       </div>
-      <h2 className="text-xl font-bold">
+      <h2 className="text-xl font-bold dark:text-white">
         Your result:
       </h2>
       <h1 className="text-8xl font-bold mb-2" style={{ color: getColor(percentage) }}>
         {percentage}%
       </h1>
       <div className="font-bold text-xl flex items-center justify-center py-3">
-        <h2 className="mb-2">
+        <h2 className="mb-2 dark:text-white">
           Your skill level is:
         </h2>
       </div>
@@ -78,7 +78,7 @@ const GameResult: React.FC<GameResultProps> = ({ correctCount }) => {
         {emoji && <img src={emoji.emoji} alt={emoji.name} style={{ width: '60px', height: '60px' }} />}
       </div>
       <div className="flex flex-col items-center space-y-2 mt-1">
-        <p className="">
+        <p className="dark:text-white">
           {text}
         </p>
       </div>
