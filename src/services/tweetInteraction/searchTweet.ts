@@ -15,28 +15,34 @@ interface TweetInfo {
     Comments: any;
 }
 
+const emptyTweet: TweetInfo = {
+    User_Id: 0,
+    username: '',
+    name: '',
+    surname: '',
+    content: '',
+    image: '',
+    created: '',
+    Retweets: 0,
+    Likes: 0,
+    Saves: 0,
+    Comments: 0,
+};
+
 export async function searchTweet(query: string) {
     try {
         const { data: tweetsData, error: tweetsError } = await supabase
             .from('Tweets')
             .select(`User_Id, Content, Img_Url, Created_at,
-               Retweets (
-                count()
-               ),
-               Likes(
-                 count()
-               ),
-               Saves(
-                 count()
-               ),
-               Comments(
-                 count()
-               )`)
+                Retweets:Retweets (*),
+                Likes:Likes (*),
+                Saves:Saves (*),
+                Comments:Comments (*)`)
             .ilike('Content', `%${query}%`);
 
         if (tweetsError) {
             console.error('Error searching for tweets.');
-            return [];
+            return [emptyTweet];
         }
 
         const tweets: TweetInfo[] = []; // Change the type of the array to TweetInfo[]
@@ -57,7 +63,7 @@ export async function searchTweet(query: string) {
                 username: userData?.Username,
                 name: userData?.Name,
                 surname: userData?.Surname,
-                content: tweet.Content,
+                content: tweet.Content ?? "",
                 image: tweet.Img_Url || '',
                 created: tweet.Created_at,
                 Retweets: tweet.Retweets || 0,
@@ -71,6 +77,6 @@ export async function searchTweet(query: string) {
 
     } catch (error: any) {
         console.error('Error searching for tweets:', error.message);
-        return [];
+        return [emptyTweet];
     }
 }
