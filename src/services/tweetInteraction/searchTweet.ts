@@ -1,7 +1,21 @@
 import { supabase } from "@config/supabase";
 
-export async function searchTweet(query: string){
-    // return ["the search tweet function is currently not functional", query];
+// Define the type for tweet information for display purposes
+interface TweetInfo {
+    User_Id: number | undefined;
+    username: string | undefined;
+    name: string | undefined;
+    surname: string | undefined;
+    content: string;
+    image: string;
+    created: any;
+    Retweets: any;
+    Likes: any;
+    Saves: any;
+    Comments: any;
+}
+
+export async function searchTweet(query: string) {
     try {
         const { data: tweetsData, error: tweetsError } = await supabase
             .from('Tweets')
@@ -25,12 +39,10 @@ export async function searchTweet(query: string){
             return [];
         }
 
-        const tweets: string[] = [];
+        const tweets: TweetInfo[] = []; // Change the type of the array to TweetInfo[]
 
         for (const tweet of tweetsData) {
-            // console.log(tweet.saves);
-
-            const{data: userData, error: userError} = await supabase
+            const { data: userData, error: userError } = await supabase
                 .from('User')
                 .select('User_Id, Username, Name, Surname')
                 .eq('User_Id', tweet.User_Id)
@@ -40,22 +52,21 @@ export async function searchTweet(query: string){
                 console.error('Error fetching user data for the tweet.');
             }
 
-            const tweetInfo = {
-                User_Id : userData?.User_Id,
-                username : userData?.Username,
-                name : userData?.Name,
-                surname : userData?.Surname,
-                content : tweet.Content,
-                image : tweet.Img_Url || '',
-                created : tweet.Created_at,
-                Retweets : tweet.Retweets || 0,
-                Likes : tweet.Likes || 0,
-                Saves : tweet.Saves || 0,
-                Comments : tweet.Comments || 0,
+            const tweetInfo: TweetInfo = {
+                User_Id: userData?.User_Id,
+                username: userData?.Username,
+                name: userData?.Name,
+                surname: userData?.Surname,
+                content: tweet.Content,
+                image: tweet.Img_Url || '',
+                created: tweet.Created_at,
+                Retweets: tweet.Retweets || 0,
+                Likes: tweet.Likes || 0,
+                Saves: tweet.Saves || 0,
+                Comments: tweet.Comments || 0,
             };
             tweets.push(tweetInfo);
         }
-        // console.log(tweets);
         return tweets;
 
     } catch (error: any) {
