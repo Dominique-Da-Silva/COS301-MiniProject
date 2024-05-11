@@ -1,34 +1,34 @@
 import { Nav } from "@components/index";
 import React, { useEffect, useState } from "react";
 import {
-  TrendingTopics,
-  WhoToFollow,
-  Search,
+  // TrendingTopics,
+  // WhoToFollow,
+  // Search,
   PostNotification,
   LikedNotification,
-  Mention,
+  //Mention,
   FollowNotifications,
   RetweetNotifications, 
   CommentNotification,
 } from "@components/index";
-import { Button } from "@nextui-org/react";
-import {
-  mockNotifications,
-  mockLikedNotifications,
-  mockMentions,
-} from "mockData/mockData";
+// import { Button } from "@nextui-org/react";
+// import {
+//   mockNotifications,
+//   mockLikedNotifications,
+//   mockMentions,
+// } from "mockData/mockData";
 import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn, getUserData, fetchTweets } from "@services/index";
 import { getUserNotifications, 
-  CreateCommentNotification,
-  CreateFollowNotification,
-  CreateLikeNotification,
-  CreateRetweetNotification,
-  CreateTweetNotification,
+  // CreateCommentNotification,
+  // CreateFollowNotification,
+  // CreateLikeNotification,
+  // CreateRetweetNotification,
+  // CreateTweetNotification,
   getAllComments,
   fetchAllProfiles,
    } from "@services/index";
-import { create } from "zustand";
+//import { create } from "zustand";
 
 
 interface NotificationsProps {}

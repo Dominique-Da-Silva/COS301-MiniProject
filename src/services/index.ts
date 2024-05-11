@@ -1,4 +1,4 @@
-import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn, addUserToDatabase, getAuthIdFromSession } from "./auth/auth.ts";
+import { signInWithGithub, signInWithGoogle, signInUser, signUpNewUser, signOut, isUserLoggedIn, addUserToDatabase } from "./auth/auth.ts";
 import { uploadProfile } from "./storage/storage.ts";
 import { updateUsername, updateEmail, updateName, updateSurname } from './profileServices/updateUserDetails.ts';
 import {fetchUsers} from "./homeServices/getUsersData.ts";

@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
 
-import {
-  getLoggedUserId,
-} from "@services/index";
 
 interface TweetProps {
   tweet_id: number;

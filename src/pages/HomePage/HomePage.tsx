@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { fetchTweets, fetchUsers, fetchProfileDetails, getLoggedUserId } from "@services/index";
 import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
@@ -18,11 +18,11 @@ const HomePage: React.FC<HomePageProps> = () => {
   // const [userId, setUserId] = useState(0);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [userimg, setuserimg] = useState<any>(null);
-  const navigate = useNavigate();
+ //const navigate = useNavigate();
 
-  const handleNavigation = (path : string) => {
-    navigate(path);
-  };
+  // const handleNavigation = (path : string) => {
+  //   navigate(path);
+  // };
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);

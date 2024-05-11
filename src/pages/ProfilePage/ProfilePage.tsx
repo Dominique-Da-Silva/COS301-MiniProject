@@ -1,5 +1,5 @@
-import { useState, Suspense, useEffect, useRef } from "react";
-import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
+import { useState,  useEffect, useRef } from "react";
+import { Tweet} from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
@@ -11,8 +11,7 @@ import { getUserComments } from "@services/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink, useNavigate, useParams, useLocation } from "react-router-dom";
-import { Search } from "@components/index";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 // import { getAuthIdFromSession } from "@services/index";
