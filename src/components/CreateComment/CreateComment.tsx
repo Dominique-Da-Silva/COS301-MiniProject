@@ -30,7 +30,7 @@ interface CreateCommentProps {
   imageUrl?: string;
   profileimageurl?: string;
   timeDisplay: string;
-  userimg: string;
+  userimg?: string;
 }
 const CreateComment: React.FC<CreateCommentProps> = ({
   user_id,
