@@ -45,8 +45,6 @@ import { getUserProfiles } from "./gameServices/getUserProfiles.ts";
 import { getRandomTweet, getListOfFiveUsersTweets, whoMadeThisTweetGame } from "./gameServices/whoMadeThisTweetGame.ts";
 import { getNewestFollowing, getOldestFollowing } from "./gameServices/FollowingPeriod.ts";
 import { whoMadeThisTweetonDateGame, getRandomTweetWithDate, getListOfFiveUsersTweetedOn } from "./gameServices/whoTweetedThisOn.ts";
-import { mostFollowers } from "./gameServices/mostFollowers.ts";
-import { longestFollowing } from "./gameServices/longestFollowing.ts";
 import { mostTweets } from "./gameServices/mostTweets.ts";
 
 
@@ -65,5 +63,5 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     pickRandomIdsFromFollowingList, getUserProfiles, getRandomTweet, 
     getListOfFiveUsersTweets, whoMadeThisTweetGame,
     getNewestFollowing, getOldestFollowing, whoMadeThisTweetonDateGame,
-    getRandomTweetWithDate, getListOfFiveUsersTweetedOn,longestFollowing,mostFollowers, mostTweets,
+    getRandomTweetWithDate, getListOfFiveUsersTweetedOn, mostTweets,
     };
