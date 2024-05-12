@@ -181,7 +181,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
-                      activeTab === "verified" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "follows" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("follows")}
                   >
@@ -189,7 +189,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "posts" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("posts")}
                   >
@@ -197,7 +197,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "comments" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("comments")}
                   >
@@ -205,7 +205,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "likes" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("likes")}
                   >
@@ -213,7 +213,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
                   </button>
                   <button
                     className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
-                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
+                      activeTab === "retweets" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("retweets")}
                   >

@@ -12,7 +12,7 @@ const FollowNotifications: React.FC<FollowNotificationProp> = ({
   avatarUrl,
 }) => {
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800 dark:text-white">
       <div className="flex-col w-auto dark:text-white">
         <FaUser color="#1DA1F2" style={{ marginRight: "10px" }}/>{" "}
       </div>

@@ -34,7 +34,7 @@ const AppLayout = (props: Props) => {
                         <div className="mb-3">
                             <Search />
                         </div>
-                        <TrendingTopics onNavigate={handleNavigation} />
+                        <TrendingTopics onNavigate={handleNavigation} /><br/>
                         <WhoToFollow users={[]} />
                     </div>
                     </>

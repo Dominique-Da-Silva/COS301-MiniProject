@@ -14,7 +14,7 @@ const PostNotification: React.FC<PostNotificationProp> = ({
   tweet,
 }) => {
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800 dark:text-white">
       <div className="flex-col w-auto dark:text-white">
         <PiStarFourFill color="#774CC5"/>{" "}
       </div>

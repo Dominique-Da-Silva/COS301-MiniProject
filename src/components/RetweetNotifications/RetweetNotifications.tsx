@@ -14,7 +14,7 @@ const RetweetNotifications: React.FC<RetweetNotificationProp> = ({
   avatarUrl,
 }) => {
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800 dark:text-white">
       <div className="flex-col w-auto dark:text-white ">
         <FaRetweet color="#53A47F" />{" "}
       </div>

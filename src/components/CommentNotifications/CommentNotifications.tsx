@@ -14,7 +14,7 @@ const CommentNotification: React.FC<CommentNotificationProp> = ({
   comment,
 }) => {
   return (
-    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">
+    <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800 dark:text-white">
         <div>
             <div className="avatar mb-2">
             <Avatar
