@@ -1,10 +1,13 @@
-import React from "react";
+
 // import { supabase } from "@config/supabase";
 import {Card, CardHeader} from "@nextui-org/react";
 import TrendingList from "@components/TrendingList/TrendingList";
 
+type TrendingTopicsProps = {
+  onNavigate: (arg: any) => void; // Replace 'any' with the actual type of the argument
+};
 
-const TrendingTopics = ({ onNavigate }) => {
+const TrendingTopics = ({ onNavigate }: TrendingTopicsProps) => {
 
   return (
     <div>
