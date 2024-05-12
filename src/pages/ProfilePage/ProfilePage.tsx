@@ -93,8 +93,8 @@ const ProfilePage = () => {
   // const { pathname } = location;
 
   const { username } = useParams<{ username: string }>();
-  const userDataRef = useRef(null);
-  const userStash = useRef(null);
+  const userDataRef = useRef<any>();
+  const userStash = useRef<any>();
   const userExt = useRef(false);
 
   const handleNavigation = (path: any) => {
@@ -155,7 +155,7 @@ const ProfilePage = () => {
       userDataS = await fetchUserData();
       ext = null;
       setExternal(null);
-      const following = await checkIfFollowing(userDataS.User_Id, userDataX.User_Id);
+      const following = await checkIfFollowing(userDataS.User_Id, userDataX?.User_Id ?? 0);
       setIsFollowing(following);
       console.log("Following - " +following)
       if (following) {
@@ -213,7 +213,9 @@ const ProfilePage = () => {
     try {
       if (userDataRef.current && userTweets.length === 0) {
         const tempTweets = await getUserTweets(userDataRef.current.User_Id);
-        setUserTweets(tempTweets);
+        if(tempTweets){
+          setUserTweets(tempTweets);
+        }
       }
     }
     catch (error) {
@@ -225,7 +227,9 @@ const ProfilePage = () => {
     try {
       if (userDataRef.current && userReplies.length === 0) {
         const replies = await getUserComments(userDataRef.current.User_Id);
-        setUserReplies(replies);
+        if(replies){
+          setUserReplies(replies);
+        }
       }
     }
     catch (error) {
