@@ -21,6 +21,8 @@ const RecommendedUsers: React.FC<RecommendedUsersProps> = () => {
     const repeatedIndexes: number[] = [];
     for (let i = 0; i < 3; i++) {
       if (repeatedIndexes.includes(Math.floor(Math.random() * users.length))) {
+        i--;
+        continue;
       }
       randomUsers.push(users[Math.floor(Math.random() * users.length)]);
       repeatedIndexes.push(Math.floor(Math.random() * users.length));
