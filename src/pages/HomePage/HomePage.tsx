@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { fetchTweets, fetchUsers, fetchProfileDetails, getLoggedUserId } from "@services/index";
 import { isUserLoggedIn } from "@services/auth/auth";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 //import { addTweet } from "@services/index";
 //import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 
@@ -18,12 +18,12 @@ const HomePage: React.FC<HomePageProps> = () => {
   // const [userId, setUserId] = useState(0);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [userimg, setuserimg] = useState<any>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleNavigation = (path : string) => {
-    navigate(path);
-  };
+  // const handleNavigation = (path : string) => {
+  //   navigate(path);
+  // };
   // const HomePage: React.FC<HomePageProps> = () => {
   // const [savesCount, setSavesCount] = useState<any>(0);
   // const [commentsCount, setCommentsCount] = useState<any>(0);
@@ -74,6 +74,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         //  console.log("Current User:");
         //  console.log(user);
          setCurrentUser(user);
+         console.log(currentUser);
       } catch (error) {
         console.error('Error fetching current user:', error);
       }
@@ -91,9 +92,11 @@ const HomePage: React.FC<HomePageProps> = () => {
     const getuserimg = async () => {
       try {
         const id = await getLoggedUserId();
-        const profimg = await fetchProfileDetails(id)
-        console.log(id);
-        setuserimg(profimg.Img_Url);
+        if (id !== undefined) { // Add a check to ensure id is not undefined
+          const profimg = await fetchProfileDetails(id as number)
+          console.log(id);
+          setuserimg(profimg.Img_Url);
+        }
       } catch (error) {
         console.error('Error fetching userimg:', error);
       }

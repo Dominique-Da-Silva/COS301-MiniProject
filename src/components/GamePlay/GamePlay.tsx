@@ -40,7 +40,7 @@ const GamePlay = () => {
     try {
       const userId = await getLoggedUserId();
       console.log('game ID: ', userId);
-      const count = await countFollowing(userId);
+      const count = await countFollowing(userId as unknown as string);
       console.log('game count: ', count);
       if (count !== undefined) {
         setFollowingCount(count);
