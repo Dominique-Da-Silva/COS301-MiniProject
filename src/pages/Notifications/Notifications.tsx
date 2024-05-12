@@ -1,33 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  // TrendingTopics,
-  // WhoToFollow,
-  // Search,
   PostNotification,
   LikedNotification,
-  //Mention,
   FollowNotifications,
   RetweetNotifications, 
   CommentNotification,
 } from "@components/index";
-// import { Button } from "@nextui-org/react";
-// import {
-//   mockNotifications,
-//   mockLikedNotifications,
-//   mockMentions,
-// } from "mockData/mockData";
 import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn, getUserData, fetchTweets } from "@services/index";
-import { getUserNotifications, 
-  // CreateCommentNotification,
-  // CreateFollowNotification,
-  // CreateLikeNotification,
-  // CreateRetweetNotification,
-  // CreateTweetNotification,
-  getAllComments,
-  fetchAllProfiles,
-   } from "@services/index";
-//import { create } from "zustand";
+import { getUserNotifications, getAllComments, fetchAllProfiles } from "@services/index";
 
 
 interface NotificationsProps {}
@@ -43,9 +24,9 @@ const Notifications: React.FC<NotificationsProps> = () => {
   const [commentNotifications, setCommentNotifications] = useState<any[]>([]);
   const [likedNotifications, setLikedNotifications] = useState<any[]>([]);
   const [retweetNotifications, setRetweetNotifications] = useState<any[]>([]);
-  const [tweetNotifications, setTweetNotifications] = useState<any[]>([]);
-  const [allUsers, setAllUsers] = useState<any[]>([]);
-  const [allComments, setAllComments] = useState<any[]>([]);
+  const [tweetNotifications] = useState<any[]>([]);
+  const [allUsers] = useState<any[]>([]);
+  const [allComments] = useState<any[]>([]);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };

@@ -74,6 +74,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         //  console.log("Current User:");
         //  console.log(user);
          setCurrentUser(user);
+         console.log(currentUser);
       } catch (error) {
         console.error('Error fetching current user:', error);
       }
@@ -91,9 +92,11 @@ const HomePage: React.FC<HomePageProps> = () => {
     const getuserimg = async () => {
       try {
         const id = await getLoggedUserId();
-        const profimg = await fetchProfileDetails(id)
-        console.log(id);
-        setuserimg(profimg.Img_Url);
+        if (id !== undefined) { // Add a check to ensure id is not undefined
+          const profimg = await fetchProfileDetails(id as number)
+          console.log(id);
+          setuserimg(profimg.Img_Url);
+        }
       } catch (error) {
         console.error('Error fetching userimg:', error);
       }
