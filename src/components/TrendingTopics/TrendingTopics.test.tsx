@@ -4,6 +4,6 @@ import TrendingTopics from './TrendingTopics';
 
 describe('TrendingTopics component', () => {
   test("renders without crashing", () => {
-    render(<TrendingTopics />);
+    render(<TrendingTopics onNavigate={() => {}}/>);
   })
 });

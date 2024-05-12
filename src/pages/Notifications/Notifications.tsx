@@ -25,7 +25,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
   const [likedNotifications, setLikedNotifications] = useState<any[]>([]);
   const [retweetNotifications, setRetweetNotifications] = useState<any[]>([]);
   const [tweetNotifications] = useState<any[]>([]);
-  const [allUsers] = useState<any[]>([]);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
   const [allComments] = useState<any[]>([]);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -46,14 +46,14 @@ const Notifications: React.FC<NotificationsProps> = () => {
       }
       fetchTweets().then((tweetNotifications) => {
         // Update tweet notifications state
-        setTweetNotifications(tweetNotifications);
+        setNotifications(tweetNotifications);
         // console.log(tweetNotifications);
         
       }); 
       const users = await fetchAllProfiles();
       setAllUsers(users);
       const comments = await getAllComments();
-      setAllComments(comments);
+      setCommentNotifications(comments);
       // console.log(userData?.user_metadata.user_id);
       const fetchedNotifications = await getUserNotifications(userData?.user_metadata.user_id);
       // console.log(fetchedNotifications);
