@@ -34,7 +34,9 @@ import {searchUsers} from "./usersProfileServices/searchUser.ts";
 import {searchTweet} from "./tweetInteraction/searchTweet.ts";
 import { getTweet } from './tweetInteraction/getTweet.ts'
 import { getAllComments } from './homeServices/getComments.ts'
-import { fetchAllProfiles } from './profileServices/getProfile.ts'
+import { fetchAllProfiles } from './profileServices/getProfile.ts';
+import { setTheme } from './settingsServices/setTheme.ts'
+import { getTheme } from "./homeServices/getTheme.ts";
 import { CreateFollowNotification,CreateLikeNotification,CreateCommentNotification,
     CreateRetweetNotification,CreateTweetNotification,updateNotifications,getUserNotifications } from "./homeServices/notifications.ts";
 import {countSaves} from "./tweetInteraction/countSaves.ts"
@@ -58,7 +60,7 @@ export { signInWithGithub, signInWithGoogle, signOut, signInUser,
     checkIfFollowing, getLoggedUserId, getUserData, countLikes, countRetweets, countSaves, countComments, changePassword, getBookmarkedTweets
     ,getTrendingTopics,CreateFollowNotification,getUserNotifications,CreateLikeNotification,
     CreateCommentNotification,CreateRetweetNotification,CreateTweetNotification,updateNotifications,addComment,getComments,
-    fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia, getTweet, getAllComments, fetchAllProfiles,
+    fetchLikedPosts, getUserTweets, getUserComments, fetchUserMedia, getTweet, setTheme, getTheme, getAllComments, fetchAllProfiles,
     getListOfFiveUsersAvatars, getRandomAvatar, matchAvatarGame,
     pickRandomIdsFromFollowingList, getUserProfiles, getRandomTweet, 
     getListOfFiveUsersTweets, whoMadeThisTweetGame,
