@@ -1,6 +1,14 @@
 import { supabase } from "@config/supabase";
 
-export async function searchUsers(query: string){
+interface UserProfile {
+    username: string;
+    name: string;
+    surname: string;
+    bio: string;
+    img_url: string;
+}
+
+export async function searchUsers(query: string): Promise<UserProfile[]> {
     try {
         const { data: usersData, error: usersError } = await supabase
             .from('User')
@@ -11,9 +19,8 @@ export async function searchUsers(query: string){
             console.error('Error searching for users.');
             return [];
         }
-        // console.log(usersData);
-
-        const profiles: string[] = [];
+        
+        const profiles: UserProfile[] = [];
 
         for (const user of usersData) {
             const { data: profileData, error: profileError } = await supabase
@@ -25,7 +32,7 @@ export async function searchUsers(query: string){
             if (profileError) {
                 console.error('Error fetching profile for user.');
             }
-            const userProfile = {
+            const userProfile: UserProfile = {
                 username: user.Username,
                 name: user.Name,
                 surname: user.Surname,

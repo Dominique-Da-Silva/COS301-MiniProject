@@ -40,12 +40,17 @@ const GamePlay = () => {
     try {
       const userId = await getLoggedUserId();
       console.log('game ID: ', userId);
-      const count = await countFollowing(userId);
-      console.log('game count: ', count);
-      if (count !== undefined) {
-        setFollowingCount(count);
-        console.log('game following count: ', followingCount);
-        startGame(count);
+      if (userId !== null && userId !== undefined) {
+        const stringUserId = userId.toString();
+        const count = await countFollowing(stringUserId);
+        console.log('game count: ', count);
+        if (count !== undefined) {
+          setFollowingCount(count);
+          console.log('game following count: ', followingCount);
+          startGame(count);
+        }
+      } else {
+        console.error('Error: userId is null or undefined');
       }
       setIsLoading(false);
     } catch (error) {
@@ -157,27 +162,27 @@ const GamePlay = () => {
       {!showResult && questionData && (
         <>
           <div className='flex justify-center'>
-            <h2 className="py-6 text-3xl font-bold">
+            <h2 className="py-6 text-3xl font-bold dark:text-white">
               Twivia
             </h2>
           </div>
           <div className="flex items-center justify-center">
             <FaTwitter style={{ fontSize: '2rem', color: '#1DA1F2', marginBottom: '1rem' }} />
           </div>
-          <div className="flex items-center justify-center font-bold">
+          <div className="flex items-center justify-center font-bold dark:text-white">
             {questionData?.candidate_question?.question}<br/>
           </div>
-          <div className="flex items-center justify-center pt-4">
+          <div className="flex items-center justify-center pt-4 dark:text-white">
           {type === "matchAvatarGame" && questionData?.candidate_question?.randObj?.Img_Url && <img src={questionData?.candidate_question?.randObj?.Img_Url} className="w-8 h-8 rounded-full mr-2" />}
             </div>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center dark:text-white">
           {questionData?.candidate_question?.randObj?.Content}
           </div>
           <div className="flex items-center justify-center">
 
           </div>
 
-          <div className="mt-4 flex flex-col">
+          <div className="mt-4 flex flex-col dark:text-white">
           {questionData?.list_options.map((option: any) => (
   <div
     key={option.User_Id}
@@ -208,7 +213,7 @@ const GamePlay = () => {
 ))}
           </div>
           {feedback !== null && (
-            <div className='flex justify-center font-bold'>
+            <div className='flex justify-center font-bold '>
               <p className={`text-lg ${feedback === 'correct' ? 'text-green-500' : 'text-red-500'}`}>
                 {feedback === 'correct' ? 'Correct!' : 'Incorrect!'}
                 {feedback === 'correct' && <Confetti numberOfPieces={100} />}

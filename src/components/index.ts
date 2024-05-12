@@ -21,6 +21,8 @@ import TweetDetails from "./TweetDetails/TweetDetails";
 import CreateCommentInput from "./CreateCommentInput/CreateCommentInput";
 import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
 import TweetModal from "./TweetModal/TweetModal";
+import TweetSkeleton from "./TweetSkeleton/TweetSkeleton"
+import TopicSkeleton from "./TopicSkeleton/TopicSkeleton"
 import CommentNotification from "./CommentNotifications/CommentNotifications";
 import GamePlay from "./GamePlay/GamePlay";
 import GameResults from "./GameResults/GameResults";
@@ -51,5 +53,7 @@ export {
   TweetModal,
   CommentNotification,
   GamePlay,
-  GameResults
+  GameResults,
+  TweetSkeleton,
+  TopicSkeleton
 };

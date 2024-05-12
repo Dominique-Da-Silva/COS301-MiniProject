@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getComments, getTweet, getLoggedUserId, toggleComment } from '@services/index';
+import { getComments, getTweet, getLoggedUserId} from '@services/index';
 // import { toggleLike, toggleSave, toggleRetweet } from '@services/index';
 import { FaRegComment, FaComment } from "react-icons/fa";
 import { PiHeartBold, PiHeartFill } from "react-icons/pi";
@@ -45,22 +45,22 @@ const TweetDetailsPage = () => {
   const [bookmarkColor, setBookmarkColor] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
-  const [commentCount, setCommentCount] = useState(0);
-  const [retweetCount, setRetweetCount] = useState(0);
-  const [likeCount, setLikeCount] = useState(0);
-  const [saveCount, setSaveCount] = useState(0);
+  // const [commentCount, setCommentCount] = useState(0);
+  // const [retweetCount, setRetweetCount] = useState(0);
+  // const [likeCount, setLikeCount] = useState(0);
+  // const [saveCount, setSaveCount] = useState(0);
   const [currentUser, setCurrentUser] = useState<any>();
   // const [currentuserimg, setcurrentuserimg] = useState("");
 
   const handleCommentClick = () => {
     setCommentColor((prevState) => !prevState);
-    setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
+    //setCommentCount((prevCount) => (commentColor ? prevCount - 1 : prevCount + 1));
     onOpen();
   };
 
   const handleRetweetClick = () => {
     setRetweetColor((prevState) => !prevState);
-    setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
+    //setRetweetCount((prevCount) => (retweetColor ? prevCount - 1 : prevCount + 1));
 
     // Call the toggleRetweet function with tweetid and username
     // toggleRetweet(tweetId, userid);
@@ -68,7 +68,7 @@ const TweetDetailsPage = () => {
 
   const handleLikeClick = () => {
     setLikeColor((prevState) => !prevState);
-    setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
+    //setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
 
     // Call the toggleLike function with tweetid and username
     // toggleLike(tweetId, userid);
@@ -76,7 +76,7 @@ const TweetDetailsPage = () => {
 
   const handleBookmarkClick = () => {
     setBookmarkColor((prevState) => !prevState);
-    setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
+    //setSaveCount((prevCount) => (bookmarkColor ? prevCount - 1 : prevCount + 1));
 
     // Call the toggleSave function with tweetid and username
     // toggleSave(tweetId, userid);
