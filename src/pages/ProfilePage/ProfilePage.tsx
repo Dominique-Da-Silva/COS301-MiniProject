@@ -1,5 +1,5 @@
-import { useState, Suspense, useEffect, useRef } from "react";
-import { Tweet, TrendingTopics, WhoToFollow, Nav, TweetSkeleton } from "@components/index";
+import { useState, useEffect, useRef } from "react";
+import { Tweet,TweetSkeleton } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
@@ -8,11 +8,10 @@ import { fetchUserMedia } from "@services/index";
 import { fetchLikedPosts } from "@services/index";
 import { getUserTweets } from "@services/index";
 import { getUserComments } from "@services/index";
-import { IoMdSettings } from "react-icons/io";
+// import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink, useNavigate, useParams, useLocation } from "react-router-dom";
-import { Search } from "@components/index";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 // import { getAuthIdFromSession } from "@services/index";
@@ -62,7 +61,7 @@ const getTimeDisplay = (timestamp: string) => {
 const ProfilePage = () => {
 
   const [activeTab, setActiveTab] = useState("tweets");
-  const [userProfile] = useState<any>(mockUserProfile);
+  // const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(mockUserProfile);
@@ -73,12 +72,12 @@ const ProfilePage = () => {
   const [profiles, setProfiles] = useState<any[]>([]);
   const [tweetCollection, setTweetCollection] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [createdAt, setCreated_At] = useState<any>(
-    new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
-      month: "long",
-      year: "numeric",
-    })
-  );
+  // const [createdAt, setCreated_At] = useState<any>(
+  //   new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
+  //     month: "long",
+  //     year: "numeric",
+  //   })
+  // );
   //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
   //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
   const [external, setExternal] = useState<null | boolean>(null);
@@ -94,13 +93,13 @@ const ProfilePage = () => {
   // const { pathname } = location;
 
   const { username } = useParams<{ username: string }>();
-  const userDataRef = useRef(null);
-  const userStash = useRef(null);
+  const userDataRef = useRef<any>();
+  const userStash = useRef<any>();
   const userExt = useRef(false);
 
-  const handleNavigation = (path: any) => {
-    navigate(path);
-  };
+  // const handleNavigation = (path: any) => {
+  //   navigate(path);
+  // };
   
   const followUserButton = async () => {
     const currentUser = await getCurrentUser();
@@ -156,7 +155,7 @@ const ProfilePage = () => {
       userDataS = await fetchUserData();
       ext = null;
       setExternal(null);
-      const following = await checkIfFollowing(userDataS.User_Id, userDataX.User_Id);
+      const following = await checkIfFollowing(userDataS.User_Id, userDataX?.User_Id ?? 0);
       setIsFollowing(following);
       console.log("Following - " +following)
       if (following) {
@@ -214,7 +213,9 @@ const ProfilePage = () => {
     try {
       if (userDataRef.current && userTweets.length === 0) {
         const tempTweets = await getUserTweets(userDataRef.current.User_Id);
-        setUserTweets(tempTweets);
+        if(tempTweets){
+          setUserTweets(tempTweets);
+        }
       }
     }
     catch (error) {
@@ -226,7 +227,9 @@ const ProfilePage = () => {
     try {
       if (userDataRef.current && userReplies.length === 0) {
         const replies = await getUserComments(userDataRef.current.User_Id);
-        setUserReplies(replies);
+        if(replies){
+          setUserReplies(replies);
+        }
       }
     }
     catch (error) {

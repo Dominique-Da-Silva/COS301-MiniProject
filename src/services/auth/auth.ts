@@ -219,13 +219,13 @@ export async function getAuthIdFromSession(): Promise<number | null> {
   try {
       const { data: currUser, error } = await supabase.auth.getSession();
 
-      if (error || !currUser.data) {
+      if (error) {
           console.error('Error getting auth id from session:', error?.message || 'Session data not found');
           return null;
       }
-      return parseInt(currUser.data?.session?.user?.id);
+      return parseInt(currUser.session?.user.id ?? "0");
 
-  } catch (error) {
+  } catch (error: any) {
       console.error('Error getting auth id from session:', error.message);
       return null;
   }

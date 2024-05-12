@@ -1,9 +1,9 @@
 // context.js
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
-const IsFeatureEnabledContext = createContext(true);
+const IsFeatureEnabledContext = createContext({isEnabled: true, toggleEnabled: () => {}});
 
-const IsFeatureEnabledProvider = ({ children }) => {
+const IsFeatureEnabledProvider = ({ children }: any) => {
   const [isEnabled, setIsEnabled] = useState(true);
 
   const toggleEnabled = () => setIsEnabled(!isEnabled);

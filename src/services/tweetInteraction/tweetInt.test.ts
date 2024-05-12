@@ -1,5 +1,5 @@
 import { test, expect, describe,vi } from 'vitest';
-import { checkIfLiked, likeTweet, unlikeTweet } from './toggleLike'
+import { checkIfLiked,  unlikeTweet } from './toggleLike'
 
 // Mocking supabase library
 const mockSupabase = {

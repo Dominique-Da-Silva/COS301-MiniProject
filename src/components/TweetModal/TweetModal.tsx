@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink } from "react-router-dom";
-
-import {
-  getLoggedUserId,
-} from "@services/index";
+import { getLoggedUserId } from "@services/index";
 
 interface TweetProps {
   tweet_id: number;
@@ -24,7 +21,7 @@ interface TweetProps {
 }
 const TweetModal: React.FC<TweetProps> = ({ name, username, text, imageUrl, profileimageurl, timeDisplay, author}) => {
   
-  const [loggedUserId, setLoggedUserId] = useState<any>();
+  const [setLoggedUserId] = useState<any>();
 
   useEffect(() => {
     const fetchLoggedInUser = async () => {
@@ -32,7 +29,7 @@ const TweetModal: React.FC<TweetProps> = ({ name, username, text, imageUrl, prof
       setLoggedUserId(userData);
     };
     fetchLoggedInUser();
-  }, []);
+  },);
 
   return (
     <div className="tweet w-full flex border-t-1 m-0 p-4 dark:border-neutral-800">

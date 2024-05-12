@@ -1,6 +1,5 @@
 import React from "react";
 import { Avatar } from "@nextui-org/react";
-import { describe } from "vitest";
 interface CommentNotificationProp {
   id: number;
   avatarUrl: string;
