@@ -1,34 +1,14 @@
-import { Nav } from "@components/index";
 import React, { useEffect, useState } from "react";
 import {
-  TrendingTopics,
-  WhoToFollow,
-  Search,
   PostNotification,
   LikedNotification,
-  Mention,
   FollowNotifications,
   RetweetNotifications, 
   CommentNotification,
 } from "@components/index";
-import { Button } from "@nextui-org/react";
-import {
-  mockNotifications,
-  mockLikedNotifications,
-  mockMentions,
-} from "mockData/mockData";
 import { useNavigate } from "react-router-dom";
-import { isUserLoggedIn, getUserData, fetchTweets } from "@services/index";
-import { getUserNotifications, 
-  CreateCommentNotification,
-  CreateFollowNotification,
-  CreateLikeNotification,
-  CreateRetweetNotification,
-  CreateTweetNotification,
-  getAllComments,
-  fetchAllProfiles,
-   } from "@services/index";
-import { create } from "zustand";
+import { isUserLoggedIn, getUserData } from "@services/index";
+import { getUserNotifications } from "@services/index";
 
 
 interface NotificationsProps {}
@@ -44,37 +24,37 @@ const Notifications: React.FC<NotificationsProps> = () => {
   const [commentNotifications, setCommentNotifications] = useState<any[]>([]);
   const [likedNotifications, setLikedNotifications] = useState<any[]>([]);
   const [retweetNotifications, setRetweetNotifications] = useState<any[]>([]);
-  const [tweetNotifications, setTweetNotifications] = useState<any[]>([]);
-  const [allUsers, setAllUsers] = useState<any[]>([]);
-  const [allComments, setAllComments] = useState<any[]>([]);
+  const [tweetNotifications] = useState<any[]>([]);
+  const [allUsers] = useState<any[]>([]);
+  const [allComments] = useState<any[]>([]);
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
 
-  const getTimeDisplay = (timestamp: string) => {
-    const currentTime = new Date();
-    const parsedTimestamp = new Date(timestamp);
+  // const getTimeDisplay = (timestamp: string) => {
+  //   const currentTime = new Date();
+  //   const parsedTimestamp = new Date(timestamp);
 
-    const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
-    const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
+  //   const timeDiff = currentTime.getTime() - parsedTimestamp.getTime(); // Get time difference in milliseconds
+  //   const minutesDiff = Math.floor(timeDiff / 60000); // Convert milliseconds to minutes
 
-    let timeDisplay;
-    if (minutesDiff < 60) {
-      timeDisplay = `${minutesDiff}m`;
-    } else {
-      const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
-      if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
-      else {
-        const month = parsedTimestamp.toLocaleString("en-us", {
-          month: "short",
-        });
-        const day = parsedTimestamp.getDate();
-        timeDisplay = `${month} ${day}`;
-      }
-    }
+  //   let timeDisplay;
+  //   if (minutesDiff < 60) {
+  //     timeDisplay = `${minutesDiff}m`;
+  //   } else {
+  //     const hoursDiff = Math.floor(minutesDiff / 60); // Convert minutes to hours
+  //     if (hoursDiff < 24) timeDisplay = `${hoursDiff}h`;
+  //     else {
+  //       const month = parsedTimestamp.toLocaleString("en-us", {
+  //         month: "short",
+  //       });
+  //       const day = parsedTimestamp.getDate();
+  //       timeDisplay = `${month} ${day}`;
+  //     }
+  //   }
 
-    return timeDisplay;
-  };
+  //   return timeDisplay;
+  // };
 
   useEffect(() => {
     const checkUser = async () => {
@@ -89,19 +69,7 @@ const Notifications: React.FC<NotificationsProps> = () => {
         navigate("/home");
         return;
       }
-      fetchTweets().then((tweetNotifications) => {
-        // Update tweet notifications state
-        setTweetNotifications(tweetNotifications);
-        // console.log(tweetNotifications);
-        
-      }); 
-      const users = await fetchAllProfiles();
-      setAllUsers(users);
-      const comments = await getAllComments();
-      setAllComments(comments);
-      // console.log(userData?.user_metadata.user_id);
-      const fetchedNotifications = await getUserNotifications(userData?.user_metadata.user_id);
-      // console.log(fetchedNotifications);
+      const fetchedNotifications = await getUserNotifications(userData?.user_metadata.user_id) || [];
       setNotifications(fetchedNotifications);
       
       
