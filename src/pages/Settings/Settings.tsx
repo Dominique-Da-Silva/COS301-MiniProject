@@ -1,7 +1,6 @@
 import {  AccountInfo, NotificationSettings,DisplaySettings,ChangePassword } from "@components/index";
 import  { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import { Link} from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { getUserData, isUserLoggedIn } from "@services/index";
 
