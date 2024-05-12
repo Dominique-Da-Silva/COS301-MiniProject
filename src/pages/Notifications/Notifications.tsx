@@ -149,48 +149,48 @@ const Notifications: React.FC<NotificationsProps> = () => {
               <div className="w-full">
                 <div className="flex ">
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "all" ? "text-cyan-500" : "text-gray-500"
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
+                      activeTab === "all" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("all")}
                   >
                     All
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "verified" ? "text-cyan-500" : "text-gray-500"
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
+                      activeTab === "verified" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("follows")}
                   >
                     Follows
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-cyan-500" : "text-gray-500"
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
+                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("posts")}
                   >
                     Posts
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-cyan-500" : "text-gray-500"
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
+                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("comments")}
                   >
                     Comments
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-cyan-500" : "text-gray-500"
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
+                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("likes")}
                   >
                     Likes
                   </button>
                   <button
-                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 ${
-                      activeTab === "mentions" ? "text-cyan-500" : "text-gray-500"
+                    className={`w-1/3 py-4 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
+                      activeTab === "mentions" ? "text-blue-500" : "text-gray-500"
                     }`}
                     onClick={() => handleTabClick("retweets")}
                   >

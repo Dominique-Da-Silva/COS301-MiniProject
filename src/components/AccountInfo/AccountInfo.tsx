@@ -63,8 +63,8 @@ const AccountInfo: React.FC = () => {
       const profileDetails = await fetchProfileDetails(userDataX.User_Id);
       setAccountInfo(profileDetails);
       setUserData(userDataX);
-      console.log(profileDetails);
-      console.log(userDataX);
+      // console.log(profileDetails);
+      // console.log(userDataX);
     };
     fetchData();
   }, [userData]);
@@ -163,12 +163,12 @@ const AccountInfo: React.FC = () => {
       return <div>Loading...</div>;
     } else {
       return (
-        <div className="bg-white text-gray-800">
+        <div className="bg-white text-gray-800 dark:bg-black dark:text-white">
           <div className="p-4 border-b border-gray-300">
-            <h4 className="text-gray-600 font-semibold">Account information</h4>
+            <h4 className="text-gray-600 font-semibold dark:text-white">Account information</h4>
           </div>
           <div className="p-4">
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <label className="font-semibold">Name</label>
               <Input
                 id="surname"
@@ -179,7 +179,7 @@ const AccountInfo: React.FC = () => {
               />
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <label className="font-semibold">Surname</label>
               <Input
                 id="surname"
@@ -190,7 +190,7 @@ const AccountInfo: React.FC = () => {
               />
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <label className="font-semibold">Username</label>
               <Input
                 id="username"
@@ -201,7 +201,7 @@ const AccountInfo: React.FC = () => {
               />
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <label className="font-semibold">Email</label>
               <Input
                 id="email"
@@ -212,14 +212,14 @@ const AccountInfo: React.FC = () => {
               />
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <p className="font-semibold">Account creation</p>
               <p className="text-gray-500">
                 {getTimeDisplay(userData.Created_at)}
               </p>
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <label className="font-semibold">Location</label>
               <div>
                 <Dropdown>
@@ -244,12 +244,12 @@ const AccountInfo: React.FC = () => {
               </div>
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <p className="font-semibold">Languages</p>
               <p className="text-gray-500">English</p>
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <label className="font-semibold">Gender</label>
               <div>
                 <Dropdown>
@@ -277,7 +277,7 @@ const AccountInfo: React.FC = () => {
               </div>
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <p className="font-semibold">Birth date</p>
               <p className="text-gray-500">
                 {userData.Data_Of_Birth?.toString() ??
@@ -285,7 +285,7 @@ const AccountInfo: React.FC = () => {
               </p>
             </div>
             <div className="h-1" />
-            <div className="hover:bg-gray-100 p-2 rounded-md">
+            <div className="p-2 rounded-md">
               <p className="font-semibold">Age</p>
               <p className="text-gray-500">
                 {convertDataToAge(userData.Data_Of_Birth)

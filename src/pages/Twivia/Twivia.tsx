@@ -28,11 +28,11 @@ const Twivia: React.FC<TwiviaProps> = () => {
   }, [navigate]); */
 
   return (
-    <div className="w-full h-full flex justify-center align-middle">
+    <div className="w-full h-full flex justify-center align-middle bg-inherit">
           <div className="w-full flex flex-col items-center justify-center">
             {!showGamePlay ? (
               <>
-                <h1 style={{ fontSize: '3vw', background: '#1DA1F2', WebkitBackgroundClip: 'text', marginBottom: '1rem', fontWeight: 650, color: 'black !important' }}>
+                <h1 style={{ fontSize: '3vw', background: '#1DA1F2', WebkitBackgroundClip: 'text', marginBottom: '1rem', fontWeight: 650 }} className="dark:text-white">
                   Welcome to Twivia!
                 </h1>
                 <FaTwitter style={{ fontSize: '2rem', color: '#1DA1F2', marginBottom: '1rem' }} />

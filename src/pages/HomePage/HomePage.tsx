@@ -1,4 +1,4 @@
-import { Tweet, CreateTweet } from "@components/index";
+import { Tweet, CreateTweet, TweetSkeleton } from "@components/index";
 import React, { useState, useEffect } from "react";
 // import {Tabs, Tab} from "@nextui-org/react";
 import { fetchTweets, fetchUsers, fetchProfileDetails, getLoggedUserId } from "@services/index";
@@ -18,7 +18,8 @@ const HomePage: React.FC<HomePageProps> = () => {
   // const [userId, setUserId] = useState(0);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [userimg, setuserimg] = useState<any>(null);
- //const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   // const handleNavigation = (path : string) => {
   //   navigate(path);
@@ -34,23 +35,22 @@ const HomePage: React.FC<HomePageProps> = () => {
   //uncomment the following with the two useStates (setTweets and setUsers) for db access, useeffect and supabase imports
   useEffect(() => {
     //FETCHING THE TWEETS FROM TWEETS TABLE
-    const fetchTweetData = async () => {
-      try {
-        const tweetData = await fetchTweets();
-        // console.log("Tweet Data:");
-        console.log(tweetData);
-        setTweets(tweetData);
-      } catch (error) {
-        console.error('Error fetching tweets:', error);
-      }
-    };
+    // const fetchTweetData = async () => {
+    //   try {
+    //     const tweetData = await fetchTweets();
+    //     // console.log("Tweet Data:");
+    //     console.log(tweetData);
+    //     setTweets(tweetData);
+    //   } catch (error) {
+    //     console.error('Error fetching tweets:', error);
+    //   }
+    // };
 
     // FETCHING THE USERS FROM THE USER TABLE
     const fetchData = async () => {
+      setIsLoading(true); // Set isLoading to true before fetching data
       try {
         const usersData = await fetchUsers();
-        // console.log("Users Data:");
-        // console.log(usersData);
         setUsers(usersData as any[]); // Add type assertion here
 
         const tweetData = await fetchTweets();
@@ -61,9 +61,10 @@ const HomePage: React.FC<HomePageProps> = () => {
 
         const profilesData = await fetchAllProfiles();
         setProfiles(profilesData as any);
-
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false); // Set isLoading to false once all data has been fetched
       }
     };
 
@@ -98,25 +99,33 @@ const HomePage: React.FC<HomePageProps> = () => {
       }
     };
 
-    const getAllProfiles = async () => {
-      try {
-        const profilesData = await fetchAllProfiles();
-        // console.log("Profiles Data:");
-        // console.log(profilesData);
-        setProfiles(profilesData as any); // Update the type of the state variable
-      } catch (error) {
-        console.error('Error fetching profiles:', error);
-      }
-    };
+    // const getAllProfiles = async () => {
+    //   try {
+    //     const profilesData = await fetchAllProfiles();
+    //     // console.log("Profiles Data:");
+    //     // console.log(profilesData);
+    //     setProfiles(profilesData as any); // Update the type of the state variable
+    //   } catch (error) {
+    //     console.error('Error fetching profiles:', error);
+    //   }
+    // };
     
     // // Call both fetch functions when the component mounts
-    fetchTweetData();
+    // fetchTweetData();
     fetchData();
     getCurrentUser();
-    getAllProfiles();
+    // getAllProfiles();
     // getuser();
     getuserimg();
   }, [setCurrentUser]);
+
+  const Loader = () => {
+      const skeletons = [];
+      for(let i = 0; i < 10; i++) {
+        skeletons.push(<TweetSkeleton key={i} />);
+      }
+      return skeletons;
+  };
 
   //testing
 
@@ -184,6 +193,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         {/*This is unstyled which is why we are rendering create tweet which already has a button that is greyed out that tells the user to login if they wna to post*/}
           {/*currentUser ? <CreateTweet></CreateTweet> : <div>Please Log in to post Tweets</div>*/}
         <CreateTweet/>
+        {isLoading && <Loader />}
       {tweets?.sort((a, b) => new Date(b.Created_at).getTime() - new Date(a.Created_at).getTime()).map(tweet => {
         // console.log("Tweet:", tweet);
         // console.log("Users:", users);

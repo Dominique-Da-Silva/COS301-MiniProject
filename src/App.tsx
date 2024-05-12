@@ -5,7 +5,7 @@ import { AppLayout } from '@layouts/index';
 import "./styles/tailwind.css";
 import { useEffect, useRef, useState  } from 'react';
 import { supabase } from '@config/index';
-import { addUserToDatabase, signOut } from '@services/index';
+import { addUserToDatabase, signOut, getTheme } from '@services/index';
 import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -13,6 +13,7 @@ const App = () => {
   const isMountedRef = useRef(true); // Flag to track component mount status
   const isEffectExecutedRef = useRef(false); // Flag to track whether useEffect has been executed
   const [auth_state, setAuthState] = useState<AuthChangeEvent>('SIGNED_OUT');
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   useEffect(() => {
     const handleAuthStateChange = async(event: AuthChangeEvent, session: Session | null) => {
@@ -49,12 +50,19 @@ const App = () => {
         }
       }
     }
-
+    const checkTheme = async () => {
+      const theme = await getTheme();
+      setIsDarkTheme(theme.Darkmode);
+      console.log(theme);
+    }
+    
+    // Call the async function
+    checkTheme();
     checkUserAuthState();
   }, [auth_state])
 
   return (
-    <>
+    <main className={`w-full h-full ${isDarkTheme ? 'dark bg-black' : ''}`}>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -81,7 +89,7 @@ const App = () => {
       </Routes>
     </Router>
     <Toaster />
-    </>
+    </main>
   );
 };
 

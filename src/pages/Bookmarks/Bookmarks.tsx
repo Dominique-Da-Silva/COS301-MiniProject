@@ -121,7 +121,7 @@ const Bookmarks = () => {
   }, [navigate]);
   
   return (
-      <div className="flex flex-col m-0 p-0 justify-center">
+      <div className="flex flex-col m-0 p-0 justify-center h-full">
         <h1 className="text-2xl font-bold p-4 dark:text-white">Bookmarks</h1>
         {/* <p className="p-4">This is the Bookmarks page content.</p>  */}
         {tweets?.map(tweet => {

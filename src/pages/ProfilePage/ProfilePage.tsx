@@ -1,5 +1,5 @@
-import { useState,  useEffect, useRef } from "react";
-import { Tweet} from "@components/index";
+import { useState, Suspense, useEffect, useRef } from "react";
+import { Tweet, TrendingTopics, WhoToFollow, Nav, TweetSkeleton } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
@@ -71,6 +71,7 @@ const ProfilePage = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [tweetCollection, setTweetCollection] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [createdAt, setCreated_At] = useState<any>(
     new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
       month: "long",
@@ -86,6 +87,7 @@ const ProfilePage = () => {
   const [likedTweets, setLikedTweets] = useState<any[]>([]);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [buttonText, setButtonText] = useState<string>("");
+  
 
   // const location = useLocation(); 
   // const { pathname } = location;
@@ -251,6 +253,8 @@ const ProfilePage = () => {
     }
     catch (error) {
       console.error("Error fetching data: ", error);
+    } finally {
+      setIsLoading(false); // Set isLoading to false once all data has been fetched
     }
   }
 
@@ -267,6 +271,7 @@ const ProfilePage = () => {
         navigate("/home");
       }
       else {
+        setIsLoading(true);
         //get user data
         await getUD(); 
         await profileSub(); 
@@ -296,14 +301,22 @@ const ProfilePage = () => {
     setActiveTab(tabName);
   };
 
+  const Loader = () => {
+    const skeletons = [];
+    for(let i = 0; i < 12; i++) {
+      skeletons.push(<TweetSkeleton key={i} />);
+    }
+    return skeletons;
+  };
+
   return (
     <>
         <div className="flex flex-col w-full m-0 p-0 justify-center">
-          <div className="banner m-0">
+          <div className="banner m-0 border-b border-inherit dark:border-neutral-800">
             <img
               src={profileDetails.Banner_Url || mockProfileDetails.Banner_Url}
               alt="Banner"
-              className="w-full h-48 m-0"
+              className="w-full h-48 m-0 "
             />
           </div>
           {/* Profile  Header} */}
@@ -329,19 +342,19 @@ const ProfilePage = () => {
                   </Button>
                   ) : (
                     <NavLink to="/editProfile">
-                      <Button className="ml-auto text-base font-semibold rounded-full border bg-white border-gray-300 h-9 items-center">
-                        <IoMdSettings className="mr-1" />
+                      <Button className="ml-auto text-base font-semibold rounded-full border hover:bg-gray-200 bg-inherit dark:text-white dark:hover:bg-neutral-900 border-gray-300 h-9 items-center">
+                        {/* <IoMdSettings className="mr-1 dark:text-black" /> */}
                         Edit profile
                       </Button>
                     </NavLink>
                   )}
                 </div>
-                <h2 className="font-bold text-xl">
+                <h2 className="font-bold text-xl dark:text-white">
                   {userData.Name}
                 </h2>
 
                 <p className="text-gray-500 mb-5">@{userData.Username}</p>
-                <p className="mb-2">{profileDetails.Bio}</p>
+                <p className="mb-2 dark:text-white">{profileDetails.Bio}</p>
                 <p className="text-gray-500 flex items-center">
                   <BiCalendar className="mr-1" />
                   Joined {formatDate(userData.Created_at)}
@@ -356,22 +369,22 @@ const ProfilePage = () => {
                       <p className="text-gray-500">0</p>
                     </div> */}
                     <div className="flex">
-                      <p className="font-semibold">{userFollowing}&nbsp;</p>
+                      <p className="font-semibold dark:text-white">{userFollowing}&nbsp;</p>
                       <h3 className="text-base text-gray-500">Following</h3>
                     </div>
                     <div className="flex">
-                      <p className="font-semibold">{userFollowers}&nbsp;</p>
+                      <p className="font-semibold dark:text-white">{userFollowers}&nbsp;</p>
                       <h3 className="text-base text-gray-500">Followers</h3>
                     </div>
                   </div>
                 </div>
               </div>
                 <div>
-                  <div className="flex justify-around border-b border-gray-200">
+                  <div className="flex justify-around border-b border-gray-200 dark:border-neutral-800">
                     <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                         activeTab === "tweets"
-                          ? "text-black border-b-3 border-blue-500"
+                          ? "text-black dark:text-white border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("tweets")}
@@ -380,9 +393,9 @@ const ProfilePage = () => {
                     </button>
 
                     <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                         activeTab === "replies"
-                          ? "text-black border-b-3 border-blue-500"
+                          ? "text-black dark:text-white border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("replies")}
@@ -390,9 +403,9 @@ const ProfilePage = () => {
                       Replies
                     </button>
                     <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                         activeTab === "media"
-                          ? "text-black border-b-3 border-blue-500"
+                          ? "text-black dark:text-white border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("media")}
@@ -400,9 +413,9 @@ const ProfilePage = () => {
                       Media
                     </button>
                     <button
-                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 ${
+                      className={`px-4 py-2 text-base font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900 ${
                         activeTab === "likes"
-                          ? "text-black border-b-3 border-blue-500"
+                          ? "text-blac dark:text-white border-b-3 border-blue-500"
                           : "text-gray-500"
                       }`}
                       onClick={() => handleTabClick("likes")}
@@ -413,6 +426,7 @@ const ProfilePage = () => {
                   
                   {activeTab === "tweets" && (
                   <>
+                    {isLoading && <Loader />}
                     <div>
                       {userTweets.length === 0 ? (
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '800px' }}>

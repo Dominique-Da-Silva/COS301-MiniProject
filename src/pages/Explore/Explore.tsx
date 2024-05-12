@@ -207,7 +207,7 @@ const Explore: React.FC<ExplorePageProps> = () => {
         <div className='searchbar px-4 py-1 flex items-center justify-between w-full dark:bg-black'>
           <div className="flex justify-between items-center w-11/12">
             {isFocused || searchValue ? (
-              <div onChange={handleSearchChange} onClick={removetabs} className='hover:bg-slate-200 p-3 mr-5 rounded-full cursor-pointer hover-t'>
+              <div onChange={handleSearchChange} onClick={removetabs} className='hover:bg-slate-200 dark:text-white dark:hover:bg-neutral-900 p-3 mr-5 rounded-full cursor-pointer hover-t'>
                 <FaArrowLeft size={18} onClick={removetabs} />
               </div>
             ) : null}
@@ -244,8 +244,8 @@ const Explore: React.FC<ExplorePageProps> = () => {
               <Tabs variant="underlined" aria-label="Tabs variants"  classNames={{
                 tabList: "w-full relative rounded-none p-0 border-b border-divider flex",
                 cursor: "w-14 bg-sky-500 h-1 rounded-full",
-                tab: "px-0 m-0 h-12 font-semibold hover:bg-gray-200",
-                tabContent: "group-data-[selected=true]:text-black text-gray-500",
+                tab: "px-0 m-0 h-12 font-semibold hover:bg-gray-200 dark:hover:bg-neutral-900",
+                tabContent: "group-data-[selected=true]:text-black text-gray-500 dark:group-data-[selected=true]:text-white",
               }}>
                 <Tab key="Top" title="Top" className="p-0">
                   {searchResultshandles?.length > 0 && (

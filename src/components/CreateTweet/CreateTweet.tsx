@@ -125,7 +125,7 @@ const CreateTweet = () => {
   return (
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
-      <div className="flex items-center space-x-1">
+      <div className="flex align-middle items-center space-x-1">
         <Avatar
           // src={imageUrl} // profile image url to be replaced
           alt="User Avatar"
@@ -136,7 +136,8 @@ const CreateTweet = () => {
         <Textarea
           variant="underlined"
           placeholder="What is happening?!"
-          className="p-2"
+          minRows={1}
+          className="p-2 items-center align-middle"
           // style={{ width: "150px" }}
           value={tweetText}
           onChange={(event: any) => setTweetText(event.target.value)}
