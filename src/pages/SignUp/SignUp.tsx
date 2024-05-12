@@ -3,7 +3,7 @@ import { isUserLoggedIn, signUpNewUser, updateUsername, uploadProfile } from "@s
 import { useNavigate} from "react-router-dom"; // Import useNavigate hook
 import {Button, Input, Card} from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@nextui-org/react';
-import { twitterLogo, chevron, defaultavater, profile1, profile2, profile3} from "@assets/index";
+import { twitterLogo, chevron, defaultavater} from "@assets/index";
 import { createDateObject } from '@utils/index';
 import { RecommendedUsers } from "@components/index";
 
@@ -527,11 +527,7 @@ const Flow6 = () => {
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
-  const suggestedUsers = [
-    { name: "Tessa Engelbrecht", username: "@mp13ceo", bio: "Happy to be here!", profilePic: profile1 },
-    { name: "Kyle Marshall", username: "@dreamerandrager", bio: "What even is a design?", profilePic: profile2 },
-    { name: "Kumbirai Shonhiwa", username: "@ArisNeiman", bio: "Send me your bios please...", profilePic: profile3 }
-  ];
+
 
   const handleNextPressed = () => {
     navigate("/home");

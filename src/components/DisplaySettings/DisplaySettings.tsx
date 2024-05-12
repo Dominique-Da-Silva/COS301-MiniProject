@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {RadioGroup, Radio, cn} from "@nextui-org/react";
+import { useState, useEffect } from 'react';
+import { Radio, cn} from "@nextui-org/react";
 import { setTheme, getTheme } from "@services/index"
 export const CustomRadio = (props: any) => {
   const {children, ...otherProps} = props;
@@ -22,7 +22,7 @@ export const CustomRadio = (props: any) => {
 
 
 const DisplaySettings = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(null);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkTheme = async () => {
@@ -106,7 +106,7 @@ const DisplaySettings = () => {
               <input
                 type="radio"
                 value="dark"
-                checked={isDarkTheme}
+                checked={isDarkTheme || false}
                 onChange={() => handleThemeChange(true)}
                 className="form-radio text-blue-500 focus:ring-blue-500 h-4 w-4 mr-3"
               />

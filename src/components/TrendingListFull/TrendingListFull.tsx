@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { MdOutlineMoreHoriz } from "react-icons/md";
 import { getTrendingTopics } from '@services/index';
 import { TopicSkeleton } from "@components/index"
 

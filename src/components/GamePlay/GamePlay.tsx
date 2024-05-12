@@ -40,12 +40,17 @@ const GamePlay = () => {
     try {
       const userId = await getLoggedUserId();
       console.log('game ID: ', userId);
-      const count = await countFollowing(userId as unknown as string);
-      console.log('game count: ', count);
-      if (count !== undefined) {
-        setFollowingCount(count);
-        console.log('game following count: ', followingCount);
-        startGame(count);
+      if (userId !== null && userId !== undefined) {
+        const stringUserId = userId.toString();
+        const count = await countFollowing(stringUserId);
+        console.log('game count: ', count);
+        if (count !== undefined) {
+          setFollowingCount(count);
+          console.log('game following count: ', followingCount);
+          startGame(count);
+        }
+      } else {
+        console.error('Error: userId is null or undefined');
       }
       setIsLoading(false);
     } catch (error) {

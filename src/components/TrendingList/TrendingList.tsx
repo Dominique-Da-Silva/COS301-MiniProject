@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 // import { mockTrending } from '../../mockData/mockData';
-import { MdOutlineMoreHoriz } from "react-icons/md";
 import { getTrendingTopics } from '@services/index';
 // import { useNavigate } from 'react-router-dom'; 
 

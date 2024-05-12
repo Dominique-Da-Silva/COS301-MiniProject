@@ -77,13 +77,26 @@ const Bookmarks = () => {
     };
   
     const fetchTweets = async () => {
-      const id = await getLoggedUserId();
-      if (id) {
-        const tweetData = await getBookmarkedTweets(id);
-        setTweets(tweetData);
-      }
-      else{
-        throw "could not fetch tweet data"
+      try {
+        const id = await getLoggedUserId();
+        // console.log(id);
+
+        // Fetch tweets only if user ID is available
+        if (id) {
+          //this doesn't work anymore
+          const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
+
+          if(tweetData !== undefined){
+            setTweets(tweetData);
+          } else {
+            console.error('Tweet data is undefined');
+          }
+        }
+        else{
+          throw "could not fetch tweet data"
+        }
+      } catch (error) {
+        console.error('Error fetching tweets:', error);
       }
     };
   
