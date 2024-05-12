@@ -1,5 +1,5 @@
-import { useState, Suspense, useEffect, useRef } from "react";
-import { Tweet, TrendingTopics, WhoToFollow, Nav } from "@components/index";
+import { useState, useEffect, useRef } from "react";
+import { Tweet } from "@components/index";
 import { mockUserProfile, mockProfileDetails } from "@pages/ProfilePage/loadingData";
 import { countFollowing, fetchProfileDetails } from "@services/index";
 import { countFollowers } from "@services/index";
@@ -11,8 +11,8 @@ import { getUserComments } from "@services/index";
 import { IoMdSettings } from "react-icons/io";
 import { Avatar, Button } from "@nextui-org/react";
 import { BiCalendar } from "react-icons/bi";
-import { NavLink, useNavigate, useParams, useLocation } from "react-router-dom";
-import { Search } from "@components/index";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+// import { Search } from "@components/index";
 import { fetchTweets, fetchUsers } from "@services/index";
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 // import { getAuthIdFromSession } from "@services/index";
@@ -62,7 +62,7 @@ const getTimeDisplay = (timestamp: string) => {
 const ProfilePage = () => {
 
   const [activeTab, setActiveTab] = useState("tweets");
-  const [userProfile] = useState<any>(mockUserProfile);
+  // const [userProfile] = useState<any>(mockUserProfile);
   const [profileDetails, setProfileDetails] = useState<any>(mockProfileDetails);
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(mockUserProfile);
@@ -72,12 +72,12 @@ const ProfilePage = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   const [tweetCollection, setTweetCollection] = useState<any[]>([]);
-  const [createdAt, setCreated_At] = useState<any>(
-    new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
-      month: "long",
-      year: "numeric",
-    })
-  );
+  // const [createdAt, setCreated_At] = useState<any>(
+  //   new Date(mockUserProfile.Created_at).toLocaleString("en-US", {
+  //     month: "long",
+  //     year: "numeric",
+  //   })
+  // );
   //FALSE MEANS USER IS VIEWING HIS OWN PROFILE, TRUE MEANS USER IS VIEWING SOMEONE ELSE'S PROFILE
   //This is just a placeholder for now, we will implement the actual logic later where the context is retrieved dynamically and not manually set.
   const [external, setExternal] = useState<null | boolean>(null);
@@ -96,9 +96,9 @@ const ProfilePage = () => {
   const userStash = useRef(null);
   const userExt = useRef(false);
 
-  const handleNavigation = (path: any) => {
-    navigate(path);
-  };
+  // const handleNavigation = (path: any) => {
+  //   navigate(path);
+  // };
   
   const followUserButton = async () => {
     const currentUser = await getCurrentUser();
@@ -154,18 +154,20 @@ const ProfilePage = () => {
       userDataS = await fetchUserData();
       ext = null;
       setExternal(null);
-      const following = await checkIfFollowing(userDataS.User_Id, userDataX.User_Id);
-      setIsFollowing(following);
-      console.log("Following - " +following)
-      if (following) {
-        //setFollowing(true);
-        setButtonText("Following");
-        // setIsFollowing(true);
-      }
-      else {
-        //setFollowing(false);
-        setButtonText("Follow");
-        // setIsFollowing(false);
+      if (userDataX) {
+        const following = await checkIfFollowing(userDataS.User_Id, userDataX.User_Id);
+        setIsFollowing(following);
+        console.log("Following - " + following)
+        if (following) {
+          //setFollowing(true);
+          setButtonText("Following");
+          // setIsFollowing(true);
+        }
+        else {
+          //setFollowing(false);
+          setButtonText("Follow");
+          // setIsFollowing(false);
+        }
       }
       setExternal(true);
       ext = true;
@@ -181,10 +183,10 @@ const ProfilePage = () => {
   const profileSub = async () => {
     try {
       if (userDataRef.current) {
-        const profileTemp = await fetchProfileDetails(userDataRef.current.User_Id);
-        const followerTemp = await countFollowers(userDataRef.current.User_Id);
-        const followingTemp = await countFollowing(userDataRef.current.User_Id);
-        const imageURLs = await fetchUserMedia(userDataRef.current.User_Id);
+        const profileTemp = await fetchProfileDetails(userDataRef.current?.User_Id);
+        const followerTemp = await countFollowers(userDataRef.current?.User_Id);
+        const followingTemp = await countFollowing(userDataRef.current?.User_Id);
+        const imageURLs = await fetchUserMedia(userDataRef.current?.User_Id);
         setUserFollowers(followerTemp);
         setUserFollowing(followingTemp);
         setUserData(userDataRef.current);
@@ -212,7 +214,7 @@ const ProfilePage = () => {
     try {
       if (userDataRef.current && userTweets.length === 0) {
         const tempTweets = await getUserTweets(userDataRef.current.User_Id);
-        setUserTweets(tempTweets);
+        setUserTweets(tempTweets || []); // Add default value of an empty array
       }
     }
     catch (error) {
@@ -501,6 +503,7 @@ const ProfilePage = () => {
                             const _saves = originalTweet.Saves[0].count || 0;
                             const _retweets = originalTweet.Retweets[0].count || 0;
                             const image_url = profileDetails.Img_Url;
+                            
                             return (
                               <Tweet
                                 tweet_id={reply.id}
