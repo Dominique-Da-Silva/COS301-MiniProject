@@ -81,7 +81,7 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
 
   return (
     <div>
-      <Card className="bg-inherit mt-8 w-11/12 border dark:border-neutral-800">
+      <Card className="bg-inherit shadow-none w-11/12 border dark:border-neutral-800">
         <CardHeader className="flex gap-1 pl-3 !pb-0">
           <h2 className="text-lg font-bold mb-4">Who to follow</h2>
         </CardHeader>
