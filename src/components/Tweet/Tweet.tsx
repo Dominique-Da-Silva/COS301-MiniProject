@@ -59,10 +59,10 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
   const handleCommentClick = () => {
-    setCommentColor((prevState) => !prevState);
+    /*setCommentColor((prevState) => !prevState);
     setCommentCount((prevCount) =>
       commentColor ? prevCount - 1 : prevCount + 1
-    );
+    );*/
     onOpen();
   };
 
