@@ -16,7 +16,7 @@ import {
 import {
   GalleryIcon,
 } from "@assets/index";
-import { addTweet } from "@services/index";
+import { addTweet, fetchProfileDetails, getLoggedUserId } from "@services/index";
 import { getCurrentUser } from "@services/auth/auth";
 
 // import { GrGallery } from "react-icons/gr";
@@ -35,6 +35,7 @@ const CreateTweet = () => {
   const [selectedImage, setSelectedImage] = useState<any>();
   const [tweetText, setTweetText] = useState("");
   const [isloading, setIsLoading] = useState(false);
+  const [profileDetails, setProfileDetails] = useState<any>(null);
 
 
   // const handleGalleryClick = (event: any) => {
@@ -116,6 +117,11 @@ const CreateTweet = () => {
       // Check if user is already logged in
       const result = await isUserLoggedIn();
       setUserAuthStatus(result);
+      const userId = await getLoggedUserId();
+      if(userId){
+        const profileData = await fetchProfileDetails(userId);
+        setProfileDetails(profileData);
+      }
     }
     
     // Call the async function
@@ -126,12 +132,22 @@ const CreateTweet = () => {
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
       <div className="flex align-middle items-center space-x-1">
-        <Avatar
-          // src={imageUrl} // profile image url to be replaced
-          alt="User Avatar"
-          className="user-avatar min-w-12 min-h-12"
-        // style={{ minWidth: '48px', minHeight: '48px' }}
-        />
+        {
+          profileDetails ? 
+            <Avatar
+              src={profileDetails.Img_Url} // profile image url to be replaced
+              alt="User Avatar"
+              className="user-avatar min-w-12 min-h-12"
+            // style={{ minWidth: '48px', minHeight: '48px' }}
+            />
+            :
+            <Avatar
+              // src={imageUrl} // profile image url to be replaced
+              alt="User Avatar"
+              className="user-avatar min-w-12 min-h-12"
+            // style={{ minWidth: '48px', minHeight: '48px' }}
+            />
+        }
         {/* decide what variant is better suited later on  */}
         <Textarea
           variant="underlined"

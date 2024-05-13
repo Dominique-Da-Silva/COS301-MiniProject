@@ -27,5 +27,6 @@ export async function getLoggedUserId() {
         return null;
     } catch (error: any) {
         console.error('Error fetching session:', error.message);
+        return null;
     }
 }
