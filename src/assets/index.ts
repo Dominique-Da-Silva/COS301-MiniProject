@@ -12,12 +12,12 @@ import GIFIcon from "./GIFIcon.png"
 import PollsIcon from "./PollsIcon.png"
 import ScheduleIcon from "./ScheduleIcon.png"
 import StickersIcon from "./StickersIcon.png"
-import busts_in_silhouette from 'busts_in_silhouette.png'
-import handshake from 'handshake.png'
-import slightly_smiling_face from 'slightly_smiling_face.png'
-import skull from 'skull.png'
-import bust_in_silhouette from 'bust_in_silhouette.png'
-import question from 'question.png'
+import busts_in_silhouette from './busts_in_silhouette.png'
+import handshake from './handshake.png'
+import slightly_smiling_face from './slightly_smiling_face.png'
+import skull from './skull.png'
+import bust_in_silhouette from './bust_in_silhouette.png'
+import question from './question.png'
 
 
 export {
