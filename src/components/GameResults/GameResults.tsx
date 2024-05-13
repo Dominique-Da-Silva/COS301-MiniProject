@@ -12,12 +12,12 @@ interface EmojiData {
 }
 
 const emojiData: EmojiData[] = [
-  { name: 'Stalker', emoji: 'images/busts_in_silhouette.png' },
-  { name: 'Day One', emoji: 'images/handshake.png' },
-  { name: 'Classic Old Pal', emoji: 'images/slightly_smiling_face.png' },
-  { name: 'Bad Friend', emoji: 'images/skull.png' },
-  { name: 'Removed Acquaintance', emoji: 'images/bust_in_silhouette.png' },
-  { name: 'Stranger', emoji: 'images/question.png' },
+  { name: 'Stalker', emoji: '../../../images/busts_in_silhouette.png' },
+  { name: 'Day One', emoji: '../../../images/handshake.png' },
+  { name: 'Classic Old Pal', emoji: '../../../images/slightly_smiling_face.png' },
+  { name: 'Bad Friend', emoji: '../../../images/skull.png' },
+  { name: 'Removed Acquaintance', emoji: '../../../images/bust_in_silhouette.png' },
+  { name: 'Stranger', emoji: '../../../images/question.png' },
 ];
 
 function getSkillLevel(score: number) {
