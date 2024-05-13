@@ -80,7 +80,9 @@ const CreateComment: React.FC<CreateCommentProps> = ({
       // console.log("Current User Auth ID:", currentUser?.auth_id);
       if (currentUser !== undefined) {
         //todo: add comment
-        add_comment();
+        
+        const res = await add_comment();
+      if(res)
        window.location.reload();
       } else {
         console.log("User not found");
@@ -96,11 +98,17 @@ const CreateComment: React.FC<CreateCommentProps> = ({
   };
 
   const add_comment = async () => {
+    //console.log("User id ,tweet id and text: ");
+    //console.log(user_id);
+    //console.log(tweet_id);
+    //console.log(commentText);
     const result = await addComment(user_id, tweet_id, commentText);
     if (result) {
       console.log("Comment added successfully");
+      return result;
     } else {
       console.log("Error adding comment");
+      return null;
     }
   };
 

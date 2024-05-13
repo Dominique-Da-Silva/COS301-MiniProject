@@ -68,8 +68,9 @@ const CreateCommentInput: React.FC<TweetProps> = ({username, tweet_id, user_id})
       // console.log("Current User Auth ID:", currentUser?.auth_id);
       if (currentUser !== undefined) {
         //todo: add comment
-        add_comment();
-        window.location.reload();
+        const res = await add_comment();
+        if(res)
+         window.location.reload();
       }else
       {
         console.log("User not found");
@@ -83,8 +84,10 @@ const CreateCommentInput: React.FC<TweetProps> = ({username, tweet_id, user_id})
     const result = await addComment(user_id, tweet_id, commentText);
     if (result) {
       console.log("Comment added successfully");
+      return result;
     } else {
       console.log("Error adding comment");
+      return null;
     }
   };
 
