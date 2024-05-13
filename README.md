@@ -88,7 +88,7 @@ With these features and more, MP-13 offers a dynamic and immersive social networ
 <a href ="https://docs.google.com/document/d/11aLnvSpC1LST7BpA-j2aYu5DllywdCPte29lN52R7SM/edit?usp=sharing">Github Strategy</a><br>
 <a href ="https://docs.google.com/document/d/1pjID6P7Bm5cW-CHl8nykfEDVZW__pZilfMokT4Z0OtE/edit?usp=sharing">Coding Development Guidelines</a><br>
 <a href ="https://docs.google.com/document/d/10wjOA4YQwbv8rrY7VAZbGI7kNGU068dD_kCcFyz7TNM/edit?usp=sharing">Database Requirements</a><br>
-<a href ="https://docs.google.com/document/d/1kqSZR3lpSLi-COQGo9uN9eQ1im35OKx1a0JLmobBb-M/edit?usp=sharing">Design Specification</a><br>
+<a href ="https://drive.google.com/file/d/1WmUVYKwpe4dHNRjDjc1UEYoJ06HjUpcb/view?usp=sharing">Design Specification</a><br>
 <a href="https://www.figma.com/file/w0aRTpe5SPT38VwPLuGaFK/COS301-MP-13?type=design&node-id=333%3A2&mode=design&t=Zq1dr1WePO4TwN30-1">Figma designs</a><br>
 <a href="https://github.com/orgs/COS301-SE-2024/projects/37">GitHub Project Board</a><br>
 <a href="https://docs.google.com/document/d/1VsK2jxQTtA9ZZIZX_dhPFOpS2-zdkvMv/edit?usp=sharing&ouid=101397220993474127366&rtpof=true&sd=true">Testing Guidelines</a><br>
