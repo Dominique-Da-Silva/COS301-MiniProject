@@ -7,6 +7,7 @@ import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { NavLink, Link } from "react-router-dom";
 import CreateComment from "../CreateComment/CreateComment";
+import toast from 'react-hot-toast';
 import {
   Modal,
   ModalContent,
@@ -63,10 +64,18 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
     setCommentCount((prevCount) =>
       commentColor ? prevCount - 1 : prevCount + 1
     );*/
+    if(loggedUserId === null || loggedUserId === undefined){
+      toast.error('Sign in to interact with this tweet!', { duration: 2000, position: 'top-center',});
+      return;
+    }
     onOpen();
   };
 
   const handleRetweetClick = () => {
+    if(loggedUserId === null || loggedUserId === undefined){
+      toast.error('Sign in to interact with this tweet!', { duration: 2000, position: 'top-center',});
+      return;
+    }
     setRetweetColor((prevState) => !prevState);
     setRetweetCount((prevCount) =>
       retweetColor ? prevCount - 1 : prevCount + 1
@@ -83,6 +92,10 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
   };
 
   const handleLikeClick = () => {
+    if(loggedUserId === null || loggedUserId === undefined){
+      toast.error('Sign in to interact with this tweet!', { duration: 2000, position: 'top-center',});
+      return;
+    }
     setLikeColor((prevState) => !prevState);
     setLikeCount((prevCount) => (likeColor ? prevCount - 1 : prevCount + 1));
 
@@ -97,6 +110,10 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
   };
 
   const handleBookmarkClick = () => {
+    if(loggedUserId === null || loggedUserId === undefined){
+      toast.error('Sign in to interact with this tweet!', { duration: 2000, position: 'top-center',});
+      return;
+    }
     setBookmarkColor((prevState) => !prevState);
     setSaveCount((prevCount) =>
       bookmarkColor ? prevCount - 1 : prevCount + 1
