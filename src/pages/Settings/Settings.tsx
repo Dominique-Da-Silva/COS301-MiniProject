@@ -1,6 +1,6 @@
-import { Nav, AccountInfo, NotificationSettings,DisplaySettings,ChangePassword } from "@components/index";
+import {  AccountInfo, NotificationSettings,DisplaySettings,ChangePassword } from "@components/index";
 import  { useEffect, useState } from "react";
-import { Link} from "@nextui-org/react";
+import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { getUserData, isUserLoggedIn } from "@services/index";
 
@@ -44,56 +44,36 @@ const Settings = () => {
   }, [navigate]);
 
   return (
-    <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-        <Nav />
-      </div>
-      <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
-        <div className="flex flex-col m-0 p-0">
+      <>
+      <div className="main-content flex w-1/4 h-screen m-0 p-0 border dark:border-neutral-800">
+        <div className="flex flex-col m-0 p-0 w-full">
           <div className="p-4 border-b border-gray-300 dark:border-neutral-800">
-            <h2 className="text-gray-600 font-semibold">SETTINGS</h2>
+            <h2 className="text-gray-600 font-semibold dark:text-white">SETTINGS</h2>
           </div>
-          <div className="mt-4">
-            <div className="hover:bg-gray-100 p-2 rounded-md">
-              <Link href="#" onClick={() => setActiveTab("account")}>
+          <div className="mt-4 w-full">
+          <div className={`hover:bg-gray-100 dark:hover:bg-neutral-900 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "account" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("account")}>
                 <p className="font-semibold">Your account</p>
-              </Link>
+                <IoIosArrowForward className="dark:text-gray-500" />
             </div>
             {
               auth_method === "email" && (
-                <div className="hover:bg-gray-100 p-2 rounded-md">
-                  <Link href="#" onClick={() => setActiveTab("ChangePassword")}>
-                    <p className="font-semibold">Change Password</p>
-                  </Link>
+                <div className={`hover:bg-gray-100 dark:hover:bg-neutral-900 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "ChangePassword" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("ChangePassword")} >
+                    <p>Change Password</p>
+                    <IoIosArrowForward className="dark:text-gray-500" />
                 </div>
               )
             }
-            <div className="hover:bg-gray-100 p-2 rounded-md">
-              <Link href="#" onClick={() => setActiveTab("Notifications")}>
-                <p className="font-semibold">Notification settings</p>
-              </Link>
-            </div>
-            <div className="hover:bg-gray-100 p-2 rounded-md">
-              <Link
-                href="#"
-                onClick={() =>
-                  setActiveTab("Display")
-                }
-              >
-                <p className="font-semibold">
-                Display
-                </p>
-              </Link>
+            <div className={`hover:bg-gray-100 dark:hover:bg-neutral-900 p-2 h-12 w-full cursor-pointer flex justify-between items-center dark:text-white ${activeTab === "Display" ? "border-r-2 border-sky-500" : ""}`} onClick={() => setActiveTab("Display")}>
+                <p>Display</p>  
+                <IoIosArrowForward className="dark:text-gray-500" />           
             </div>
           </div>
         </div>
       </div>
-      <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
+      <div className="sidebar-right w-2/5 ml-7 mt-2 pl-1 pr-2">
         {renderSettingsContent()}
       </div>
-    </div>
-    </div>
+      </>
   );
 };
 

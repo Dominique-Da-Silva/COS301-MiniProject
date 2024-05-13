@@ -17,6 +17,7 @@ import { getLoggedUserId, fetchUsers } from "@services/index";
 import { isUserLoggedIn } from "@services/index";
 import { CiLogin } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
+import { IoGameControllerOutline } from 'react-icons/io5';
 import { fetchProfileDetails } from "@services/index";
 
 const Nav = () => {
@@ -46,7 +47,7 @@ const Nav = () => {
         if (!userId) return;
         const profileData = await fetchProfileDetails(userId);
         setProfileDetails(profileData);
-        console.log('Profile Data:', profileData); // Log the profile data
+        // console.log('Profile Data:', profileData); // Log the profile data
       } catch (error) {
         console.error('Error fetching profile details:', error);
       }
@@ -85,9 +86,9 @@ const Nav = () => {
     const fetchUserData = async () => {
 
       //option 2
-      console.log('Fetching ID');
+      // console.log('Fetching ID');
       const userId = await getLoggedUserId();
-      console.log('ID: ', userId);
+      // console.log('ID: ', userId);
       if (userId) {
         try {
           // Fetch user data
@@ -126,7 +127,7 @@ const Nav = () => {
   }, []);
 
   return (
-    <div className="sidebar h-full bg-white dark:bg-black py-12 dark:text-white fixed">
+    <div className="sidebar h-full bg-inherit dark:bg-black py-12 dark:text-white fixed">
       {/* Logo */}
       <NavLink
         to="/home"
@@ -178,6 +179,17 @@ const Nav = () => {
             >
               <FaRegBookmark size={28} className="mr-5" />
               Bookmarks
+            </NavLink>
+          }
+          {/* Twivia */}
+          {userAuthStatus &&
+            <NavLink
+              to="/twivia"
+              className={`sidebar-item cursor-pointer flex items-center pl-2 pr-7 text-xl w-fit transition-[background-color 0.2s ease-in-out] rounded-3xl h-12 my-0 dark:hover:bg-neutral-900 hover:bg-gray-200 ${location.pathname === '/twivia' ? 'font-bold active-tab' : ''
+                }`}
+            >
+              <IoGameControllerOutline size={28} className="mr-5" />
+              Twivia
             </NavLink>
           }
 
@@ -315,6 +327,16 @@ const Nav = () => {
               <FaRegBookmark size={28} />
             </NavLink>
           }
+          {/* Twivia */}
+          {userAuthStatus &&
+            <NavLink
+              to="/twivia"
+              className={`sidebar-item cursor-pointer flex items-center justify-center w-12 h-12 rounded-full my-0 hover:bg-gray-200 ${location.pathname === '/twivia' ? 'bg-gray-200 active-tab' : ''
+                }`}
+            >
+              <IoGameControllerOutline size={28}/>
+            </NavLink>
+          }
 
           {/* Profile */}
           {userAuthStatus &&
@@ -351,7 +373,7 @@ const Nav = () => {
                 </NavLink>
                 <Modal isOpen={isModalOpen} onOpenChange={handleCloseModal}>
                   <ModalContent>
-                   <CreateTweet />
+                    <CreateTweet />
                   </ModalContent>
                 </Modal>
               </div>

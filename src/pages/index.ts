@@ -7,8 +7,8 @@ import Explore from "./Explore/Explore";
 import Notifications from "./Notifications/Notifications";
 import Bookmarks from "./Bookmarks/Bookmarks";
 import Settings from "./Settings/Settings";
-
+import Twivia from "./Twivia/Twivia";
 
 export {
-    SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings
+    SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings, Twivia
 }

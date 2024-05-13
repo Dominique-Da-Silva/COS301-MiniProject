@@ -36,13 +36,13 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold mb-4">Change your password</h2>
+    <div className="bg-white dark:bg-black p-6 rounded-lg shadow-md">
+      <h2 className="text-lg dark:text-white font-semibold mb-4">Change your password</h2>
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">Current password</label>
+        <label className="block text-gray-700 dark:text-white font-semibold mb-2">Current password</label>
         <input
           type="password"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 dark:border-neutral-800 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={oldPassword}
           onChange={(e) => setOldPassword(e.target.value)}
         />
@@ -51,19 +51,19 @@ const ChangePassword = () => {
         </a>
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">New password</label>
+        <label className="block text-gray-700 dark:text-white font-semibold mb-2">New password</label>
         <input
           type="password"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border dark:border-neutral-800 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
       </div>
       <div className="mb-6">
-        <label className="block text-gray-700 font-semibold mb-2">Confirm password</label>
+        <label className="block text-gray-700 dark:text-white font-semibold mb-2">Confirm password</label>
         <input
           type="password"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border dark:border-neutral-800  border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />

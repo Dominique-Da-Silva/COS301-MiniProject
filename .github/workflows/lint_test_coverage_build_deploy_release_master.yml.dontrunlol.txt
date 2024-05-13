@@ -117,5 +117,5 @@ jobs:
         allowUpdates: true
         commit: "main"
         generateReleaseNotes: true
-        name: "v0.6.0"
-        tag: "v0.6.0"
+        name: "v1.0.10"
+        tag: "v1.0.10"

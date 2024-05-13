@@ -1,17 +1,18 @@
 import { isUserLoggedIn, getLoggedUserId, 
-  //getBookmarkedTweets, 
+  getBookmarkedTweets, 
   fetchUsers } from '@services/index';
 import { fetchAllProfiles } from "@services/profileServices/getProfile";
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Nav, Tweet, TrendingTopics , WhoToFollow, Search} from '@components/index';
+import { Tweet } from '@components/index';
 // import { mockTweets, mockUsers,mockSavesCount,mockCommentsCount,mockRetweetsCount,mockLikesCount } from '../../mockData/mockData';
 import {useState} from "react";
+import BeatLoader from "react-spinners/BeatLoader";
   
 const Bookmarks = () => {
 
   // const [tweets] = useState<any[]>(mockTweets);
-  const [tweets, ] = useState<any[]>([]);//setTweets
+  const [tweets, setTweets] = useState<any[]>([]);//setTweets
   const [users, setUsers] = useState<any[]>([]);
   const [profiles, setProfiles] = useState<any[]>([]);
   // const [savesCount] = useState<any>(mockSavesCount);
@@ -19,7 +20,7 @@ const Bookmarks = () => {
   // const [retweetsCount] = useState<any>(mockRetweetsCount);
   // const [likesCount] = useState<any>(mockLikesCount);
   const navigate = useNavigate(); // Initialize useNavigate hook
-
+  const [isLoading, setIsLoading] = useState(true);
   const getTimeDisplay = (timestamp: string) => {
     const currentTime = new Date();
     const parsedTimestamp = new Date(timestamp);
@@ -58,38 +59,23 @@ const Bookmarks = () => {
   };
   
   useEffect(() => {
-    // this is necessary for checking if the user is signed in
     const checkUser = async () => {
-      // Check if user is already logged in
       const result = await isUserLoggedIn();
       if (!result) {
-        navigate("/home"); // Redirect to home page if user is not logged in
+        navigate("/home");
       }
     }
-
+  
     const fetchData = async () => {
-      try {
-        const usersData = await fetchUsers();
-        // console.log("Users Data:");
-        // console.log(usersData);
-        setUsers(usersData as any[]); // Add type assertion here
-
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
+      const usersData = await fetchUsers();
+      setUsers(usersData as any[]);
     };
-
+  
     const getAllProfiles = async () => {
-      try {
-        const profilesData = await fetchAllProfiles();
-        console.log("Profiles Data:");
-        console.log(profilesData);
-        setProfiles(profilesData as any); // Update the type of the state variable
-      } catch (error) {
-        console.error('Error fetching profiles:', error);
-      }
+      const profilesData = await fetchAllProfiles();
+      setProfiles(profilesData as any);
     };
-
+  
     const fetchTweets = async () => {
       try {
         const id = await getLoggedUserId();
@@ -98,8 +84,13 @@ const Bookmarks = () => {
         // Fetch tweets only if user ID is available
         if (id) {
           //this doesn't work anymore
-          //const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
-          //setTweets(tweetData);
+          const tweetData = await getBookmarkedTweets(id); // Pass the correct user ID
+
+          if(tweetData !== undefined){
+            setTweets(tweetData);
+          } else {
+            console.error('Tweet data is undefined');
+          }
         }
         else{
           throw "could not fetch tweet data"
@@ -108,61 +99,54 @@ const Bookmarks = () => {
         console.error('Error fetching tweets:', error);
       }
     };
-    // Call the async function
+  
     checkUser();
-    fetchData();
-    getAllProfiles();
-    fetchTweets();
+    Promise.all([fetchData(), getAllProfiles(), fetchTweets()])
+      .then(() => setIsLoading(false))
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setIsLoading(false);
+      });
   }, [navigate]);
   
   return (
-    <div className="w-full h-full flex justify-center align-middle">
-      <div className="container flex w-full justify-center dark:bg-black">
-        <div className="nav flex justify-end w-1/5 m-0 p-0 mr-[2vh] pr-10">
-          <Nav />
+    <div className="flex flex-col m-0 p-0 h-full">
+      <h1 className="text-2xl font-bold p-4 dark:text-white">Bookmarks</h1>
+      {/* <p className="p-4">This is the Bookmarks page content.</p>  */}
+      {isLoading ? (
+        <div className="flex justify-center items-center h-full">
+          <BeatLoader color="#1DA1F2" />
         </div>
-        <div className="main-content flex w-2/5 m-0 p-0 border dark:border-neutral-800">
-          <div className="flex flex-col m-0 p-0 justify-center">
-            <h1 className="text-2xl font-bold p-4 dark:text-white">Bookmarks</h1>
-            {/* <p className="p-4">This is the Bookmarks page content.</p>  */}
-            {tweets?.map(tweet => {
-                const user = users.find(u => u.User_Id === tweet.User_Id);
-                const saves = tweet.Saves[0].count || 0;//savesCount[tweet.Tweet_Id] || 0 ;
-                const comments = tweet.Comments[0].count || 0;//commentsCount[tweet.Tweet_Id] || 0;
-                const likes = tweet.Likes[0].count || 0;//likesCount[tweet.Tweet_Id] || 0;
-                const retweets = tweet.Retweets[0].count || 0;//retweetsCount[tweet.Tweet_Id] || 0;
-                const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
-                return (
-                  <Tweet
-                    key={tweet.Tweet_Id}
-                    tweet_id={tweet.Tweet_Id}
-                    name={user ? user.Name : "Unknown User"}
-                    username={user ? `@${user.Username}` : ""}
-                    text={tweet.Content}
-                    imageUrl={tweet.Img_Url}
-                    timeDisplay={getTimeDisplay(tweet.Created_at)}
-                    likes={formatCount(likes)}
-                    retweets={formatCount(retweets)}
-                    saves={formatCount(saves)}
-                    comments={formatCount(comments)}
-                    bookmarked={true}
-                    profileimageurl={image_url}
-                  />
-                );
-              })}
-          </div>
-        </div>
-        {/* Sidebar */}
-        <div className="sidebar-right w-1/4 ml-7 mt-2 pl-1 pr-2">
-          <div className="mb-3">
-            <Search />
-          </div>
-          <TrendingTopics />
-          <WhoToFollow users={[]} />
-        </div>
-      </div>
+      ) : tweets?.length > 0 ? (
+        tweets.map(tweet => {
+          const user = users.find(u => u.User_Id === tweet.User_Id);
+          const saves = tweet.Saves[0].count || 0; //savesCount[tweet.Tweet_Id] || 0 ;
+          const comments = tweet.Comments[0].count || 0; //commentsCount[tweet.Tweet_Id] || 0;
+          const likes = tweet.Likes[0].count || 0; //likesCount[tweet.Tweet_Id] || 0;
+          const retweets = tweet.Retweets[0].count || 0; //retweetsCount[tweet.Tweet_Id] || 0;
+          const image_url = profiles.find(p => p.User_Id === tweet.User_Id)?.Img_Url;
+          return (
+            <Tweet
+              key={tweet.Tweet_Id}
+              tweet_id={tweet.Tweet_Id}
+              name={user ? user.Name : "Unknown User"}
+              username={user ? `@${user.Username}` : ""}
+              text={tweet.Content}
+              imageUrl={tweet.Img_Url}
+              timeDisplay={getTimeDisplay(tweet.Created_at)}
+              likes={formatCount(likes)}
+              retweets={formatCount(retweets)}
+              saves={formatCount(saves)}
+              comments={formatCount(comments)}
+              bookmarked={true}
+              profileimageurl={image_url}
+            />
+          );
+        })
+      ) : (
+        <p>You have no bookmarked Tweets.</p>
+      )}
     </div>
-
   );
 };
 

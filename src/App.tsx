@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings } from '@pages/index';
-import { EditProfile } from '@components/index';
+import { SignUp, Login, SignIn, HomePage, ProfilePage, Explore, Notifications, Bookmarks, Settings, Twivia } from '@pages/index';
+import { EditProfile, TweetDetails} from '@components/index';
+import { AppLayout } from '@layouts/index';
 import "./styles/tailwind.css";
 import { useEffect, useRef, useState  } from 'react';
 import { supabase } from '@config/index';
-import { addUserToDatabase, signOut } from '@services/index';
+import { addUserToDatabase, signOut, getTheme } from '@services/index';
 import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -12,6 +13,7 @@ const App = () => {
   const isMountedRef = useRef(true); // Flag to track component mount status
   const isEffectExecutedRef = useRef(false); // Flag to track whether useEffect has been executed
   const [auth_state, setAuthState] = useState<AuthChangeEvent>('SIGNED_OUT');
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   useEffect(() => {
     const handleAuthStateChange = async(event: AuthChangeEvent, session: Session | null) => {
@@ -48,29 +50,46 @@ const App = () => {
         }
       }
     }
-
+    const checkTheme = async () => {
+      const theme = await getTheme();
+      setIsDarkTheme(theme.Darkmode);
+      console.log(theme);
+    }
+    
+    // Call the async function
+    checkTheme();
     checkUserAuthState();
   }, [auth_state])
 
   return (
-    <>
+    <main className={`w-full h-full ${isDarkTheme ? 'dark bg-black' : ''}`}>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/:username" element={<ProfilePage />} />
         <Route path="/editProfile" element={<EditProfile />} />
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/settings" element={<Settings />} />
+
+        <Route path="/*" element={
+          <AppLayout>
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/:username" element={<ProfilePage />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/explore/:searchVal" element={<Explore />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/bookmarks" element={<Bookmarks />} />
+            <Route path="/tweet/:tweetId" element={<TweetDetails />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/twivia" element={<Twivia />} />
+          </Routes>
+        </AppLayout>}>
+        </Route>
       </Routes>
     </Router>
     <Toaster />
-    </>
+    </main>
   );
 };
 

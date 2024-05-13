@@ -18,7 +18,7 @@ import { FaRegFaceSmile } from "react-icons/fa6";
 import { TbCalendarSearch } from "react-icons/tb";
 import { useEffect } from "react";
 import { isUserLoggedIn } from "@services/index";
-import Tweet from "../Tweet/Tweet";
+import TweetModal from "../TweetModal/TweetModal";
 import { addComment } from "@services/index";
 
 interface CreateCommentProps {
@@ -30,6 +30,7 @@ interface CreateCommentProps {
   imageUrl?: string;
   profileimageurl?: string;
   timeDisplay: string;
+  userimg?: string;
 }
 const CreateComment: React.FC<CreateCommentProps> = ({
   user_id,
@@ -40,11 +41,13 @@ const CreateComment: React.FC<CreateCommentProps> = ({
   imageUrl,
   profileimageurl,
   timeDisplay,
+  userimg
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [commentText, setCommentText] = useState("");
   const [selectedImage, setSelectedImage] = useState<any>();
   const [userAuthStatus, setUserAuthStatus] = useState<boolean>(false);
+  
 
   useEffect(() => {
     // this is necessary for checking if the user is signed in
@@ -53,7 +56,6 @@ const CreateComment: React.FC<CreateCommentProps> = ({
       const result = await isUserLoggedIn();
       setUserAuthStatus(result);
     };
-
     // Call the async function
     checkUser();
   }, []);
@@ -78,7 +80,9 @@ const CreateComment: React.FC<CreateCommentProps> = ({
       // console.log("Current User Auth ID:", currentUser?.auth_id);
       if (currentUser !== undefined) {
         //todo: add comment
-        add_comment();
+        
+        const res = await add_comment();
+      if(res)
        window.location.reload();
       } else {
         console.log("User not found");
@@ -94,18 +98,24 @@ const CreateComment: React.FC<CreateCommentProps> = ({
   };
 
   const add_comment = async () => {
+    //console.log("User id ,tweet id and text: ");
+    //console.log(user_id);
+    //console.log(tweet_id);
+    //console.log(commentText);
     const result = await addComment(user_id, tweet_id, commentText);
     if (result) {
       console.log("Comment added successfully");
+      return result;
     } else {
       console.log("Error adding comment");
+      return null;
     }
   };
 
   return (
     <div className="py-2 px-4">
       {/* Still need to figure out styling/alignmnet of Avatar and TextArea */}
-      <Tweet
+      <TweetModal
         //user_id={user_id}
         tweet_id={tweet_id}
         name={name}
@@ -114,11 +124,11 @@ const CreateComment: React.FC<CreateCommentProps> = ({
         imageUrl={imageUrl}
         profileimageurl={profileimageurl}
         timeDisplay={timeDisplay}
-      ></Tweet>
+      ></TweetModal>
 
       <div className="flex items-center space-x-1">
         <Avatar
-          // src={imageUrl} // profile image url to be replaced
+          src={userimg} // profile image url to be replaced
           alt="User Avatar"
           className="user-avatar min-w-12 min-h-12"
           // style={{ minWidth: '48px', minHeight: '48px' }}
@@ -128,7 +138,7 @@ const CreateComment: React.FC<CreateCommentProps> = ({
           variant="underlined"
           placeholder="What is happening?!"
           className="p-2"
-          style={{ width: "150px" }}
+          // style={{ width: "150px" }}
           value={commentText}
           onChange={(event: any) => setCommentText(event.target.value)}
         />

@@ -3,7 +3,7 @@ import {
   fetchUsers,
   getLoggedUserId,
 } from "@services/index";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
+import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { UserCard } from "@components/index";
 
 interface User {
@@ -24,8 +24,8 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
     const fetchUsersData = async () => {
       try {
         const usersData = await fetchUsers();
-        console.log("Users Data:");
-        console.log(usersData);
+        // console.log("Users Data:");
+        // console.log(usersData);
         setUsers(randomUsers(usersData as any[])); // Add type assertion here
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -38,6 +38,8 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = await getLoggedUserId();
+      // console.log("User Data:");
+      // console.log(userData);
       setLoggedUserId(userData);
     };
     fetchUserData();
@@ -79,7 +81,7 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
 
   return (
     <div>
-      <Card className="bg-gray-50 dark:bg-neutral-900 shadow-none mt-8 w-11/12">
+      <Card className="bg-inherit shadow-none w-11/12 border dark:border-neutral-800 mt-5">
         <CardHeader className="flex gap-1 pl-3 !pb-0">
           <h2 className="text-lg font-bold mb-4">Who to follow</h2>
         </CardHeader>
@@ -99,8 +101,8 @@ const WhoToFollow: React.FC<WhoToFollowProps> = () => {
             ))}
           </div>
         </CardBody>
-        <CardFooter className="cursor-pointer text-sky-500 hover:bg-slate-200">
-        </CardFooter>
+        {/* <CardFooter className="cursor-pointer text-sky-500 hover:bg-slate-200">
+        </CardFooter> */}
       </Card>
     </div>
   );

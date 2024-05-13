@@ -12,9 +12,20 @@ import DisplaySettings from "./DisplaySettings/DisplaySettings";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import MutedNotifications from "./MutedNotifications/MutedNotifications";
 import PostNotification from "./PostNotification/PostNotification";
-import LikeNotification from "./PostNotification/LikedNotification";
+import LikedNotification from "./PostNotification/LikedNotification";
 import Mention from "./Mentions/Mention";
 import UserCard from "./UserCard/UserCard";
+import FollowNotifications from "./FollowNotifications/FollowNotifications";
+import RetweetNotifications from "./RetweetNotifications/RetweetNotifications";
+import TweetDetails from "./TweetDetails/TweetDetails";
+import CreateCommentInput from "./CreateCommentInput/CreateCommentInput";
+import RecommendedUsers from "./RecommendedUsers/RecommendedUsers";
+import TweetModal from "./TweetModal/TweetModal";
+import TweetSkeleton from "./TweetSkeleton/TweetSkeleton"
+import TopicSkeleton from "./TopicSkeleton/TopicSkeleton"
+import CommentNotification from "./CommentNotifications/CommentNotifications";
+import GamePlay from "./GamePlay/GamePlay";
+import GameResults from "./GameResults/GameResults";
 
 export {
   EditProfile,
@@ -26,7 +37,7 @@ export {
   CreateTweet,
   Nav,
   PostNotification,
-  LikeNotification,
+  LikedNotification,
   Mention,
   AccountInfo,
   NotificationSettings,
@@ -34,4 +45,15 @@ export {
   ChangePassword,
   MutedNotifications,
   UserCard,
+  FollowNotifications,
+  RetweetNotifications,
+  TweetDetails,
+  CreateCommentInput,
+  RecommendedUsers,
+  TweetModal,
+  CommentNotification,
+  GamePlay,
+  GameResults,
+  TweetSkeleton,
+  TopicSkeleton
 };

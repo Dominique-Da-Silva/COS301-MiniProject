@@ -1,6 +1,7 @@
 import { supabase } from '@config/supabase';
 //import { user } from '@nextui-org/react';
 
+//tweet id:94 95 96 : userid: 27 - testing
 const CreateFollowNotification = async (followingId:number,followedId:number) => {
       try{
             const { data:username,error:usernameError } = await supabase
@@ -36,7 +37,8 @@ const CreateFollowNotification = async (followingId:number,followedId:number) =>
                               User_Id: followedId,
                               Type_Id: 1,
                               Content: Content,
-                              Read: false
+                              Read: false,
+                              Avatar_Url_Id: followingId
                           }
                       ]);
 
@@ -102,7 +104,9 @@ const CreateLikeNotification = async (tweetId:number,userId: number) => {
                               User_Id: tweet[0].User_Id,
                               Type_Id: 4,
                               Content: Content,
-                              Read: false
+                              Read: false,
+                              Tweet_Id: tweetId,
+                              Avatar_Url_Id: userId
                           }
                       ]);
 
@@ -166,7 +170,9 @@ const CreateRetweetNotification = async (tweetId:number,userId: number) => {
                               User_Id: tweet[0].User_Id,
                               Type_Id: 5,
                               Content: Content,
-                              Read: false
+                              Read: false,
+                              Tweet_Id: tweetId,
+                              Avatar_Url_Id: userId
                           }
                       ]);
 
@@ -181,6 +187,7 @@ const CreateRetweetNotification = async (tweetId:number,userId: number) => {
           }
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -191,10 +198,8 @@ export { CreateRetweetNotification };
 // create a notification for all followers of that user
 // ***************************
 const CreateTweetNotification = async (tweetId:number) => {
-//there can be multiple notifcations of the same tweet is a user tweets the same tweet
-//hence why I dont check if it exsts
   try {
-    //get owner of the tweet
+    // Get owner of the tweet
     const { data: tweet, error: tweetError } = await supabase
       .from('Tweets')
       .select('User_Id')
@@ -202,24 +207,49 @@ const CreateTweetNotification = async (tweetId:number) => {
 
     if (tweetError) throw tweetError;
 
-    const Content = `you made a new tweet`;
+    const { data: user, error: userError } = await supabase
+      .from('User')
+      .select('Username')
+      .eq('User_Id', tweet[0].User_Id);
+    
+    if (userError) throw userError;
+    console.log(user);
+    const Content = `${user[0].Username} made a new tweet`; //${tweet[0].Username} made a new tweet`;
 
-    const { data: notifs,error} = await supabase
-      .from("Notification")
-      .insert([{
-        User_Id: tweet[0].User_Id,
-        Type_Id: 2, // Assuming Type_Id 2 represents a new post notification
-        Content: Content,
-        Read: false,
-      }])
-      .select();
+    // Get all followers of the user who made the tweet
+    const { data: followersData, error: followersError } = await supabase
+      .from('Followers')
+      .select('Following_Id')
+      .eq('Followed_Id', tweet[0].User_Id);
 
-      if(error) throw error;
-      return notifs;
+    if (followersError) throw followersError;
 
-    ///notif = notifs;
+    // Create a notification for each follower
+    const notifications = await Promise.all(
+      followersData.map(async (follower) => {
+        const { data: notif, error: notifError } = await supabase
+          .from('Notification')
+          .insert([
+            {
+              User_Id: follower.Following_Id,
+              Type_Id: 2, // Assuming Type_Id 2 represents a new post notification
+              Content: Content,
+              Read: false,
+              Tweet_Id: tweetId,
+              Avatar_Url_Id: tweet[0].User_Id,
+            },
+          ])
+          .select();
+
+        if (notifError) throw notifError;
+        return notif;
+      })
+    );
+
+    return notifications;
   } catch (error) {
-    console.error(error);
+    console.error('Error in CreateTweetNotification:', error);
+    throw error; // Re-throw the error to handle it at a higher level if needed
   }
 };
 
@@ -240,7 +270,7 @@ const CreateCommentNotification = async (tweetId:number,userId: number) => {
     const { data: username, error: userError } = await supabase
       .from('User')
       .select('Username')
-      .eq('User_Id', tweet[0].User_Id);
+      .eq('User_Id', userId);
 
     if (userError) throw userError;
 
@@ -249,10 +279,13 @@ const CreateCommentNotification = async (tweetId:number,userId: number) => {
     const { data: notifs,error} = await supabase
       .from("Notification")
       .insert([{
-        User_Id: userId,
+        User_Id: tweet[0].User_Id,
         Type_Id: 3, // Assuming Type_Id 3 represents a comment notification
         Content: Content,
         Read: false,
+        Tweet_Id: tweetId,
+        Comment_Id: userId,
+        Avatar_Url_Id: userId
       }])
       .select();
       

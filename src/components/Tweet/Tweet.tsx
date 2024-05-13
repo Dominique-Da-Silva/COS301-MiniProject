@@ -5,7 +5,7 @@ import { LuRepeat2 } from "react-icons/lu";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import CreateComment from "../CreateComment/CreateComment";
 import {
   Modal,
@@ -24,7 +24,7 @@ import {
   save,
   unSave,
   checkIfSaved,
-  unReweet,
+  unReweet
 } from "@services/index";
 
 interface TweetProps {
@@ -42,26 +42,27 @@ interface TweetProps {
   saves?: number | string;
   bookmarked?: boolean;
   author?: string;
+  currentuserimg?: string;
 }
-const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author}) => {
+const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl, profileimageurl, timeDisplay, likes, retweets, comments, saves, bookmarked, author, currentuserimg}) => {
   
 
-  const [commentColor, setCommentColor] = useState(false);
+  const [commentColor] = useState(false);
   const [retweetColor, setRetweetColor] = useState(false);
   const [likeColor, setLikeColor] = useState(false);
   const [bookmarkColor, setBookmarkColor] = useState(bookmarked || false);
   const [loggedUserId, setLoggedUserId] = useState<any>();
-  const [commentCount, setCommentCount] = useState(Number(comments) || 0);
+  const [commentCount] = useState(Number(comments) || 0);
   const [retweetCount, setRetweetCount] = useState(Number(retweets) || 0);
   const [likeCount, setLikeCount] = useState(Number(likes) || 0);
   const [saveCount, setSaveCount] = useState(Number(saves) || 0);
   const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
   const handleCommentClick = () => {
-    setCommentColor((prevState) => !prevState);
+    /*setCommentColor((prevState) => !prevState);
     setCommentCount((prevCount) =>
       commentColor ? prevCount - 1 : prevCount + 1
-    );
+    );*/
     onOpen();
   };
 
@@ -113,11 +114,17 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
 
   useEffect(() => {
     const fetchLoggedInUser = async () => {
-      const userData = await getLoggedUserId();
-      setLoggedUserId(userData);
+      try {
+        const id = await getLoggedUserId();
+        setLoggedUserId(id);
+      } catch (error) {
+        console.error('Error fetching userid:', error);
+      }
     };
+
     fetchLoggedInUser();
   }, []);
+
 
   const add_like = async () => {
     const result = await likeTweet(tweet_id, loggedUserId);
@@ -183,29 +190,13 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
       <div className="post flex-col w-full pl-2">
         <div className="user-info flex">
           <NavLink
-            to={{
-              // pathname: `/profile/${username.substring(1)}`, //sets the url path
-              // state: { username: username.substring(1) } //passes the state -> is this valid, please verify
-              /*
-              To retrieve this data when navigating to the next page:
-              import { useLocation } from 'react-router-dom';
-              const ProfileComponent = () => {
-                const location = useLocation();
-                const username = location.state?.username;
-  
-                // Use the username to render the profile
-              };
-              */
-            }}
+            to={{pathname: `/profile/${username.substring(1)}`}}
             className="font-semibold p-0 m-0 dark:text-white"
           >
             {name}
           </NavLink>
           <NavLink
-            to={{
-              pathname: `/profile/${username.substring(1)}`,
-              //state: { username: username.substring(1) } -> is this valid, please verify
-            }}
+            to={{pathname: `/profile/${username.substring(1)}`}}
             className="text-slate-700 p-0 m-0 dark:text-gray-400"
           >
             @{username.substring(1)} &nbsp;· {timeDisplay}
@@ -215,7 +206,7 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
           <div>
             <NavLink
               to={{
-                pathname: `/profile/${author.substring(0)}`,
+                pathname: `/profile/${author.substring(1)}`,
               }}
               className="text-slate-700 p-0 m-0 block text-left"
             >
@@ -223,17 +214,19 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
             </NavLink>
           </div>
         )}
-        <div>
-          <p className="p-0 m-0 dark:text-white">{text}</p>
-          {imageUrl && (
-            <Image
-              src={imageUrl}
-              alt="Tweet Image"
-              className="tweet-image w-auto h-full"
-              style={{ borderRadius: "10px" }}
-            />
-          )}
-        </div>
+        <Link to={`/tweet/${tweet_id}`} key={tweet_id} className="tweet-link">
+          <div>
+            <p className="p-0 m-0 dark:text-white">{text}</p>
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                alt="Tweet Image"
+                className="tweet-image w-auto h-full"
+                style={{ borderRadius: "10px" }}
+              />
+            )}
+          </div>
+        </Link>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
             {() => (
@@ -247,14 +240,16 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
                   imageUrl={imageUrl}
                   profileimageurl={profileimageurl}
                   timeDisplay={timeDisplay}
+                  userimg={currentuserimg || ''}
                 ></CreateComment>
               </ModalBody>
             )}
           </ModalContent>
         </Modal>
         <div className="tweet-actions flex flex-row justify-around col text-slate-700">
+
           <span
-            className={`action flex items-center cursor-pointer ${
+            className={`action flex items-center cursor-pointer z-3 ${
               commentColor ? "text-blue-500" : "hover:text-blue-500"
             }`}
             onClick={handleCommentClick}
@@ -312,3 +307,4 @@ const Tweet: React.FC<TweetProps> = ({ tweet_id, name, username, text, imageUrl,
 };
 
 export default Tweet;
+
