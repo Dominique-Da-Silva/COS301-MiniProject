@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Link } from "@nextui-org/react";
 import { FaTwitter } from 'react-icons/fa';
+import { busts_in_silhouette, handshake, slightly_smiling_face, skull, bust_in_silhouette, question} from "@assets/index";
 
 interface GameResultProps {
   correctCount: number;
@@ -12,12 +13,12 @@ interface EmojiData {
 }
 
 const emojiData: EmojiData[] = [
-  { name: 'Stalker', emoji: '../../../images/busts_in_silhouette.png' },
-  { name: 'Day One', emoji: '../../../images/handshake.png' },
-  { name: 'Classic Old Pal', emoji: '../../../images/slightly_smiling_face.png' },
-  { name: 'Bad Friend', emoji: '../../../images/skull.png' },
-  { name: 'Removed Acquaintance', emoji: '../../../images/bust_in_silhouette.png' },
-  { name: 'Stranger', emoji: '../../../images/question.png' },
+  { name: 'Stalker', emoji: busts_in_silhouette },
+  { name: 'Day One', emoji: handshake },
+  { name: 'Classic Old Pal', emoji: slightly_smiling_face },
+  { name: 'Bad Friend', emoji: skull },
+  { name: 'Removed Acquaintance', emoji: bust_in_silhouette },
+  { name: 'Stranger', emoji: question },
 ];
 
 function getSkillLevel(score: number) {
